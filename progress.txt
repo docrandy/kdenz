@@ -101,3 +101,53 @@ Last task: exploration-complete - Black Swan codebase mapped, Day 1-7 plan docum
 Next task: week1-day1 - Project Setup & Scaffolding
 Next action: Fork Black Swan to kdenz folder, strip unused components (scenarios, skill detectors, persona switcher)
 Blockers: none
+
+[2026-01-25 GSD Project Initialization]
+Initialized project using GSD workflow (/gsd:new-project).
+
+ARTIFACTS CREATED:
+- .planning/PROJECT.md - Core project context
+- .planning/config.json - Workflow settings (interactive, comprehensive, parallel, all agents enabled)
+- .planning/REQUIREMENTS.md - 34 v1 requirements across 8 categories
+- .planning/ROADMAP.md - 8 phases, 24 plans
+- .planning/STATE.md - Session context and resume info
+
+REQUIREMENTS BREAKDOWN:
+- Recording (4): REC-01 through REC-04
+- Real-time Feedback (7): RT-01 through RT-07
+- Playback (4): PB-01 through PB-04
+- Session Summary (7): SUM-01 through SUM-07
+- Browser Gate (3): BG-01 through BG-03
+- Deployment (2): DEP-01, DEP-02
+- UI/UX (3): UI-01 through UI-03
+- Technical Foundation (4): TF-01 through TF-04 (NEW)
+
+TECHNICAL FOUNDATION REQUIREMENTS (added during session):
+- TF-01: Single authoritative time source (monotonic clock)
+- TF-02: Clear silence semantics (unfilled vs filled pauses)
+- TF-03: Detection stabilization (late events can't corrupt readings)
+- TF-04: Separate timeline contracts (real-time vs playback)
+
+UI THEME CHANGE:
+- Changed from "clinical white/teal" to "Peloton-style dark performance UI"
+- Design tokens defined (canvas #0D0D0D, surface #1A1A1A, accent #FF5F00 or #00D4FF)
+
+CALCULATION CLARIFICATIONS:
+- WPM = words / VAD-active time (not wall-clock)
+- Pause = continuous VAD silence (>2.0s threshold)
+
+PHASE STRUCTURE:
+1. Foundation - scaffold, vendor Black Swan, time authority, silence semantics, browser gate
+2. Audio Pipeline - recording, VAD, filler detection, detection stabilization, timeline contracts
+3. Filler Feedback - heat gauge, pulse, running count
+4. Pace Feedback - WPM, banding, silence nudge
+5. Playback Core - audio playback, seekable timeline
+6. Playback Markers - filler markers, click-to-jump
+7. Session Summary - all stats display
+8. Polish & Deploy - dark performance theme, Vercel
+
+--- RESUME BLOCK ---
+Last task: gsd-init-complete - GSD project initialized with 8 phases and 34 requirements
+Next task: phase-1-planning - Create detailed plan for Foundation phase
+Next action: Run /gsd:plan-phase 1 to create detailed execution plan for Phase 1
+Blockers: none
