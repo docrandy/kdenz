@@ -1,0 +1,290 @@
+{
+  "project_name": "Kdenz Voice Practice MVP",
+  "project_description": "Private beta voice coaching app that helps users discover unconscious speaking habits through real-time feedback, with light diagnostics to differentiate from competitors",
+  "core_hypothesis": "The holy shit moment - Users discover unconscious speaking habits (filler words, pace) they weren't aware of. Value = immediate awareness + root-cause insight (why you struggle), not just skill coaching.",
+  "target_users": "Friends/family willing to give honest feedback (5-10 testers)",
+  "success_metrics": [
+    "Completion Rate: Do testers finish at least 3 sessions?",
+    "Discovery Moment: Do testers report surprise at their filler count or pace?",
+    "Return Rate: Do testers come back within 48 hours?",
+    "Qualitative: What's the one thing they wish was different?"
+  ],
+  "current_epic": "Private Beta MVP - 2.5 Week Sprint",
+  "active_task": "week1-day1",
+  "research_validated": {
+    "filler_awareness_behavior_change": "VALIDATED - 80%+ reduction with awareness training alone. Immediate feedback reduces fillers 50%+. Feedback REDUCES anxiety.",
+    "visual_feedback_retention": "VALIDATED - 3.5x retention with visual gauges/charts (Duolingo case study). Real-time gauge + weekly trend = top priorities.",
+    "safari_web_speech_api": "PROBLEMATIC - 90% accuracy drop, critical bugs. Decision: Chrome-only for beta.",
+    "filler_detection_accuracy": "ASR-based (transcript) = 95%+ F1. Acoustic-only = 75-85% F1. Decision: Hybrid approach."
+  },
+  "tasks": [
+    {
+      "id": "week1-day1",
+      "title": "Project Setup & Scaffolding (Day 1-2)",
+      "status": "active",
+      "acceptance_criteria": [
+        "New project folder created (or Black Swan forked)",
+        "Unused components stripped from Dashboard",
+        "Tailwind config updated with High-Performance Clinical theme",
+        "PracticeSession.tsx component shell exists",
+        "Chrome browser detection + warning for non-Chrome browsers",
+        "Vercel project created with placeholder deployed"
+      ],
+      "files": [
+        "tailwind.config.js",
+        "src/components/Dashboard.tsx",
+        "src/components/PracticeSession.tsx",
+        "src/components/BrowserWarning.tsx",
+        "vercel.json"
+      ]
+    },
+    {
+      "id": "week1-day3",
+      "title": "Audio Pipeline + Visual Gauge (Day 3-4)",
+      "status": "pending",
+      "acceptance_criteria": [
+        "AudioEngine connected to PracticeSession",
+        "WPM calculation implemented from transcript",
+        "FillerDetector integrated (acoustic real-time)",
+        "Real-time filler count GAUGE component (not just numbers)",
+        "Weekly trend chart component shell",
+        "Silence detection with 10s nudge",
+        "Mic capture to metrics display loop working"
+      ],
+      "files": [
+        "src/core/audio/AudioEngine.ts",
+        "src/components/WPMIndicator.tsx",
+        "src/components/FillerGauge.tsx",
+        "src/components/WeeklyTrendChart.tsx",
+        "src/components/SilenceNudge.tsx",
+        "src/hooks/usePracticeSession.ts"
+      ]
+    },
+    {
+      "id": "week1-day5",
+      "title": "Duration Controls & Timer (Day 5-6)",
+      "status": "pending",
+      "acceptance_criteria": [
+        "Duration selection UI (30s/60s/90s+) working",
+        "Countdown timer displays correctly",
+        "Session auto-stops at duration end",
+        "Manual stop button works",
+        "Session state transitions handled",
+        "Audio recording captured for playback"
+      ],
+      "files": [
+        "src/components/DurationSelector.tsx",
+        "src/components/SessionTimer.tsx",
+        "src/components/PracticeSession.tsx",
+        "src/hooks/useAudioRecorder.ts"
+      ]
+    },
+    {
+      "id": "week1-day7",
+      "title": "Playback with Filler Highlighting (Day 7-8)",
+      "status": "pending",
+      "note": "Research-validated: Two-phase awareness (playback + real-time) = most sustained behavior change",
+      "acceptance_criteria": [
+        "Audio playback controls (play/pause/seek)",
+        "Filler timestamps synced to audio timeline",
+        "Visual markers on playback timeline showing filler locations",
+        "Tap filler marker to jump to that moment",
+        "Playback speed controls (0.75x, 1x, 1.25x)"
+      ],
+      "files": [
+        "src/components/AudioPlayback.tsx",
+        "src/components/PlaybackTimeline.tsx",
+        "src/components/FillerMarkers.tsx",
+        "src/hooks/usePlaybackSync.ts"
+      ]
+    },
+    {
+      "id": "week2-day9",
+      "title": "Transcript with Highlights (Day 9-10)",
+      "status": "pending",
+      "acceptance_criteria": [
+        "Transcript captured via Web Speech API (Chrome)",
+        "Hybrid filler detection: acoustic + transcript reconciliation at session end",
+        "Transcript segments stored with timestamps",
+        "Toggle between pace OR filler highlight views (not simultaneous)",
+        "Transcript display styled"
+      ],
+      "files": [
+        "src/hooks/useTranscript.ts",
+        "src/components/TranscriptView.tsx",
+        "src/components/HighlightToggle.tsx",
+        "src/lib/transcriptHighlighter.ts",
+        "src/lib/fillerReconciler.ts"
+      ]
+    },
+    {
+      "id": "week2-day11",
+      "title": "Scorecard & AI Summary (Day 11-12)",
+      "status": "pending",
+      "acceptance_criteria": [
+        "Post-session Scorecard component created",
+        "Metrics summary displays (WPM avg, filler count, filler rate, duration)",
+        "Weekly trend chart populated with session data",
+        "Generate AI Summary button works",
+        "Gemini integration for summary generation",
+        "Any API error = show local stats only (graceful degradation)"
+      ],
+      "files": [
+        "src/components/Scorecard.tsx",
+        "src/services/geminiService.ts",
+        "src/components/AISummary.tsx",
+        "src/lib/localStatsFormatter.ts"
+      ]
+    },
+    {
+      "id": "week2-day13",
+      "title": "Polish & Error Handling (Day 13-14)",
+      "status": "pending",
+      "acceptance_criteria": [
+        "Mic permission error handling works",
+        "Full session flow tested end-to-end",
+        "UI transitions and loading states polished",
+        "Mobile layout usable (Chrome mobile)",
+        "In-app feedback button (opens email/form)"
+      ],
+      "files": [
+        "src/components/ErrorBoundary.tsx",
+        "src/components/MicPermissionError.tsx",
+        "src/components/FeedbackButton.tsx"
+      ]
+    },
+    {
+      "id": "week3-day15",
+      "title": "Deployment & Beta Prep (Day 15-17)",
+      "status": "pending",
+      "acceptance_criteria": [
+        "Final Vercel deploy successful",
+        "Tested on Chrome desktop + Chrome mobile",
+        "Non-Chrome browser warning displays correctly",
+        "Simple onboarding/instructions created",
+        "Sent to 5-10 testers"
+      ],
+      "files": []
+    },
+    {
+      "id": "parallel-diagnostics",
+      "title": "[PARALLEL] Light Diagnostics Onboarding",
+      "status": "pending",
+      "note": "Content track - does not block dev sprint",
+      "acceptance_criteria": [
+        "3-5 questions selected from Volitional Diagnostic framework",
+        "Onboarding diagnostic UI component created",
+        "Diagnostic results stored and influence AI summary context",
+        "Periodic re-diagnostic trigger logic defined (interval TBD)"
+      ],
+      "files": [
+        "src/components/DiagnosticOnboarding.tsx",
+        "src/lib/diagnosticQuestions.ts",
+        "src/hooks/useDiagnosticState.ts"
+      ]
+    },
+    {
+      "id": "parallel-privacy",
+      "title": "[PARALLEL] Privacy Transparency Page",
+      "status": "pending",
+      "note": "Content track - does not block dev sprint",
+      "acceptance_criteria": [
+        "Dedicated /privacy page created",
+        "Explains: no emotion detection, audio processed locally, what Gemini sees",
+        "Clear data usage policy (NOT re-used for training)",
+        "Addresses competitor weakness (Yoodli privacy backlash)"
+      ],
+      "files": [
+        "src/pages/Privacy.tsx"
+      ]
+    },
+    {
+      "id": "parallel-scenarios",
+      "title": "[PARALLEL] Optional Speaking Prompts",
+      "status": "pending",
+      "note": "Content track - does not block dev sprint",
+      "acceptance_criteria": [
+        "1-2 scenarios adapted from Black Swan as optional prompts",
+        "UI to select prompt or skip to free practice",
+        "Prompts displayed during session if selected"
+      ],
+      "files": [
+        "src/components/PromptSelector.tsx",
+        "src/data/speakingPrompts.ts"
+      ]
+    }
+  ],
+  "feature_scope": {
+    "in_beta": [
+      "Free practice (speak freely)",
+      "Real-time filler count gauge (visual, not just numbers)",
+      "Weekly trend chart (even with 1-2 sessions)",
+      "WPM tracking",
+      "Filler word detection (hybrid: acoustic real-time + transcript reconciliation)",
+      "Audio playback with filler highlighting (research-validated for behavior change)",
+      "Post-session transcript with toggle-able highlights (pace OR fillers)",
+      "Session durations (30s/60s/90s and beyond)",
+      "Light diagnostics (3-5 questions from Volitional framework, onboarding + periodic)",
+      "1-2 optional speaking prompts (adapted from Black Swan scenarios)",
+      "Privacy transparency page (/privacy)",
+      "In-app feedback button (email/form)",
+      "Scorecard with metrics",
+      "AI coaching summary (button to generate, post-session only)",
+      "Gemini error handling (any API error = show local stats only)",
+      "Silence nudge after 10 seconds",
+      "Chrome-only with browser detection warning",
+      "Vercel deployment"
+    ],
+    "deferred": {
+      "v1.1": ["Session history", "Streak counter", "Badges/achievements"],
+      "v1.2": ["Skill detection (mirroring, labeling)", "Real-time AI coaching during session", "Celebration animations"],
+      "v1.3": ["NegotiateAI full diagnostic integration", "Scenario simulations with AI opponent"],
+      "phase2_cost_optimization": ["Acoustic-only filler detection (reduce Whisper API dependency)", "Native iOS app (address Safari gap)"]
+    }
+  },
+  "technical_decisions": {
+    "browser_support": "Chrome-only for beta (Safari Web Speech API has 90% accuracy drop + critical bugs)",
+    "filler_detection": "Hybrid: acoustic detection real-time + transcript reconciliation at session end",
+    "gemini_fallback": "Any API error triggers fallback to local stats only",
+    "silence_handling": "Nudge after 10 seconds of no speech detected",
+    "transcript_source": "Web Speech API (Chrome) - interim results for real-time, final results for accuracy",
+    "audio_recording": "MediaRecorder API for playback feature",
+    "real_time_ai": "Post-session only (v2/v3 for real-time coaching during session)"
+  },
+  "design_system": {
+    "name": "High-Performance Clinical",
+    "mode": "light",
+    "colors": {
+      "background": "#FFFFFF",
+      "buttons": "#000000",
+      "accent": "#00D4FF"
+    },
+    "vibe": "Peloton energy + Apple Health precision",
+    "visual_feedback": {
+      "filler_gauge": "Real-time circular or bar gauge showing live filler count",
+      "weekly_trend": "Line chart showing filler count/rate across sessions",
+      "playback_timeline": "Audio waveform with filler markers"
+    },
+    "references": "To explore together: Peloton app, Apple Health app for specific component patterns"
+  },
+  "business_model": {
+    "tiers": [
+      "Freemium (limited sessions/features)",
+      "Session-based tier (expanded access)",
+      "Goal plan tier (additional features TBD)"
+    ],
+    "timeline": "90 days from beta to first paying customers",
+    "human_coaching": "v2.0 consideration (post-PMF validation)",
+    "positioning": "TBD by beta signal - could be voice coaching platform (white-label for negotiation, difficult conversations, saying no) or niche-specific product"
+  },
+  "version_roadmap": {
+    "v1_beta": "Voice awareness + light diagnostics + playback (current)",
+    "v1.1": "Session history, streak counter, badges",
+    "v2": "Skill detection (mirroring, labeling), real-time AI coaching",
+    "v3": "Full simulation with AI opponent, NegotiateAI integration"
+  },
+  "created_at": "2026-01-25",
+  "last_updated": "2026-01-25T23:59:00Z",
+  "interview_session": "2026-01-25 - Comprehensive PRD review with research validation",
+  "session_end": "2026-01-25 - Pre-implementation checkpoint, Black Swan explored, Day 1-7 documented"
+}

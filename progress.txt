@@ -1,0 +1,103 @@
+[2026-01-25 Initial Entry]
+Project initialized from comprehensive analysis of Black Swan and NegotiateAI codebases.
+
+Key decisions made during planning session:
+- Core hypothesis: "Holy shit moment" - users discover unconscious habits
+- Design system: "High-Performance Clinical" (light mode, white/black/teal)
+- Session durations: 30s/60s/90s fixed options
+- Real-time feedback: Color indicators (not distracting numbers)
+- Transcript: Full transcript with one highlight type at a time (toggle)
+- AI summary: Button to generate (not auto-generate)
+- Error handling: Graceful degradation (show metrics if Gemini fails)
+- Deployment: Vercel (fallback to local demo if needed)
+- Testers: Friends/family (5-10 people)
+- Capacity: 20+ hours/week available
+
+Deferred to later versions:
+- Session history (v1.1)
+- Skill detection - mirroring, labeling, etc. (v1.2)
+- Scenario simulations (v1.2)
+- NegotiateAI psychological diagnostic (v1.3)
+
+Source analysis document: C:\Users\randy\.claude\plans\glowing-purring-wombat.md
+
+--- RESUME BLOCK ---
+Last task: planning-complete - Full MVP scope locked, 2-week sprint planned
+Next task: week1-day1 - Project Setup & Scaffolding
+Next action: Create new project folder or fork Black Swan, strip unused components
+Blockers: none
+
+[2026-01-25 Comprehensive Interview Session]
+Deep-dive PRD review with detailed questioning on technical implementation, UX, concerns, and strategy.
+
+RESEARCH VALIDATION (via Perplexity):
+- Filler awareness → behavior change: VALIDATED (80%+ reduction with awareness training)
+- Visual feedback → retention: VALIDATED (3.5x improvement with gauges/charts)
+- Safari Web Speech API: PROBLEMATIC (90% accuracy drop, critical bugs)
+- Acoustic filler detection: 75-85% F1 vs ASR-based 95%+ F1
+
+KEY DECISIONS MADE:
+1. Browser: Chrome-only for beta (Safari too unreliable, no API costs)
+2. Visual feedback: Real-time gauge + weekly trend chart (not plain numbers)
+3. Playback: Add audio playback with filler highlighting (research-validated)
+4. Filler detection: Hybrid (acoustic real-time + transcript reconciliation)
+5. Diagnostics: Light 3-5 question onboarding (user has questions ready)
+6. Privacy: Full transparency page (/privacy)
+7. Scenarios: 1-2 optional speaking prompts adapted from Black Swan
+8. Feedback: In-app button + post-interview with testers
+9. Gemini fallback: Any API error = show local stats only
+10. Silence: Nudge after 10 seconds
+
+SCOPE ADDITIONS:
+- Audio playback with filler highlighting (+2-3 days)
+- Real-time filler gauge (visual, Peloton-style)
+- Weekly trend chart
+- Privacy transparency page
+- Light diagnostics (onboarding + periodic)
+- 1-2 optional speaking prompts
+- In-app feedback button
+
+TIMELINE: Extended from 14 to ~17 days (2.5 weeks)
+
+BUSINESS CLARITY:
+- 3-tier monetization: Freemium → Session tier → Goal plan tier
+- 90 days to first paying customers
+- Human coaching is v2.0 consideration
+- Core identity TBD by beta signal (voice platform vs niche product)
+- White-label potential for different contexts (negotiation, difficult conversations, saying no)
+
+PRIMARY RISK: Tech doesn't work (filler detection, latency, browser issues)
+EXECUTION MODEL: Claude builds, user directs/reviews
+
+--- RESUME BLOCK ---
+Last task: interview-complete - Comprehensive PRD review and research validation
+Next task: week1-day1 - Project Setup & Scaffolding
+Next action: Create new project folder or fork Black Swan, add Chrome browser detection, strip unused components
+Blockers: none
+
+[2026-01-25 Session End - Pre-Implementation]
+Session concluded after comprehensive interview and Black Swan codebase exploration.
+
+CODEBASE EXPLORATION FINDINGS:
+- FillerDetector.ts: 100% reusable (timestamps, confidence, detection types)
+- useFillerDetector.ts: 80% reusable (has toggle logic)
+- VoiceActivityDetector.ts: 90% reusable (turn boundaries)
+- ConversationMessages.tsx: 50% reusable (needs highlighting layer)
+- No existing playback component - must build
+- No existing toggle/switch UI - must create
+
+TRANSCRIPT SWITCH PROMPT: Queued for Day 9-10 (depends on playback from Day 7-8)
+
+DAY 1-7 PLAN DOCUMENTED:
+- Day 1-2: Scaffolding (fork BS, strip, theme, Chrome detection, deploy)
+- Day 3-4: Audio pipeline + visual gauge (FillerGauge, WPM, silence nudge)
+- Day 5-6: Duration controls + audio recording (MediaRecorder for playback)
+- Day 7-8: Playback with filler highlighting (timeline, markers, sync)
+
+GSD CONSIDERATION: User reviewed /gsd:help - may use GSD workflow for execution
+
+--- RESUME BLOCK ---
+Last task: exploration-complete - Black Swan codebase mapped, Day 1-7 plan documented
+Next task: week1-day1 - Project Setup & Scaffolding
+Next action: Fork Black Swan to kdenz folder, strip unused components (scenarios, skill detectors, persona switcher)
+Blockers: none
