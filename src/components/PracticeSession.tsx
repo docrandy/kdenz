@@ -1,4 +1,5 @@
-import { useAudioCapture } from '../core/audio';
+import { useState, useEffect, useRef } from 'react';
+import { useAudioCapture, useWebSpeech } from '../core/audio';
 
 export default function PracticeSession() {
   const {
@@ -6,18 +7,64 @@ export default function PracticeSession() {
     audioContext,
     sourceNode,
     audioBlob,
-    error,
-    start,
-    stop,
+    error: audioError,
+    start: startAudio,
+    stop: stopAudio,
   } = useAudioCapture();
+
+  const {
+    interimTranscript,
+    wordCount,
+    isListening,
+    error: speechError,
+    start: startSpeech,
+    stop: stopSpeech,
+  } = useWebSpeech();
+
+  // WPM calculation state
+  const [wpm, setWpm] = useState(0);
+  const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
+  const wpmIntervalRef = useRef<number | null>(null);
+
+  // 250ms WPM update cadence
+  useEffect(() => {
+    if (isCapturing && sessionStartTime) {
+      wpmIntervalRef.current = window.setInterval(() => {
+        const elapsedMs = Date.now() - sessionStartTime;
+        const elapsedMinutes = elapsedMs / 60000;
+        if (elapsedMinutes > 0 && wordCount > 0) {
+          setWpm(Math.round(wordCount / elapsedMinutes));
+        }
+      }, 250);
+
+      return () => {
+        if (wpmIntervalRef.current) {
+          clearInterval(wpmIntervalRef.current);
+        }
+      };
+    }
+  }, [isCapturing, sessionStartTime, wordCount]);
 
   const handleToggleSession = async () => {
     if (isCapturing) {
-      stop();
+      // Stop everything
+      stopSpeech();
+      stopAudio();
+      setSessionStartTime(null);
+      if (wpmIntervalRef.current) {
+        clearInterval(wpmIntervalRef.current);
+      }
     } else {
-      await start();
+      // Start everything
+      setWpm(0);
+      setSessionStartTime(Date.now());
+      await startAudio();
+      startSpeech();
     }
   };
+
+  // Combined error display
+  const error = audioError || speechError;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-clinical-bg px-4">
@@ -52,6 +99,39 @@ export default function PracticeSession() {
               {isCapturing ? 'Mic active' : 'Mic ready'}
             </span>
           </div>
+
+          {/* Real-time metrics display */}
+          {isCapturing && (
+            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+              {/* WPM Display */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-clinical-muted">Words per minute</span>
+                <span className="text-2xl font-bold text-clinical-text">{wpm}</span>
+              </div>
+
+              {/* Word count */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-clinical-muted">Words spoken</span>
+                <span className="text-lg font-semibold text-clinical-text">{wordCount}</span>
+              </div>
+
+              {/* Speech recognition status */}
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                <span className="text-xs text-clinical-muted">
+                  {isListening ? 'Speech recognition active' : 'Speech recognition starting...'}
+                </span>
+              </div>
+
+              {/* Interim transcript preview */}
+              {interimTranscript && (
+                <div className="mt-3 p-2 bg-white rounded border border-gray-200">
+                  <p className="text-xs text-clinical-muted mb-1">Live transcript:</p>
+                  <p className="text-sm text-clinical-text italic">"{interimTranscript}"</p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Audio context status (for debugging) */}
           {audioContext && (

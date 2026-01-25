@@ -7,3 +7,6 @@ export type { UseFillerDetectorResult } from './useFillerDetector';
 
 export { useAudioCapture } from './useAudioCapture';
 export type { UseAudioCaptureResult } from './useAudioCapture';
+
+export { useWebSpeech } from './useWebSpeech';
+export type { UseWebSpeechResult } from './useWebSpeech';
