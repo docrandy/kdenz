@@ -68,8 +68,14 @@ Users can see exactly when and how often they say "um/uh" so they can consciousl
 - Timeline with filler markers (seekable)
 
 **UI theme:**
-- Minimal clinical: white/black/teal
+- Peloton-style dark performance UI (dark canvas, high-contrast text, bold accent)
+- Optimized for glanceable real-time coaching
 - Functional clarity over polish
+
+**Design Tokens:**
+- Canvas: #0D0D0D | Surface: #1A1A1A | Surface Elevated: #262626
+- Text: #FFFFFF / #A3A3A3 | Accent: #FF5F00 or #00D4FF
+- Success: #22C55E | Warning: #FBBF24 | Error: #EF4444
 
 ## Constraints
 

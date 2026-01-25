@@ -7,6 +7,13 @@
 
 Requirements for initial release. Each maps to roadmap phases.
 
+### Technical Foundation
+
+- [ ] **TF-01**: Single authoritative time source (monotonic clock) for all session timestamps
+- [ ] **TF-02**: Clear silence semantics: unfilled pause = no VAD activity; filled pause = um/uh detected during speech
+- [ ] **TF-03**: Detection stabilization: late filler events cannot corrupt real-time readings (event timestamping + grace period)
+- [ ] **TF-04**: Separate timeline contracts: real-time display uses live events; playback timeline uses finalized event log
+
 ### Recording
 
 - [ ] **REC-01**: User can start recording from microphone
@@ -54,9 +61,20 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### UI/UX
 
-- [ ] **UI-01**: Minimal clinical theme (white/black/teal)
+- [ ] **UI-01**: Peloton-style dark performance UI (dark canvas/surfaces, high-contrast text, bold accent colors), optimized for glanceable real-time coaching
 - [ ] **UI-02**: All real-time gauges are glanceable while speaking
 - [ ] **UI-03**: Functional clarity prioritized over polish
+
+**Design Tokens (Peloton palette):**
+- Canvas: `#0D0D0D` (near-black)
+- Surface: `#1A1A1A` (dark gray)
+- Surface Elevated: `#262626`
+- Text Primary: `#FFFFFF`
+- Text Secondary: `#A3A3A3`
+- Accent Primary: `#FF5F00` (Peloton orange) or `#00D4FF` (electric teal)
+- Success: `#22C55E`
+- Warning: `#FBBF24`
+- Error: `#EF4444`
 
 ## v2 Requirements
 
@@ -102,42 +120,46 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REC-01 | — | Pending |
-| REC-02 | — | Pending |
-| REC-03 | — | Pending |
-| REC-04 | — | Pending |
-| RT-01 | — | Pending |
-| RT-02 | — | Pending |
-| RT-03 | — | Pending |
-| RT-04 | — | Pending |
-| RT-05 | — | Pending |
-| RT-06 | — | Pending |
-| RT-07 | — | Pending |
-| PB-01 | — | Pending |
-| PB-02 | — | Pending |
-| PB-03 | — | Pending |
-| PB-04 | — | Pending |
-| SUM-01 | — | Pending |
-| SUM-02 | — | Pending |
-| SUM-03 | — | Pending |
-| SUM-04 | — | Pending |
-| SUM-05 | — | Pending |
-| SUM-06 | — | Pending |
-| SUM-07 | — | Pending |
-| BG-01 | — | Pending |
-| BG-02 | — | Pending |
-| BG-03 | — | Pending |
-| DEP-01 | — | Pending |
-| DEP-02 | — | Pending |
-| UI-01 | — | Pending |
-| UI-02 | — | Pending |
-| UI-03 | — | Pending |
+| TF-01 | Phase 1 | Pending |
+| TF-02 | Phase 1 | Pending |
+| TF-03 | Phase 2 | Pending |
+| TF-04 | Phase 2 | Pending |
+| REC-01 | Phase 2 | Pending |
+| REC-02 | Phase 2 | Pending |
+| REC-03 | Phase 2 | Pending |
+| REC-04 | Phase 2 | Pending |
+| RT-01 | Phase 3 | Pending |
+| RT-02 | Phase 3 | Pending |
+| RT-03 | Phase 3 | Pending |
+| RT-04 | Phase 4 | Pending |
+| RT-05 | Phase 4 | Pending |
+| RT-06 | Phase 4 | Pending |
+| RT-07 | Phase 4 | Pending |
+| PB-01 | Phase 5 | Pending |
+| PB-02 | Phase 6 | Pending |
+| PB-03 | Phase 5 | Pending |
+| PB-04 | Phase 6 | Pending |
+| SUM-01 | Phase 7 | Pending |
+| SUM-02 | Phase 7 | Pending |
+| SUM-03 | Phase 7 | Pending |
+| SUM-04 | Phase 7 | Pending |
+| SUM-05 | Phase 7 | Pending |
+| SUM-06 | Phase 7 | Pending |
+| SUM-07 | Phase 7 | Pending |
+| BG-01 | Phase 1 | Pending |
+| BG-02 | Phase 1 | Pending |
+| BG-03 | Phase 1 | Pending |
+| DEP-01 | Phase 1 | Pending |
+| DEP-02 | Phase 8 | Pending |
+| UI-01 | Phase 8 | Pending |
+| UI-02 | Phase 8 | Pending |
+| UI-03 | Phase 8 | Pending |
 
 **Coverage:**
-- v1 requirements: 30 total
-- Mapped to phases: 0
-- Unmapped: 30
+- v1 requirements: 34 total
+- Mapped to phases: 34
+- Unmapped: 0
 
 ---
 *Requirements defined: 2025-01-25*
-*Last updated: 2025-01-25 after initial definition*
+*Last updated: 2025-01-25 after roadmap creation*
