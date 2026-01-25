@@ -101,3 +101,46 @@ Last task: exploration-complete - Black Swan codebase mapped, Day 1-7 plan docum
 Next task: week1-day1 - Project Setup & Scaffolding
 Next action: Fork Black Swan to kdenz folder, strip unused components (scenarios, skill detectors, persona switcher)
 Blockers: none
+
+[2026-01-25 Phase 02 Execution - Plans 02-01 and 02-02]
+Phase 01 complete. Phase 02 execution started with governance constraints acknowledged.
+
+GOVERNANCE CONSTRAINTS LOCKED:
+1. Phase 02 exit boundary - no work beyond Phase 02 scope
+2. Single AudioMetricsSnapshot contract - unified data interface
+3. No persistence or analytics in audio hooks - pure data producers
+
+PLAN 02-01 COMPLETE (commit f8556a7):
+- Ported FillerDetector.ts verbatim from Black Swan
+- Adapted useFillerDetector.ts (removed VAD dependency)
+- Created useAudioCapture.ts (mic, MediaRecorder, AudioContext)
+- Wired audio capture to PracticeSession start/stop button
+- Runtime verified: mic permissions OK, start/stop works, audio blob logged
+
+PLAN 02-02 COMPLETE (commit f5a04d0):
+- Created useWebSpeech.ts (Web Speech API with interim results)
+- Configured continuous mode + interim results (Chrome-only)
+- Implemented WPM calculation: (wordCount / elapsedMinutes) on 250ms cadence
+- Added real-time metrics display (WPM, word count, live transcript)
+- Awaiting runtime verification
+
+REMAINING PHASE 02 PLANS:
+- 02-03: Filler Detection Integration (connect FillerDetector to stream)
+- 02-04: Visual Components (FillerGauge, WPMIndicator, SilenceNudge, WeeklyTrendChart shell)
+- 02-05: Silence Detection & Session Loop (VAD-based 10s nudge)
+
+FILES CREATED THIS SESSION:
+- src/core/audio/FillerDetector.ts
+- src/core/audio/useFillerDetector.ts
+- src/core/audio/useAudioCapture.ts
+- src/core/audio/useWebSpeech.ts
+- src/core/audio/index.ts
+- .planning/phases/02-audio-pipeline-visual-gauge/02-PLAN.md
+- .planning/phases/02-audio-pipeline-visual-gauge/02-COMPONENTS.md
+- .planning/phases/02-audio-pipeline-visual-gauge/02-DATAFLOW.md
+
+--- RESUME BLOCK ---
+Last task: 02-02 - Web Speech API integration with interim results
+Next task: 02-03 - Filler Detection Integration
+Next action: Connect FillerDetector to audio stream, create filler event emitter, expose count on 250ms cadence
+Blockers: none (awaiting 02-02 runtime verification)
