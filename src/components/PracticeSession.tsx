@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useAudioCapture } from '../core/audio';
 
 export default function PracticeSession() {
-  const [isActive, setIsActive] = useState(false);
+  const {
+    isCapturing,
+    audioContext,
+    sourceNode,
+    audioBlob,
+    error,
+    start,
+    stop,
+  } = useAudioCapture();
 
-  const handleStartSession = () => {
-    console.log('Start Session button clicked - ready for audio integration');
-    setIsActive(true);
+  const handleToggleSession = async () => {
+    if (isCapturing) {
+      stop();
+    } else {
+      await start();
+    }
   };
 
   return (
@@ -20,28 +31,53 @@ export default function PracticeSession() {
 
           {/* Subtitle */}
           <p className="text-clinical-muted mb-8">
-            Ready for audio integration
+            {isCapturing ? 'Recording in progress...' : 'Ready to practice'}
           </p>
+
+          {/* Error display */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+              {error}
+            </div>
+          )}
 
           {/* Status indicator with accent color */}
           <div className="flex items-center gap-2 mb-6">
             <div
               className={`w-3 h-3 rounded-full ${
-                isActive ? 'bg-clinical-accent' : 'bg-clinical-muted'
+                isCapturing ? 'bg-clinical-accent animate-pulse' : 'bg-clinical-muted'
               }`}
             />
             <span className="text-sm text-clinical-muted">
-              {isActive ? 'Session active' : 'Session ready'}
+              {isCapturing ? 'Mic active' : 'Mic ready'}
             </span>
           </div>
 
-          {/* Start Session button */}
+          {/* Audio context status (for debugging) */}
+          {audioContext && (
+            <div className="mb-4 text-xs text-clinical-muted">
+              Audio: {audioContext.state} | Sample rate: {audioContext.sampleRate}Hz
+            </div>
+          )}
+
+          {/* Start/Stop Session button */}
           <button
-            onClick={handleStartSession}
-            className="w-full bg-clinical-text text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+            onClick={handleToggleSession}
+            className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+              isCapturing
+                ? 'bg-red-600 text-white hover:bg-red-700'
+                : 'bg-clinical-text text-white hover:bg-gray-800'
+            }`}
           >
-            Start Session
+            {isCapturing ? 'Stop Session' : 'Start Session'}
           </button>
+
+          {/* Audio blob info (for debugging) */}
+          {audioBlob && !isCapturing && (
+            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
+              Recording saved: {(audioBlob.size / 1024).toFixed(1)} KB
+            </div>
+          )}
 
           {/* Decorative accent element */}
           <div className="mt-6 pt-6 border-t border-clinical-border">
@@ -51,6 +87,13 @@ export default function PracticeSession() {
               <div className="w-2 h-2 rounded-full bg-clinical-accent opacity-30" />
             </div>
           </div>
+
+          {/* Debug: Source node status */}
+          {sourceNode && (
+            <div className="mt-2 text-xs text-center text-clinical-muted">
+              Source node connected (ready for analysis)
+            </div>
+          )}
         </div>
       </div>
     </div>
