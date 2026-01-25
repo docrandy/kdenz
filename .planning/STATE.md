@@ -5,12 +5,12 @@
 See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Core value:** Users discover unconscious speaking habits they didn't know they had
-**Current focus:** Initialization complete — ready for phase planning
+**Current focus:** Pre-Phase — awaiting /gsd:plan-phase 1
 
 ## Current State
 
-**Status:** Initialized
-**Active Phase:** None (no phase has been planned or started)
+**Status:** Pre-Phase
+**Active Phase:** None
 **Last Action:** GSD artifacts created from existing PRD.json
 
 ## Decisions Made
