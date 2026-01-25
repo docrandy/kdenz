@@ -6,25 +6,29 @@
 
 ## Phases
 
-### Phase 01: Project Setup & Scaffolding
+### Phase 01: Project Setup & Scaffolding ✓
+
+**Status:** Complete (2026-01-25)
 
 **Goal:** Deployable shell with design system and browser detection
 
 **Requirements:** UI-01, UI-02, PLAT-01, PLAT-02, PLAT-03
 
-**Plans:** 2 plans
+**Plans:** 2/2 complete
 
 Plans:
-- [ ] 01-01-PLAN.md - Initialize project with Vite/React/Tailwind and High-Performance Clinical theme
-- [ ] 01-02-PLAN.md - Add Chrome browser detection and deploy to Vercel
+- [x] 01-01-PLAN.md - Initialize project with Vite/React/Tailwind and High-Performance Clinical theme
+- [x] 01-02-PLAN.md - Add Chrome browser detection and deploy to Vercel
+
+**Deployed:** https://kdenz-sandbox.vercel.app
 
 **Success Criteria:**
-- [ ] Project folder created (fork from Black Swan or new)
-- [ ] Unused components stripped from Dashboard
-- [ ] Tailwind config has High-Performance Clinical theme
-- [ ] PracticeSession.tsx component shell exists
-- [ ] Chrome detection + non-Chrome warning displays
-- [ ] Vercel project deployed with placeholder
+- [x] Project folder created (fork from Black Swan or new)
+- [x] Unused components stripped from Dashboard
+- [x] Tailwind config has High-Performance Clinical theme
+- [x] PracticeSession.tsx component shell exists
+- [x] Chrome detection + non-Chrome warning displays
+- [x] Vercel project deployed with placeholder
 
 ---
 
@@ -167,7 +171,7 @@ Plans:
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 01 | Project Setup & Scaffolding | 5 | Planned (2 plans) |
+| 01 | Project Setup & Scaffolding | 5 | ✓ Complete |
 | 02 | Audio Pipeline & Visual Gauge | 7 | Pending |
 | 03 | Duration Controls & Timer | 4 | Pending |
 | 04 | Playback with Filler Highlighting | 5 | Pending |
@@ -184,4 +188,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-01-25 - Phase 01 planned (2 plans created)*
+*Last updated: 2026-01-25 - Phase 01 complete*

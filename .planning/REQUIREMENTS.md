@@ -63,9 +63,9 @@ Requirements for private beta release.
 
 ### Browser & Platform
 
-- [ ] **PLAT-01**: Chrome browser detection on page load
-- [ ] **PLAT-02**: Non-Chrome users see warning with explanation
-- [ ] **PLAT-03**: App deployed to Vercel with public URL
+- [x] **PLAT-01**: Chrome browser detection on page load ✓
+- [x] **PLAT-02**: Non-Chrome users see warning with explanation ✓
+- [x] **PLAT-03**: App deployed to Vercel with public URL ✓
 
 ### Content Pages
 
@@ -75,8 +75,8 @@ Requirements for private beta release.
 
 ### UI/Design
 
-- [ ] **UI-01**: High-Performance Clinical theme applied (white/black/teal)
-- [ ] **UI-02**: Light mode only (no dark mode toggle)
+- [x] **UI-01**: High-Performance Clinical theme applied (white/black/teal) ✓
+- [x] **UI-02**: Light mode only (no dark mode toggle) ✓
 - [ ] **UI-03**: Mobile layout usable on Chrome mobile
 
 ## v2 Requirements
@@ -116,13 +116,17 @@ Deferred to future releases.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (To be populated after roadmap creation) | | |
+| UI-01 | 01 | Complete |
+| UI-02 | 01 | Complete |
+| PLAT-01 | 01 | Complete |
+| PLAT-02 | 01 | Complete |
+| PLAT-03 | 01 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
-- Mapped to phases: 0
-- Unmapped: 30
+- Complete: 5
+- Remaining: 25
 
 ---
 *Requirements defined: 2026-01-25*
-*Last updated: 2026-01-25 after GSD initialization (migrated from PRD.json)*
+*Last updated: 2026-01-25 - Phase 01 requirements complete*
