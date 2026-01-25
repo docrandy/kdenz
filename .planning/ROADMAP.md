@@ -12,7 +12,7 @@ This roadmap delivers a Chrome-only speech practice MVP that helps users reduce 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Project scaffold, vendor audio modules, browser gate
+- [x] **Phase 1: Foundation** - Project scaffold, vendor audio modules, browser gate
 - [ ] **Phase 2: Audio Pipeline** - Mic recording with VAD and filler detection
 - [ ] **Phase 3: Filler Feedback** - Real-time heat gauge with pulse and running count
 - [ ] **Phase 4: Pace Feedback** - WPM display, banding, silence nudge
@@ -38,10 +38,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: TBD
 
 Plans:
-- [ ] 01-01: Project scaffold and GitHub setup
-- [ ] 01-02: Vendor Black Swan audio modules
-- [ ] 01-03: Implement browser detection and gate
-- [ ] 01-04: Establish time authority and silence semantics
+- [x] 01-01: Project scaffold and GitHub setup
+- [x] 01-02: Vendor Black Swan audio modules
+- [x] 01-03: Implement browser detection and gate
+- [x] 01-04: Establish time authority and silence semantics
 
 ### Phase 2: Audio Pipeline
 **Goal**: User can record audio from microphone with voice activity detection and filler detection running, with detection stabilization and timeline contracts established
@@ -161,7 +161,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/4 | Not started | - |
+| 1. Foundation | 4/4 | Complete | 2026-01-25 |
 | 2. Audio Pipeline | 0/4 | Not started | - |
 | 3. Filler Feedback | 0/3 | Not started | - |
 | 4. Pace Feedback | 0/3 | Not started | - |
