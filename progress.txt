@@ -475,3 +475,45 @@ Last task: All parallel tracks complete
 Next task: none - All MVP features complete
 Next action: Deploy updates to Vercel, share with testers
 Blockers: none
+
+[2026-01-26 Skill Practice Module: Labeling]
+Extended MVP with first high-value skill practice module based on Chris Voss research.
+
+RESEARCH COMPLETED:
+- Deep dive on labeling technique (syntax formulas, common mistakes, quality evaluation)
+- Emotion taxonomy (surface vs underlying drivers)
+- Accusation audit mechanics (4-part structure, vs labeling comparison)
+- Pattern detection methods (TTR, MTLD, repetitive templates)
+- Source: Perplexity Pro research saved to .planning/research/VOICE_PRACTICE_HIGH_STAKES_RESEARCH.md
+
+LABELING PRACTICE MODULE BUILT:
+- 14 scenarios across 4 categories (salary, saying-no, difficult-conversation, workplace)
+- 3 difficulty levels (beginner, intermediate, advanced)
+- Syntax analysis: correct openers, I/You framing detection, question detection
+- Depth analysis: surface emotion vs underlying driver detection
+- Scoring system: 0-100 points with grade levels (expert/proficient/developing/novice)
+- Dynamic AI responses based on label quality (open/partial/guarded)
+- Pattern tracking: vocabulary TTR, repetitive templates, score history
+- Full UI with scenario presentation, recording, feedback, AI response, session summary
+
+FILES CREATED:
+- src/features/labeling/* (12 files - types, scenarios, analyzer, storage, hooks, components)
+- .planning/features/LABELING_PRACTICE_SPEC.md
+- .planning/research/VOICE_PRACTICE_HIGH_STAKES_RESEARCH.md
+
+INTEGRATION:
+- Route: /practice/labeling
+- Navigation added to main PracticeSession (Skill Practice section)
+- Placeholders for Accusation Audit and Saying No modules
+
+MCP CONFIGURATION:
+- Perplexity MCP added (npx -y @perplexity-ai/mcp-server)
+- Supabase MCP added (https://mcp.supabase.com/mcp) - needs auth
+
+DEPLOYED: https://kdenz.vercel.app
+
+--- RESUME BLOCK ---
+Last task: labeling-practice-complete - Full labeling skill module built and deployed
+Next task: accusation-audit-module - Build second skill practice module
+Next action: Create spec for Accusation Audit using research from VOICE_PRACTICE_HIGH_STAKES_RESEARCH.md
+Blockers: none
