@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import './App.css'
 import PracticeSession from './components/PracticeSession'
 import BrowserWarning from './components/BrowserWarning'
@@ -8,11 +8,18 @@ import FeedbackButton from './components/FeedbackButton'
 import WelcomeScreen from './components/WelcomeScreen'
 import DiagnosticOnboarding from './components/DiagnosticOnboarding'
 import Privacy from './pages/Privacy'
+import { LabelingPractice } from './features/labeling'
 import { isChrome, getBrowserName } from './utils/browserDetection'
 import { hasDiagnosticResults } from './lib/diagnosticQuestions'
 
 const WELCOME_SEEN_KEY = 'voicelab_welcome_seen'
 const DIAGNOSTIC_SKIPPED_KEY = 'voicelab_diagnostic_skipped'
+
+// Wrapper for LabelingPractice with navigation
+function LabelingPracticeRoute() {
+  const navigate = useNavigate()
+  return <LabelingPractice onBack={() => navigate('/')} />
+}
 
 function App() {
   const [browserWarningDismissed, setBrowserWarningDismissed] = useState(false)
@@ -97,6 +104,7 @@ function App() {
         <Routes>
           <Route path="/" element={renderHome()} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/practice/labeling" element={<LabelingPracticeRoute />} />
         </Routes>
         <FeedbackButton />
       </div>

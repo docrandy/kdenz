@@ -440,6 +440,49 @@ export default function PracticeSession() {
           />
         </div>
 
+        {/* Skill Practice Modules */}
+        <div className="mt-4 bg-white border border-clinical-border rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-clinical-text mb-3">Skill Practice</h3>
+          <div className="space-y-2">
+            <Link
+              to="/practice/labeling"
+              className="flex items-center justify-between p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors group"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl">🎯</span>
+                <div>
+                  <p className="font-medium text-clinical-text group-hover:text-clinical-accent">
+                    Labeling Practice
+                  </p>
+                  <p className="text-xs text-clinical-muted">
+                    Practice identifying underlying emotions
+                  </p>
+                </div>
+              </div>
+              <span className="text-clinical-muted group-hover:text-clinical-accent">→</span>
+            </Link>
+            {/* More skill modules coming soon */}
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-50 cursor-not-allowed">
+              <div className="flex items-center gap-3">
+                <span className="text-xl">🛡️</span>
+                <div>
+                  <p className="font-medium text-clinical-text">Accusation Audit</p>
+                  <p className="text-xs text-clinical-muted">Coming soon</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-50 cursor-not-allowed">
+              <div className="flex items-center gap-3">
+                <span className="text-xl">✋</span>
+                <div>
+                  <p className="font-medium text-clinical-text">Saying No</p>
+                  <p className="text-xs text-clinical-muted">Coming soon</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Settings Panel */}
         <div className="mt-4">
           <SettingsPanel onSettingsChange={setSettings} />
