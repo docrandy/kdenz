@@ -10,7 +10,6 @@ export default function PracticeSession() {
     isCapturing,
     audioContext,
     sourceNode,
-    audioBlob,
     error: audioError,
     start: startAudio,
     stop: stopAudio,
@@ -28,7 +27,6 @@ export default function PracticeSession() {
   const {
     fillerCount,
     fillerRate,
-    fillerEvents,
     isDetecting,
     start: startFillerDetection,
     stop: stopFillerDetection,
@@ -43,6 +41,15 @@ export default function PracticeSession() {
 
   // Chart refresh trigger
   const [chartRefreshKey, setChartRefreshKey] = useState(0);
+
+  // Track last completed session for post-session summary
+  const [lastSession, setLastSession] = useState<{
+    wpm: number;
+    wordCount: number;
+    fillerCount: number;
+    fillerRate: number;
+    durationSeconds: number;
+  } | null>(null);
 
   // Stop session handler - defined before useSessionTimer
   const stopSessionRef = useRef<(() => void) | null>(null);
@@ -91,15 +98,22 @@ export default function PracticeSession() {
   const handleToggleSession = useCallback(async () => {
     if (isCapturing) {
       // Save session data before stopping (if there was activity)
+      const sessionData = {
+        durationSeconds: Math.round(elapsedTime),
+        wordCount,
+        wpm,
+        fillerCount,
+        fillerRate,
+      };
+
       if (elapsedTime > 0 && wordCount > 0) {
-        saveSession({
-          durationSeconds: Math.round(elapsedTime),
-          wordCount,
-          wpm,
-          fillerCount,
-          fillerRate,
-        });
+        saveSession(sessionData);
         setChartRefreshKey(k => k + 1);
+      }
+
+      // Store for post-session summary display
+      if (elapsedTime > 0) {
+        setLastSession(sessionData);
       }
 
       // Stop everything
@@ -111,6 +125,8 @@ export default function PracticeSession() {
         clearInterval(wpmIntervalRef.current);
       }
     } else {
+      // Clear last session when starting new
+      setLastSession(null);
       // Start everything
       setWpm(0);
       resetTimer();
@@ -178,55 +194,90 @@ export default function PracticeSession() {
             </span>
           </div>
 
-          {/* Real-time metrics display */}
+          {/* Real-time metrics display - during session */}
           {isCapturing && (
             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              {/* WPM Display */}
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-clinical-muted">Words per minute</span>
-                <span className="text-2xl font-bold text-clinical-text">{wpm}</span>
-              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {/* WPM */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-text">{wpm}</span>
+                  <p className="text-xs text-clinical-muted mt-1">WPM</p>
+                </div>
 
-              {/* Word count */}
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-clinical-muted">Words spoken</span>
-                <span className="text-lg font-semibold text-clinical-text">{wordCount}</span>
-              </div>
+                {/* Words */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-text">{wordCount}</span>
+                  <p className="text-xs text-clinical-muted mt-1">Words</p>
+                </div>
 
-              {/* Filler count */}
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-clinical-muted">Fillers detected</span>
-                <span className="text-lg font-semibold text-clinical-accent">{fillerCount}</span>
-              </div>
+                {/* Fillers */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-accent">{fillerCount}</span>
+                  <p className="text-xs text-clinical-muted mt-1">Fillers</p>
+                </div>
 
-              {/* Filler rate */}
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-clinical-muted">Fillers per minute</span>
-                <span className="text-lg font-semibold text-clinical-text">{fillerRate.toFixed(1)}</span>
+                {/* Filler rate */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-text">{fillerRate.toFixed(1)}</span>
+                  <p className="text-xs text-clinical-muted mt-1">Fillers/min</p>
+                </div>
               </div>
 
               {/* Speech recognition status */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-gray-200">
                 <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-green-500' : 'bg-yellow-500'}`} />
                 <span className="text-xs text-clinical-muted">
-                  {isListening ? 'Speech recognition active' : 'Speech recognition starting...'}
+                  {isListening ? 'Listening...' : 'Starting...'}
                 </span>
               </div>
 
               {/* Interim transcript preview */}
               {interimTranscript && (
                 <div className="mt-3 p-2 bg-white rounded border border-gray-200">
-                  <p className="text-xs text-clinical-muted mb-1">Live transcript:</p>
-                  <p className="text-sm text-clinical-text italic">"{interimTranscript}"</p>
+                  <p className="text-sm text-clinical-text italic truncate">"{interimTranscript}"</p>
                 </div>
               )}
             </div>
           )}
 
-          {/* Audio context status (for debugging) */}
-          {audioContext && (
-            <div className="mb-4 text-xs text-clinical-muted">
-              Audio: {audioContext.state} | Sample rate: {audioContext.sampleRate}Hz
+          {/* Post-session summary - after session ends */}
+          {!isCapturing && lastSession && (
+            <div className="mb-6 p-4 bg-clinical-accent/5 border border-clinical-accent/20 rounded-lg">
+              <p className="text-xs font-medium text-clinical-accent mb-3 text-center uppercase tracking-wide">
+                Session Complete
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                {/* WPM */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-text">{lastSession.wpm}</span>
+                  <p className="text-xs text-clinical-muted mt-1">WPM</p>
+                </div>
+
+                {/* Words */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-text">{lastSession.wordCount}</span>
+                  <p className="text-xs text-clinical-muted mt-1">Words</p>
+                </div>
+
+                {/* Fillers */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-accent">{lastSession.fillerCount}</span>
+                  <p className="text-xs text-clinical-muted mt-1">Fillers</p>
+                </div>
+
+                {/* Duration */}
+                <div className="text-center">
+                  <span className="text-2xl font-bold text-clinical-text">{lastSession.durationSeconds}s</span>
+                  <p className="text-xs text-clinical-muted mt-1">Duration</p>
+                </div>
+              </div>
+
+              {/* Filler rate summary */}
+              <div className="mt-4 pt-3 border-t border-clinical-accent/20 text-center">
+                <span className="text-lg font-semibold text-clinical-text">
+                  {lastSession.fillerRate.toFixed(1)} fillers/min
+                </span>
+              </div>
             </div>
           )}
 
@@ -242,29 +293,6 @@ export default function PracticeSession() {
             {isCapturing ? 'Stop Session' : 'Start Session'}
           </button>
 
-          {/* Audio blob info (for debugging) */}
-          {audioBlob && !isCapturing && (
-            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
-              Recording saved: {(audioBlob.size / 1024).toFixed(1)} KB
-            </div>
-          )}
-
-          {/* Filler events summary (for Phase 04 playback markers) */}
-          {!isCapturing && fillerEvents.length > 0 && (
-            <div className="mt-4 p-3 bg-clinical-accent/10 border border-clinical-accent/30 rounded-lg">
-              <p className="text-sm font-medium text-clinical-text mb-2">
-                Session fillers: {fillerCount} ({fillerRate.toFixed(1)}/min)
-              </p>
-              <div className="text-xs text-clinical-muted max-h-24 overflow-y-auto">
-                {fillerEvents.map((event, idx) => (
-                  <span key={idx} className="inline-block mr-2 mb-1 px-2 py-0.5 bg-white rounded">
-                    {event.type} @ {(event.timestamp / 1000).toFixed(1)}s
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Decorative accent element */}
           <div className="mt-6 pt-6 border-t border-clinical-border">
             <div className="flex items-center justify-center gap-2">
@@ -273,13 +301,6 @@ export default function PracticeSession() {
               <div className="w-2 h-2 rounded-full bg-clinical-accent opacity-30" />
             </div>
           </div>
-
-          {/* Debug: Source node status */}
-          {sourceNode && (
-            <div className="mt-2 text-xs text-center text-clinical-muted">
-              Source node connected (ready for analysis)
-            </div>
-          )}
         </div>
 
         {/* Weekly Trend Chart */}
