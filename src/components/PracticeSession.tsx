@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } from '../core/audio';
 import DurationSelector from './DurationSelector';
 import CountdownTimer from './CountdownTimer';
+import WeeklyTrendChart from './WeeklyTrendChart';
+import { saveSession } from '../services/sessionStorage';
 
 export default function PracticeSession() {
   const {
@@ -38,6 +40,9 @@ export default function PracticeSession() {
   // WPM calculation state
   const [wpm, setWpm] = useState(0);
   const wpmIntervalRef = useRef<number | null>(null);
+
+  // Chart refresh trigger
+  const [chartRefreshKey, setChartRefreshKey] = useState(0);
 
   // Stop session handler - defined before useSessionTimer
   const stopSessionRef = useRef<(() => void) | null>(null);
@@ -85,6 +90,18 @@ export default function PracticeSession() {
 
   const handleToggleSession = useCallback(async () => {
     if (isCapturing) {
+      // Save session data before stopping (if there was activity)
+      if (elapsedTime > 0 && wordCount > 0) {
+        saveSession({
+          durationSeconds: Math.round(elapsedTime),
+          wordCount,
+          wpm,
+          fillerCount,
+          fillerRate,
+        });
+        setChartRefreshKey(k => k + 1);
+      }
+
       // Stop everything
       stopTimer();
       stopFillerDetection();
@@ -102,7 +119,7 @@ export default function PracticeSession() {
       startTimer();
       // Filler detection starts via useEffect when audioContext/sourceNode are ready
     }
-  }, [isCapturing, stopTimer, stopFillerDetection, stopSpeech, stopAudio, resetTimer, startAudio, startSpeech, startTimer]);
+  }, [isCapturing, elapsedTime, wordCount, wpm, fillerCount, fillerRate, stopTimer, stopFillerDetection, stopSpeech, stopAudio, resetTimer, startAudio, startSpeech, startTimer]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
   useEffect(() => {
@@ -263,6 +280,11 @@ export default function PracticeSession() {
               Source node connected (ready for analysis)
             </div>
           )}
+        </div>
+
+        {/* Weekly Trend Chart */}
+        <div className="mt-4">
+          <WeeklyTrendChart refreshKey={chartRefreshKey} />
         </div>
       </div>
     </div>
