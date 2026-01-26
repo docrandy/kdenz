@@ -87,8 +87,8 @@ export default function PracticeSession() {
   const [lastWordTimings, setLastWordTimings] = useState<WordTiming[]>([]);
   const [lastDurationMs, setLastDurationMs] = useState(0);
 
-  // Highlight mode for transcript view
-  const [highlightMode, setHighlightMode] = useState<HighlightMode>('fillers');
+  // Highlight mode for transcript view (default to 'none' to show raw transcript first)
+  const [highlightMode, setHighlightMode] = useState<HighlightMode>('none');
 
   // Loading state for start button
   const [isStarting, setIsStarting] = useState(false);

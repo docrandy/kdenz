@@ -104,8 +104,14 @@ export function useAudioCapture(): UseAudioCaptureResult {
       return;
     }
 
-    // Stop MediaRecorder
+    // Stop MediaRecorder - request final data before stopping
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      // Request any pending data before stopping
+      try {
+        mediaRecorderRef.current.requestData();
+      } catch {
+        // requestData may fail if no data available, that's ok
+      }
       mediaRecorderRef.current.stop();
     }
     mediaRecorderRef.current = null;

@@ -33,24 +33,33 @@ function buildPrompt(request: SummaryRequest): string {
       ? fillerWords.map((f) => `"${f.word}" (${f.count}x)`).join(', ')
       : 'none detected';
 
-  return `You are a supportive voice coach analyzing a practice session. Provide brief, actionable feedback.
+  return `You are an expert speaking coach analyzing a practice session. Evaluate both the delivery metrics AND the content quality.
 
-SESSION DATA:
+SESSION METRICS:
 - Duration: ${durationSeconds} seconds
 - Words spoken: ${wordCount}
-- Speaking pace: ${wpm} WPM
+- Speaking pace: ${wpm} WPM (ideal conversational: 120-150 WPM)
 - Filler words: ${fillerCount} total (${fillerRate.toFixed(1)} per minute)
 - Filler breakdown: ${fillerList}
 
 TRANSCRIPT:
-"${transcript.slice(0, 1500)}"${transcript.length > 1500 ? '...' : ''}
+"${transcript.slice(0, 2000)}"${transcript.length > 2000 ? '...' : ''}
 
-Provide a 2-3 sentence coaching summary that:
-1. Acknowledges what went well (be specific if possible)
-2. Identifies the primary area for improvement
-3. Gives one concrete tip they can try next session
+EVALUATION CRITERIA:
+1. DELIVERY: Pace, filler word usage, flow
+2. CLARITY: How clear and organized were the ideas?
+3. STRUCTURE: Did they have a beginning, middle, end? Logical flow?
+4. ENGAGEMENT: Would this hold a listener's attention?
 
-Keep the tone encouraging but honest. Be concise.`;
+Provide feedback in this format:
+
+**What worked well:** (1-2 specific observations about content OR delivery)
+
+**Area to improve:** (1 specific, actionable suggestion)
+
+**Quick tip:** (One concrete technique to try next session)
+
+Be specific about the CONTENT when possible, not just the metrics. Reference what they actually said.`;
 }
 
 /**
