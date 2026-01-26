@@ -13,11 +13,13 @@ interface AudioPlaybackProps {
   audioBlob: Blob;
   /** Filler events detected during session */
   fillerEvents: FillerDetection[];
+  /** Session duration in seconds (used as fallback for blob duration) */
+  sessionDurationSeconds?: number;
 }
 
 const PLAYBACK_RATES = [0.75, 1, 1.25] as const;
 
-export default function AudioPlayback({ audioBlob, fillerEvents }: AudioPlaybackProps) {
+export default function AudioPlayback({ audioBlob, fillerEvents, sessionDurationSeconds }: AudioPlaybackProps) {
   const {
     currentTime,
     duration,
@@ -27,7 +29,7 @@ export default function AudioPlayback({ audioBlob, fillerEvents }: AudioPlayback
     pause,
     seek,
     setPlaybackRate,
-  } = useAudioPlayback(audioBlob);
+  } = useAudioPlayback(audioBlob, sessionDurationSeconds);
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -100,6 +102,13 @@ export default function AudioPlayback({ audioBlob, fillerEvents }: AudioPlayback
           </button>
         ))}
       </div>
+
+      {/* Debug info - remove for production */}
+      {audioBlob && (
+        <p className="text-xs text-gray-400 text-center mt-2">
+          Recording: {(audioBlob.size / 1024).toFixed(1)}KB
+        </p>
+      )}
     </div>
   );
 }

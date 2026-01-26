@@ -390,6 +390,7 @@ export default function PracticeSession() {
             <AudioPlayback
               audioBlob={audioBlob}
               fillerEvents={lastFillerEvents}
+              sessionDurationSeconds={lastSession.durationSeconds}
             />
           </div>
         )}

@@ -25,6 +25,8 @@ export interface UseAudioCaptureResult {
   sourceNode: MediaStreamAudioSourceNode | null;
   /** Recorded audio blob (available after stop) */
   audioBlob: Blob | null;
+  /** Debug: size of recorded blob in bytes */
+  audioBlobSize: number;
   /** Error message if mic access failed */
   error: string | null;
   /** Start capturing audio */
@@ -38,11 +40,13 @@ export function useAudioCapture(): UseAudioCaptureResult {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [sourceNode, setSourceNode] = useState<MediaStreamAudioSourceNode | null>(null);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [audioBlobSize, setAudioBlobSize] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const isStoppingRef = useRef(false);
 
   const start = useCallback(async () => {
     if (isCapturing) {
@@ -52,7 +56,9 @@ export function useAudioCapture(): UseAudioCaptureResult {
     try {
       setError(null);
       setAudioBlob(null);
+      setAudioBlobSize(0);
       chunksRef.current = [];
+      isStoppingRef.current = false;
 
       // Request mic access
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -78,18 +84,36 @@ export function useAudioCapture(): UseAudioCaptureResult {
       });
 
       recorder.ondataavailable = (event) => {
+        console.log('[useAudioCapture] Data chunk received:', event.data.size, 'bytes');
         if (event.data.size > 0) {
           chunksRef.current.push(event.data);
+        }
+
+        // If we're stopping and this is the final chunk, create the blob
+        if (isStoppingRef.current && recorder.state === 'inactive') {
+          const totalSize = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
+          console.log('[useAudioCapture] Creating blob from', chunksRef.current.length, 'chunks, total size:', totalSize);
+          const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
+          setAudioBlob(blob);
+          setAudioBlobSize(blob.size);
         }
       };
 
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        setAudioBlob(blob);
+        console.log('[useAudioCapture] Recorder stopped, chunks:', chunksRef.current.length);
+        // Create blob here as fallback if ondataavailable already fired
+        if (chunksRef.current.length > 0) {
+          const totalSize = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
+          console.log('[useAudioCapture] onstop: Creating blob, total size:', totalSize);
+          const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
+          setAudioBlob(blob);
+          setAudioBlobSize(blob.size);
+        }
       };
 
       mediaRecorderRef.current = recorder;
       recorder.start(1000); // Collect in 1s chunks
+      console.log('[useAudioCapture] Recording started');
 
       setIsCapturing(true);
     } catch (err) {
@@ -104,19 +128,27 @@ export function useAudioCapture(): UseAudioCaptureResult {
       return;
     }
 
-    // Stop MediaRecorder - request final data before stopping
+    console.log('[useAudioCapture] Stopping capture...');
+    isStoppingRef.current = true;
+
+    // Stop MediaRecorder - this triggers final ondataavailable + onstop
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      // Request any pending data before stopping
+      console.log('[useAudioCapture] Stopping MediaRecorder, current state:', mediaRecorderRef.current.state);
+      // Request any pending data first
       try {
         mediaRecorderRef.current.requestData();
       } catch {
         // requestData may fail if no data available, that's ok
       }
-      mediaRecorderRef.current.stop();
+      // Small delay to allow requestData to process, then stop
+      setTimeout(() => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+          mediaRecorderRef.current.stop();
+        }
+      }, 100);
     }
-    mediaRecorderRef.current = null;
 
-    // Stop all tracks on the stream
+    // Stop all tracks on the stream (but keep recorder reference for onstop callback)
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach((track) => track.stop());
       mediaStreamRef.current = null;
@@ -137,6 +169,7 @@ export function useAudioCapture(): UseAudioCaptureResult {
     audioContext,
     sourceNode,
     audioBlob,
+    audioBlobSize,
     error,
     start,
     stop,
