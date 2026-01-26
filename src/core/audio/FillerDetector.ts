@@ -64,8 +64,8 @@ export class FillerDetector {
   private config: FillerConfig;
   private audioContext: AudioContext;
   private analyserNode: AnalyserNode;
-  private dataArray: Float32Array;
-  private frequencyData: Uint8Array;
+  private dataArray: Float32Array<ArrayBuffer>;
+  private frequencyData: Uint8Array<ArrayBuffer>;
   private animationFrameId: number | null = null;
 
   // Detection state

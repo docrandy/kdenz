@@ -55,7 +55,7 @@ export class VoiceActivityDetector {
   private config: VADConfig;
   private analyserNode: AnalyserNode;
   private sourceNode: AudioNode;
-  private dataArray: Float32Array;
+  private dataArray: Float32Array<ArrayBuffer>;
   private animationFrameId: number | null = null;
 
   private currentState: VADState = 'silence';
