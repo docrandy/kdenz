@@ -9,7 +9,10 @@
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { FillerDetector, FillerDetection, FillerMetrics } from './FillerDetector';
+import { FillerDetector, FillerDetection, FillerMetrics, FillerType } from './FillerDetector';
+
+// Primary filler word target for this app
+const TARGET_FILLER: FillerType = 'like';
 
 export interface UseFillerDetectorResult {
   /** Current filler count (real-time) */
@@ -78,15 +81,17 @@ export function useFillerDetector(
     // Start 250ms update cadence for real-time display
     updateIntervalRef.current = window.setInterval(() => {
       if (detectorRef.current) {
-        const count = detectorRef.current.getCurrentCount();
-        const events = detectorRef.current.getCurrentDetections();
+        const allEvents = detectorRef.current.getCurrentDetections();
+        // Filter to only target filler type
+        const events = allEvents.filter(e => e.type === TARGET_FILLER);
+        const count = events.length;
         setFillerCount(count);
         setFillerEvents(events);
 
         // Calculate rate (fillers per minute based on elapsed time)
         // Note: This is an estimate; final rate comes from stop()
-        if (events.length > 0) {
-          const elapsedMs = events[events.length - 1].timestamp;
+        if (allEvents.length > 0) {
+          const elapsedMs = allEvents[allEvents.length - 1].timestamp;
           const elapsedMin = elapsedMs / 60000;
           setFillerRate(elapsedMin > 0 ? count / elapsedMin : 0);
         }
@@ -107,10 +112,29 @@ export function useFillerDetector(
 
     // Stop detector and get final metrics
     const metrics = detectorRef.current.stop();
-    setFinalMetrics(metrics);
-    setFillerCount(metrics.totalFillers);
-    setFillerRate(metrics.fillerRate);
-    setFillerEvents(metrics.detections);
+
+    // Filter to only target filler type
+    const targetDetections = metrics.detections.filter(e => e.type === TARGET_FILLER);
+    const targetCount = targetDetections.length;
+
+    // Calculate rate: use same speech duration as original (derived from original rate)
+    // speechMinutes = totalFillers / fillerRate, so targetRate = targetCount / speechMinutes
+    const targetRate = metrics.fillerRate > 0 && metrics.totalFillers > 0
+      ? (targetCount / metrics.totalFillers) * metrics.fillerRate
+      : 0;
+
+    // Create filtered metrics for final display
+    const filteredMetrics: FillerMetrics = {
+      ...metrics,
+      totalFillers: targetCount,
+      fillerRate: targetRate,
+      detections: targetDetections,
+    };
+
+    setFinalMetrics(filteredMetrics);
+    setFillerCount(targetCount);
+    setFillerRate(targetRate);
+    setFillerEvents(targetDetections);
     setIsDetecting(false);
   }, [isDetecting]);
 

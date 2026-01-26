@@ -53,12 +53,12 @@ export interface FillerConfig {
 }
 
 const DEFAULT_CONFIG: FillerConfig = {
-  minEnergy: 0.005,              // Quiet but voiced
-  maxEnergy: 0.03,               // Typically quieter than speech
+  minEnergy: 0.003,              // Lower threshold for softer speech
+  maxEnergy: 0.05,               // Higher ceiling for varied volumes
   minDuration: 80,               // ~80ms minimum for "uh"
   maxDuration: 600,              // ~600ms maximum for "you know"
   umUhThreshold: 0.5,
-  likeThreshold: 0.5,
+  likeThreshold: 0.35,           // Lower threshold for "like" (primary target)
   youKnowMinDuration: 300,       // "you know" is longer
   enabled: true,
 };
@@ -269,11 +269,13 @@ export class FillerDetector {
       }
     }
 
-    // "Like" detection: Medium duration (150-400ms), higher centroid
-    if (duration >= 150 && duration <= 400) {
-      if (spectralCentroid > 900 && spectralCentroid < 1500) {
+    // "Like" detection: Wider duration range, broader spectral match
+    // Casual "like" is often quick (80ms+) with varied spectral characteristics
+    if (duration >= 80 && duration <= 500) {
+      if (spectralCentroid > 600 && spectralCentroid < 2500) {
+        // More generous confidence - "like" has a distinctive sharp onset
         const confidence = Math.min(
-          (1 - Math.abs(spectralCentroid - 1200) / 600) * 0.6 + 0.4,
+          (1 - Math.abs(spectralCentroid - 1200) / 1000) * 0.5 + 0.5,
           1.0
         );
 
