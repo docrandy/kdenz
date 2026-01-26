@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useAudioCapture, useWebSpeech } from '../core/audio';
+import { useAudioCapture, useWebSpeech, useFillerDetector } from '../core/audio';
 
 export default function PracticeSession() {
   const {
@@ -20,6 +20,15 @@ export default function PracticeSession() {
     start: startSpeech,
     stop: stopSpeech,
   } = useWebSpeech();
+
+  const {
+    fillerCount,
+    fillerRate,
+    fillerEvents,
+    isDetecting,
+    start: startFillerDetection,
+    stop: stopFillerDetection,
+  } = useFillerDetector(audioContext, sourceNode);
 
   // WPM calculation state
   const [wpm, setWpm] = useState(0);
@@ -45,9 +54,17 @@ export default function PracticeSession() {
     }
   }, [isCapturing, sessionStartTime, wordCount]);
 
+  // Start filler detection when audio context is ready
+  useEffect(() => {
+    if (isCapturing && audioContext && sourceNode && !isDetecting) {
+      startFillerDetection();
+    }
+  }, [isCapturing, audioContext, sourceNode, isDetecting, startFillerDetection]);
+
   const handleToggleSession = async () => {
     if (isCapturing) {
       // Stop everything
+      stopFillerDetection();
       stopSpeech();
       stopAudio();
       setSessionStartTime(null);
@@ -60,6 +77,7 @@ export default function PracticeSession() {
       setSessionStartTime(Date.now());
       await startAudio();
       startSpeech();
+      // Filler detection starts via useEffect when audioContext/sourceNode are ready
     }
   };
 
@@ -115,6 +133,18 @@ export default function PracticeSession() {
                 <span className="text-lg font-semibold text-clinical-text">{wordCount}</span>
               </div>
 
+              {/* Filler count */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-clinical-muted">Fillers detected</span>
+                <span className="text-lg font-semibold text-clinical-accent">{fillerCount}</span>
+              </div>
+
+              {/* Filler rate */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-clinical-muted">Fillers per minute</span>
+                <span className="text-lg font-semibold text-clinical-text">{fillerRate.toFixed(1)}</span>
+              </div>
+
               {/* Speech recognition status */}
               <div className="flex items-center gap-2">
                 <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-green-500' : 'bg-yellow-500'}`} />
@@ -156,6 +186,22 @@ export default function PracticeSession() {
           {audioBlob && !isCapturing && (
             <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
               Recording saved: {(audioBlob.size / 1024).toFixed(1)} KB
+            </div>
+          )}
+
+          {/* Filler events summary (for Phase 04 playback markers) */}
+          {!isCapturing && fillerEvents.length > 0 && (
+            <div className="mt-4 p-3 bg-clinical-accent/10 border border-clinical-accent/30 rounded-lg">
+              <p className="text-sm font-medium text-clinical-text mb-2">
+                Session fillers: {fillerCount} ({fillerRate.toFixed(1)}/min)
+              </p>
+              <div className="text-xs text-clinical-muted max-h-24 overflow-y-auto">
+                {fillerEvents.map((event, idx) => (
+                  <span key={idx} className="inline-block mr-2 mb-1 px-2 py-0.5 bg-white rounded">
+                    {event.type} @ {(event.timestamp / 1000).toFixed(1)}s
+                  </span>
+                ))}
+              </div>
             </div>
           )}
 
