@@ -1,17 +1,28 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } from '../core/audio';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer, FillerDetection, WordTiming } from '../core/audio';
 import DurationSelector from './DurationSelector';
 import CountdownTimer from './CountdownTimer';
 import WeeklyTrendChart from './WeeklyTrendChart';
 import SettingsPanel from './SettingsPanel';
+import AudioPlayback from './AudioPlayback';
+import TranscriptView from './TranscriptView';
+import HighlightToggle, { HighlightMode } from './HighlightToggle';
+import Scorecard from './Scorecard';
+import AISummary from './AISummary';
+import MicPermissionError from './MicPermissionError';
+import PromptSelector, { ActivePrompt } from './PromptSelector';
+import { SpeakingPrompt } from '../data/speakingPrompts';
 import { saveSession } from '../services/sessionStorage';
 import { getSettings, AppSettings } from '../services/settingsStorage';
+import { reconcileFillers, ReconciledFiller } from '../lib/fillerReconciler';
 
 export default function PracticeSession() {
   const {
     isCapturing,
     audioContext,
     sourceNode,
+    audioBlob,
     error: audioError,
     start: startAudio,
     stop: stopAudio,
@@ -19,7 +30,9 @@ export default function PracticeSession() {
 
   const {
     interimTranscript,
+    finalTranscript,
     wordCount,
+    wordTimings,
     isListening,
     error: speechError,
     start: startSpeech,
@@ -29,6 +42,7 @@ export default function PracticeSession() {
   const {
     fillerCount,
     fillerRate,
+    fillerEvents,
     isDetecting,
     start: startFillerDetection,
     stop: stopFillerDetection,
@@ -54,6 +68,23 @@ export default function PracticeSession() {
     fillerRate: number;
     durationSeconds: number;
   } | null>(null);
+
+  // Preserve filler events for playback after session ends
+  const [lastFillerEvents, setLastFillerEvents] = useState<FillerDetection[]>([]);
+
+  // Preserve transcript data for post-session display
+  const [lastTranscript, setLastTranscript] = useState('');
+  const [lastWordTimings, setLastWordTimings] = useState<WordTiming[]>([]);
+  const [lastDurationMs, setLastDurationMs] = useState(0);
+
+  // Highlight mode for transcript view
+  const [highlightMode, setHighlightMode] = useState<HighlightMode>('fillers');
+
+  // Loading state for start button
+  const [isStarting, setIsStarting] = useState(false);
+
+  // Selected speaking prompt (optional)
+  const [selectedPrompt, setSelectedPrompt] = useState<SpeakingPrompt | null>(null);
 
   // Stop session handler - defined before useSessionTimer
   const stopSessionRef = useRef<(() => void) | null>(null);
@@ -108,6 +139,10 @@ export default function PracticeSession() {
       // Store for post-session summary display
       if (elapsedTime > 0) {
         setLastSession(sessionData);
+        setLastFillerEvents([...fillerEvents]);
+        setLastTranscript(finalTranscript);
+        setLastWordTimings([...wordTimings]);
+        setLastDurationMs(elapsedTime * 1000);
       }
 
       // Stop everything
@@ -118,15 +153,24 @@ export default function PracticeSession() {
     } else {
       // Clear last session when starting new
       setLastSession(null);
-      // Start everything
+      setLastFillerEvents([]);
+      setLastTranscript('');
+      setLastWordTimings([]);
+      setLastDurationMs(0);
+      // Start everything with loading state
+      setIsStarting(true);
       setWpm(0);
       resetTimer();
-      await startAudio();
-      startSpeech();
-      startTimer();
-      // Filler detection starts via useEffect when audioContext/sourceNode are ready
+      try {
+        await startAudio();
+        startSpeech();
+        startTimer();
+        // Filler detection starts via useEffect when audioContext/sourceNode are ready
+      } finally {
+        setIsStarting(false);
+      }
     }
-  }, [isCapturing, elapsedTime, wordCount, wpm, fillerCount, fillerRate, stopTimer, stopFillerDetection, stopSpeech, stopAudio, resetTimer, startAudio, startSpeech, startTimer]);
+  }, [isCapturing, elapsedTime, wordCount, wpm, fillerCount, fillerRate, fillerEvents, finalTranscript, wordTimings, stopTimer, stopFillerDetection, stopSpeech, stopAudio, resetTimer, startAudio, startSpeech, startTimer]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
   useEffect(() => {
@@ -136,13 +180,21 @@ export default function PracticeSession() {
   // Combined error display
   const error = audioError || speechError;
 
+  // Reconcile filler detections for transcript highlighting
+  const reconciledFillers = useMemo<ReconciledFiller[]>(() => {
+    if (!lastTranscript || lastWordTimings.length === 0) {
+      return [];
+    }
+    return reconcileFillers(lastTranscript, lastFillerEvents, lastWordTimings);
+  }, [lastTranscript, lastFillerEvents, lastWordTimings]);
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-clinical-bg px-4">
+    <div className="flex items-center justify-center min-h-screen bg-clinical-bg px-4 py-6">
       <div className="w-full max-w-md">
         {/* Card with teal accent border */}
-        <div className="bg-white border-2 border-clinical-accent rounded-lg shadow-lg p-8">
+        <div className="bg-white border-2 border-clinical-accent rounded-lg shadow-lg p-5 sm:p-8">
           {/* Title */}
-          <h1 className="text-3xl font-bold text-clinical-text mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-clinical-text mb-2">
             Voice Practice Session
           </h1>
 
@@ -151,21 +203,44 @@ export default function PracticeSession() {
             {isCapturing ? 'Recording in progress...' : 'Ready to practice'}
           </p>
 
-          {/* Error display */}
+          {/* Error display - enhanced for mic permissions */}
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-              {error}
+            <div className="mb-6">
+              <MicPermissionError
+                error={error}
+                onRetry={handleToggleSession}
+              />
             </div>
           )}
 
           {/* Duration selector - shown before session */}
-          {!isCapturing && (
+          {!isCapturing && !lastSession && (
             <div className="mb-6">
               <p className="text-xs text-clinical-muted mb-2 text-center">Session Duration</p>
               <DurationSelector
                 selected={selectedDuration}
                 onChange={setSelectedDuration}
                 disabled={isCapturing}
+              />
+            </div>
+          )}
+
+          {/* Speaking prompt selector - shown before session */}
+          {!isCapturing && !lastSession && (
+            <div className="mb-6">
+              <PromptSelector
+                onSelect={setSelectedPrompt}
+                selectedDuration={selectedDuration}
+              />
+            </div>
+          )}
+
+          {/* Active prompt display - shown during session */}
+          {isCapturing && selectedPrompt && (
+            <div className="mb-6">
+              <ActivePrompt
+                prompt={selectedPrompt}
+                onClear={() => setSelectedPrompt(null)}
               />
             </div>
           )}
@@ -236,57 +311,37 @@ export default function PracticeSession() {
             </div>
           )}
 
-          {/* Post-session summary - after session ends */}
+          {/* Post-session Scorecard - after session ends */}
           {!isCapturing && lastSession && (
-            <div className="mb-6 p-4 bg-clinical-accent/5 border border-clinical-accent/20 rounded-lg">
-              <p className="text-xs font-medium text-clinical-accent mb-3 text-center uppercase tracking-wide">
-                Session Complete
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                {/* WPM */}
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-text">{lastSession.wpm}</span>
-                  <p className="text-xs text-clinical-muted mt-1">WPM</p>
-                </div>
-
-                {/* Words */}
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-text">{lastSession.wordCount}</span>
-                  <p className="text-xs text-clinical-muted mt-1">Words</p>
-                </div>
-
-                {/* Fillers */}
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-accent">{lastSession.fillerCount}</span>
-                  <p className="text-xs text-clinical-muted mt-1">Fillers</p>
-                </div>
-
-                {/* Duration */}
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-text">{lastSession.durationSeconds}s</span>
-                  <p className="text-xs text-clinical-muted mt-1">Duration</p>
-                </div>
-              </div>
-
-              {/* Filler rate summary */}
-              <div className="mt-4 pt-3 border-t border-clinical-accent/20 text-center">
-                <span className="text-lg font-semibold text-clinical-text">
-                  {lastSession.fillerRate.toFixed(1)} fillers/min
-                </span>
-              </div>
+            <div className="mb-6">
+              <Scorecard
+                wpm={lastSession.wpm}
+                wordCount={lastSession.wordCount}
+                fillerCount={lastSession.fillerCount}
+                fillerRate={lastSession.fillerRate}
+                durationSeconds={lastSession.durationSeconds}
+                thresholdGood={settings.fillerRateGood}
+                thresholdWarning={settings.fillerRateWarning}
+              />
             </div>
           )}
 
           {/* Start/Stop Session button */}
           <button
             onClick={handleToggleSession}
-            className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+            disabled={isStarting}
+            className={`w-full py-3 px-6 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
               isCapturing
                 ? 'bg-red-600 text-white hover:bg-red-700'
+                : isStarting
+                ? 'bg-gray-400 text-white cursor-not-allowed'
                 : 'bg-clinical-text text-white hover:bg-gray-800'
             }`}
           >
-            {isCapturing ? 'Stop Session' : 'Start Session'}
+            {isStarting && (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            )}
+            {isStarting ? 'Starting...' : isCapturing ? 'Stop Session' : 'Start Session'}
           </button>
 
           {/* Decorative accent element */}
@@ -298,6 +353,52 @@ export default function PracticeSession() {
             </div>
           </div>
         </div>
+
+        {/* Audio Playback - shown after session ends */}
+        {!isCapturing && audioBlob && lastSession && (
+          <div className="mt-4">
+            <AudioPlayback
+              audioBlob={audioBlob}
+              fillerEvents={lastFillerEvents}
+            />
+          </div>
+        )}
+
+        {/* Transcript with Highlights - shown after session ends */}
+        {!isCapturing && lastSession && lastTranscript && (
+          <div className="mt-4 bg-white border border-clinical-border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-clinical-text">Transcript</h3>
+              <HighlightToggle
+                mode={highlightMode}
+                onChange={setHighlightMode}
+                fillerCount={reconciledFillers.length}
+              />
+            </div>
+            <TranscriptView
+              transcript={lastTranscript}
+              reconciledFillers={reconciledFillers}
+              wordTimings={lastWordTimings}
+              highlightMode={highlightMode}
+              sessionDurationMs={lastDurationMs}
+            />
+          </div>
+        )}
+
+        {/* AI Coaching Summary - shown after session ends */}
+        {!isCapturing && lastSession && (
+          <div className="mt-4">
+            <AISummary
+              transcript={lastTranscript}
+              wpm={lastSession.wpm}
+              wordCount={lastSession.wordCount}
+              fillerCount={lastSession.fillerCount}
+              fillerRate={lastSession.fillerRate}
+              durationSeconds={lastSession.durationSeconds}
+              reconciledFillers={reconciledFillers}
+            />
+          </div>
+        )}
 
         {/* Weekly Trend Chart */}
         <div className="mt-4">
@@ -311,6 +412,16 @@ export default function PracticeSession() {
         {/* Settings Panel */}
         <div className="mt-4">
           <SettingsPanel onSettingsChange={setSettings} />
+        </div>
+
+        {/* Footer with privacy link */}
+        <div className="mt-6 text-center">
+          <Link
+            to="/privacy"
+            className="text-xs text-clinical-muted hover:text-clinical-accent transition-colors"
+          >
+            Privacy & Your Data
+          </Link>
         </div>
       </div>
     </div>

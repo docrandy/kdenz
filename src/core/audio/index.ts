@@ -9,6 +9,9 @@ export { useAudioCapture } from './useAudioCapture';
 export type { UseAudioCaptureResult } from './useAudioCapture';
 
 export { useWebSpeech } from './useWebSpeech';
-export type { UseWebSpeechResult } from './useWebSpeech';
+export type { UseWebSpeechResult, TranscriptSegment, WordTiming } from './useWebSpeech';
 
 export { useSessionTimer } from './useSessionTimer';
+
+export { useAudioPlayback } from './useAudioPlayback';
+export type { UseAudioPlaybackResult } from './useAudioPlayback';

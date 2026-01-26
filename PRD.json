@@ -10,7 +10,7 @@
     "Qualitative: What's the one thing they wish was different?"
   ],
   "current_epic": "Private Beta MVP - 2.5 Week Sprint",
-  "active_task": "week1-day3",
+  "active_task": "none-mvp-complete",
   "research_validated": {
     "filler_awareness_behavior_change": "VALIDATED - 80%+ reduction with awareness training alone. Immediate feedback reduces fillers 50%+. Feedback REDUCES anxiety.",
     "visual_feedback_retention": "VALIDATED - 3.5x retention with visual gauges/charts (Duolingo case study). Real-time gauge + weekly trend = top priorities.",
@@ -41,7 +41,7 @@
     {
       "id": "week1-day3",
       "title": "Audio Pipeline + Visual Gauge (Day 3-4)",
-      "status": "active",
+      "status": "done",
       "acceptance_criteria": [
         "AudioEngine connected to PracticeSession",
         "WPM calculation implemented from transcript",
@@ -63,7 +63,7 @@
     {
       "id": "week1-day5",
       "title": "Duration Controls & Timer (Day 5-6)",
-      "status": "pending",
+      "status": "done",
       "acceptance_criteria": [
         "Duration selection UI (30s/60s/90s+) working",
         "Countdown timer displays correctly",
@@ -82,7 +82,7 @@
     {
       "id": "week1-day7",
       "title": "Playback with Filler Highlighting (Day 7-8)",
-      "status": "pending",
+      "status": "done",
       "note": "Research-validated: Two-phase awareness (playback + real-time) = most sustained behavior change",
       "acceptance_criteria": [
         "Audio playback controls (play/pause/seek)",
@@ -101,7 +101,7 @@
     {
       "id": "week2-day9",
       "title": "Transcript with Highlights (Day 9-10)",
-      "status": "pending",
+      "status": "done",
       "acceptance_criteria": [
         "Transcript captured via Web Speech API (Chrome)",
         "Hybrid filler detection: acoustic + transcript reconciliation at session end",
@@ -120,7 +120,7 @@
     {
       "id": "week2-day11",
       "title": "Scorecard & AI Summary (Day 11-12)",
-      "status": "pending",
+      "status": "done",
       "acceptance_criteria": [
         "Post-session Scorecard component created",
         "Metrics summary displays (WPM avg, filler count, filler rate, duration)",
@@ -139,7 +139,7 @@
     {
       "id": "week2-day13",
       "title": "Polish & Error Handling (Day 13-14)",
-      "status": "pending",
+      "status": "done",
       "acceptance_criteria": [
         "Mic permission error handling works",
         "Full session flow tested end-to-end",
@@ -156,7 +156,7 @@
     {
       "id": "week3-day15",
       "title": "Deployment & Beta Prep (Day 15-17)",
-      "status": "pending",
+      "status": "done",
       "acceptance_criteria": [
         "Final Vercel deploy successful",
         "Tested on Chrome desktop + Chrome mobile",
@@ -169,7 +169,7 @@
     {
       "id": "parallel-diagnostics",
       "title": "[PARALLEL] Light Diagnostics Onboarding",
-      "status": "pending",
+      "status": "done",
       "note": "Content track - does not block dev sprint",
       "acceptance_criteria": [
         "3-5 questions selected from Volitional Diagnostic framework",
@@ -186,7 +186,7 @@
     {
       "id": "parallel-privacy",
       "title": "[PARALLEL] Privacy Transparency Page",
-      "status": "pending",
+      "status": "done",
       "note": "Content track - does not block dev sprint",
       "acceptance_criteria": [
         "Dedicated /privacy page created",
@@ -201,7 +201,7 @@
     {
       "id": "parallel-scenarios",
       "title": "[PARALLEL] Optional Speaking Prompts",
-      "status": "pending",
+      "status": "done",
       "note": "Content track - does not block dev sprint",
       "acceptance_criteria": [
         "1-2 scenarios adapted from Black Swan as optional prompts",
