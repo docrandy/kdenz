@@ -271,33 +271,26 @@ export default function PracticeSession() {
               <div className="grid grid-cols-2 gap-4">
                 {/* WPM */}
                 <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-text">{wpm}</span>
-                  <p className="text-xs text-clinical-muted mt-1">WPM</p>
+                  <span className="text-3xl font-bold text-clinical-text">{wpm}</span>
+                  <p className="text-sm text-clinical-muted mt-1">WPM</p>
                 </div>
 
                 {/* Words */}
                 <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-text">{wordCount}</span>
-                  <p className="text-xs text-clinical-muted mt-1">Words</p>
-                </div>
-
-                {/* Fillers */}
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-accent">{fillerCount}</span>
-                  <p className="text-xs text-clinical-muted mt-1">Fillers</p>
-                </div>
-
-                {/* Filler rate */}
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-clinical-text">{fillerRate.toFixed(1)}</span>
-                  <p className="text-xs text-clinical-muted mt-1">Fillers/min</p>
+                  <span className="text-3xl font-bold text-clinical-text">{wordCount}</span>
+                  <p className="text-sm text-clinical-muted mt-1">Words</p>
                 </div>
               </div>
+
+              {/* Filler note */}
+              <p className="text-xs text-clinical-muted text-center mt-3">
+                Filler words analyzed after session
+              </p>
 
               {/* Speech recognition status */}
               <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-gray-200">
                 <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-green-500' : 'bg-yellow-500'}`} />
-                <span className="text-xs text-clinical-muted">
+                <span className="text-sm text-clinical-muted">
                   {isListening ? 'Listening...' : 'Starting...'}
                 </span>
               </div>
@@ -305,7 +298,7 @@ export default function PracticeSession() {
               {/* Interim transcript preview */}
               {interimTranscript && (
                 <div className="mt-3 p-2 bg-white rounded border border-gray-200">
-                  <p className="text-sm text-clinical-text italic truncate">"{interimTranscript}"</p>
+                  <p className="text-base text-clinical-text italic truncate">"{interimTranscript}"</p>
                 </div>
               )}
             </div>

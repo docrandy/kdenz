@@ -62,11 +62,25 @@ export function useAudioPlayback(audioBlob: Blob | null): UseAudioPlaybackResult
 
     // Set up event listeners
     const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
+      // MediaRecorder blobs sometimes report Infinity or 0
+      if (audio.duration && isFinite(audio.duration) && audio.duration > 0) {
+        setDuration(audio.duration);
+      }
+    };
+
+    const handleDurationChange = () => {
+      // Fallback: sometimes duration becomes available later
+      if (audio.duration && isFinite(audio.duration) && audio.duration > 0) {
+        setDuration(audio.duration);
+      }
     };
 
     const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
+      // Another fallback: infer duration from max time reached
+      if (audio.currentTime > 0 && audio.currentTime > duration) {
+        setDuration(audio.currentTime);
+      }
     };
 
     const handlePlay = () => {
@@ -79,11 +93,16 @@ export function useAudioPlayback(audioBlob: Blob | null): UseAudioPlaybackResult
 
     const handleEnded = () => {
       setIsPlaying(false);
+      // Use current time as duration if we didn't get it otherwise
+      if (audio.currentTime > 0) {
+        setDuration(audio.currentTime);
+      }
       setCurrentTime(0);
       audio.currentTime = 0;
     };
 
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('durationchange', handleDurationChange);
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
@@ -92,6 +111,7 @@ export function useAudioPlayback(audioBlob: Blob | null): UseAudioPlaybackResult
     // Cleanup
     return () => {
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('durationchange', handleDurationChange);
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
@@ -100,7 +120,7 @@ export function useAudioPlayback(audioBlob: Blob | null): UseAudioPlaybackResult
       audioRef.current = null;
       URL.revokeObjectURL(url);
     };
-  }, [audioBlob]);
+  }, [audioBlob, duration]);
 
   const play = useCallback(() => {
     if (audioRef.current) {

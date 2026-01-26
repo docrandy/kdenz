@@ -87,10 +87,13 @@ export function ActivePrompt({ prompt, onClear }: ActivePromptProps) {
           <p className="text-xs font-medium text-clinical-accent mb-1">Speaking Prompt</p>
           <p className="text-sm text-clinical-text">{prompt.prompt}</p>
           {prompt.tips && (
-            <div className="mt-2">
-              <p className="text-xs text-clinical-muted">
-                Tips: {prompt.tips.join(' • ')}
-              </p>
+            <div className="mt-3 p-2 bg-white/50 rounded">
+              <p className="text-xs font-medium text-clinical-accent mb-1">Tips:</p>
+              <ul className="text-sm text-clinical-muted space-y-1">
+                {prompt.tips.map((tip, i) => (
+                  <li key={i}>• {tip}</li>
+                ))}
+              </ul>
             </div>
           )}
         </div>
