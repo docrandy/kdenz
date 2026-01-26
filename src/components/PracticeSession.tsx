@@ -17,6 +17,16 @@ import { saveSession } from '../services/sessionStorage';
 import { getSettings, AppSettings } from '../services/settingsStorage';
 import { reconcileFillers, ReconciledFiller } from '../lib/fillerReconciler';
 
+// Filler words to detect in real-time
+const FILLER_WORDS = ['like', 'um', 'uh', 'basically', 'actually', 'literally', 'you know'];
+
+// Count filler words in text
+function countFillerWords(text: string): number {
+  if (!text.trim()) return 0;
+  const words = text.toLowerCase().split(/\s+/);
+  return words.filter(word => FILLER_WORDS.some(filler => word.includes(filler))).length;
+}
+
 export default function PracticeSession() {
   const {
     isCapturing,
@@ -113,6 +123,19 @@ export default function PracticeSession() {
     }
   }, [isCapturing, elapsedTime, wordCount]);
 
+  // Real-time filler count from transcript
+  const liveFillerCount = useMemo(() => {
+    const allText = finalTranscript + ' ' + interimTranscript;
+    return countFillerWords(allText);
+  }, [finalTranscript, interimTranscript]);
+
+  // Real-time filler rate (per minute)
+  const liveFillerRate = useMemo(() => {
+    if (elapsedTime <= 0) return 0;
+    const elapsedMinutes = elapsedTime / 60;
+    return liveFillerCount / elapsedMinutes;
+  }, [liveFillerCount, elapsedTime]);
+
   // Start filler detection when audio context is ready
   useEffect(() => {
     if (isCapturing && audioContext && sourceNode && !isDetecting) {
@@ -122,13 +145,18 @@ export default function PracticeSession() {
 
   const handleToggleSession = useCallback(async () => {
     if (isCapturing) {
+      // Calculate filler count from transcript
+      const transcriptFillerCount = countFillerWords(finalTranscript + ' ' + interimTranscript);
+      const elapsedMinutes = elapsedTime / 60;
+      const transcriptFillerRate = elapsedMinutes > 0 ? transcriptFillerCount / elapsedMinutes : 0;
+
       // Save session data before stopping (if there was activity)
       const sessionData = {
         durationSeconds: Math.round(elapsedTime),
         wordCount,
         wpm,
-        fillerCount,
-        fillerRate,
+        fillerCount: transcriptFillerCount,
+        fillerRate: transcriptFillerRate,
       };
 
       if (elapsedTime > 0 && wordCount > 0) {
@@ -270,22 +298,31 @@ export default function PracticeSession() {
             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
               <div className="grid grid-cols-2 gap-4">
                 {/* WPM */}
-                <div className="text-center">
-                  <span className="text-3xl font-bold text-clinical-text">{wpm}</span>
+                <div className="text-center p-3 bg-white rounded-lg">
+                  <span className="text-4xl font-bold text-clinical-text">{wpm}</span>
                   <p className="text-sm text-clinical-muted mt-1">WPM</p>
+                  <p className="text-xs text-clinical-muted">
+                    {wpm < 100 ? 'Slow' : wpm <= 150 ? 'Good' : wpm <= 180 ? 'Fast' : 'Very Fast'}
+                  </p>
                 </div>
 
-                {/* Words */}
-                <div className="text-center">
-                  <span className="text-3xl font-bold text-clinical-text">{wordCount}</span>
-                  <p className="text-sm text-clinical-muted mt-1">Words</p>
+                {/* Fillers */}
+                <div className="text-center p-3 bg-white rounded-lg">
+                  <span className={`text-4xl font-bold ${liveFillerCount > 5 ? 'text-red-500' : liveFillerCount > 2 ? 'text-yellow-500' : 'text-green-500'}`}>
+                    {liveFillerCount}
+                  </span>
+                  <p className="text-sm text-clinical-muted mt-1">Fillers</p>
+                  <p className="text-xs text-clinical-muted">
+                    {liveFillerRate.toFixed(1)}/min
+                  </p>
                 </div>
               </div>
 
-              {/* Filler note */}
-              <p className="text-xs text-clinical-muted text-center mt-3">
-                Filler words analyzed after session
-              </p>
+              {/* Words count */}
+              <div className="text-center mt-3">
+                <span className="text-lg font-semibold text-clinical-text">{wordCount}</span>
+                <span className="text-sm text-clinical-muted ml-2">words spoken</span>
+              </div>
 
               {/* Speech recognition status */}
               <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-gray-200">
@@ -297,8 +334,8 @@ export default function PracticeSession() {
 
               {/* Interim transcript preview */}
               {interimTranscript && (
-                <div className="mt-3 p-2 bg-white rounded border border-gray-200">
-                  <p className="text-base text-clinical-text italic truncate">"{interimTranscript}"</p>
+                <div className="mt-3 p-3 bg-white rounded border border-gray-200">
+                  <p className="text-base text-clinical-text italic">"{interimTranscript}"</p>
                 </div>
               )}
             </div>
