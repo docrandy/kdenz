@@ -37,7 +37,6 @@ export default function PracticeSession() {
 
   // WPM calculation state
   const [wpm, setWpm] = useState(0);
-  const wpmIntervalRef = useRef<number | null>(null);
 
   // Chart refresh trigger
   const [chartRefreshKey, setChartRefreshKey] = useState(0);
@@ -70,21 +69,11 @@ export default function PracticeSession() {
     onComplete: handleTimerComplete,
   });
 
-  // 250ms WPM update cadence using timer's elapsedTime
+  // WPM calculation - runs on each elapsedTime update (100ms from timer)
   useEffect(() => {
-    if (isCapturing && elapsedTime > 0) {
-      wpmIntervalRef.current = window.setInterval(() => {
-        const elapsedMinutes = elapsedTime / 60;
-        if (elapsedMinutes > 0 && wordCount > 0) {
-          setWpm(Math.round(wordCount / elapsedMinutes));
-        }
-      }, 250);
-
-      return () => {
-        if (wpmIntervalRef.current) {
-          clearInterval(wpmIntervalRef.current);
-        }
-      };
+    if (isCapturing && elapsedTime > 0 && wordCount > 0) {
+      const elapsedMinutes = elapsedTime / 60;
+      setWpm(Math.round(wordCount / elapsedMinutes));
     }
   }, [isCapturing, elapsedTime, wordCount]);
 
@@ -121,9 +110,6 @@ export default function PracticeSession() {
       stopFillerDetection();
       stopSpeech();
       stopAudio();
-      if (wpmIntervalRef.current) {
-        clearInterval(wpmIntervalRef.current);
-      }
     } else {
       // Clear last session when starting new
       setLastSession(null);
