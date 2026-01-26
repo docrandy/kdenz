@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
-import { useAudioCapture, useWebSpeech, useFillerDetector } from '../core/audio';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } from '../core/audio';
+import DurationSelector from './DurationSelector';
+import CountdownTimer from './CountdownTimer';
 
 export default function PracticeSession() {
   const {
@@ -30,17 +32,37 @@ export default function PracticeSession() {
     stop: stopFillerDetection,
   } = useFillerDetector(audioContext, sourceNode);
 
+  // Duration selection state
+  const [selectedDuration, setSelectedDuration] = useState(60);
+
   // WPM calculation state
   const [wpm, setWpm] = useState(0);
-  const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
   const wpmIntervalRef = useRef<number | null>(null);
 
-  // 250ms WPM update cadence
+  // Stop session handler - defined before useSessionTimer
+  const stopSessionRef = useRef<(() => void) | null>(null);
+
+  // Session timer with auto-stop
+  const handleTimerComplete = useCallback(() => {
+    stopSessionRef.current?.();
+  }, []);
+
+  const {
+    timeRemaining,
+    elapsedTime,
+    start: startTimer,
+    stop: stopTimer,
+    reset: resetTimer,
+  } = useSessionTimer({
+    durationSeconds: selectedDuration,
+    onComplete: handleTimerComplete,
+  });
+
+  // 250ms WPM update cadence using timer's elapsedTime
   useEffect(() => {
-    if (isCapturing && sessionStartTime) {
+    if (isCapturing && elapsedTime > 0) {
       wpmIntervalRef.current = window.setInterval(() => {
-        const elapsedMs = Date.now() - sessionStartTime;
-        const elapsedMinutes = elapsedMs / 60000;
+        const elapsedMinutes = elapsedTime / 60;
         if (elapsedMinutes > 0 && wordCount > 0) {
           setWpm(Math.round(wordCount / elapsedMinutes));
         }
@@ -52,7 +74,7 @@ export default function PracticeSession() {
         }
       };
     }
-  }, [isCapturing, sessionStartTime, wordCount]);
+  }, [isCapturing, elapsedTime, wordCount]);
 
   // Start filler detection when audio context is ready
   useEffect(() => {
@@ -61,25 +83,31 @@ export default function PracticeSession() {
     }
   }, [isCapturing, audioContext, sourceNode, isDetecting, startFillerDetection]);
 
-  const handleToggleSession = async () => {
+  const handleToggleSession = useCallback(async () => {
     if (isCapturing) {
       // Stop everything
+      stopTimer();
       stopFillerDetection();
       stopSpeech();
       stopAudio();
-      setSessionStartTime(null);
       if (wpmIntervalRef.current) {
         clearInterval(wpmIntervalRef.current);
       }
     } else {
       // Start everything
       setWpm(0);
-      setSessionStartTime(Date.now());
+      resetTimer();
       await startAudio();
       startSpeech();
+      startTimer();
       // Filler detection starts via useEffect when audioContext/sourceNode are ready
     }
-  };
+  }, [isCapturing, stopTimer, stopFillerDetection, stopSpeech, stopAudio, resetTimer, startAudio, startSpeech, startTimer]);
+
+  // Keep stopSessionRef updated for timer auto-stop callback
+  useEffect(() => {
+    stopSessionRef.current = handleToggleSession;
+  }, [handleToggleSession]);
 
   // Combined error display
   const error = audioError || speechError;
@@ -105,6 +133,21 @@ export default function PracticeSession() {
               {error}
             </div>
           )}
+
+          {/* Duration selector - shown before session */}
+          {!isCapturing && (
+            <div className="mb-6">
+              <p className="text-xs text-clinical-muted mb-2 text-center">Session Duration</p>
+              <DurationSelector
+                selected={selectedDuration}
+                onChange={setSelectedDuration}
+                disabled={isCapturing}
+              />
+            </div>
+          )}
+
+          {/* Countdown timer - shown during session */}
+          <CountdownTimer timeRemaining={timeRemaining} isActive={isCapturing} />
 
           {/* Status indicator with accent color */}
           <div className="flex items-center gap-2 mb-6">

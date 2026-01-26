@@ -10,3 +10,5 @@ export type { UseAudioCaptureResult } from './useAudioCapture';
 
 export { useWebSpeech } from './useWebSpeech';
 export type { UseWebSpeechResult } from './useWebSpeech';
+
+export { useSessionTimer } from './useSessionTimer';
