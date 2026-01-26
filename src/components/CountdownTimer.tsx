@@ -1,6 +1,8 @@
 interface CountdownTimerProps {
   timeRemaining: number;
   isActive: boolean;
+  warningThreshold?: number;
+  criticalThreshold?: number;
 }
 
 function formatTime(seconds: number): string {
@@ -16,12 +18,14 @@ function formatTime(seconds: number): string {
 export default function CountdownTimer({
   timeRemaining,
   isActive,
+  warningThreshold = 10,
+  criticalThreshold = 5,
 }: CountdownTimerProps) {
   if (!isActive) return null;
 
   const rounded = Math.ceil(timeRemaining);
-  const isWarning = rounded <= 10 && rounded > 5;
-  const isCritical = rounded <= 5;
+  const isWarning = rounded <= warningThreshold && rounded > criticalThreshold;
+  const isCritical = rounded <= criticalThreshold;
 
   let colorClass = 'text-clinical-text';
   if (isCritical) {

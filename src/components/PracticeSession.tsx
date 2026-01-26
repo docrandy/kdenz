@@ -3,7 +3,9 @@ import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } fro
 import DurationSelector from './DurationSelector';
 import CountdownTimer from './CountdownTimer';
 import WeeklyTrendChart from './WeeklyTrendChart';
+import SettingsPanel from './SettingsPanel';
 import { saveSession } from '../services/sessionStorage';
+import { getSettings, AppSettings } from '../services/settingsStorage';
 
 export default function PracticeSession() {
   const {
@@ -32,8 +34,11 @@ export default function PracticeSession() {
     stop: stopFillerDetection,
   } = useFillerDetector(audioContext, sourceNode);
 
-  // Duration selection state
-  const [selectedDuration, setSelectedDuration] = useState(60);
+  // Settings state
+  const [settings, setSettings] = useState<AppSettings>(getSettings);
+
+  // Duration selection state (initialized from settings)
+  const [selectedDuration, setSelectedDuration] = useState(() => getSettings().defaultDuration);
 
   // WPM calculation state
   const [wpm, setWpm] = useState(0);
@@ -166,7 +171,12 @@ export default function PracticeSession() {
           )}
 
           {/* Countdown timer - shown during session */}
-          <CountdownTimer timeRemaining={timeRemaining} isActive={isCapturing} />
+          <CountdownTimer
+            timeRemaining={timeRemaining}
+            isActive={isCapturing}
+            warningThreshold={settings.timerWarning}
+            criticalThreshold={settings.timerCritical}
+          />
 
           {/* Status indicator with accent color */}
           <div className="flex items-center gap-2 mb-6">
@@ -291,7 +301,16 @@ export default function PracticeSession() {
 
         {/* Weekly Trend Chart */}
         <div className="mt-4">
-          <WeeklyTrendChart refreshKey={chartRefreshKey} />
+          <WeeklyTrendChart
+            refreshKey={chartRefreshKey}
+            thresholdGood={settings.fillerRateGood}
+            thresholdWarning={settings.fillerRateWarning}
+          />
+        </div>
+
+        {/* Settings Panel */}
+        <div className="mt-4">
+          <SettingsPanel onSettingsChange={setSettings} />
         </div>
       </div>
     </div>
