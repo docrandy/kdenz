@@ -6,6 +6,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuditSession } from './useAuditSession';
 import { AuditScenarioPresenter } from './AuditScenarioPresenter';
+import { CriticismBrainstorm } from './CriticismBrainstorm';
 import { AuditFeedback } from './AuditFeedback';
 import { AuditPatternSummary } from './AuditPatternSummary';
 import { QuickNoteBox } from '../../components/QuickNoteBox';
@@ -21,6 +22,9 @@ export function AccusationAuditPractice({ onBack }: AccusationAuditPracticeProps
     currentAttempt,
     aiResponse,
     selectScenario,
+    addBrainstormItem,
+    skipBrainstorm,
+    completeBrainstorm,
     startRecording,
     submitAudit,
     showAIResponse,
@@ -309,6 +313,17 @@ export function AccusationAuditPractice({ onBack }: AccusationAuditPracticeProps
               </table>
             </div>
           </div>
+        )}
+
+        {/* BRAINSTORMING STATE (before scenario details) */}
+        {sessionData.state === 'brainstorming' && sessionData.currentScenario && (
+          <CriticismBrainstorm
+            scenario={sessionData.currentScenario}
+            brainstormed={sessionData.brainstormedCriticisms}
+            onAdd={addBrainstormItem}
+            onDone={completeBrainstorm}
+            onSkip={skipBrainstorm}
+          />
         )}
 
         {/* PRESENTING STATE */}

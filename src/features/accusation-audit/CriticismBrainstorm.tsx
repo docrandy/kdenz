@@ -10,6 +10,7 @@ interface CriticismBrainstormProps {
   brainstormed: string[];
   onAdd: (criticism: string) => void;
   onDone: () => void;
+  onSkip?: () => void;
 }
 
 export function CriticismBrainstorm({
@@ -17,6 +18,7 @@ export function CriticismBrainstorm({
   brainstormed,
   onAdd,
   onDone,
+  onSkip,
 }: CriticismBrainstormProps) {
   const [input, setInput] = useState('');
 
@@ -40,17 +42,17 @@ export function CriticismBrainstorm({
       <div className="text-center">
         <span className="text-4xl mb-2 block">🧠</span>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          What might they be thinking?
+          First: What might they be thinking?
         </h2>
         <p className="text-gray-600">
-          List every negative assumption they could have about you.
+          Before you see the full scenario, brainstorm what concerns they might have.
         </p>
       </div>
 
-      {/* Scenario reminder */}
+      {/* Minimal scenario context (just the type, not full details) */}
       <div className="bg-gray-50 rounded-xl p-4">
-        <p className="text-gray-600 text-sm">
-          <strong>{scenario.counterpartRole}:</strong> {scenario.context.slice(0, 100)}...
+        <p className="text-gray-700 text-sm">
+          <strong>Situation:</strong> {scenario.category.replace(/-/g, ' ')} conversation with your {scenario.counterpartRole.toLowerCase()}
         </p>
       </div>
 
@@ -76,7 +78,7 @@ export function CriticismBrainstorm({
       {/* Brainstormed list */}
       {brainstormed.length > 0 && (
         <div className="space-y-2">
-          <h3 className="font-semibold text-gray-700">Your brainstorm:</h3>
+          <h3 className="font-semibold text-gray-700">Your brainstorm ({brainstormed.length}):</h3>
           <div className="space-y-2">
             {brainstormed.map((item, index) => (
               <div
@@ -91,27 +93,33 @@ export function CriticismBrainstorm({
         </div>
       )}
 
-      {/* Hints from scenario */}
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-        <h3 className="font-semibold text-amber-800 mb-2">💡 Common concerns in this situation:</h3>
-        <ul className="text-amber-700 text-sm space-y-1">
-          {scenario.commonCriticisms
-            .filter((c) => c.importance === 'critical')
-            .slice(0, 2)
-            .map((c) => (
-              <li key={c.id}>• {c.text}</li>
-            ))}
-          <li className="text-amber-600 italic">• ...what else?</li>
+      {/* Guidance (no hints - that would give away answers) */}
+      <div className="bg-cyan-50 border border-cyan-200 rounded-xl p-4">
+        <h3 className="font-semibold text-cyan-800 mb-2">💡 Think about:</h3>
+        <ul className="text-cyan-700 text-sm space-y-1">
+          <li>• What negative assumptions might they make about you?</li>
+          <li>• What criticism would they have of your request?</li>
+          <li>• What fears or concerns might your action trigger?</li>
         </ul>
       </div>
 
-      {/* Done button */}
-      <button
-        onClick={onDone}
-        className="w-full py-4 bg-black text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors"
-      >
-        Done Brainstorming → Record Audit
-      </button>
+      {/* Action buttons */}
+      <div className="space-y-3">
+        <button
+          onClick={onDone}
+          className="w-full py-4 bg-black text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors"
+        >
+          {brainstormed.length > 0 ? 'Continue → See Scenario' : 'Skip Brainstorming'}
+        </button>
+        {onSkip && brainstormed.length > 0 && (
+          <button
+            onClick={onSkip}
+            className="w-full py-3 text-gray-600 hover:text-gray-900 text-sm"
+          >
+            Skip and go straight to recording
+          </button>
+        )}
+      </div>
     </div>
   );
 }

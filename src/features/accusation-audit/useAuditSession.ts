@@ -107,6 +107,9 @@ export interface UseAuditSessionResult {
 
   // Actions
   selectScenario: (scenarioId?: string, category?: string, difficulty?: string) => void;
+  addBrainstormItem: (item: string) => void;
+  skipBrainstorm: () => void;
+  completeBrainstorm: () => void;
   startRecording: () => void;
   submitAudit: (transcript: string, audioBlob?: Blob) => void;
   showAIResponse: () => void;
@@ -133,7 +136,7 @@ export function useAuditSession(): UseAuditSessionResult {
   const attemptIdRef = useRef(0);
   const turnIdRef = useRef(0);
 
-  // Select a scenario to practice
+  // Select a scenario to practice - now goes to brainstorming first
   const selectScenario = useCallback(
     (scenarioId?: string, category?: string, difficulty?: string) => {
       let scenario: AuditScenario;
@@ -152,9 +155,10 @@ export function useAuditSession(): UseAuditSessionResult {
         );
       }
 
+      // Go to brainstorming phase FIRST (before showing full scenario)
       setSessionData((prev) => ({
         ...prev,
-        state: 'presenting',
+        state: 'brainstorming',
         currentScenario: scenario,
         brainstormedCriticisms: [],
         conversationTurns: [],
@@ -165,6 +169,30 @@ export function useAuditSession(): UseAuditSessionResult {
     },
     []
   );
+
+  // Add a brainstormed criticism
+  const addBrainstormItem = useCallback((item: string) => {
+    setSessionData((prev) => ({
+      ...prev,
+      brainstormedCriticisms: [...prev.brainstormedCriticisms, item],
+    }));
+  }, []);
+
+  // Skip brainstorming and go directly to presenting
+  const skipBrainstorm = useCallback(() => {
+    setSessionData((prev) => ({
+      ...prev,
+      state: 'presenting',
+    }));
+  }, []);
+
+  // Complete brainstorming and move to presenting
+  const completeBrainstorm = useCallback(() => {
+    setSessionData((prev) => ({
+      ...prev,
+      state: 'presenting',
+    }));
+  }, []);
 
   // Transition to recording state
   const startRecording = useCallback(() => {
@@ -351,6 +379,9 @@ export function useAuditSession(): UseAuditSessionResult {
     currentAttempt,
     aiResponse,
     selectScenario,
+    addBrainstormItem,
+    skipBrainstorm,
+    completeBrainstorm,
     startRecording,
     submitAudit,
     showAIResponse,

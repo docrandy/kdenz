@@ -180,6 +180,7 @@ export interface ScoreHistoryEntry {
 // Session state
 export type AuditSessionState =
   | 'selecting'       // Choosing scenario
+  | 'brainstorming'   // Optional: brainstorm criticisms BEFORE seeing scenario details
   | 'presenting'      // Showing scenario context
   | 'recording'       // User delivers audit
   | 'analyzing'       // Processing transcript
