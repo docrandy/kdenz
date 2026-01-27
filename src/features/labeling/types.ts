@@ -3,6 +3,47 @@
  * Based on Chris Voss labeling technique research
  */
 
+// ===== AFFECT SYSTEM =====
+// The Trust Cascade: shows emotional impact on the other person
+
+export type AffectLevel =
+  | 'guarded'          // Still defensive, label didn't land
+  | 'acknowledged'     // Surface emotion named, they feel seen
+  | 'understood'       // Underlying driver named, perspective-taking demonstrated
+  | 'deeply_connected'; // Identity/core need named, psychological safety created
+
+export interface AffectResult {
+  level: AffectLevel;
+  description: string;      // What the other person experienced
+  observableIndicator: string; // What you'd see in real conversation
+  patternToExplore?: string;   // One micro-action for next time
+}
+
+// Affect feedback messages for labeling
+export const LABEL_AFFECT_FEEDBACK: Record<AffectLevel, {
+  description: string;
+  indicator: string;
+}> = {
+  guarded: {
+    description: "Your label didn't land. They remain closed off, perhaps feeling judged or misunderstood.",
+    indicator: "They deflect, give short answers, or change the subject"
+  },
+  acknowledged: {
+    description: "Naming the visible emotion validates their experience. They feel seen but not yet understood.",
+    indicator: "They nod or say 'yeah' but don't elaborate"
+  },
+  understood: {
+    description: "By naming WHY they feel this way, you demonstrated perspective-taking. Expect increased openness.",
+    indicator: "They lean in, share more details, or express relief"
+  },
+  deeply_connected: {
+    description: "Identity-level validation creates psychological safety. This is where relationship acceleration occurs.",
+    indicator: "They reveal something vulnerable they weren't planning to share"
+  }
+};
+
+// ===== SCENARIO DEFINITION =====
+
 // Scenario definition
 export interface LabelingScenario {
   id: string;
@@ -48,10 +89,16 @@ export type SpecificityLevel = 'generic' | 'specific' | 'highly-specific';
 
 // Complete analysis result for a label attempt
 export interface LabelAnalysis {
+  // Affect-based feedback (primary)
+  affect: AffectResult;
+
+  // Internal scoring (used for AI response, not shown to user)
   syntax: SyntaxScore;
   depth: DepthScore;
-  overallScore: number;             // 0-100
-  grade: LabelGrade;
+  overallScore: number;             // 0-100 (internal use)
+  grade: LabelGrade;                // Internal use
+
+  // Feedback
   allFeedback: string[];            // Combined feedback
   expertExample: string;            // What an expert would say
 }
@@ -115,11 +162,26 @@ export type LabelingSessionState =
   | 'analyzing'       // Processing transcript
   | 'feedback'        // Showing results
   | 'responding'      // AI responding
+  | 'continuing'      // Recording follow-up in multi-turn conversation
   | 'summary';        // Session complete
+
+// Conversation turn for multi-turn practice
+export interface ConversationTurn {
+  id: string;
+  turnNumber: number;
+  role: 'user' | 'ai';
+  transcript: string;
+  timestamp: number;
+  analysis?: LabelAnalysis;  // Only for user turns
+}
 
 export interface LabelingSessionData {
   state: LabelingSessionState;
   currentScenario: LabelingScenario | null;
   attempts: LabelAttempt[];
   sessionStartTime: number;
+
+  // Multi-turn conversation tracking
+  conversationTurns: ConversationTurn[];
+  currentTurnNumber: number;
 }

@@ -1,6 +1,7 @@
 /**
  * Label Analyzer - Core Analysis Logic
  * Evaluates user's labeling attempts for syntax correctness and emotional depth
+ * Returns affect-based feedback (emotional impact on counterpart)
  * Based on Chris Voss research
  */
 
@@ -11,7 +12,10 @@ import type {
   LabelAnalysis,
   LabelGrade,
   SpecificityLevel,
+  AffectLevel,
+  AffectResult,
 } from './types';
+import { LABEL_AFFECT_FEEDBACK } from './types';
 
 // ===== SYNTAX DETECTION CONSTANTS =====
 
@@ -132,6 +136,69 @@ const DEPTH_FEEDBACK = {
   expert:
     'Excellent — you identified the underlying driver, not just the emotion.',
 };
+
+// ===== AFFECT CALCULATION =====
+
+/**
+ * Calculate affect level based on label quality
+ * Maps internal scoring to observable emotional impact
+ */
+function calculateAffect(
+  syntax: SyntaxScore,
+  depth: DepthScore,
+  _scenario: LabelingScenario
+): AffectResult {
+  const score = syntax.syntaxPoints + depth.depthPoints;
+
+  // Determine affect level based on depth and syntax
+  let level: AffectLevel;
+  let patternToExplore: string | undefined;
+
+  if (depth.specificity === 'highly-specific' && syntax.syntaxPoints >= 35) {
+    // Identity-level label with clean syntax
+    level = 'deeply_connected';
+    patternToExplore = undefined;
+  } else if (depth.targetsUnderlyingDriver && syntax.hasCorrectOpener) {
+    // Underlying driver identified with correct opener
+    level = 'understood';
+    if (!syntax.avoidsIFraming) {
+      patternToExplore = "Remove 'I' from your label - make it about them, not you";
+    } else if (!syntax.isStatement) {
+      patternToExplore = "Make it a statement, not a question - questions trigger defense";
+    }
+  } else if (depth.targetsSurfaceEmotion && syntax.hasCorrectOpener) {
+    // Surface emotion with correct opener
+    level = 'acknowledged';
+    patternToExplore = "You named the emotion. Now go deeper - what's driving that feeling?";
+  } else if (score >= 25) {
+    // Some attempt made
+    level = 'acknowledged';
+    if (!syntax.hasCorrectOpener) {
+      patternToExplore = "Start with 'It seems like...' or 'It sounds like...'";
+    } else {
+      patternToExplore = "Name a specific emotion or driver, not a general observation";
+    }
+  } else {
+    // Label didn't land
+    level = 'guarded';
+    if (!syntax.hasCorrectOpener) {
+      patternToExplore = "Start with 'It seems like...' to create emotional distance";
+    } else if (!syntax.avoidsYouFraming) {
+      patternToExplore = "Avoid 'You seem...' - it can feel accusatory";
+    } else {
+      patternToExplore = "Try naming the specific emotion they're experiencing";
+    }
+  }
+
+  const feedback = LABEL_AFFECT_FEEDBACK[level];
+
+  return {
+    level,
+    description: feedback.description,
+    observableIndicator: feedback.indicator,
+    patternToExplore,
+  };
+}
 
 // ===== ANALYSIS FUNCTIONS =====
 
@@ -254,7 +321,7 @@ export function analyzeDepth(
 }
 
 /**
- * Calculate overall grade based on score
+ * Calculate overall grade based on score (internal use)
  */
 function calculateGrade(score: number): LabelGrade {
   if (score >= 85) return 'expert';
@@ -276,10 +343,14 @@ export function analyzeLabel(
   const overallScore = syntax.syntaxPoints + depth.depthPoints;
   const grade = calculateGrade(overallScore);
 
+  // Calculate affect (the primary feedback shown to user)
+  const affect = calculateAffect(syntax, depth, scenario);
+
   // Combine all feedback
   const allFeedback = [...syntax.syntaxFeedback, ...depth.depthFeedback];
 
   return {
+    affect,
     syntax,
     depth,
     overallScore,

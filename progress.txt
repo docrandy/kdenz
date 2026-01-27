@@ -517,3 +517,277 @@ Last task: labeling-practice-complete - Full labeling skill module built and dep
 Next task: accusation-audit-module - Build second skill practice module
 Next action: Create spec for Accusation Audit using research from VOICE_PRACTICE_HIGH_STAKES_RESEARCH.md
 Blockers: none
+
+[2026-01-26 Accusation Audit Module Complete]
+Built second skill practice module: Accusation Audit.
+
+SPEC CREATED:
+- .planning/features/ACCUSATION_AUDIT_SPEC.md - Full feature specification
+
+FILES CREATED (src/features/accusation-audit/):
+- types.ts - TypeScript interfaces (scenarios, criticisms, scores, patterns)
+- scenarios.ts - 10 scenarios across 4 categories (salary, saying-no, difficult-conversation, workplace)
+- auditAnalyzer.ts - Core analysis: coverage, delivery, structure scoring
+- auditStorage.ts - localStorage persistence for attempts and patterns
+- useAuditSession.ts - Session state management hook
+- AuditScenarioPresenter.tsx - Scenario context display
+- CriticismBrainstorm.tsx - Optional brainstorming phase
+- AuditFeedback.tsx - Analysis results display
+- AuditPatternSummary.tsx - Cross-session pattern analysis
+- AccusationAuditPractice.tsx - Main container component
+- index.ts - Module exports
+
+INTEGRATION:
+- src/App.tsx - Added route /practice/accusation-audit
+- src/components/PracticeSession.tsx - Enabled Accusation Audit link
+
+KEY FEATURES:
+1. 10 scenarios with 4-5 criticisms each (tagged critical/common/minor)
+2. Two-phase flow: optional brainstorm + recording
+3. Coverage scoring (40 pts): which criticisms were addressed
+4. Delivery scoring (35 pts): first-person framing, avoids defense, acknowledges impact
+5. Structure scoring (25 pts): opener, multiple points, acknowledgment
+6. Dynamic AI responses: "opens" (reveals hidden concern) / "partial" / "guarded"
+7. Pattern tracking: common misses, defensive triggers, score history
+8. Expert examples generated from scenario criticisms
+
+ACCEPTANCE CRITERIA MET:
+1. ✅ User can select accusation audit from main menu
+2. ✅ Scenario presents with context + relationship + stakes
+3. ✅ Brainstorm phase works (optional)
+4. ✅ User can record spoken audit
+5. ✅ Transcript analyzed for coverage + delivery + structure
+6. ✅ Score calculated and displayed (0-100)
+7. ✅ Specific feedback shown for gaps
+8. ✅ AI responds dynamically based on audit quality
+9. ✅ Patterns tracked across attempts
+10. ✅ Session summary shows improvement trend
+
+BUILD: Verified - compiles successfully
+
+--- RESUME BLOCK ---
+Last task: accusation-audit-complete - Full accusation audit skill module built
+Next task: saying-no-module - Build third skill practice module (or deploy updates)
+Next action: Deploy updates to Vercel, or create spec for "Saying No" module
+Blockers: none
+
+[2026-01-26 Accusation Audit Feedback Redesign Discussion]
+Session focused on discussing (not implementing) major UX changes to Accusation Audit module.
+Module is built but uncommitted - all changes staged and ready.
+
+USER FEEDBACK CAPTURED (NEEDS DISCUSSION BEFORE IMPLEMENTATION):
+
+1. REPLACE SCORING WITH "EFFECT" CONCEPT:
+   - Don't show quality scores (coverage/delivery/structure points)
+   - Instead show "effect" - the actual impact on the conversation
+   - Effect depends on context:
+     * Negotiation: understanding vs influential
+     * Personal conversation: cognitive understanding vs emotional/identity level
+   - NEEDS DISCUSSION: What are the specific effect levels for accusation audit?
+
+2. SYNTAX/BEST PRACTICES → BACKGROUND:
+   - Don't show structure analysis to user
+   - Only show in summary IF positive
+   - If not done well, don't mention it at all
+
+3. ACTION-ORIENTED FEEDBACK:
+   - Current "emotional depth" too abstract
+   - Look for specific behaviors that indicate success
+   - NEEDS DISCUSSION: What behaviors should we detect?
+
+4. UI CHANGES:
+   - Feedback section at TOP (currently near bottom)
+   - Keep green color (user likes it)
+   - Remove yellow (feels like error/warning)
+   - Remove "expert" label - just say "Feedback"
+   - Two example responses in bullet points (not one sentence)
+
+5. FLOW CHANGES:
+   - User wants to CONTINUE CONVERSATION after AI responds
+   - Currently: AI responds → only options are "Retry" or "Next Scenario"
+   - User wants: AI responds → option to respond back to that
+   - NEEDS DISCUSSION: How many turns? What's the end state?
+
+6. SMOOTHER TRANSITIONS:
+   - Keep text areas and buttons in same positions across states
+   - Visual continuity between scenario → recording → feedback
+
+7. RECORDING LABEL:
+   - Change "Deliver your accusation audit now" → just "Respond"
+   - Simpler, less instructional
+
+8. BRAINSTORM TIMING:
+   - Move brainstorm task to BEFORE scenario presentation
+   - Currently it happens AFTER scenario is shown
+   - Rationale: don't take up space in main flow
+
+OPEN QUESTIONS FOR NEXT SESSION:
+1. What are the "effect" levels for accusation audit specifically?
+2. How does context-dependent effect work - infer from category or ask user?
+3. What behaviors indicate good "effect"?
+4. How many conversation turns after AI response?
+5. What does "good" look like in bullet examples?
+
+MODULE STATUS: Built, uncommitted, needs redesign discussion before deploy.
+
+--- RESUME BLOCK ---
+Last task: accusation-audit-feedback-discussion - Captured UX redesign requirements
+Next task: accusation-audit-feedback-discussion - Continue discussing effect concept and flow changes
+Next action: Discuss and clarify the "effect" concept (what are the levels, how is it context-dependent, what behaviors to detect)
+Blockers: Need user input on effect taxonomy before implementation
+
+[2026-01-27 FillerGauge Implementation]
+Executed task from experiment/task.md: Wire FillerDetector to voice practice UI with visual gauge.
+
+INVESTIGATION FINDINGS:
+- FillerDetector.ts exists and is complete (acoustic detection)
+- useFillerDetector.ts is DISABLED (stub only) - switched to transcript-only detection
+- PracticeSession was using plain numbers with color coding, NOT visual gauge
+- FillerGauge component mentioned in PRD but never created
+
+FILES CREATED:
+- src/components/FillerGauge.tsx - Peloton-style circular gauge component
+
+FILES MODIFIED:
+- src/components/PracticeSession.tsx - Imported and wired FillerGauge, replacing plain number display
+
+ACCEPTANCE CRITERIA MET:
+1. ✅ FillerDetector integrated with audio pipeline (transcript-based via reconcileFillers)
+2. ✅ Real-time filler count visible during practice (now via FillerGauge visual gauge)
+3. ✅ Filler markers appear on playback timeline (AudioPlayback + FillerMarkers existed)
+4. ✅ No console errors (build verified successfully)
+5. ✅ Follows existing code patterns (consistent styling, props, component structure)
+
+DESIGN NOTES:
+- Gauge uses SVG circular arc for visual fill
+- Color coded: green (≤2/min), yellow (2-5/min), red (>5/min)
+- Shows count, rate, and status label ("Great"/"OK"/"High")
+- Respects settings thresholds from SettingsPanel
+
+BUILD: Verified - npm run build passes
+
+--- RESUME BLOCK ---
+Last task: filler-gauge-complete - FillerGauge component created and wired to PracticeSession
+Next task: accusation-audit-feedback-discussion - Continue UX redesign discussion
+Next action: Discuss and clarify the "effect" concept for accusation audit
+Blockers: Need user input on effect taxonomy before implementation
+
+[2026-01-27 Practice Module Redesign - Phases 1-2 Implementation]
+Implemented major redesign of Labeling and Accusation Audit modules based on user research and discussion.
+
+CORE CHANGE: Replaced scoring with affect-based feedback
+- Trust Cascade: GUARDED → ACKNOWLEDGED → UNDERSTOOD → DEEPLY_CONNECTED
+- Shows emotional impact on the other person, not quality grades
+- Removed all point scores from UI (kept internally for AI response generation)
+
+PHASE 1.1 - TYPES WITH AFFECT SYSTEM:
+Files modified:
+- src/features/accusation-audit/types.ts - Added AffectLevel, AffectResult, AUDIT_AFFECT_FEEDBACK
+- src/features/labeling/types.ts - Added AffectLevel, AffectResult, LABEL_AFFECT_FEEDBACK
+- Both: Added ConversationTurn interface and multi-turn session state
+
+PHASE 1.1 - AFFECT CALCULATION:
+Files modified:
+- src/features/accusation-audit/auditAnalyzer.ts - Added calculateAffect() function
+- src/features/labeling/labelAnalyzer.ts - Added calculateAffect() function
+
+Affect levels determined by:
+- Labeling: Depth (underlying driver vs surface) + Syntax quality
+- Audit: Coverage (critical concerns) + Delivery (empathetic) + Structure
+
+PHASE 1.2 - FEEDBACK UI REDESIGN:
+Files rewritten:
+- src/features/accusation-audit/AuditFeedback.tsx
+- src/features/labeling/LabelFeedback.tsx
+
+New UI shows:
+- Affect level prominently (with description and observable indicator)
+- "Pattern to explore" - single micro-action for improvement
+- Simplified concerns/depth indicators (green/gray, no yellow)
+- Example responses as bullets (no "Expert" label)
+
+PHASE 2 - MULTI-TURN CONVERSATION:
+Files modified:
+- src/features/accusation-audit/useAuditSession.ts - Added continueConversation, submitContinuation
+- src/features/labeling/useLabelingSession.ts - Added continueConversation, submitContinuation
+- src/features/accusation-audit/AccusationAuditPractice.tsx - Added 'continuing' state, Continue button
+- src/features/labeling/LabelingPractice.tsx - Added 'continuing' state, Continue button
+
+New flow:
+User speaks → AI responds → User can Continue Conversation (unlimited) → ... → Exit to summary
+
+UI changes:
+- "Continue Conversation" is primary action after AI response
+- "Start Over" and "Next Scenario" are secondary options
+- Turn count shown at bottom
+- Conversation history displayed in multi-turn mode
+- Changed "Deliver your accusation audit now" → "Respond"
+- Removed yellow colors (partial responses now gray)
+
+BUILD: Verified - npm run build passes successfully
+
+--- RESUME BLOCK ---
+Last task: practice-module-redesign - Phases 1-2 complete (affect + multi-turn)
+Next task: phase-5.1 - Accusation Audit UX polish (brainstorm timing, visual continuity)
+Next action: Move brainstorm task to BEFORE scenario presentation for cleaner flow
+Blockers: none
+
+[2026-01-27 Profile Page Redesign]
+Complete redesign of ProfilePage based on user feedback and UX research.
+
+RESEARCH DOCUMENTED (PROFILE_PAGE_REDESIGN_RESEARCH.md):
+- Onboarding decision tree best practices researched
+- 71% activation boost with decision-tree logic (Guru case study)
+- 74% drop-off with complex forms - keep it simple
+- 2-level tree optimal (under 2 minutes completion)
+
+CHANGES IMPLEMENTED:
+1. Demographics at TOP (intake form style)
+   - Combined basics + work context into single section
+   - Grid layout for compact presentation
+
+2. Long-term Goals with 2-level decision tree
+   - Level 1: Business / Personal / Other
+   - Level 2: 4 specific options per category
+   - Optional "tell us more" text at end
+
+3. Focus Areas (SEPARATE section)
+   - Same tree structure as goals
+   - Different options focused on current work
+
+4. Self-Assessment with toggle
+   - Options vs free-text toggle per field
+   - REMOVED: "Your Strengths" (may bias AI)
+
+5. Preferences
+   - Open text box for AI interpretation
+   - REMOVED: "Celebrate wins with me"
+
+6. REMOVED:
+   - Family Dynamics section
+   - Relationship Context (simplified)
+
+7. Dev Notes panel
+   - Moved from bottom-left to middle-right
+   - Always open by default (not collapsed)
+   - Fixed position while scrolling
+
+FILES CREATED:
+- src/features/profile/components/DecisionTreeSelect.tsx
+- src/features/profile/components/ToggleInput.tsx
+- src/features/profile/components/index.ts
+
+FILES MODIFIED:
+- src/features/profile/types.ts (new types + migration)
+- src/features/profile/profileStorage.ts (migration logic)
+- src/features/profile/ProfilePage.tsx (complete rewrite)
+- src/pages/Dashboard.tsx (updated profile references)
+- src/components/DevFeedbackBoxes.tsx (position + always-open)
+
+BUILD: Verified - npm run build passes
+
+--- RESUME BLOCK ---
+Last task: profile-page-redesign - Complete with decision tree, new layout, Dev Notes repositioned
+Next task: phase-5.1 - Accusation Audit UX polish (brainstorm timing, visual continuity)
+Next action: Move brainstorm task to BEFORE scenario presentation for cleaner flow
+Blockers: none

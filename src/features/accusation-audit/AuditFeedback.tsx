@@ -1,12 +1,13 @@
 /**
- * LabelFeedback - Affect-based feedback display
+ * AuditFeedback - Affect-based feedback display
  * Shows emotional impact on counterpart, not scores
  */
 
-import type { LabelAttempt, AffectLevel } from './types';
+import type { AuditAttempt, AuditScenario, AffectLevel } from './types';
 
-interface LabelFeedbackProps {
-  attempt: LabelAttempt;
+interface AuditFeedbackProps {
+  attempt: AuditAttempt;
+  scenario: AuditScenario;
   onSeeResponse: () => void;
   onRetry: () => void;
 }
@@ -44,7 +45,12 @@ const AFFECT_CONFIG: Record<AffectLevel, {
   },
 };
 
-export function LabelFeedback({ attempt, onSeeResponse, onRetry }: LabelFeedbackProps) {
+export function AuditFeedback({
+  attempt,
+  scenario,
+  onSeeResponse,
+  onRetry,
+}: AuditFeedbackProps) {
   const { analysis } = attempt;
   const { affect } = analysis;
   const config = AFFECT_CONFIG[affect.level];
@@ -84,32 +90,39 @@ export function LabelFeedback({ attempt, onSeeResponse, onRetry }: LabelFeedback
         <p className="text-gray-900 italic">"{attempt.transcript}"</p>
       </div>
 
-      {/* Label depth indicator - Simplified */}
-      {analysis.depth.emotionLabeled && (
-        <div className="bg-white border rounded-xl p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-gray-600 text-sm">You labeled:</span>
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-              analysis.depth.targetsUnderlyingDriver
-                ? 'bg-green-100 text-green-700'
-                : 'bg-gray-100 text-gray-600'
-            }`}>
-              {analysis.depth.emotionLabeled}
-              {analysis.depth.targetsUnderlyingDriver && ' ✓'}
-            </span>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            {analysis.depth.targetsUnderlyingDriver
-              ? 'Underlying driver identified'
-              : 'Surface emotion - try going deeper next time'}
-          </p>
+      {/* Concerns Check - Simplified */}
+      <div className="bg-white border rounded-xl p-4">
+        <h3 className="font-medium text-gray-700 mb-3 text-sm">Concerns addressed</h3>
+        <div className="flex flex-wrap gap-2">
+          {scenario.commonCriticisms.map((criticism) => {
+            const covered = analysis.coverage.criticismsCovered.includes(criticism.id);
+            return (
+              <span
+                key={criticism.id}
+                className={`px-3 py-1 rounded-full text-sm ${
+                  covered
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-gray-100 text-gray-500'
+                }`}
+              >
+                {covered ? '✓' : '○'} {criticism.text}
+              </span>
+            );
+          })}
         </div>
-      )}
+      </div>
 
-      {/* Expert example - as bullets, no "expert" label */}
+      {/* Example responses - as bullets, no "expert" label */}
       <div className="bg-gray-50 rounded-xl p-4">
-        <p className="text-gray-600 text-sm mb-2">Example response:</p>
-        <p className="text-gray-700 text-sm italic">"{analysis.expertExample}"</p>
+        <p className="text-gray-600 text-sm mb-2">Example responses:</p>
+        <ul className="text-gray-700 text-sm space-y-1">
+          {scenario.commonCriticisms
+            .filter(c => c.importance !== 'minor')
+            .slice(0, 2)
+            .map((c, i) => (
+              <li key={i}>• "I might seem like {c.inTheirVoice}..."</li>
+            ))}
+        </ul>
       </div>
 
       {/* Actions */}

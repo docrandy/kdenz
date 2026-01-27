@@ -1,35 +1,35 @@
 /**
- * LabelingPractice - Main Container Component
- * Interactive practice module for Chris Voss labeling technique
+ * AccusationAuditPractice - Main Container Component
+ * Interactive practice module for accusation audit technique
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { useLabelingSession } from './useLabelingSession';
-import { ScenarioPresenter } from './ScenarioPresenter';
-import { LabelFeedback } from './LabelFeedback';
-import { PatternSummary } from './PatternSummary';
+import { useAuditSession } from './useAuditSession';
+import { AuditScenarioPresenter } from './AuditScenarioPresenter';
+import { AuditFeedback } from './AuditFeedback';
+import { AuditPatternSummary } from './AuditPatternSummary';
 import { QuickNoteBox } from '../../components/QuickNoteBox';
 import type { ScenarioCategory, DifficultyLevel } from './types';
 
-interface LabelingPracticeProps {
+interface AccusationAuditPracticeProps {
   onBack: () => void;
 }
 
-export function LabelingPractice({ onBack }: LabelingPracticeProps) {
+export function AccusationAuditPractice({ onBack }: AccusationAuditPracticeProps) {
   const {
     sessionData,
     currentAttempt,
     aiResponse,
     selectScenario,
     startRecording,
-    submitLabel,
+    submitAudit,
     showAIResponse,
     continueConversation,
     submitContinuation,
     nextScenario,
     retryScenario,
     endSession,
-  } = useLabelingSession();
+  } = useAuditSession();
 
   // Recording state
   const [, setIsRecording] = useState(false);
@@ -103,7 +103,7 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
     startRecording();
   };
 
-  // Stop recording and submit
+  // Stop recording
   const stopRecording = () => {
     setIsRecording(false);
 
@@ -119,7 +119,7 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
     }
   };
 
-  // Submit the label after recording stops
+  // Submit the audit after recording stops
   const handleSubmit = () => {
     if (!transcript.trim()) {
       alert('No speech detected. Please try again.');
@@ -131,7 +131,7 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
         ? new Blob(audioChunksRef.current, { type: 'audio/webm' })
         : undefined;
 
-    submitLabel(transcript.trim(), audioBlob);
+    submitAudit(transcript.trim(), audioBlob);
   };
 
   // Submit continuation in multi-turn conversation
@@ -202,7 +202,7 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
           >
             ← Back
           </button>
-          <h1 className="font-semibold text-gray-900">Labeling Practice</h1>
+          <h1 className="font-semibold text-gray-900">Accusation Audit</h1>
           <button
             onClick={endSession}
             className="text-cyan-600 hover:text-cyan-700 font-medium"
@@ -219,10 +219,10 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
           <div className="space-y-6">
             <div className="text-center">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Practice Labeling Emotions
+                Practice Accusation Audits
               </h2>
               <p className="text-gray-600">
-                Learn to identify and verbalize the underlying emotions driving someone's words.
+                Pre-emptively name every negative thing they might think about you.
               </p>
             </div>
 
@@ -271,22 +271,51 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
 
             {/* Quick info */}
             <div className="bg-cyan-50 border border-cyan-200 rounded-xl p-4">
-              <h3 className="font-semibold text-cyan-800 mb-2">💡 Remember</h3>
-              <ul className="text-cyan-700 text-sm space-y-1">
-                <li>• Start with "It seems like..." or "It sounds like..."</li>
-                <li>• Label the underlying driver, not surface emotion</li>
-                <li>• Make it a statement, then pause</li>
-                <li>• Avoid "I" or "You" at the start</li>
-              </ul>
+              <h3 className="font-semibold text-cyan-800 mb-2">💡 What is an Accusation Audit?</h3>
+              <p className="text-cyan-700 text-sm mb-3">
+                Before a difficult conversation, you pre-emptively name every negative assumption
+                the other person might have about you.
+              </p>
+              <p className="text-cyan-600 text-sm">
+                <strong>Example:</strong> "I know this might seem like I'm ungrateful, only motivated
+                by money, and not thinking about the team. I get why that would be concerning."
+              </p>
+            </div>
+
+            {/* Key difference from labeling */}
+            <div className="bg-gray-100 rounded-xl p-4">
+              <h3 className="font-semibold text-gray-700 mb-2">vs Labeling</h3>
+              <table className="w-full text-sm">
+                <tbody>
+                  <tr className="border-b border-gray-200">
+                    <td className="py-2 text-gray-500">Timing</td>
+                    <td className="py-2 text-gray-900">
+                      <strong>Start</strong> of conversation
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-200">
+                    <td className="py-2 text-gray-500">Focus</td>
+                    <td className="py-2 text-gray-900">
+                      Their <strong>thoughts about you</strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 text-gray-500">Success</td>
+                    <td className="py-2 text-gray-900">
+                      They say <strong>"Actually..."</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         )}
 
         {/* PRESENTING STATE */}
         {sessionData.state === 'presenting' && sessionData.currentScenario && (
-          <ScenarioPresenter
+          <AuditScenarioPresenter
             scenario={sessionData.currentScenario}
-            onReady={handleStartRecording}
+            onStart={handleStartRecording}
           />
         )}
 
@@ -298,7 +327,13 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
                 <span className="text-4xl">🎤</span>
               </div>
               <p className="text-xl font-semibold text-gray-900 mt-4">Recording...</p>
-              <p className="text-gray-600 mt-2">Speak your label now</p>
+              <p className="text-gray-600 mt-2">Respond</p>
+            </div>
+
+            {/* Reminder */}
+            <div className="bg-gray-50 rounded-xl p-4 text-left text-sm text-gray-600">
+              <strong>Structure:</strong> "I know this might seem like [concern], [concern], [concern].
+              I get why that would be concerning."
             </div>
 
             {/* Live transcript */}
@@ -382,9 +417,10 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
         )}
 
         {/* FEEDBACK STATE */}
-        {sessionData.state === 'feedback' && currentAttempt && (
-          <LabelFeedback
+        {sessionData.state === 'feedback' && currentAttempt && sessionData.currentScenario && (
+          <AuditFeedback
             attempt={currentAttempt}
+            scenario={sessionData.currentScenario}
             onSeeResponse={showAIResponse}
             onRetry={retryScenario}
           />
@@ -427,21 +463,21 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
             {/* Response quality indicator - no yellow */}
             <div
               className={`p-4 rounded-xl text-center ${
-                aiResponse.tone === 'open'
+                aiResponse.type === 'opens'
                   ? 'bg-green-50 text-green-700'
-                  : aiResponse.tone === 'partial'
+                  : aiResponse.type === 'partial'
                   ? 'bg-gray-100 text-gray-700'
                   : 'bg-gray-100 text-gray-600'
               }`}
             >
-              {aiResponse.tone === 'open' && (
-                <p>✨ <strong>They opened up!</strong> Your label hit the mark.</p>
+              {aiResponse.type === 'opens' && (
+                <p>✨ <strong>They revealed their real concern!</strong> Your audit worked.</p>
               )}
-              {aiResponse.tone === 'partial' && (
-                <p>They're considering what you said. Keep going.</p>
+              {aiResponse.type === 'partial' && (
+                <p>{aiResponse.interpretation}</p>
               )}
-              {aiResponse.tone === 'guarded' && (
-                <p>They stayed guarded. Try a different approach.</p>
+              {aiResponse.type === 'guarded' && (
+                <p>{aiResponse.interpretation}</p>
               )}
             </div>
 
@@ -465,7 +501,7 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
                 </button>
                 <button
                   onClick={nextScenario}
-                  className="flex-1 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-800 transition-colors"
+                  className="flex-1 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
                 >
                   Next Scenario
                 </button>
@@ -481,13 +517,13 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
 
         {/* SUMMARY STATE */}
         {sessionData.state === 'summary' && (
-          <PatternSummary onClose={nextScenario} />
+          <AuditPatternSummary onClose={nextScenario} />
         )}
       </div>
 
       {/* Quick Note Box - visible during practice, not during summary */}
       {sessionData.state !== 'summary' && (
-        <QuickNoteBox practiceContext="labeling emotions" />
+        <QuickNoteBox practiceContext="accusation audits" />
       )}
     </div>
   );

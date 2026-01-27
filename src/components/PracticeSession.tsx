@@ -12,6 +12,7 @@ import Scorecard from './Scorecard';
 import AISummary from './AISummary';
 import MicPermissionError from './MicPermissionError';
 import PromptSelector, { ActivePrompt } from './PromptSelector';
+import FillerGauge from './FillerGauge';
 import { SpeakingPrompt } from '../data/speakingPrompts';
 import { saveSession } from '../services/sessionStorage';
 import { getSettings, AppSettings } from '../services/settingsStorage';
@@ -306,16 +307,13 @@ export default function PracticeSession() {
                   </p>
                 </div>
 
-                {/* Fillers */}
-                <div className="text-center p-3 bg-white rounded-lg">
-                  <span className={`text-4xl font-bold ${liveFillerCount > 5 ? 'text-red-500' : liveFillerCount > 2 ? 'text-yellow-500' : 'text-green-500'}`}>
-                    {liveFillerCount}
-                  </span>
-                  <p className="text-sm text-clinical-muted mt-1">Fillers</p>
-                  <p className="text-xs text-clinical-muted">
-                    {liveFillerRate.toFixed(1)}/min
-                  </p>
-                </div>
+                {/* Fillers - Visual Gauge (agents.md: visual gauges required) */}
+                <FillerGauge
+                  fillerCount={liveFillerCount}
+                  fillerRate={liveFillerRate}
+                  thresholdGood={settings.fillerRateGood}
+                  thresholdWarning={settings.fillerRateWarning}
+                />
               </div>
 
               {/* Words count */}
@@ -461,16 +459,23 @@ export default function PracticeSession() {
               </div>
               <span className="text-clinical-muted group-hover:text-clinical-accent">→</span>
             </Link>
-            {/* More skill modules coming soon */}
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-50 cursor-not-allowed">
+            <Link
+              to="/practice/accusation-audit"
+              className="flex items-center justify-between p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors group"
+            >
               <div className="flex items-center gap-3">
                 <span className="text-xl">🛡️</span>
                 <div>
-                  <p className="font-medium text-clinical-text">Accusation Audit</p>
-                  <p className="text-xs text-clinical-muted">Coming soon</p>
+                  <p className="font-medium text-clinical-text group-hover:text-clinical-accent">
+                    Accusation Audit
+                  </p>
+                  <p className="text-xs text-clinical-muted">
+                    Pre-emptively neutralize defensiveness
+                  </p>
                 </div>
               </div>
-            </div>
+              <span className="text-clinical-muted group-hover:text-clinical-accent">→</span>
+            </Link>
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-50 cursor-not-allowed">
               <div className="flex items-center gap-3">
                 <span className="text-xl">✋</span>

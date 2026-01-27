@@ -1,0 +1,16 @@
+{
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "github",
+    "puppeteer",
+    "filesystem",
+    "memory-bank",
+    "sequential-thinking",
+    "brave-search"
+  ],
+  "permissions": {
+    "allow": [
+      "WebSearch"
+    ]
+  }
+}

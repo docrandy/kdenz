@@ -1,100 +1,114 @@
 /**
- * useLabelingSession Hook
- * Manages the labeling practice session flow
+ * useAuditSession Hook
+ * Manages the accusation audit practice session flow
  * Supports multi-turn conversations
  */
 
 import { useState, useCallback, useRef } from 'react';
 import type {
-  LabelingScenario,
-  LabelAttempt,
-  LabelingSessionData,
+  AuditScenario,
+  AuditAttempt,
+  AuditSessionData,
   AIResponse,
   ConversationTurn,
 } from './types';
-import { analyzeLabel } from './labelAnalyzer';
-import { saveLabelAttempt } from './labelingStorage';
-import { getRandomScenario, getScenarioById } from './scenarioBank';
+import { analyzeAudit } from './auditAnalyzer';
+import { saveAuditAttempt } from './auditStorage';
+import { getRandomScenario, getScenarioById } from './scenarios';
 
-// AI responses based on label quality
+// AI responses based on audit quality
 const AI_RESPONSES = {
-  open: [
-    "Yeah... that's exactly it. I didn't realize how much that was weighing on me.",
-    "You're right. I guess I am worried about that.",
-    "That's... actually what's been bothering me. I didn't know how to say it.",
+  opens: [
+    "Actually, it's not that at all. The real issue is...",
+    "Hm... that's not quite it. What I'm really concerned about is...",
+    "No, I wasn't thinking any of that. It's more that...",
   ],
   partial: [
-    "I mean... kind of. It's more complicated than that.",
-    "That's part of it, I suppose.",
-    "I hadn't thought of it that way, but maybe.",
+    "Well... I wouldn't say all that, but some of it is true.",
+    "That's part of it, I suppose. But there's more.",
+    "You're getting warmer, but that's not the whole picture.",
   ],
   guarded: [
-    "I don't know. Can we just move on?",
-    "That's not really... look, let's just focus on the issue.",
+    "Look, let's just focus on the issue at hand.",
     "I'm not sure what you want me to say.",
+    "Can we move on? This feels awkward.",
   ],
 };
 
 // Follow-up responses for multi-turn conversations
 const FOLLOWUP_RESPONSES = {
-  open: [
-    "Yes, exactly. You really get it.",
-    "That's it. It feels good to be understood.",
-    "Yeah... and there's more I haven't told you.",
+  opens: [
+    "Yeah, exactly. I appreciate you getting that.",
+    "That's it. I feel like you really understand now.",
+    "Yes, and there's actually more I haven't mentioned...",
   ],
   partial: [
-    "Getting warmer... but there's still something else.",
-    "Sort of. Let me think about how to explain it.",
-    "That's closer, but not quite.",
+    "Getting closer... but there's still something you're missing.",
+    "Part of it, yes. But I'm not sure you fully get it yet.",
+    "Okay, that helps a bit. Let me think about it.",
   ],
   guarded: [
-    "I don't know. Maybe we should talk about something else.",
-    "I'm not sure I want to get into this right now.",
-    "Can we just drop it?",
+    "I don't know. I'm not sure this is going anywhere.",
+    "Can we just move on?",
+    "I'd rather not keep talking about this.",
   ],
 };
 
 function getAIResponse(
   score: number,
-  _scenario: LabelingScenario,
+  scenario: AuditScenario,
   turnNumber: number
 ): AIResponse {
-  let tone: 'open' | 'partial' | 'guarded';
+  let type: 'opens' | 'partial' | 'guarded';
   let responses: string[];
+  let interpretation: string;
 
   // Use different response pools for follow-up turns
   const isFollowUp = turnNumber > 1;
 
   if (score >= 75) {
-    tone = 'open';
-    responses = isFollowUp ? FOLLOWUP_RESPONSES.open : AI_RESPONSES.open;
+    type = 'opens';
+    responses = isFollowUp ? FOLLOWUP_RESPONSES.opens : AI_RESPONSES.opens;
+    interpretation = isFollowUp
+      ? "They're opening up more. You've built trust."
+      : "Your audit worked - they revealed what's really on their mind.";
   } else if (score >= 50) {
-    tone = 'partial';
+    type = 'partial';
     responses = isFollowUp ? FOLLOWUP_RESPONSES.partial : AI_RESPONSES.partial;
+    interpretation = isFollowUp
+      ? "They're considering what you said. Keep going."
+      : "They softened but didn't fully open. Try hitting more concerns.";
   } else {
-    tone = 'guarded';
+    type = 'guarded';
     responses = isFollowUp ? FOLLOWUP_RESPONSES.guarded : AI_RESPONSES.guarded;
+    interpretation = isFollowUp
+      ? "They're shutting down. Consider a different approach."
+      : "They're still defensive. Your audit didn't surface enough concerns.";
   }
 
-  const text = responses[Math.floor(Math.random() * responses.length)];
+  // For "opens" responses on first turn, include the hidden concern
+  let text = responses[Math.floor(Math.random() * responses.length)];
+  if (type === 'opens' && !isFollowUp) {
+    text = `Actually, it's not really about any of that. ${scenario.hiddenConcern}`;
+  }
 
   return {
     text,
-    tone,
-    followUp: tone === 'guarded' ? 'Try again with a different approach?' : undefined,
+    type,
+    interpretation,
   };
 }
 
-export interface UseLabelingSessionResult {
+export interface UseAuditSessionResult {
   // State
-  sessionData: LabelingSessionData;
-  currentAttempt: LabelAttempt | null;
+  sessionData: AuditSessionData;
+  currentAttempt: AuditAttempt | null;
   aiResponse: AIResponse | null;
 
   // Actions
   selectScenario: (scenarioId?: string, category?: string, difficulty?: string) => void;
   startRecording: () => void;
-  submitLabel: (transcript: string, audioBlob?: Blob, silenceDuration?: number) => void;
+  submitAudit: (transcript: string, audioBlob?: Blob) => void;
   showAIResponse: () => void;
   continueConversation: () => void;
   submitContinuation: (transcript: string, audioBlob?: Blob) => void;
@@ -103,17 +117,18 @@ export interface UseLabelingSessionResult {
   endSession: () => void;
 }
 
-export function useLabelingSession(): UseLabelingSessionResult {
-  const [sessionData, setSessionData] = useState<LabelingSessionData>({
+export function useAuditSession(): UseAuditSessionResult {
+  const [sessionData, setSessionData] = useState<AuditSessionData>({
     state: 'selecting',
     currentScenario: null,
+    brainstormedCriticisms: [],
     attempts: [],
     sessionStartTime: Date.now(),
     conversationTurns: [],
     currentTurnNumber: 0,
   });
 
-  const [currentAttempt, setCurrentAttempt] = useState<LabelAttempt | null>(null);
+  const [currentAttempt, setCurrentAttempt] = useState<AuditAttempt | null>(null);
   const [aiResponse, setAIResponse] = useState<AIResponse | null>(null);
   const attemptIdRef = useRef(0);
   const turnIdRef = useRef(0);
@@ -121,7 +136,7 @@ export function useLabelingSession(): UseLabelingSessionResult {
   // Select a scenario to practice
   const selectScenario = useCallback(
     (scenarioId?: string, category?: string, difficulty?: string) => {
-      let scenario: LabelingScenario;
+      let scenario: AuditScenario;
 
       if (scenarioId) {
         const found = getScenarioById(scenarioId);
@@ -141,6 +156,7 @@ export function useLabelingSession(): UseLabelingSessionResult {
         ...prev,
         state: 'presenting',
         currentScenario: scenario,
+        brainstormedCriticisms: [],
         conversationTurns: [],
         currentTurnNumber: 0,
       }));
@@ -158,9 +174,9 @@ export function useLabelingSession(): UseLabelingSessionResult {
     }));
   }, []);
 
-  // Submit a label attempt for analysis
-  const submitLabel = useCallback(
-    (transcript: string, audioBlob?: Blob, silenceDuration?: number) => {
+  // Submit an audit attempt for analysis
+  const submitAudit = useCallback(
+    (transcript: string, audioBlob?: Blob) => {
       const scenario = sessionData.currentScenario;
       if (!scenario) return;
 
@@ -170,22 +186,22 @@ export function useLabelingSession(): UseLabelingSessionResult {
         state: 'analyzing',
       }));
 
-      // Analyze the label
-      const analysis = analyzeLabel(transcript, scenario);
+      // Analyze the audit
+      const analysis = analyzeAudit(transcript, scenario);
 
       // Create attempt record
-      const attempt: LabelAttempt = {
-        id: `attempt-${++attemptIdRef.current}-${Date.now()}`,
+      const attempt: AuditAttempt = {
+        id: `audit-attempt-${++attemptIdRef.current}-${Date.now()}`,
         scenarioId: scenario.id,
         timestamp: Date.now(),
+        brainstormedCriticisms: sessionData.brainstormedCriticisms,
         transcript,
         audioBlob,
-        silenceDuration,
         analysis,
       };
 
       // Save attempt
-      saveLabelAttempt(attempt);
+      saveAuditAttempt(attempt);
 
       // Create conversation turn
       const userTurn: ConversationTurn = {
@@ -207,7 +223,7 @@ export function useLabelingSession(): UseLabelingSessionResult {
         currentTurnNumber: 1,
       }));
     },
-    [sessionData.currentScenario]
+    [sessionData.currentScenario, sessionData.brainstormedCriticisms]
   );
 
   // Show AI response after feedback
@@ -259,13 +275,14 @@ export function useLabelingSession(): UseLabelingSessionResult {
       }));
 
       // Analyze the continuation
-      const analysis = analyzeLabel(transcript, scenario);
+      const analysis = analyzeAudit(transcript, scenario);
 
       // Create attempt record (for pattern tracking)
-      const attempt: LabelAttempt = {
-        id: `attempt-${++attemptIdRef.current}-${Date.now()}`,
+      const attempt: AuditAttempt = {
+        id: `audit-attempt-${++attemptIdRef.current}-${Date.now()}`,
         scenarioId: scenario.id,
         timestamp: Date.now(),
+        brainstormedCriticisms: [],
         transcript,
         audioBlob,
         analysis,
@@ -300,6 +317,7 @@ export function useLabelingSession(): UseLabelingSessionResult {
       ...prev,
       state: 'selecting',
       currentScenario: null,
+      brainstormedCriticisms: [],
       conversationTurns: [],
       currentTurnNumber: 0,
     }));
@@ -312,6 +330,7 @@ export function useLabelingSession(): UseLabelingSessionResult {
     setSessionData((prev) => ({
       ...prev,
       state: 'presenting',
+      brainstormedCriticisms: [],
       conversationTurns: [],
       currentTurnNumber: 0,
     }));
@@ -333,7 +352,7 @@ export function useLabelingSession(): UseLabelingSessionResult {
     aiResponse,
     selectScenario,
     startRecording,
-    submitLabel,
+    submitAudit,
     showAIResponse,
     continueConversation,
     submitContinuation,
