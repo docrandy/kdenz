@@ -34,17 +34,26 @@ Plans:
 
 ### Phase 02: Audio Pipeline & Visual Gauge
 
-**Goal:** Mic capture to real-time metrics display loop working
+**Goal:** Orb-centric mic capture to real-time visual metrics feedback loop
 
 **Requirements:** AUDIO-01, AUDIO-02, AUDIO-03, FILLER-01, VIZ-01, VIZ-02, AUDIO-04
 
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md -- Create PlasmaOrb visualization component (volumetric plasma sphere)
+- [ ] 02-02-PLAN.md -- Refactor PracticeSession to orb-centric layout with audio reactivity
+- [ ] 02-03-PLAN.md -- Add silence nudge, progress bar, and verify complete session loop
+
 **Success Criteria:**
-- [ ] AudioEngine connected to PracticeSession
-- [ ] WPM calculation implemented from transcript
-- [ ] FillerDetector integrated (acoustic real-time)
-- [ ] Real-time filler gauge component displays live count
-- [ ] Weekly trend chart component shell exists
+- [ ] PlasmaOrb centerpiece renders with reactive animation
+- [ ] Clicking orb starts/stops session (replaces button)
+- [ ] WPM calculation displayed RIGHT of orb
+- [ ] Filler count displayed LEFT of orb
+- [ ] Real-time orb reactivity to voice (brightness, filament density)
 - [ ] Silence detection triggers nudge after 10s
+- [ ] Progress bar at top replaces countdown timer
+- [ ] Weekly trend chart deferred to Phase 06
 
 ---
 
