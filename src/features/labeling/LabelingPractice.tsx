@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useLabelingSession } from './useLabelingSession';
 import { ScenarioPresenter } from './ScenarioPresenter';
 import { LabelFeedback } from './LabelFeedback';
@@ -179,9 +180,14 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
     continueConversation();
   };
 
-  // Category and difficulty selection
-  const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory | ''>('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | ''>('');
+  // URL params for pre-selection from Dashboard
+  const [searchParams] = useSearchParams();
+  const urlCategory = searchParams.get('category') as ScenarioCategory | null;
+  const urlDifficulty = searchParams.get('difficulty') as DifficultyLevel | null;
+
+  // Category and difficulty selection (initialized from URL params if present)
+  const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory | ''>(urlCategory || '');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | ''>(urlDifficulty || '');
 
   const handleSelectScenario = () => {
     selectScenario(

@@ -75,8 +75,8 @@ export interface UserProfile {
     reportsTo?: string;
   };
 
-  // Long-term Goals (decision tree)
-  longTermGoals: TreeSelection;
+  // Long-term Goals (decision tree - multi-select)
+  longTermGoals: TreeSelection[];
 
   // Focus Areas (separate decision tree)
   focusAreas: TreeSelection;
@@ -94,6 +94,9 @@ export interface UserProfile {
     pacePreference?: 'take-it-slow' | 'moderate' | 'fast-paced';
     openPreferences?: string;  // Free text - AI interprets
   };
+
+  // Additional context (free text for anything else)
+  additionalContext?: string;
 
   // History (notable past experiences)
   history: {
@@ -197,7 +200,7 @@ export function createEmptyProfile(): UserProfile {
     createdAt: Date.now(),
     updatedAt: Date.now(),
     demographics: {},
-    longTermGoals: { category: 'business' },
+    longTermGoals: [],
     focusAreas: { category: 'business' },
     selfAssessment: { useTextInput: false },
     preferences: {
@@ -230,10 +233,10 @@ export function migrateProfile(oldProfile: any): UserProfile {
 
   // Migrate communicationGoals → longTermGoals + focusAreas
   if (oldProfile.communicationGoals?.longTermGoal) {
-    newProfile.longTermGoals = {
+    newProfile.longTermGoals = [{
       category: 'other',
       specificGoal: oldProfile.communicationGoals.longTermGoal,
-    };
+    }];
   }
   if (oldProfile.communicationGoals?.currentFocus?.length > 0) {
     newProfile.focusAreas = {

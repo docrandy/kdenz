@@ -117,3 +117,21 @@ export function getWeeklyAggregates(): DailyAggregate[] {
 export function clearAllSessions(): void {
   localStorage.removeItem(STORAGE_KEY);
 }
+
+export function getSessionById(id: string): SessionSummary | null {
+  const sessions = getAllSessions();
+  return sessions.find(s => s.id === id) || null;
+}
+
+export function getSessionsByDate(): Map<string, SessionSummary[]> {
+  const sessions = getAllSessions();
+  const byDate = new Map<string, SessionSummary[]>();
+
+  sessions.forEach(s => {
+    const existing = byDate.get(s.date) || [];
+    existing.push(s);
+    byDate.set(s.date, existing);
+  });
+
+  return byDate;
+}

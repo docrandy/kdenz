@@ -10,33 +10,12 @@ import type { UserProfile } from '../features/profile';
 import { getAllSessions, type SessionSummary } from '../services/sessionStorage';
 import { ContributionHeatmap } from '../components/ContributionHeatmap';
 
-// Category and difficulty types from practice modules
-type ScenarioCategory = 'salary-negotiation' | 'saying-no' | 'difficult-conversation' | 'workplace' | 'all';
-type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced' | 'all';
-
-const CATEGORY_OPTIONS = [
-  { value: 'all', label: 'All Categories' },
-  { value: 'salary-negotiation', label: 'Salary Negotiation' },
-  { value: 'saying-no', label: 'Saying No' },
-  { value: 'difficult-conversation', label: 'Difficult Conversations' },
-  { value: 'workplace', label: 'Workplace' },
-];
-
-const DIFFICULTY_OPTIONS = [
-  { value: 'all', label: 'All Levels' },
-  { value: 'beginner', label: 'Beginner' },
-  { value: 'intermediate', label: 'Intermediate' },
-  { value: 'advanced', label: 'Advanced' },
-];
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [recentSessions, setRecentSessions] = useState<SessionSummary[]>([]);
   const [showAllSessions, setShowAllSessions] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory>('all');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>('all');
 
   useEffect(() => {
     setProfile(getProfile());
@@ -44,15 +23,6 @@ export default function Dashboard() {
   }, []);
 
   const allSessions = getAllSessions().reverse(); // Newest first
-
-  // Build URL params for practice navigation
-  const buildPracticeUrl = (basePath: string) => {
-    const params = new URLSearchParams();
-    if (selectedCategory !== 'all') params.set('category', selectedCategory);
-    if (selectedDifficulty !== 'all') params.set('difficulty', selectedDifficulty);
-    const queryString = params.toString();
-    return queryString ? `${basePath}?${queryString}` : basePath;
-  };
 
   // Quick Notes from profile
   const quickNotes = profile?.miscellaneous?.slice(-3).reverse() || [];
@@ -100,61 +70,6 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Practice Filters */}
-        <section className="bg-white rounded-xl border overflow-hidden">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
-          >
-            <span className="text-sm font-medium text-gray-700">Practice Filters</span>
-            <div className="flex items-center gap-2">
-              {(selectedCategory !== 'all' || selectedDifficulty !== 'all') && (
-                <span className="text-xs text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded">
-                  {[selectedCategory !== 'all' && CATEGORY_OPTIONS.find(c => c.value === selectedCategory)?.label,
-                    selectedDifficulty !== 'all' && selectedDifficulty].filter(Boolean).join(', ')}
-                </span>
-              )}
-              <svg
-                className={`w-4 h-4 text-gray-400 transition-transform ${showFilters ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </button>
-
-          {showFilters && (
-            <div className="px-4 pb-4 space-y-3 border-t">
-              <div className="pt-3">
-                <label className="block text-xs text-gray-500 mb-1">Category</label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value as ScenarioCategory)}
-                  className="w-full p-2 border border-gray-300 rounded-lg bg-white text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                >
-                  {CATEGORY_OPTIONS.map(opt => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs text-gray-500 mb-1">Difficulty</label>
-                <select
-                  value={selectedDifficulty}
-                  onChange={(e) => setSelectedDifficulty(e.target.value as DifficultyLevel)}
-                  className="w-full p-2 border border-gray-300 rounded-lg bg-white text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                >
-                  {DIFFICULTY_OPTIONS.map(opt => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          )}
-        </section>
-
         {/* Practice Modules */}
         <section>
           <h2 className="text-lg font-semibold text-gray-900 mb-3">Practice</h2>
@@ -177,33 +92,6 @@ export default function Dashboard() {
               accent="cyan"
             />
 
-            {/* Skill Modules */}
-            <PracticeCard
-              icon="🏷️"
-              title="Label Emotions"
-              description="Practice identifying and naming emotions"
-              onClick={() => navigate(buildPracticeUrl('/practice/labeling'))}
-              accent="purple"
-            />
-
-            <PracticeCard
-              icon="🛡️"
-              title="Accusation Audit"
-              description="Preemptively address concerns before they're raised"
-              onClick={() => navigate(buildPracticeUrl('/practice/accusation-audit'))}
-              accent="orange"
-            />
-
-            {/* Coming Soon */}
-            <div className="bg-gray-100 rounded-xl p-4 opacity-60">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">🚫</span>
-                <div>
-                  <h3 className="font-semibold text-gray-700">Saying No</h3>
-                  <p className="text-sm text-gray-500">Coming soon</p>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -389,12 +277,10 @@ function PracticeCard({
   title: string;
   description: string;
   onClick: () => void;
-  accent: 'cyan' | 'purple' | 'orange';
+  accent: 'cyan';
 }) {
   const accentColors = {
     cyan: 'border-l-cyan-500 hover:bg-cyan-50',
-    purple: 'border-l-purple-500 hover:bg-purple-50',
-    orange: 'border-l-orange-500 hover:bg-orange-50',
   };
 
   return (

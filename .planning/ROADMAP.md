@@ -38,14 +38,14 @@ Plans:
 
 **Requirements:** AUDIO-01, AUDIO-02, AUDIO-03, FILLER-01, VIZ-01, VIZ-02, AUDIO-04
 
-**Status:** RE-PLANNED (2026-02-03) — 3 plans in 3 waves
+**Status:** Complete (2026-02-03) — 3/3 plans done
 
-**Plans:** 3 plans
+**Plans:** 3/3 complete
 
 Plans:
-- [ ] 02-01-PLAN.md -- SessionOrb + WaveformVisualizer standalone components
-- [ ] 02-02-PLAN.md -- Focus-mode session page refactor + BottomControlBar
-- [ ] 02-03-PLAN.md -- Post-session results page + silence nudge update + end-to-end checkpoint
+- [x] 02-01-PLAN.md -- SessionOrb + WaveformVisualizer standalone components
+- [x] 02-02-PLAN.md -- Focus-mode session page refactor + BottomControlBar
+- [x] 02-03-PLAN.md -- Post-session results page + silence nudge update + end-to-end checkpoint
 
 **Previous plans (REJECTED at checkpoint 2026-02-03):**
 - ~~02-01-PLAN.md -- PlasmaOrb (rejected: teal plasma → neon green circle + icon)~~
@@ -53,17 +53,17 @@ Plans:
 - ~~02-03-PLAN.md -- Silence nudge + progress bar (not executed, superseded)~~
 
 **Success Criteria (updated per CONTEXT.md v2):**
-- [ ] SessionOrb renders as neon green circle with icon (waveform bars idle, red stop recording)
-- [ ] SessionOrb brightness tracks voice volume during recording
-- [ ] SessionOrb color shifts green → yellow for pace feedback
-- [ ] Filler mode: orb + filler count below (no flanking metrics)
-- [ ] Pace mode: orb with color feedback + waveform visualization below
-- [ ] Bottom control bar: Pause → Stop/Continue two-step pattern
-- [ ] Silence detection triggers one-and-done nudge after 10s (coach tone)
-- [ ] Progress bar at top during session
-- [ ] Post-session results on separate page/route
-- [ ] Dashboard offers focus mode selection (filler words / speech pace)
-- [ ] Weekly trend chart deferred to Phase 06
+- [x] SessionOrb renders as neon green circle with icon (waveform bars idle, red stop recording)
+- [x] SessionOrb brightness tracks voice volume during recording
+- [x] SessionOrb color shifts green → yellow for pace feedback
+- [x] Filler mode: orb + filler count below (no flanking metrics)
+- [x] Pace mode: orb with color feedback + waveform visualization below
+- [x] Bottom control bar: Pause → Stop/Continue two-step pattern
+- [x] Silence detection triggers one-and-done nudge after 10s (coach tone)
+- [x] Progress bar at top during session
+- [x] Post-session results on separate page/route
+- [x] Dashboard offers focus mode selection (filler words / speech pace)
+- [x] Weekly trend chart deferred to Phase 06
 
 ---
 
@@ -191,7 +191,7 @@ Plans:
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
 | 01 | Project Setup & Scaffolding | 5 | ✓ Complete |
-| 02 | Audio Pipeline & Visual Gauge | 7 | Pending |
+| 02 | Audio Pipeline & Visual Gauge | 7 | ✓ Complete |
 | 03 | Duration Controls & Timer | 4 | Pending |
 | 04 | Playback with Filler Highlighting | 5 | Pending |
 | 05 | Transcript with Highlights | 6 | Pending |
@@ -207,4 +207,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-01-25 - Phase 01 complete*
+*Last updated: 2026-02-03 - Phase 02 complete*

@@ -12,8 +12,6 @@ import Dashboard from './pages/Dashboard'
 import PostSessionResults from './pages/PostSessionResults'
 import { SessionDetail } from './pages/SessionDetail'
 import { Settings } from './pages/Settings'
-import { LabelingPractice } from './features/labeling'
-import { AccusationAuditPractice } from './features/accusation-audit'
 import { ProfilePage } from './features/profile'
 import { isChrome, getBrowserName } from './utils/browserDetection'
 import DevFeedbackBoxes from './components/DevFeedbackBoxes'
@@ -21,18 +19,6 @@ import { hasDiagnosticResults } from './lib/diagnosticQuestions'
 
 const WELCOME_SEEN_KEY = 'voicelab_welcome_seen'
 const DIAGNOSTIC_SKIPPED_KEY = 'voicelab_diagnostic_skipped'
-
-// Wrapper for LabelingPractice with navigation
-function LabelingPracticeRoute() {
-  const navigate = useNavigate()
-  return <LabelingPractice onBack={() => navigate('/')} />
-}
-
-// Wrapper for AccusationAuditPractice with navigation
-function AccusationAuditRoute() {
-  const navigate = useNavigate()
-  return <AccusationAuditPractice onBack={() => navigate('/')} />
-}
 
 // Wrapper for ProfilePage with navigation
 function ProfileRoute() {
@@ -168,8 +154,6 @@ function App() {
           <Route path="/practice/filler" element={<FreePracticeFillerRoute />} />
           <Route path="/practice/pace" element={<FreePracticePaceRoute />} />
           <Route path="/practice/results" element={<PostSessionResults />} />
-          <Route path="/practice/labeling" element={<LabelingPracticeRoute />} />
-          <Route path="/practice/accusation-audit" element={<AccusationAuditRoute />} />
           <Route path="/profile" element={<ProfileRoute />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/session/:sessionId" element={<SessionDetail />} />

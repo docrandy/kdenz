@@ -29,9 +29,17 @@ export function getProfile(): UserProfile {
       // Ensure required fields exist
       if (!profile.miscellaneous) profile.miscellaneous = [];
       if (!profile.demographics) profile.demographics = {};
-      if (!profile.longTermGoals) profile.longTermGoals = { category: 'business' };
       if (!profile.focusAreas) profile.focusAreas = { category: 'business' };
       if (!profile.selfAssessment) profile.selfAssessment = { useTextInput: false };
+
+      // Migrate longTermGoals from single object to array
+      if (!profile.longTermGoals) {
+        profile.longTermGoals = [];
+      } else if (!Array.isArray(profile.longTermGoals)) {
+        // Convert single TreeSelection to array
+        profile.longTermGoals = [profile.longTermGoals];
+        saveProfile(profile);
+      }
 
       return profile as UserProfile;
     }

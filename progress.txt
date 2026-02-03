@@ -791,3 +791,174 @@ Last task: profile-page-redesign - Complete with decision tree, new layout, Dev 
 Next task: phase-5.1 - Accusation Audit UX polish (brainstorm timing, visual continuity)
 Next action: Move brainstorm task to BEFORE scenario presentation for cleaner flow
 Blockers: none
+
+[2026-01-28 Session - Profile Redesign + Audit Brainstorm Timing]
+Two major changes implemented and committed.
+
+COMMITS:
+- d019779: Profile page redesign + practice module affect system + accusation audit
+- dc7ebce: Move brainstorm phase before scenario presentation
+
+PROFILE PAGE REDESIGN:
+- 2-level decision tree for Long-term Goals (Business/Personal/Other → specific goals)
+- Separate Focus Areas section with same tree structure
+- Demographics moved to top (intake form style)
+- Self-assessment with toggle between options/text input
+- Removed: Family Dynamics, Strengths, "Celebrate wins with me"
+- Dev Notes panel: moved to middle-right, always open by default
+
+ACCUSATION AUDIT BRAINSTORM TIMING:
+- New flow: selecting → brainstorming → presenting → recording
+- Brainstorm shows BEFORE full scenario details
+- Only minimal context shown (situation type, not full scenario)
+- Removed hints that would reveal answers
+- Added skip option for users who prefer going straight to recording
+
+RESEARCH DOCUMENTED:
+- .planning/research/PROFILE_PAGE_REDESIGN_RESEARCH.md
+- Onboarding decision tree best practices (71% activation boost with trees, 74% drop-off with complex forms)
+
+USER QUESTION: Asked if I can see Dev Notes feedback - explained it's in localStorage, not visible to me. Offered to add file-based saving.
+
+--- RESUME BLOCK ---
+Last task: audit-brainstorm-timing - Moved brainstorm phase before scenario presentation
+Next task: dev-notes-file-sync - Add file-based note saving (or continue phase-5.1 visual polish)
+Next action: Decide whether to add file-based feedback saving or continue with visual continuity polish
+Blockers: none
+
+[2026-01-28 UI/UX Refinements - Profile & Dashboard Density Pass]
+Major UI/UX refinement pass focused on density, single-window flows, and Dashboard as control surface.
+
+PROFILE PAGE REWRITE (4-step wizard):
+- Removed Demographics section (moved to new Settings page)
+- Removed Quick Notes section (moved to Dashboard)
+- Converted from scrolling page to 4-step sequential wizard:
+  1. Long-term Goals (now MULTI-SELECT via new MultiSelectDecisionTree)
+  2. Focus Areas (single select via DecisionTreeSelect)
+  3. Self-Assessment (toggle input)
+  4. Preferences + Additional Context field
+- Added profile summary header for returning users
+- Tighter spacing throughout (p-4, space-y-3)
+- Progress bar showing step 1-4
+
+DATA LAYER CHANGES:
+- types.ts: longTermGoals changed from TreeSelection to TreeSelection[]
+- types.ts: Added additionalContext?: string at profile root
+- profileStorage.ts: Added migration logic for array conversion
+- sessionStorage.ts: Added getSessionById() and getSessionsByDate() helpers
+
+NEW COMPONENTS CREATED:
+- src/components/ContributionHeatmap.tsx - GitHub-style 12-week activity heatmap
+- src/features/profile/components/MultiSelectDecisionTree.tsx - Multi-select goal picker
+- src/pages/SessionDetail.tsx - View details of past sessions (/session/:sessionId)
+- src/pages/Settings.tsx - Demographics form (moved from profile)
+
+DASHBOARD ENHANCEMENTS:
+- Added ContributionHeatmap near bottom (shows practice frequency)
+- Added collapsible "Practice Filters" section (Category + Difficulty dropdowns)
+- Made SessionCard clickable → navigates to SessionDetail page
+- Added Quick Notes section (shows 3 most recent notes)
+- Added Settings link to hamburger menu
+- URL params passed to practice modules (?category=X&difficulty=Y)
+
+PRACTICE MODULE UPDATES:
+- LabelingPractice.tsx: Reads category/difficulty from URL search params
+- AccusationAuditPractice.tsx: Reads category/difficulty from URL search params
+- Pre-selects filters if params present from Dashboard
+
+NEW ROUTES:
+- /session/:sessionId → SessionDetail
+- /settings → Settings
+
+FILES MODIFIED (12 total):
+- src/features/profile/types.ts
+- src/features/profile/profileStorage.ts
+- src/features/profile/ProfilePage.tsx (major rewrite)
+- src/services/sessionStorage.ts
+- src/pages/Dashboard.tsx (major updates)
+- src/App.tsx (new routes)
+- src/features/labeling/LabelingPractice.tsx
+- src/features/accusation-audit/AccusationAuditPractice.tsx
+
+FILES CREATED (4 new):
+- src/components/ContributionHeatmap.tsx
+- src/features/profile/components/MultiSelectDecisionTree.tsx
+- src/pages/SessionDetail.tsx
+- src/pages/Settings.tsx
+
+BUILD: Verified - TypeScript compiles, production build succeeds
+
+--- RESUME BLOCK ---
+Last task: ui-ux-refinements-complete - Profile wizard, Dashboard heatmap/filters/notes, Settings page
+Next task: testing-verification - Test all new features in browser
+Next action: Run dev server and verify: profile wizard flow, heatmap, clickable sessions, settings, URL params
+Blockers: none
+
+[2026-02-03 Phase 02 Checkpoint Rejected - Re-plan Decision]
+Phase 02 Plans 02-01 and 02-02 were executed (PlasmaOrb + orb-centric layout), Plan 02-03 (silence nudge + progress bar) was committed but checkpoint NOT approved.
+
+USER FEEDBACK (FEEDBACK-2026-02-03.md):
+- Orb design REJECTED: teal plasma sphere → neon green circle with mic icon (default) / red stop square (recording)
+- Session view REJECTED: remove word count, filler rate from real-time view
+- Session flow REJECTED: post-session content must go on SEPARATE page, not below session
+- Additional feedback: auto-leveling system, technique education pages, labeling/audit real-time feedback redesign
+
+CONFLICTS WITH CURRENT IMPLEMENTATION:
+1. PlasmaOrb (02-01) - entire component needs redesign
+2. SessionMetrics (02-02) - metrics shown during session need rethinking
+3. Session flow - post-session UI architecture change (separate route)
+
+DECISION MADE: Re-plan Phase 02 from scratch with new feedback.
+- Do NOT execute 02-03 as-is
+- Write new plans that incorporate FEEDBACK-2026-02-03.md
+- Existing code (PlasmaOrb.tsx, SessionMetrics.tsx, SilenceNudge.tsx, SessionProgressBar.tsx) may be partially reusable but orb visual is fundamentally different
+
+STATE UPDATES:
+- STATE.md updated with rejection + re-plan decision
+- ROADMAP.md Phase 02 marked as RE-PLAN REQUIRED
+- FEEDBACK-2026-02-03.md preserved as input for re-planning
+
+--- RESUME BLOCK ---
+Last task: phase-02-checkpoint-rejected - Feedback captured, re-plan decision made
+Next task: phase-02-replan - Re-plan Phase 02 with new orb design + session flow
+Next action: Run /gsd:discuss-phase 02 (or /gsd:plan-phase 02) with FEEDBACK-2026-02-03.md as primary input
+Blockers: none
+
+[2026-02-03 Phase 02 Complete - Checkpoint Verified]
+Phase 02 re-planned and executed successfully. All 3 plans (02-01, 02-02, 02-03) complete.
+
+VERIFICATION RESULTS (Puppeteer + code review):
+- Dashboard: shows only Filler Words + Speech Pace cards (v1.2 modules removed)
+- /practice/filler: SessionOrb (neon green circle, waveform icon, "Tap to start", static idle)
+- /practice/pace: Same orb layout, correct route
+- PostSessionResults (filler): summary with thresholds, stats (count + duration), 3 nav buttons
+- PostSessionResults (pace): summary with WPM commentary, stats (WPM + duration), 3 nav buttons
+- Navigation: "Try Again" → correct focus mode, "Dashboard" → /, no data → redirect to /
+- SilenceNudge: coach-tone messages, one-and-done via hasShownRef, auto-fade 5s
+- Build: TypeScript compiles, production build succeeds (584 KB, down from 744 KB)
+
+CLEANUP PERFORMED (v1.2 scope removal per CLAUDE.md rule #6):
+- Removed Dashboard cards: Label Emotions, Accusation Audit, Saying No
+- Removed Practice Filters section (category/difficulty dropdowns)
+- Removed App.tsx imports and routes for labeling/accusation-audit
+- Bundle reduced 160 KB
+
+FILES UPDATED:
+- Created: .planning/phases/02-audio-pipeline-visual-gauge/02-03-SUMMARY.md
+- Updated: .planning/ROADMAP.md (Phase 02 → Complete)
+- Updated: .planning/STATE.md (Phase 02 → Complete, ready for Phase 03)
+- Modified: src/pages/Dashboard.tsx (removed v1.2 cards + filters)
+- Modified: src/App.tsx (removed skill module routes + imports)
+
+MANUAL TESTS STILL NEEDED (mic-dependent):
+- Filler word counting during live speech
+- Orb brightness responding to voice volume
+- Silence nudge firing after 10s
+- Waveform visualization in pace mode
+- Orb color shift when speaking fast
+
+--- RESUME BLOCK ---
+Last task: phase-02-complete - All plans verified, dashboard cleaned, summaries written
+Next task: phase-03 - Duration Controls & Timer
+Next action: Run /gsd:plan-phase 03 to plan duration selection, countdown timer, and session auto-stop
+Blockers: none (recommend manual mic test before Vercel deploy)
