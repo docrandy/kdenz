@@ -12,6 +12,8 @@ import MicPermissionError from './MicPermissionError';
 import PromptSelector, { ActivePrompt } from './PromptSelector';
 import PlasmaOrb from './PlasmaOrb';
 import SessionMetrics from './SessionMetrics';
+import SilenceNudge from './SilenceNudge';
+import SessionProgressBar from './SessionProgressBar';
 import { SpeakingPrompt } from '../data/speakingPrompts';
 import { saveSession } from '../services/sessionStorage';
 import { getSettings, AppSettings } from '../services/settingsStorage';
@@ -69,6 +71,17 @@ export default function PracticeSession() {
 
   // Audio level for orb reactivity (0-1 normalized)
   const [audioLevel, setAudioLevel] = useState(0);
+
+  // Silence tracking — dual signal: audio level + speech recognition activity
+  const [silenceDuration, setSilenceDuration] = useState(0);
+  const silenceTimerRef = useRef<number | null>(null);
+  const lastWordCountRef = useRef<number>(0);
+  const speechIdleRef = useRef<boolean>(true);
+  const speechIdleTimerRef = useRef<number | null>(null);
+
+  const SILENCE_AUDIO_THRESHOLD = 0.02; // audioLevel below this = no voice signal
+  const SPEECH_IDLE_CHECK_MS = 2000; // if wordCount hasn't changed in 2s, speech recognition is idle
+  const SILENCE_NUDGE_MS = 10000; // 10 seconds of combined silence before nudge
 
   // Track last completed session for post-session summary
   const [lastSession, setLastSession] = useState<{
@@ -168,6 +181,72 @@ export default function PracticeSession() {
     };
   }, [audioContext, sourceNode, isCapturing]);
 
+  // Silence detection - dual signal approach
+  useEffect(() => {
+    if (!isCapturing) {
+      // Session not active — clear everything
+      if (silenceTimerRef.current) {
+        clearInterval(silenceTimerRef.current);
+        silenceTimerRef.current = null;
+      }
+      if (speechIdleTimerRef.current) {
+        clearTimeout(speechIdleTimerRef.current);
+        speechIdleTimerRef.current = null;
+      }
+      setSilenceDuration(0);
+      speechIdleRef.current = true;
+      lastWordCountRef.current = 0;
+      return;
+    }
+
+    // Check if wordCount changed (speech recognition produced new words)
+    if (wordCount > lastWordCountRef.current) {
+      lastWordCountRef.current = wordCount;
+      speechIdleRef.current = false;
+
+      // Reset the speech idle timer — user just spoke
+      if (speechIdleTimerRef.current) {
+        clearTimeout(speechIdleTimerRef.current);
+      }
+      speechIdleTimerRef.current = window.setTimeout(() => {
+        speechIdleRef.current = true;
+      }, SPEECH_IDLE_CHECK_MS);
+    }
+
+    // Combined silence check: low audio OR speech recognition idle
+    // Use OR logic: if EITHER signal says "no speech", count as silence.
+    // This catches: (1) quiet mic + no words, (2) ambient noise + no words
+    const isSilent = audioLevel < SILENCE_AUDIO_THRESHOLD || speechIdleRef.current;
+
+    if (isSilent) {
+      if (!silenceTimerRef.current) {
+        silenceTimerRef.current = window.setInterval(() => {
+          setSilenceDuration(prev => prev + 100);
+        }, 100);
+      }
+    } else {
+      // Active speech detected on BOTH signals — reset
+      if (silenceTimerRef.current) {
+        clearInterval(silenceTimerRef.current);
+        silenceTimerRef.current = null;
+      }
+      setSilenceDuration(0);
+    }
+
+    return () => {
+      if (silenceTimerRef.current) {
+        clearInterval(silenceTimerRef.current);
+        silenceTimerRef.current = null;
+      }
+      if (speechIdleTimerRef.current) {
+        clearTimeout(speechIdleTimerRef.current);
+        speechIdleTimerRef.current = null;
+      }
+    };
+  }, [isCapturing, audioLevel, wordCount, SILENCE_AUDIO_THRESHOLD, SPEECH_IDLE_CHECK_MS]);
+
+  const showSilenceNudge = isCapturing && silenceDuration >= SILENCE_NUDGE_MS;
+
   // Real-time filler count from transcript
   const liveFillerCount = useMemo(() => {
     const allText = finalTranscript + ' ' + interimTranscript;
@@ -192,6 +271,9 @@ export default function PracticeSession() {
       startFillerDetection();
     }
   }, [isCapturing, audioContext, sourceNode, isDetecting, startFillerDetection]);
+
+  // Session progress calculation (0-1)
+  const sessionProgress = selectedDuration > 0 ? Math.min(elapsedTime / selectedDuration, 1) : 0;
 
   const handleToggleSession = useCallback(async () => {
     if (isCapturing) {
@@ -267,6 +349,9 @@ export default function PracticeSession() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-clinical-bg px-4 py-6">
+      {/* Session progress bar - fixed at top of viewport */}
+      <SessionProgressBar progress={sessionProgress} visible={isCapturing} />
+
       <div className="w-full max-w-md">
         {/* Card with teal accent border */}
         <div className="bg-white border-2 border-clinical-accent rounded-lg shadow-lg p-5 sm:p-8">
@@ -357,6 +442,9 @@ export default function PracticeSession() {
                   size={250}
                 />
               </SessionMetrics>
+
+              {/* Silence nudge - appears below orb after 10s silence */}
+              <SilenceNudge visible={showSilenceNudge} />
 
               {/* Words count and speech status below orb */}
               <div className="text-center mb-4">
