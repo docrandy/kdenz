@@ -11,10 +11,10 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Status:** Phase 02 in progress
 **Active Phase:** 02 of 10 (Audio Pipeline & Visual Gauge)
-**Plan:** 02-01 complete (SessionOrb + WaveformVisualizer created)
-**Last Action:** 2026-02-03 - Completed Plan 02-01 (visual components)
+**Plan:** 02-02 complete (Focus-mode session layouts + SessionOrb integration)
+**Last Action:** 2026-02-03 - Completed Plan 02-02 (session refactor)
 
-**Progress:** ███░░░░░░░ 1/10 phases (~10%)
+**Progress:** ███░░░░░░░ 2/10 plans in phase (~20% of phase)
 
 ## Decisions Made
 
@@ -41,6 +41,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-03 | SessionOrb: Pace color feedback | Green (good) to yellow (fast) with smooth CSS transitions |
 | 2026-02-03 | WaveformVisualizer: Canvas-based | Real-time amplitude waveform with RMS calculation from AnalyserNode |
 | 2026-02-03 | WaveformVisualizer: Left-to-right build | Scrolling waveform using getImageData/putImageData |
+| 2026-02-03 | Focus-mode routing via prop | PracticeSession receives focusMode prop from route (simple, explicit) |
+| 2026-02-03 | Two-step stop pattern | Pause → Stop/Continue prevents accidental session endings |
+| 2026-02-03 | Session data in sessionStorage | Temporary storage for post-session page, auto-cleared |
 
 ## Blockers
 
@@ -56,9 +59,9 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-03
-**Stopped at:** Completed Plan 02-01 (SessionOrb + WaveformVisualizer)
-**Resume with:** Continue with Plan 02-02 (session integration) or next planned work
+**Stopped at:** Completed Plan 02-02 (Focus-mode session layouts + SessionOrb integration)
+**Resume with:** Continue with Plan 02-03 (post-session page) or next planned work
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-03 - Completed Plan 02-01 (SessionOrb + WaveformVisualizer)*
+*Last updated: 2026-02-03 - Completed Plan 02-02 (focus-mode session layouts)*
