@@ -34,25 +34,35 @@ Plans:
 
 ### Phase 02: Audio Pipeline & Visual Gauge
 
-**Goal:** Orb-centric mic capture to real-time visual metrics feedback loop
+**Goal:** Focus-mode session experience with neon green SessionOrb, real-time feedback, and post-session results page
 
 **Requirements:** AUDIO-01, AUDIO-02, AUDIO-03, FILLER-01, VIZ-01, VIZ-02, AUDIO-04
+
+**Status:** RE-PLANNED (2026-02-03) — 3 plans in 3 waves
 
 **Plans:** 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md -- Create PlasmaOrb visualization component (volumetric plasma sphere)
-- [ ] 02-02-PLAN.md -- Refactor PracticeSession to orb-centric layout with audio reactivity
-- [ ] 02-03-PLAN.md -- Add silence nudge, progress bar, and verify complete session loop
+- [ ] 02-01-PLAN.md -- SessionOrb + WaveformVisualizer standalone components
+- [ ] 02-02-PLAN.md -- Focus-mode session page refactor + BottomControlBar
+- [ ] 02-03-PLAN.md -- Post-session results page + silence nudge update + end-to-end checkpoint
 
-**Success Criteria:**
-- [ ] PlasmaOrb centerpiece renders with reactive animation
-- [ ] Clicking orb starts/stops session (replaces button)
-- [ ] WPM calculation displayed RIGHT of orb
-- [ ] Filler count displayed LEFT of orb
-- [ ] Real-time orb reactivity to voice (brightness, filament density)
-- [ ] Silence detection triggers nudge after 10s
-- [ ] Progress bar at top replaces countdown timer
+**Previous plans (REJECTED at checkpoint 2026-02-03):**
+- ~~02-01-PLAN.md -- PlasmaOrb (rejected: teal plasma → neon green circle + icon)~~
+- ~~02-02-PLAN.md -- Orb-centric layout (rejected: flanking metrics → focus-mode layouts)~~
+- ~~02-03-PLAN.md -- Silence nudge + progress bar (not executed, superseded)~~
+
+**Success Criteria (updated per CONTEXT.md v2):**
+- [ ] SessionOrb renders as neon green circle with icon (waveform bars idle, red stop recording)
+- [ ] SessionOrb brightness tracks voice volume during recording
+- [ ] SessionOrb color shifts green → yellow for pace feedback
+- [ ] Filler mode: orb + filler count below (no flanking metrics)
+- [ ] Pace mode: orb with color feedback + waveform visualization below
+- [ ] Bottom control bar: Pause → Stop/Continue two-step pattern
+- [ ] Silence detection triggers one-and-done nudge after 10s (coach tone)
+- [ ] Progress bar at top during session
+- [ ] Post-session results on separate page/route
+- [ ] Dashboard offers focus mode selection (filler words / speech pace)
 - [ ] Weekly trend chart deferred to Phase 06
 
 ---
