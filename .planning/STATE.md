@@ -11,10 +11,10 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Status:** Phase 02 In Progress
 **Active Phase:** 02 of 10 (Audio Pipeline & Visual Gauge)
-**Plan:** 1 of 3 in current phase (02-01 complete)
-**Last Action:** 2026-02-03 - Completed 02-01-PLAN.md (PlasmaOrb component)
+**Plan:** 2 of 3 in current phase (02-01, 02-02 complete)
+**Last Action:** 2026-02-03 - Completed 02-02-PLAN.md (Orb-centric layout with audio reactivity)
 
-**Progress:** ██░░░░░░░░ 1.5/10 phases (~15%)
+**Progress:** ███░░░░░░░ 2/10 phases (~20%)
 
 ## Decisions Made
 
@@ -35,6 +35,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-03 | Canvas 2D for PlasmaOrb | Best balance of visual quality and implementation complexity |
 | 2026-02-03 | Monochromatic reactivity for orb | Intensity/brightness/density changes, not color - preserves clinical palette |
 | 2026-02-03 | Procedural filament rendering | Wave interference patterns for volumetric plasma effect |
+| 2026-02-03 | AnalyserNode for audio level extraction | Real-time RMS calculation from time domain data, 3x amplification for visual response |
+| 2026-02-03 | Filler intensity linear scaling | fillerRate / 10 clamped to [0,1] - intuitive 10 fillers/min = max intensity |
+| 2026-02-03 | Orb as sole session control | Tap orb to start/stop - no separate buttons needed |
 
 ## Blockers
 
@@ -50,9 +53,9 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-03
-**Stopped at:** Completed 02-01-PLAN.md
-**Resume with:** Execute Plan 02-02 (Integrate PlasmaOrb with audio pipeline)
+**Stopped at:** Completed 02-02-PLAN.md
+**Resume with:** Execute Plan 02-03 (Progress bar implementation)
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-03 - Completed 02-01-PLAN.md*
+*Last updated: 2026-02-03 - Completed 02-02-PLAN.md*
