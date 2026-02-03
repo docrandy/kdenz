@@ -1,0 +1,93 @@
+/* SessionOrb — Neon green circle with icon and ambient glow */
+
+.session-orb-container {
+  /* Base circle */
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+
+  /* Smooth transitions for color, glow, brightness */
+  transition:
+    background-color 0.5s ease,
+    box-shadow 0.5s ease,
+    filter 0.1s ease,
+    transform 0.15s ease;
+
+  /* Prevent layout shift during interactions */
+  flex-shrink: 0;
+}
+
+/* Hover state — subtle brightness increase */
+.session-orb-container:hover:not(.disabled):not(.loading) {
+  filter: brightness(1.1) !important;
+}
+
+/* Active (press) state — slight scale down */
+.session-orb-container:active:not(.disabled):not(.loading) {
+  transform: scale(0.97);
+}
+
+/* Focus visible for keyboard accessibility */
+.session-orb-container:focus-visible {
+  outline: 3px solid rgba(0, 0, 0, 0.5);
+  outline-offset: 8px;
+}
+
+/* Loading state — pulsing animation */
+.session-orb-container.loading {
+  cursor: wait;
+  animation: orb-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes orb-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+}
+
+/* Disabled state */
+.session-orb-container.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  filter: brightness(0.8) saturate(0.5);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .session-orb-container {
+    transition: none;
+    animation: none;
+  }
+
+  .session-orb-container.loading {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* Icon transitions */
+.session-orb-container svg {
+  transition: opacity 0.2s ease;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .session-orb-container {
+    /* Slightly larger touch target on mobile */
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .session-orb-container:focus-visible {
+    outline-offset: 4px;
+  }
+}
