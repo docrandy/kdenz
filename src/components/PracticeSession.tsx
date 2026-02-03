@@ -65,6 +65,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const lastWordCountRef = useRef<number>(0);
   const speechIdleRef = useRef<boolean>(true);
   const speechIdleTimerRef = useRef<number | null>(null);
+  const nudgeShownRef = useRef(false); // Track if nudge has been shown this session
 
   const SILENCE_AUDIO_THRESHOLD = 0.02; // audioLevel below this = no voice signal
   const SPEECH_IDLE_CHECK_MS = 2000; // if wordCount hasn't changed in 2s, speech recognition is idle
@@ -212,7 +213,13 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     };
   }, [isCapturing, isPaused, audioLevel, wordCount, SILENCE_AUDIO_THRESHOLD, SPEECH_IDLE_CHECK_MS]);
 
-  const showSilenceNudge = isCapturing && !isPaused && silenceDuration >= SILENCE_NUDGE_MS;
+  // Only trigger once per session
+  const showSilenceNudge = isCapturing && !isPaused && !nudgeShownRef.current && silenceDuration >= SILENCE_NUDGE_MS;
+
+  // Callback when nudge is dismissed
+  const handleNudgeDismissed = useCallback(() => {
+    nudgeShownRef.current = true;
+  }, []);
 
   // Real-time filler count from transcript
   const liveFillerCount = useMemo(() => {
@@ -241,6 +248,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     setIsStarting(true);
     setWpm(0);
     resetTimer();
+    nudgeShownRef.current = false; // Reset nudge for new session
     try {
       await startAudio();
       startSpeech();
@@ -371,7 +379,10 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
             )}
 
             {/* Silence nudge */}
-            <SilenceNudge visible={showSilenceNudge} />
+            <SilenceNudge
+              triggered={showSilenceNudge}
+              onDismissed={handleNudgeDismissed}
+            />
 
             {/* Bottom control bar */}
             <BottomControlBar
