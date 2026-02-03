@@ -9,6 +9,8 @@ import WelcomeScreen from './components/WelcomeScreen'
 import DiagnosticOnboarding from './components/DiagnosticOnboarding'
 import Privacy from './pages/Privacy'
 import Dashboard from './pages/Dashboard'
+import { SessionDetail } from './pages/SessionDetail'
+import { Settings } from './pages/Settings'
 import { LabelingPractice } from './features/labeling'
 import { AccusationAuditPractice } from './features/accusation-audit'
 import { ProfilePage } from './features/profile'
@@ -37,8 +39,8 @@ function ProfileRoute() {
   return <ProfilePage onBack={() => navigate('/')} />
 }
 
-// Wrapper for Free Practice with navigation
-function FreePracticeRoute() {
+// Wrapper for Free Practice with navigation - Filler mode
+function FreePracticeFillerRoute() {
   const navigate = useNavigate()
   return (
     <div>
@@ -53,7 +55,28 @@ function FreePracticeRoute() {
           </button>
         </div>
       </div>
-      <PracticeSession />
+      <PracticeSession focusMode="filler" />
+    </div>
+  )
+}
+
+// Wrapper for Free Practice with navigation - Pace mode
+function FreePracticePaceRoute() {
+  const navigate = useNavigate()
+  return (
+    <div>
+      {/* Back button header */}
+      <div className="bg-white border-b sticky top-0 z-10">
+        <div className="max-w-2xl mx-auto px-4 py-4">
+          <button
+            onClick={() => navigate('/')}
+            className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+          >
+            ← Back to Dashboard
+          </button>
+        </div>
+      </div>
+      <PracticeSession focusMode="pace" />
     </div>
   )
 }
@@ -141,10 +164,13 @@ function App() {
         <Routes>
           <Route path="/" element={renderHome()} />
           <Route path="/privacy" element={<Privacy />} />
-          <Route path="/practice" element={<FreePracticeRoute />} />
+          <Route path="/practice/filler" element={<FreePracticeFillerRoute />} />
+          <Route path="/practice/pace" element={<FreePracticePaceRoute />} />
           <Route path="/practice/labeling" element={<LabelingPracticeRoute />} />
           <Route path="/practice/accusation-audit" element={<AccusationAuditRoute />} />
           <Route path="/profile" element={<ProfileRoute />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/session/:sessionId" element={<SessionDetail />} />
         </Routes>
         <FeedbackButton />
         <DevFeedbackBoxesWrapper />
