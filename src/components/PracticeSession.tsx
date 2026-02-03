@@ -2,8 +2,6 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer, FillerDetection, WordTiming } from '../core/audio';
 import DurationSelector from './DurationSelector';
-import CountdownTimer from './CountdownTimer';
-import WeeklyTrendChart from './WeeklyTrendChart';
 import SettingsPanel from './SettingsPanel';
 import AudioPlayback from './AudioPlayback';
 import TranscriptView from './TranscriptView';
@@ -12,7 +10,8 @@ import Scorecard from './Scorecard';
 import AISummary from './AISummary';
 import MicPermissionError from './MicPermissionError';
 import PromptSelector, { ActivePrompt } from './PromptSelector';
-import FillerGauge from './FillerGauge';
+import PlasmaOrb from './PlasmaOrb';
+import SessionMetrics from './SessionMetrics';
 import { SpeakingPrompt } from '../data/speakingPrompts';
 import { saveSession } from '../services/sessionStorage';
 import { getSettings, AppSettings } from '../services/settingsStorage';
@@ -68,8 +67,8 @@ export default function PracticeSession() {
   // WPM calculation state
   const [wpm, setWpm] = useState(0);
 
-  // Chart refresh trigger
-  const [chartRefreshKey, setChartRefreshKey] = useState(0);
+  // Audio level for orb reactivity (0-1 normalized)
+  const [audioLevel, setAudioLevel] = useState(0);
 
   // Track last completed session for post-session summary
   const [lastSession, setLastSession] = useState<{
@@ -106,7 +105,6 @@ export default function PracticeSession() {
   }, []);
 
   const {
-    timeRemaining,
     elapsedTime,
     start: startTimer,
     stop: stopTimer,
@@ -124,6 +122,52 @@ export default function PracticeSession() {
     }
   }, [isCapturing, elapsedTime, wordCount]);
 
+  // Audio level extraction for orb reactivity
+  useEffect(() => {
+    if (!audioContext || !sourceNode || !isCapturing) {
+      setAudioLevel(0);
+      return;
+    }
+
+    const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    sourceNode.connect(analyser);
+
+    let animationFrameId: number;
+
+    const updateAudioLevel = () => {
+      analyser.getByteTimeDomainData(dataArray);
+
+      // Calculate RMS (root mean square) for volume level
+      let sum = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        const normalized = (dataArray[i] - 128) / 128; // -1 to 1
+        sum += normalized * normalized;
+      }
+      const rms = Math.sqrt(sum / bufferLength);
+
+      // Normalize to 0-1 range (amplify for better visual response)
+      const normalized = Math.min(rms * 3, 1);
+
+      setAudioLevel(normalized);
+      animationFrameId = requestAnimationFrame(updateAudioLevel);
+    };
+
+    updateAudioLevel();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      try {
+        sourceNode.disconnect(analyser);
+      } catch {
+        // Already disconnected, ignore
+      }
+    };
+  }, [audioContext, sourceNode, isCapturing]);
+
   // Real-time filler count from transcript
   const liveFillerCount = useMemo(() => {
     const allText = finalTranscript + ' ' + interimTranscript;
@@ -136,6 +180,11 @@ export default function PracticeSession() {
     const elapsedMinutes = elapsedTime / 60;
     return liveFillerCount / elapsedMinutes;
   }, [liveFillerCount, elapsedTime]);
+
+  // Filler intensity for orb (0-1, where 10 fillers/min = 1.0)
+  const fillerIntensity = useMemo(() => {
+    return Math.min(liveFillerRate / 10, 1);
+  }, [liveFillerRate]);
 
   // Start filler detection when audio context is ready
   useEffect(() => {
@@ -162,7 +211,6 @@ export default function PracticeSession() {
 
       if (elapsedTime > 0 && wordCount > 0) {
         saveSession(sessionData);
-        setChartRefreshKey(k => k + 1);
       }
 
       // Store for post-session summary display
@@ -242,26 +290,24 @@ export default function PracticeSession() {
             </div>
           )}
 
-          {/* Duration selector - shown before session */}
+          {/* Pre-session: Duration and Prompt Selectors */}
           {!isCapturing && !lastSession && (
-            <div className="mb-6">
-              <p className="text-xs text-clinical-muted mb-2 text-center">Session Duration</p>
-              <DurationSelector
-                selected={selectedDuration}
-                onChange={setSelectedDuration}
-                disabled={isCapturing}
-              />
-            </div>
-          )}
-
-          {/* Speaking prompt selector - shown before session */}
-          {!isCapturing && !lastSession && (
-            <div className="mb-6">
-              <PromptSelector
-                onSelect={setSelectedPrompt}
-                selectedDuration={selectedDuration}
-              />
-            </div>
+            <>
+              <div className="mb-6">
+                <p className="text-xs text-clinical-muted mb-2 text-center">Session Duration</p>
+                <DurationSelector
+                  selected={selectedDuration}
+                  onChange={setSelectedDuration}
+                  disabled={isCapturing}
+                />
+              </div>
+              <div className="mb-6">
+                <PromptSelector
+                  onSelect={setSelectedPrompt}
+                  selectedDuration={selectedDuration}
+                />
+              </div>
+            </>
           )}
 
           {/* Active prompt display - shown during session */}
@@ -274,56 +320,51 @@ export default function PracticeSession() {
             </div>
           )}
 
-          {/* Countdown timer - shown during session */}
-          <CountdownTimer
-            timeRemaining={timeRemaining}
-            isActive={isCapturing}
-            warningThreshold={settings.timerWarning}
-            criticalThreshold={settings.timerCritical}
-          />
+          {/* Orb-centric layout: BEFORE session */}
+          {!isCapturing && !lastSession && (
+            <div className="flex flex-col items-center mb-6">
+              <PlasmaOrb
+                audioLevel={0}
+                fillerIntensity={0}
+                isActive={false}
+                onClick={handleToggleSession}
+                isLoading={isStarting}
+                disabled={isStarting}
+                size={250}
+              />
+              <p className="text-sm text-clinical-muted mt-4">
+                Tap orb to start
+              </p>
+            </div>
+          )}
 
-          {/* Status indicator with accent color */}
-          <div className="flex items-center gap-2 mb-6">
-            <div
-              className={`w-3 h-3 rounded-full ${
-                isCapturing ? 'bg-clinical-accent animate-pulse' : 'bg-clinical-muted'
-              }`}
-            />
-            <span className="text-sm text-clinical-muted">
-              {isCapturing ? 'Mic active' : 'Mic ready'}
-            </span>
-          </div>
-
-          {/* Real-time metrics display - during session */}
+          {/* Orb-centric layout: DURING session */}
           {isCapturing && (
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <div className="grid grid-cols-2 gap-4">
-                {/* WPM */}
-                <div className="text-center p-3 bg-white rounded-lg">
-                  <span className="text-4xl font-bold text-clinical-text">{wpm}</span>
-                  <p className="text-sm text-clinical-muted mt-1">WPM</p>
-                  <p className="text-xs text-clinical-muted">
-                    {wpm < 100 ? 'Slow' : wpm <= 150 ? 'Good' : wpm <= 180 ? 'Fast' : 'Very Fast'}
-                  </p>
-                </div>
-
-                {/* Fillers - Visual Gauge (agents.md: visual gauges required) */}
-                <FillerGauge
-                  fillerCount={liveFillerCount}
-                  fillerRate={liveFillerRate}
-                  thresholdGood={settings.fillerRateGood}
-                  thresholdWarning={settings.fillerRateWarning}
+            <>
+              <SessionMetrics
+                fillerCount={liveFillerCount}
+                fillerRate={liveFillerRate}
+                wpm={wpm}
+                isActive={isCapturing}
+              >
+                <PlasmaOrb
+                  audioLevel={audioLevel}
+                  fillerIntensity={fillerIntensity}
+                  isActive={true}
+                  onClick={handleToggleSession}
+                  isLoading={false}
+                  disabled={false}
+                  size={250}
                 />
-              </div>
+              </SessionMetrics>
 
-              {/* Words count */}
-              <div className="text-center mt-3">
+              {/* Words count and speech status below orb */}
+              <div className="text-center mb-4">
                 <span className="text-lg font-semibold text-clinical-text">{wordCount}</span>
                 <span className="text-sm text-clinical-muted ml-2">words spoken</span>
               </div>
 
-              {/* Speech recognition status */}
-              <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-gray-200">
+              <div className="flex items-center justify-center gap-2 mb-6">
                 <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-green-500' : 'bg-yellow-500'}`} />
                 <span className="text-sm text-clinical-muted">
                   {isListening ? 'Listening...' : 'Starting...'}
@@ -332,10 +373,28 @@ export default function PracticeSession() {
 
               {/* Interim transcript preview */}
               {interimTranscript && (
-                <div className="mt-3 p-3 bg-white rounded border border-gray-200">
+                <div className="mb-6 p-3 bg-white rounded border border-clinical-border">
                   <p className="text-base text-clinical-text italic">"{interimTranscript}"</p>
                 </div>
               )}
+            </>
+          )}
+
+          {/* Orb-centric layout: AFTER session */}
+          {!isCapturing && lastSession && (
+            <div className="flex flex-col items-center mb-6">
+              <PlasmaOrb
+                audioLevel={0}
+                fillerIntensity={0}
+                isActive={false}
+                onClick={handleToggleSession}
+                isLoading={isStarting}
+                disabled={isStarting}
+                size={250}
+              />
+              <p className="text-sm text-clinical-muted mt-4">
+                Tap orb to start new session
+              </p>
             </div>
           )}
 
@@ -353,24 +412,6 @@ export default function PracticeSession() {
               />
             </div>
           )}
-
-          {/* Start/Stop Session button */}
-          <button
-            onClick={handleToggleSession}
-            disabled={isStarting}
-            className={`w-full py-3 px-6 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
-              isCapturing
-                ? 'bg-red-600 text-white hover:bg-red-700'
-                : isStarting
-                ? 'bg-gray-400 text-white cursor-not-allowed'
-                : 'bg-clinical-text text-white hover:bg-gray-800'
-            }`}
-          >
-            {isStarting && (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            )}
-            {isStarting ? 'Starting...' : isCapturing ? 'Stop Session' : 'Start Session'}
-          </button>
 
           {/* Decorative accent element */}
           <div className="mt-6 pt-6 border-t border-clinical-border">
@@ -428,15 +469,6 @@ export default function PracticeSession() {
             />
           </div>
         )}
-
-        {/* Weekly Trend Chart */}
-        <div className="mt-4">
-          <WeeklyTrendChart
-            refreshKey={chartRefreshKey}
-            thresholdGood={settings.fillerRateGood}
-            thresholdWarning={settings.fillerRateWarning}
-          />
-        </div>
 
         {/* Skill Practice Modules */}
         <div className="mt-4 bg-white border border-clinical-border rounded-lg p-4">
