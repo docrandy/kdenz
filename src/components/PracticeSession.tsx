@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } from '../core/audio';
 import MicPermissionError from './MicPermissionError';
 import { SessionOrb } from './SessionOrb';
@@ -22,6 +23,8 @@ interface PracticeSessionProps {
 }
 
 export default function PracticeSession({ focusMode }: PracticeSessionProps) {
+  const navigate = useNavigate();
+
   const {
     isCapturing,
     audioContext,
@@ -306,10 +309,9 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     stopSpeech();
     stopAudio();
 
-    // TODO: Navigate to post-session page (Plan 02-03)
-    // For now, just log
-    console.log('Session ended:', sessionData);
-  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, stopTimer, stopFillerDetection, stopSpeech, stopAudio]);
+    // Navigate to post-session results page
+    navigate('/practice/results');
+  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
   useEffect(() => {

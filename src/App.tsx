@@ -9,6 +9,7 @@ import WelcomeScreen from './components/WelcomeScreen'
 import DiagnosticOnboarding from './components/DiagnosticOnboarding'
 import Privacy from './pages/Privacy'
 import Dashboard from './pages/Dashboard'
+import PostSessionResults from './pages/PostSessionResults'
 import { SessionDetail } from './pages/SessionDetail'
 import { Settings } from './pages/Settings'
 import { LabelingPractice } from './features/labeling'
@@ -166,6 +167,7 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/practice/filler" element={<FreePracticeFillerRoute />} />
           <Route path="/practice/pace" element={<FreePracticePaceRoute />} />
+          <Route path="/practice/results" element={<PostSessionResults />} />
           <Route path="/practice/labeling" element={<LabelingPracticeRoute />} />
           <Route path="/practice/accusation-audit" element={<AccusationAuditRoute />} />
           <Route path="/profile" element={<ProfileRoute />} />
