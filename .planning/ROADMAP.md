@@ -67,18 +67,33 @@ Plans:
 
 ---
 
-### Phase 03: Duration Controls & Timer
+### Phase 03: Session Foundation — Timing, Baseline & First-Run
 
-**Goal:** Complete session timing and state management
+**Goal:** Complete session lifecycle: first-run consent/baseline flow, duration selection, countdown timer, persistent baseline storage, and design system color alignment
 
-**Requirements:** SESS-01, SESS-02, SESS-03, SESS-04
+**Requirements:** SESS-01, SESS-02, SESS-03, SESS-04, BASE-01, BASE-02, CONSENT-01, DESIGN-01
+
+**Plans:** 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Design system color alignment (Signal Green) + session data model + baseline storage service
+- [ ] 03-02-PLAN.md — Consent/disclosure modal with locked foundation copy + first-run gating
+- [ ] 03-03-PLAN.md — Pre-session duration picker + countdown bar + dynamic timer + Unlimited mode
+- [ ] 03-04-PLAN.md — Baseline session flow + baseline results + PostSessionResults delta display + end-to-end checkpoint
 
 **Success Criteria:**
-- [ ] Duration selection UI (30s/60s/90s+) works
-- [ ] Countdown timer displays correctly
+- [ ] First-run consent/disclosure modal gates first recording (copy from foundation docs)
+- [ ] First session is a fixed 3-minute baseline capture with onboarding instructions
+- [ ] Baseline metrics stored in localStorage (WPM, filler rate, pause rate, timestamp)
+- [ ] Duration selection UI (1min / 2min / 3min / Unlimited) for regular sessions
+- [ ] Countdown bar displays correctly (visual bar only, no digital numbers)
 - [ ] Session auto-stops at duration end
 - [ ] Manual stop button works
 - [ ] Audio recording captured for playback
+- [ ] Last-used duration remembered (localStorage)
+- [ ] SessionOrb color updated to Signal Green (#00C851) per locked design system
+- [ ] Pace hue shift (green→yellow) removed; pace shown as number/label instead
+- [ ] Session data model distinguishes baseline vs regular sessions
 
 ---
 
@@ -114,14 +129,17 @@ Plans:
 
 ### Phase 06: Scorecard & AI Summary
 
-**Goal:** Post-session results with optional AI insights
+**Goal:** Post-session results with baseline comparison, self-reflection, implementation intentions, and optional AI insights
 
-**Requirements:** VIZ-03, VIZ-04, AI-01, AI-02, AI-03
+**Requirements:** VIZ-03, VIZ-04, AI-01, AI-02, AI-03, REFLECT-01, TRANSFER-01
 
 **Success Criteria:**
+- [ ] Self-assessment prompt before data reveal ("How do you think that went?")
 - [ ] Post-session Scorecard component displays
-- [ ] Metrics summary shows (WPM avg, filler count, filler rate, duration)
+- [ ] Metrics show as delta from baseline (e.g., "Filler rate: 6% (+2% from baseline)")
+- [ ] Confidence intervals / uncertainty shown on each metric (per core principle #3)
 - [ ] Weekly trend chart populated with session data
+- [ ] Implementation intention prompt post-scorecard ("When I notice a filler, I will ___")
 - [ ] Generate AI Summary button works
 - [ ] Gemini integration returns coaching insights
 - [ ] API error falls back to local stats only
@@ -130,12 +148,15 @@ Plans:
 
 ### Phase 07: Polish & Error Handling
 
-**Goal:** Production-ready UX with error states
+**Goal:** Production-ready UX with error states, audio quality warnings, and copy compliance
 
-**Requirements:** UI-03, PAGE-02
+**Requirements:** UI-03, PAGE-02, QUALITY-01, COPY-01
 
 **Success Criteria:**
 - [ ] Mic permission error handling works
+- [ ] Audio quality monitoring: noise/clipping detection with warning messages (copy from foundation docs)
+- [ ] Transcript confidence indicator shown before downstream metrics
+- [ ] Copy-lint check: all UI strings validated against locked language boundaries
 - [ ] Full session flow tested end-to-end
 - [ ] UI transitions and loading states polished
 - [ ] Mobile layout usable (Chrome mobile)
@@ -190,13 +211,13 @@ Plans:
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 01 | Project Setup & Scaffolding | 5 | ✓ Complete |
-| 02 | Audio Pipeline & Visual Gauge | 7 | ✓ Complete |
-| 03 | Duration Controls & Timer | 4 | Pending |
+| 01 | Project Setup & Scaffolding | 5 | Complete |
+| 02 | Audio Pipeline & Visual Gauge | 7 | Complete |
+| 03 | Session Foundation — Timing, Baseline & First-Run | 8 | Planned (4 plans) |
 | 04 | Playback with Filler Highlighting | 5 | Pending |
 | 05 | Transcript with Highlights | 6 | Pending |
-| 06 | Scorecard & AI Summary | 6 | Pending |
-| 07 | Polish & Error Handling | 2 | Pending |
+| 06 | Scorecard & AI Summary | 9 | Pending |
+| 07 | Polish & Error Handling | 4 | Pending |
 | 08 | Deployment & Beta Prep | 1 | Pending |
 | 09 | Light Diagnostics (Parallel) | 3 | Pending |
 | 10 | Privacy & Prompts (Parallel) | 2 | Pending |
@@ -207,4 +228,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-03 - Phase 02 complete*
+*Last updated: 2026-02-04 - Phase 03 planned (4 plans in 3 waves); Phase 06/07 adjusted per research audit*
