@@ -9,22 +9,22 @@ Requirements for private beta release.
 
 ### Audio Pipeline
 
-- [ ] **AUDIO-01**: User can start/stop voice recording via single button
-- [ ] **AUDIO-02**: Audio captured via MediaRecorder for playback
-- [ ] **AUDIO-03**: Real-time audio analysis runs during recording (pitch, volume, tempo)
-- [ ] **AUDIO-04**: Silence detected after 10 seconds triggers nudge prompt
+- [x] **AUDIO-01**: User can start/stop voice recording via single button ✓
+- [x] **AUDIO-02**: Audio captured via MediaRecorder for playback ✓
+- [x] **AUDIO-03**: Real-time audio analysis runs during recording (pitch, volume, tempo) ✓
+- [x] **AUDIO-04**: Silence detected after 10 seconds triggers nudge prompt ✓
 
 ### Filler Detection
 
-- [ ] **FILLER-01**: Acoustic filler detection runs in real-time during speech
+- [x] **FILLER-01**: Acoustic filler detection runs in real-time during speech ✓
 - [ ] **FILLER-02**: Transcript-based filler reconciliation runs at session end
 - [ ] **FILLER-03**: Filler timestamps captured for playback markers
 - [ ] **FILLER-04**: Filler types distinguished (um, uh, like, you know)
 
 ### Visual Feedback
 
-- [ ] **VIZ-01**: Real-time filler count displayed as visual gauge (not plain number)
-- [ ] **VIZ-02**: WPM displayed with visual indicator during session
+- [x] **VIZ-01**: Real-time filler count displayed as visual gauge (not plain number) ✓
+- [x] **VIZ-02**: WPM displayed with visual indicator during session ✓
 - [ ] **VIZ-03**: Weekly trend chart shows filler rate across sessions
 - [ ] **VIZ-04**: Post-session scorecard displays all metrics summary
 
@@ -121,12 +121,19 @@ Deferred to future releases.
 | PLAT-01 | 01 | Complete |
 | PLAT-02 | 01 | Complete |
 | PLAT-03 | 01 | Complete |
+| AUDIO-01 | 02 | Complete |
+| AUDIO-02 | 02 | Complete |
+| AUDIO-03 | 02 | Complete |
+| AUDIO-04 | 02 | Complete |
+| FILLER-01 | 02 | Complete |
+| VIZ-01 | 02 | Complete |
+| VIZ-02 | 02 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
-- Complete: 5
-- Remaining: 25
+- Complete: 12
+- Remaining: 18
 
 ---
 *Requirements defined: 2026-01-25*
-*Last updated: 2026-01-25 - Phase 01 requirements complete*
+*Last updated: 2026-02-04 - Phase 02 requirements complete*
