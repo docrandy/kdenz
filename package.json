@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "copy-lint": "tsx scripts/copy-lint.ts src/"
   },
   "dependencies": {
     "@google/genai": "^1.31.0",
@@ -32,6 +33,7 @@
     "jsdom": "^24.1.3",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.18",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^5.4.11",
