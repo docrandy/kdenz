@@ -5,14 +5,10 @@ const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 interface WeeklyTrendChartProps {
   refreshKey?: number;
-  thresholdGood?: number;
-  thresholdWarning?: number;
 }
 
 export default function WeeklyTrendChart({
   refreshKey,
-  thresholdGood = 2,
-  thresholdWarning = 5
 }: WeeklyTrendChartProps) {
   const aggregates = useMemo(() => {
     // refreshKey forces recalculation when sessions change
@@ -47,8 +43,6 @@ export default function WeeklyTrendChart({
               day={day}
               maxValue={maxFillerRate}
               isToday={idx === aggregates.length - 1}
-              thresholdGood={thresholdGood}
-              thresholdWarning={thresholdWarning}
             />
           ))}
         </div>
@@ -73,21 +67,16 @@ interface DayBarProps {
   day: DailyAggregate;
   maxValue: number;
   isToday: boolean;
-  thresholdGood: number;
-  thresholdWarning: number;
 }
 
-function DayBar({ day, maxValue, isToday, thresholdGood, thresholdWarning }: DayBarProps) {
+function DayBar({ day, maxValue, isToday }: DayBarProps) {
   const heightPercent = day.sessionCount > 0
     ? Math.max((day.avgFillerRate / maxValue) * 100, 8) // Min 8% for visibility
     : 0;
 
+  // Use neutral color (clinical-accent) for all bars - no judgment
   const barColor = day.sessionCount > 0
-    ? day.avgFillerRate <= thresholdGood
-      ? 'bg-green-400'
-      : day.avgFillerRate <= thresholdWarning
-        ? 'bg-yellow-400'
-        : 'bg-red-400'
+    ? 'bg-clinical-accent'
     : 'bg-gray-200';
 
   return (
