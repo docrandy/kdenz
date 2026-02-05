@@ -6,8 +6,6 @@ interface SessionOrbProps {
   audioLevel: number;
   /** Whether currently recording */
   isRecording: boolean;
-  /** Pace state for color feedback: 'good' = green (default), 'fast' = yellow */
-  paceState: 'good' | 'fast';
   /** Click handler */
   onClick: () => void;
   /** Whether the orb is in a loading/starting state */
@@ -21,7 +19,6 @@ interface SessionOrbProps {
 export const SessionOrb: React.FC<SessionOrbProps> = ({
   audioLevel,
   isRecording,
-  paceState,
   onClick,
   isLoading = false,
   disabled = false,
@@ -41,11 +38,9 @@ export const SessionOrb: React.FC<SessionOrbProps> = ({
   // Calculate glow intensity based on audio level
   const glowIntensity = isRecording ? 0.5 + audioLevel * 0.5 : 0.6;
 
-  // Determine color based on pace state
-  const baseColor = paceState === 'good' ? '#39FF14' : '#FBBF24'; // Neon green or yellow
-  const glowColor = paceState === 'good'
-    ? 'rgba(57, 255, 20, OPACITY)'
-    : 'rgba(251, 191, 36, OPACITY)';
+  // Signal Green color from locked design system
+  const baseColor = '#00C851';
+  const glowColor = 'rgba(0, 200, 81, OPACITY)';
 
   // Build dynamic box-shadow for ambient glow
   const boxShadow = `

@@ -44,7 +44,7 @@ export const BottomControlBar: React.FC<BottomControlBarProps> = ({
           </button>
           <button
             onClick={onContinue}
-            className="flex items-center gap-2 px-6 py-3 bg-[#39FF14] hover:bg-[#2ECC10] text-black rounded-full transition-all duration-300 min-h-[44px]"
+            className="flex items-center gap-2 px-6 py-3 bg-[#00C851] hover:bg-[#00A843] text-black rounded-full transition-all duration-300 min-h-[44px]"
             aria-label="Continue recording"
           >
             <PlayIcon />

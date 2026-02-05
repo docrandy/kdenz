@@ -240,13 +240,6 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   // Session progress calculation (0-1)
   const sessionProgress = selectedDuration > 0 ? Math.min(elapsedTime / selectedDuration, 1) : 0;
 
-  // Calculate pace state for orb color
-  const paceState: 'good' | 'fast' = useMemo(() => {
-    if (!isCapturing || focusMode !== 'pace') return 'good';
-    if (wpm > 170) return 'fast';
-    return 'good';
-  }, [isCapturing, focusMode, wpm]);
-
   const handleStart = useCallback(async () => {
     setIsStarting(true);
     setWpm(0);
@@ -344,7 +337,6 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
             <SessionOrb
               audioLevel={0}
               isRecording={false}
-              paceState="good"
               onClick={handleStart}
               isLoading={isStarting}
               disabled={isStarting}
@@ -359,7 +351,6 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
             <SessionOrb
               audioLevel={audioLevel}
               isRecording={!isPaused}
-              paceState={paceState}
               onClick={() => {}}
               disabled={true}
             />
@@ -373,11 +364,17 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
             )}
 
             {focusMode === 'pace' && (
-              <WaveformVisualizer
-                analyserNode={analyserRef.current}
-                isActive={isCapturing && !isPaused}
-                height={120}
-              />
+              <>
+                <WaveformVisualizer
+                  analyserNode={analyserRef.current}
+                  isActive={isCapturing && !isPaused}
+                  height={120}
+                />
+                <div className="text-center mt-2">
+                  <span className="text-2xl font-semibold text-gray-900">{wpm} WPM</span>
+                  <p className="text-sm text-gray-500 mt-1">Speaking Pace</p>
+                </div>
+              </>
             )}
 
             {/* Silence nudge */}
