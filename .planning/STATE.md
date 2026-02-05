@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Core value:** Users discover unconscious speaking habits they didn't know they had
-**Current focus:** Phase 07 — Polish & Error Handling
+**Current focus:** Phase 08 — Deployment & Beta Prep
 
 ## Current State
 
-**Status:** Phase 07 COMPLETE — All polish and error handling tasks delivered
-**Active Phase:** 08 of 10 (Next: Deployment Preparation)
-**Plan:** Completed 07-05 (feedback + loading states). Phase 07 complete (5/5 plans).
-**Last Action:** 2026-02-05 - Completed Phase 07 (Polish & Error Handling)
+**Status:** Phase 08 IN PROGRESS — Deployment to production
+**Active Phase:** 08 of 10 (Deployment Preparation)
+**Plan:** Completed 08-01 (production deployment). Phase 08: 1/3 plans complete.
+**Last Action:** 2026-02-05 - Deployed to Vercel production (https://kdenz.vercel.app)
 
-**Progress:** ███████████████████████░░░ 7/10 phases complete
+**Progress:** ████████████████████████░░ 8/10 phases in progress (08-01 complete)
 
 ## Decisions Made
 
@@ -102,6 +102,8 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Safe-area-inset padding (pb-safe) | Ensures controls don't get hidden by iPhone home indicator on notched devices |
 | 2026-02-05 | Active states on mobile interactions | Visual feedback for touch events (active:bg-gray-100, active:opacity-80) |
 | 2026-02-05 | Reduced waveform height for mobile | 100px height (was 120px) fits better in mobile viewport without scroll |
+| 2026-02-05 | Production deployment to kdenz.vercel.app | Vercel production deployment with verified build pipeline |
+| 2026-02-05 | Copy-lint as pre-deployment gate | Language boundary compliance verified before distribution |
 
 ## Blockers
 
@@ -117,8 +119,16 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed Phase 07 (Polish & Error Handling) - all 5 plans complete
-**Resume with:** Phase 08 (Deployment Preparation)
+**Stopped at:** Completed Phase 08 Plan 01 (Production Deployment)
+**Resume with:** Phase 08 Plan 02 (Browser compatibility testing)
+
+**Phase 08 execution context (IN PROGRESS - 1/3 plans complete):**
+- Plan 08-01 complete: 3 tasks, 0 commits (deployment only), 2m duration
+- Production deployment to https://kdenz.vercel.app
+- Build verification passed (exit code 0)
+- Copy-lint compliance verified (0 violations across 92 files)
+- Bundle size: 676.31 KB (acceptable for beta)
+- Ready for Phase 08-02: Browser compatibility testing
 
 **Phase 07 COMPLETE (all 5 plans delivered):**
 - Plan 07-01 complete: 4 tasks (3 executed, 1 pre-existing), 1 commit, 52m duration
@@ -209,4 +219,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Completed Phase 06 (Scorecard & AI Summary)*
+*Last updated: 2026-02-05 - Completed Phase 08-01 (Production Deployment)*
