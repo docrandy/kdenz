@@ -8,6 +8,7 @@ import { WaveformVisualizer } from './WaveformVisualizer';
 import SilenceNudge from './SilenceNudge';
 import SessionProgressBar from './SessionProgressBar';
 import { saveBaseline } from '../services/baselineStorage';
+import { reconcileFillers } from '../lib/fillerReconciler';
 
 // Helper function to convert Blob to base64 for sessionStorage
 async function blobToBase64(blob: Blob): Promise<string> {
@@ -325,6 +326,14 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     const elapsedMinutes = elapsedTime / 60;
     const transcriptFillerRate = elapsedMinutes > 0 ? transcriptFillerCount / elapsedMinutes : 0;
 
+    // Hybrid filler detection: combine acoustic + transcript
+    // fillerEvents is already FillerDetection[] type — no mapping needed
+    const reconciledFillers = reconcileFillers(
+      finalTranscript + ' ' + interimTranscript,
+      fillerEvents,  // Already FillerDetection[] from useFillerDetector
+      wordTimings    // Already WordTiming[] from useWebSpeech (captured at line 84)
+    );
+
     // Convert audio blob to base64 for storage
     let audioData: string | null = null;
     if (audioBlob) {
@@ -369,6 +378,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         transcript: finalTranscript,
         fillerEvents: [...fillerEvents],
         wordTimings: [...wordTimings],
+        reconciledFillers: reconciledFillers,
       }));
     } catch {
       // sessionStorage not available
