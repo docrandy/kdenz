@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 07 IN PROGRESS — Transcript confidence complete
+**Status:** Phase 07 IN PROGRESS — Audio quality monitoring complete
 **Active Phase:** 07 of 10 (Polish & Error Handling)
-**Plan:** Completed 07-02 (transcript confidence indicator). Next: Continue Phase 07 plans.
-**Last Action:** 2026-02-05 - Completed 07-02 (Transcript confidence tracking)
+**Plan:** Completed 07-01 (audio quality monitoring). Next: Continue Phase 07 plans.
+**Last Action:** 2026-02-05 - Completed 07-01 (Audio quality monitoring with real-time warnings)
 
-**Progress:** ██████████████████████░░░░ 6.4/10 phases complete (Phase 07 in progress)
+**Progress:** ██████████████████████░░░░ 6.5/10 phases complete (Phase 07 in progress)
 
 ## Decisions Made
 
@@ -92,6 +92,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Confidence threshold 0.7 for low warning | Chrome Web Speech API confidence below 0.7 indicates significant transcription uncertainty |
 | 2026-02-05 | Hide high confidence indicator (>= 0.85) | Don't clutter UI with non-issues; only show when confidence warrants user attention |
 | 2026-02-05 | Neutral tier system: High/Medium/Low | Per Core Principle #3 and language boundaries - no judgment colors or words |
+| 2026-02-05 | Inline SVG icons (no library) | Project has no icon dependencies, keeps bundle small, linter auto-converts |
+| 2026-02-05 | Quality warnings during active session only | Avoid distraction when paused, only warn when user is actively recording |
+| 2026-02-05 | Clinical-warm-amber for quality warnings | Amber palette (#EF6C00 family) for non-critical information per design system |
+| 2026-02-05 | Noise detection via frequency analysis | Low frequency bins (< 300Hz) indicate background noise with 0.3 threshold |
+| 2026-02-05 | Clipping detection via time-domain sampling | 3+ consecutive samples at max value indicates microphone clipping |
 
 ## Blockers
 
@@ -107,10 +112,21 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed plan 07-02 (transcript confidence indicator) - Phase 07 IN PROGRESS
-**Resume with:** Continue Phase 07 plans (audio quality warnings, mobile polish, error states, etc.)
+**Stopped at:** Completed plan 07-01 (audio quality monitoring) - Phase 07 IN PROGRESS
+**Resume with:** Continue Phase 07 plans (mobile polish, feedback enhancement, end-to-end verification)
 
-**Phase 07 execution context (IN PROGRESS - 2/5 plans complete):**
+**Phase 07 execution context (IN PROGRESS - 3/5 plans complete):**
+- Plan 07-01 complete: 4 tasks (3 executed, 1 pre-existing), 1 commit, 52m duration
+- Commits (07-01): d505829 (wire warnings into PracticeSession)
+- Audio quality detection in useAudioCapture (noise via frequency analysis, clipping via time-domain sampling)
+- AudioQualityWarning component with verbatim foundation copy, inline SVG icons
+- Warnings display during active session only (not when paused), positioned above SessionOrb
+- qualityWarnings saved to sessionStorage for potential post-session display
+- Bug fix: Fixed missing confidence fields in useWebSpeech return statement (TypeScript error)
+- MicPermissionError component already existed with complete error handling (denied/unavailable/in-use/unknown)
+- Next: Plan 07-04 (mobile polish), 07-05 (feedback + end-to-end)
+
+**Phase 07 execution context (IN PROGRESS - 2/5 plans complete as of prior session):**
 - Plan 07-02 complete: 3 tasks, 3 commits, 9m duration
 - Commits (07-02): c754a76 (useWebSpeech tracking), 63936f3 (TranscriptConfidenceIndicator), 25001c4 (integration + lucide-react fix)
 - Web Speech API confidence tracking with averageConfidence and lowConfidenceSegments metrics
@@ -118,7 +134,6 @@ None currently.
 - Confidence display on PostSessionResults and EvaluationPage (only when < 0.85)
 - Foundation copy verbatim for low confidence warning
 - Deviation fix: Replaced lucide-react imports with inline SVG in AudioQualityWarning.tsx (blocking build issue)
-- Next: Plan 07-01 (audio quality monitoring), 07-04 (mobile polish), or 07-05 (feedback + end-to-end)
 
 **Phase 07 execution context (IN PROGRESS):**
 - Plan 07-03 complete: 2 tasks, 2 commits, 8m duration
