@@ -11,10 +11,10 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Status:** Phase 06 in progress — plan 06-02 complete
 **Active Phase:** 06 of 10 (Scorecard & AI Summary) — IN PROGRESS
-**Plan:** 06-02 complete (3/3 tasks). Next: plan 06-03 (AI summary integration).
-**Last Action:** 2026-02-05 - Completed plan 06-02 (baseline deltas and uncertainty in Scorecard)
+**Plan:** 06-01 complete (3/3 tasks), 06-02 complete (3/3 tasks). Next: plan 06-03 (AI summary integration).
+**Last Action:** 2026-02-05 - Completed plan 06-01 (reflection prompts integration)
 
-**Progress:** ████████████████████░░ 5.2/10 phases complete (06-02 done)
+**Progress:** ████████████████████░░ 5.1/10 phases complete (06-01, 06-02 done)
 
 ## Decisions Made
 
@@ -78,6 +78,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Confidence interval heuristic | Session length determines CI width: <60s = ±15 WPM, <120s = ±10 WPM, ≥120s = ±5 WPM |
 | 2026-02-05 | Verbatim foundation copy | Context notes and reflection prompts copied exactly from metric-card-templates-v1.md (locked foundation docs) |
 | 2026-02-05 | MetricCard composition pattern | Reusable component for individual metrics with baseline deltas and uncertainty display |
+| 2026-02-05 | Self-assessment before metrics reveal | Research-backed (d >= 0.4) self-regulated learning prompt improves metacognitive accuracy |
+| 2026-02-05 | Implementation intention after metrics | Research-backed (d >= 0.5) when/then commitment format improves skill transfer to real-world |
+| 2026-02-05 | Four-phase reflection flow | self-assess → metrics → intention → complete state machine in PostSessionResults |
+| 2026-02-05 | GAIN framework for prompts | Goal, Ally, Impact, Non-judgmental - all reflection copy uses neutral descriptive language |
+| 2026-02-05 | Baseline sessions skip reflection | First session is calibration only - no judgment or commitment until user has baseline data |
 
 ## Blockers
 
@@ -93,12 +98,18 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed plan 06-02 (baseline deltas and uncertainty in Scorecard)
-**Resume with:** Plan 06-03 (AI summary integration) or manual verification of Scorecard display
+**Stopped at:** Completed plan 06-01 (reflection prompts integration)
+**Resume with:** Plan 06-03 (AI summary integration with Gemini)
 
-**Phase 06 execution context (plan 06-02 complete):**
+**Phase 06 execution context (plans 06-01, 06-02 complete):**
+- Plan 06-01 complete: 3 tasks, 3 commits, 7m 52s duration
+- Commits (06-01): 14373b0 (SelfAssessment), a764b87 (ImplementationIntention), b25d355 (reflection flow)
+- Self-assessment component with GAIN-aligned copy and 5-point scale
+- Implementation intention component with when/then template and suggestion chips
+- Four-phase reflection flow: self-assess → metrics → intention → complete
+- Baseline sessions skip reflection prompts (no judgment on first session)
 - Plan 06-02 complete: 3 tasks, 3 commits, 22m duration
-- Commits: ff2d9ac (MetricCard), 798a0ad (Scorecard refactor), 6c21bec (PostSessionResults integration)
+- Commits (06-02): ff2d9ac (MetricCard), 798a0ad (Scorecard refactor), 6c21bec (PostSessionResults integration)
 - MetricCard component created with baseline delta and uncertainty display
 - Scorecard refactored to use MetricCard composition, judgment colors removed
 - Foundation copy templates applied verbatim
@@ -137,4 +148,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Completed plan 06-02 (baseline deltas and uncertainty in Scorecard)*
+*Last updated: 2026-02-05 - Completed plan 06-01 (reflection prompts integration)*
