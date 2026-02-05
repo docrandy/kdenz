@@ -17,9 +17,9 @@ Requirements for private beta release.
 ### Filler Detection
 
 - [x] **FILLER-01**: Acoustic filler detection runs in real-time during speech ✓
-- [ ] **FILLER-02**: Transcript-based filler reconciliation runs at session end
+- [x] **FILLER-02**: Transcript-based filler reconciliation runs at session end ✓
 - [x] **FILLER-03**: Filler timestamps captured for playback markers ✓
-- [ ] **FILLER-04**: Filler types distinguished (um, uh, like, you know)
+- [x] **FILLER-04**: Filler types distinguished (um, uh, like, you know) ✓
 
 ### Visual Feedback
 
@@ -37,10 +37,10 @@ Requirements for private beta release.
 
 ### Transcript
 
-- [ ] **TRANS-01**: Transcript captured via Web Speech API (Chrome)
-- [ ] **TRANS-02**: Transcript displays after session with segments
-- [ ] **TRANS-03**: Toggle switches between pace highlights and filler highlights
-- [ ] **TRANS-04**: Only one highlight type visible at a time
+- [x] **TRANS-01**: Transcript captured via Web Speech API (Chrome) ✓
+- [x] **TRANS-02**: Transcript displays after session with segments ✓
+- [x] **TRANS-03**: Toggle switches between pace highlights and filler highlights ✓
+- [x] **TRANS-04**: Only one highlight type visible at a time ✓
 
 ### Session Flow
 

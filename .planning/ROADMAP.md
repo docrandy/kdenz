@@ -122,26 +122,28 @@ Plans:
 
 ---
 
-### Phase 05: Transcript with Highlights
+### Phase 05: Transcript with Highlights ✓
 
 **Goal:** Transcript display with toggle-able highlighting on Evaluation page
 
+**Status:** Complete (2026-02-05)
+
 **Requirements:** TRANS-01, TRANS-02, TRANS-03, TRANS-04, FILLER-02, FILLER-04
 
-**Plans:** 3 plans
+**Plans:** 3/3 complete
 
 Plans:
-- [ ] 05-01-PLAN.md — Wire hybrid filler reconciliation + store to sessionStorage
-- [ ] 05-02-PLAN.md — EvaluationPage with TranscriptView + HighlightToggle
-- [ ] 05-03-PLAN.md — Filler type distinction (color-coded categories) + human verify
+- [x] 05-01-PLAN.md — Wire hybrid filler reconciliation + store to sessionStorage
+- [x] 05-02-PLAN.md — EvaluationPage with TranscriptView + HighlightToggle
+- [x] 05-03-PLAN.md — Filler type distinction with neutral color (design principle alignment)
 
 **Success Criteria:**
-- [ ] Transcript captured via Web Speech API (Chrome)
-- [ ] Hybrid filler detection: acoustic + transcript reconciliation
-- [ ] Transcript segments stored with timestamps
-- [ ] Toggle between pace OR filler highlight views
-- [ ] Transcript display styled per design system
-- [ ] Filler types distinguished (um, uh, like, you know)
+- [x] Transcript captured via Web Speech API (Chrome)
+- [x] Hybrid filler detection: acoustic + transcript reconciliation
+- [x] Transcript segments stored with timestamps
+- [x] Toggle between pace OR filler highlight views
+- [x] Transcript display styled per design system
+- [x] Filler types distinguished (um, uh, like, you know)
 
 ---
 
