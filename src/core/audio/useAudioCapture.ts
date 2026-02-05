@@ -14,7 +14,7 @@
  * - Manage UI state beyond capture status
  */
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 
 export interface UseAudioCaptureResult {
   /** Whether mic is currently capturing */
@@ -29,6 +29,8 @@ export interface UseAudioCaptureResult {
   audioBlobSize: number;
   /** Error message if mic access failed */
   error: string | null;
+  /** Active audio quality warnings */
+  qualityWarnings: ('noise' | 'clipping')[];
   /** Start capturing audio */
   start: () => Promise<void>;
   /** Stop capturing and finalize blob */
@@ -42,11 +44,14 @@ export function useAudioCapture(): UseAudioCaptureResult {
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioBlobSize, setAudioBlobSize] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [qualityWarnings, setQualityWarnings] = useState<('noise' | 'clipping')[]>([]);
 
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const isStoppingRef = useRef(false);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const qualityCheckIntervalRef = useRef<number | null>(null);
 
   const start = useCallback(async () => {
     if (isCapturing) {
@@ -73,6 +78,13 @@ export function useAudioCapture(): UseAudioCaptureResult {
       // Create AudioContext for analysis
       const ctx = new AudioContext();
       const source = ctx.createMediaStreamSource(stream);
+
+      // Create AnalyserNode for quality monitoring
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      source.connect(analyser);
+      analyserRef.current = analyser;
+
       setAudioContext(ctx);
       setSourceNode(source);
 
@@ -160,9 +172,76 @@ export function useAudioCapture(): UseAudioCaptureResult {
     }
     setAudioContext(null);
     setSourceNode(null);
+    analyserRef.current = null;
 
     setIsCapturing(false);
   }, [isCapturing, audioContext]);
+
+  // Audio quality monitoring - runs every 500ms during capture
+  useEffect(() => {
+    if (!isCapturing || !analyserRef.current) {
+      setQualityWarnings([]);
+      if (qualityCheckIntervalRef.current) {
+        clearInterval(qualityCheckIntervalRef.current);
+        qualityCheckIntervalRef.current = null;
+      }
+      return;
+    }
+
+    const analyser = analyserRef.current;
+    const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    const timeDomainData = new Uint8Array(analyser.fftSize);
+
+    const checkQuality = () => {
+      const warnings: ('noise' | 'clipping')[] = [];
+
+      // Noise detection: analyze low frequencies (< 300Hz)
+      analyser.getByteFrequencyData(frequencyData);
+
+      // Calculate noise floor from first 10% of frequency bins (low frequencies)
+      const lowFreqBins = Math.floor(frequencyData.length * 0.1);
+      let lowFreqSum = 0;
+      for (let i = 0; i < lowFreqBins; i++) {
+        lowFreqSum += frequencyData[i];
+      }
+      const noiseFloor = lowFreqSum / (lowFreqBins * 255); // Normalize to 0-1
+
+      if (noiseFloor > 0.3) {
+        warnings.push('noise');
+      }
+
+      // Clipping detection: check if samples reach max values
+      analyser.getByteTimeDomainData(timeDomainData);
+
+      let clippingCount = 0;
+      for (let i = 0; i < timeDomainData.length; i++) {
+        const sample = timeDomainData[i];
+        // Check if at or very near max/min (0 or 255 in byte format)
+        if (sample <= 1 || sample >= 254) {
+          clippingCount++;
+          // Check for consecutive samples
+          if (clippingCount >= 3) {
+            warnings.push('clipping');
+            break;
+          }
+        } else {
+          clippingCount = 0;
+        }
+      }
+
+      setQualityWarnings(warnings);
+    };
+
+    // Check quality every 500ms
+    qualityCheckIntervalRef.current = window.setInterval(checkQuality, 500);
+
+    return () => {
+      if (qualityCheckIntervalRef.current) {
+        clearInterval(qualityCheckIntervalRef.current);
+        qualityCheckIntervalRef.current = null;
+      }
+    };
+  }, [isCapturing]);
 
   return {
     isCapturing,
@@ -171,6 +250,7 @@ export function useAudioCapture(): UseAudioCaptureResult {
     audioBlob,
     audioBlobSize,
     error,
+    qualityWarnings,
     start,
     stop,
   };

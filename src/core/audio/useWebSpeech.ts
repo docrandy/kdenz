@@ -82,6 +82,10 @@ export interface UseWebSpeechResult {
   transcriptSegments: TranscriptSegment[];
   /** Word timings for highlighting */
   wordTimings: WordTiming[];
+  /** Average confidence score (0-1) across all final results */
+  averageConfidence: number;
+  /** Count of low confidence segments (below 0.7 threshold) */
+  lowConfidenceSegments: number;
   /** Whether recognition is active */
   isListening: boolean;
   /** Error message if recognition failed */
@@ -114,6 +118,8 @@ export function useWebSpeech(): UseWebSpeechResult {
   const [wordCount, setWordCount] = useState(0);
   const [transcriptSegments, setTranscriptSegments] = useState<TranscriptSegment[]>([]);
   const [wordTimings, setWordTimings] = useState<WordTiming[]>([]);
+  const [averageConfidence, setAverageConfidence] = useState(0);
+  const [lowConfidenceSegments, setLowConfidenceSegments] = useState(0);
   const [isListening, setIsListening] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -122,6 +128,7 @@ export function useWebSpeech(): UseWebSpeechResult {
   const sessionStartRef = useRef<number>(0);
   const lastSegmentEndRef = useRef<number>(0);
   const wordIndexRef = useRef<number>(0);
+  const confidenceScoresRef = useRef<number[]>([]);
 
   // Check for browser support
   const isSupported = typeof window !== 'undefined' &&
@@ -157,8 +164,24 @@ export function useWebSpeech(): UseWebSpeechResult {
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
         const transcript = result[0].transcript;
+        const confidence = result[0].confidence;
 
         if (result.isFinal) {
+          // Track confidence from final results only (Chrome returns 0 for interim)
+          if (confidence > 0) {
+            confidenceScoresRef.current.push(confidence);
+
+            // Calculate updated average
+            const sum = confidenceScoresRef.current.reduce((acc, val) => acc + val, 0);
+            const avg = sum / confidenceScoresRef.current.length;
+            setAverageConfidence(avg);
+
+            // Track low confidence segments (below 0.7 threshold)
+            if (confidence < 0.7) {
+              setLowConfidenceSegments(prev => prev + 1);
+            }
+          }
+
           // Calculate segment timing
           const segmentStart = lastSegmentEndRef.current || (now - sessionStartRef.current);
           const segmentEnd = now - sessionStartRef.current;
@@ -240,11 +263,14 @@ export function useWebSpeech(): UseWebSpeechResult {
     setWordCount(0);
     setTranscriptSegments([]);
     setWordTimings([]);
+    setAverageConfidence(0);
+    setLowConfidenceSegments(0);
     setError(null);
     finalTranscriptRef.current = '';
     sessionStartRef.current = Date.now();
     lastSegmentEndRef.current = 0;
     wordIndexRef.current = 0;
+    confidenceScoresRef.current = [];
 
     try {
       recognitionRef.current.start();
@@ -272,6 +298,8 @@ export function useWebSpeech(): UseWebSpeechResult {
     wordCount,
     transcriptSegments,
     wordTimings,
+    averageConfidence,
+    lowConfidenceSegments,
     isListening,
     error,
     start,
