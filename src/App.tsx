@@ -7,6 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import FeedbackButton from './components/FeedbackButton'
 import WelcomeScreen from './components/WelcomeScreen'
 import DiagnosticOnboarding from './components/DiagnosticOnboarding'
+import ConsentModal from './components/ConsentModal'
 import Privacy from './pages/Privacy'
 import Dashboard from './pages/Dashboard'
 import PostSessionResults from './pages/PostSessionResults'
@@ -17,6 +18,7 @@ import { isChrome, getBrowserName } from './utils/browserDetection'
 import DevFeedbackBoxes from './components/DevFeedbackBoxes'
 import { hasDiagnosticResults } from './lib/diagnosticQuestions'
 
+const CONSENT_ACCEPTED_KEY = 'voicelab_consent_accepted'
 const WELCOME_SEEN_KEY = 'voicelab_welcome_seen'
 const DIAGNOSTIC_SKIPPED_KEY = 'voicelab_diagnostic_skipped'
 
@@ -70,6 +72,7 @@ function FreePracticePaceRoute() {
 
 function App() {
   const [browserWarningDismissed, setBrowserWarningDismissed] = useState(false)
+  const [consentAccepted, setConsentAccepted] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const [showDiagnostic, setShowDiagnostic] = useState(false)
   const chromeDetected = isChrome()
@@ -77,6 +80,15 @@ function App() {
   // Check onboarding state
   useEffect(() => {
     try {
+      // Check consent first
+      const consent = localStorage.getItem(CONSENT_ACCEPTED_KEY)
+      if (!consent) {
+        setConsentAccepted(false)
+        return // Don't check other onboarding until consent is given
+      }
+      setConsentAccepted(true)
+
+      // Then check welcome and diagnostic
       const welcomeSeen = localStorage.getItem(WELCOME_SEEN_KEY)
       const diagnosticSkipped = localStorage.getItem(DIAGNOSTIC_SKIPPED_KEY)
       const hasDiagnostics = hasDiagnosticResults()
@@ -87,10 +99,29 @@ function App() {
         setShowDiagnostic(true)
       }
     } catch {
+      setConsentAccepted(false)
       setShowWelcome(false)
       setShowDiagnostic(false)
     }
   }, [])
+
+  const handleConsentAccept = () => {
+    try {
+      localStorage.setItem(CONSENT_ACCEPTED_KEY, 'true')
+    } catch {
+      // Storage not available
+    }
+    setConsentAccepted(true)
+    // Check if welcome should be shown
+    try {
+      const welcomeSeen = localStorage.getItem(WELCOME_SEEN_KEY)
+      if (!welcomeSeen) {
+        setShowWelcome(true)
+      }
+    } catch {
+      // Continue without welcome
+    }
+  }
 
   const handleWelcomeComplete = () => {
     try {
@@ -143,6 +174,17 @@ function App() {
     }
 
     return <Dashboard />
+  }
+
+  // Top-level consent gate - blocks ALL routes until consent is given
+  if (!consentAccepted) {
+    return (
+      <ErrorBoundary>
+        <div className="min-h-screen bg-clinical-bg text-clinical-text">
+          <ConsentModal onAccept={handleConsentAccept} />
+        </div>
+      </ErrorBoundary>
+    )
   }
 
   return (
