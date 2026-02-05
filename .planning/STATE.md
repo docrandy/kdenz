@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Core value:** Users discover unconscious speaking habits they didn't know they had
-**Current focus:** Ready for Phase 02 - Audio Pipeline & Visual Gauge
+**Current focus:** Phase 03 — Session Foundation (Timing, Baseline & First-Run)
 
 ## Current State
 
-**Status:** Phase 02 COMPLETE — ready for Phase 03
-**Active Phase:** 02 of 10 (Audio Pipeline & Visual Gauge) — DONE
-**Plan:** All 3 plans (02-01, 02-02, 02-03) complete. Checkpoint verified.
-**Last Action:** 2026-02-03 - Phase 02 checkpoint verified. Dashboard cleaned of v1.2 scope items. Summary written.
+**Status:** Phase 03 in progress — 2/4 plans executed (03-01, 03-02 complete)
+**Active Phase:** 03 of 10 (Session Foundation — Timing, Baseline & First-Run) — IN PROGRESS
+**Plan:** 4 plans total, 2 complete (03-01, 03-02), 2 remaining (03-03, 03-04)
+**Last Action:** 2026-02-05 - Completed plan 03-02: Consent Modal & First-Run Gating
 
-**Progress:** ██████████ 3/3 plans in phase (COMPLETE)
+**Progress:** ██████████░░░░░░░░░░ 2/4 plans in phase
 
 ## Decisions Made
 
@@ -44,6 +44,17 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-03 | Focus-mode routing via prop | PracticeSession receives focusMode prop from route (simple, explicit) |
 | 2026-02-03 | Two-step stop pattern | Pause → Stop/Continue prevents accidental session endings |
 | 2026-02-03 | Session data in sessionStorage | Temporary storage for post-session page, auto-cleared |
+| 2026-02-04 | Research audit of docs/REGISTRY.md | Cross-referenced 20+ research docs against build plan |
+| 2026-02-04 | Phase 03 expanded: baseline + consent + color | Research shows baseline-first UX is foundational; consent modal gates first recording |
+| 2026-02-04 | Duration options: 1min/2min/3min/Unlimited | 30s dropped (unreliable metrics), 90s dropped (simplify), research-backed minimums |
+| 2026-02-04 | Baseline: 3-minute fixed first session | Research gaps tracker + bias research: personal baselining is "gold standard" |
+| 2026-02-04 | SessionOrb: #39FF14 → #00C851 (Signal Green) | Follow locked design system; neon green not in approved palette |
+| 2026-02-04 | Pace hue shift REMOVED | Violates design principle #2 "no judgment in visuals"; pace shown as number instead |
+| 2026-02-04 | Phase 06 expanded: self-assessment, implementation intentions, uncertainty | Transfer research (d=0.4-0.5 effect sizes), core principle #3 |
+| 2026-02-04 | Phase 07 expanded: audio quality warnings, copy-lint | Foundation docs have locked copy for warnings; language boundaries need enforcement |
+| 2026-02-05 | Consent copy verbatim from foundation docs | Use locked copy from docs/foundation/copy/consent-and-onboarding-copy-v1.md for legal/compliance safety |
+| 2026-02-05 | Top-level consent gate blocks all routes | Cleaner than per-route guards; ensures consent before ANY interaction |
+| 2026-02-05 | localStorage key: voicelab_consent_accepted | Separate from welcome/diagnostic keys for clear separation of concerns |
 
 ## Blockers
 
@@ -58,17 +69,25 @@ None currently.
 
 ## Session Continuity
 
-**Last session:** 2026-02-03
-**Stopped at:** Phase 02 complete. Checkpoint verified, summaries written, roadmap updated.
-**Resume with:** `/gsd:plan-phase 03` — Duration Controls & Timer
+**Last session:** 2026-02-05
+**Stopped at:** Completed plan 03-02 (Consent Modal & First-Run Gating). 2/4 plans in Phase 03 complete.
+**Resume with:** `/gsd:execute-plan 03-03` — Duration picker + countdown timer + Unlimited mode
 
-**Phase 02 completion context:**
+**Research audit context (2026-02-04):**
+- Audited docs/REGISTRY.md against all 10 roadmap phases
+- Identified 6 red flags (baseline missing, design drift, duration concerns, etc.)
+- Identified 4 high-leverage ideas (self-assessment d=0.4, implementation intentions d=0.5, feedback-off sessions, baseline delta)
+- Phase 03 expanded to include: consent modal, baseline capture, color alignment
+- Phase 06 expanded to include: self-assessment, implementation intentions, uncertainty display, baseline deltas
+- Phase 07 expanded to include: audio quality warnings, copy-lint compliance
+- All changes documented in ROADMAP.md and 03-CONTEXT.md
+
+**Phase 02 completion context (carried forward):**
 - All 3 plans executed and verified
-- Dashboard cleaned: v1.2 skill module cards removed (Label Emotions, Accusation Audit, Saying No, Practice Filters)
+- Dashboard cleaned: v1.2 skill module cards removed
 - Bundle reduced from 744 KB → 584 KB
-- 02-03-SUMMARY.md written
 - Manual mic-dependent tests still recommended before Vercel deploy
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-03 - Phase 02 complete, checkpoint verified*
+*Last updated: 2026-02-05 - Completed plan 03-02 (Consent Modal & First-Run Gating); 2/4 plans in Phase 03 complete*
