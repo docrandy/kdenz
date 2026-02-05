@@ -189,18 +189,20 @@ export default function PostSessionResults() {
   // Phase 1: Self-assessment (before metrics reveal)
   if (phase === 'self-assess') {
     return (
-      <SelfAssessment
-        focusMode={sessionData.focusMode}
-        onComplete={handleSelfAssessComplete}
-        onSkip={handleSelfAssessSkip}
-      />
+      <div className="transition-opacity duration-300">
+        <SelfAssessment
+          focusMode={sessionData.focusMode}
+          onComplete={handleSelfAssessComplete}
+          onSkip={handleSelfAssessSkip}
+        />
+      </div>
     );
   }
 
   // Phase 2: Metrics display
   if (phase === 'metrics') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe transition-opacity duration-300">
         <div className="max-w-md w-full space-y-6 sm:space-y-8">
           {/* Header */}
           <div className="text-center">
@@ -298,18 +300,20 @@ export default function PostSessionResults() {
   // Phase 3: Implementation intention (post-metrics commitment)
   if (phase === 'intention') {
     return (
-      <ImplementationIntention
-        focusMode={sessionData.focusMode}
-        fillerCount={sessionData.fillerCount}
-        onComplete={handleIntentionComplete}
-        onSkip={handleIntentionSkip}
-      />
+      <div className="transition-opacity duration-300">
+        <ImplementationIntention
+          focusMode={sessionData.focusMode}
+          fillerCount={sessionData.fillerCount}
+          onComplete={handleIntentionComplete}
+          onSkip={handleIntentionSkip}
+        />
+      </div>
     );
   }
 
   // Phase 4: Complete (full navigation)
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe transition-opacity duration-300">
       <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">

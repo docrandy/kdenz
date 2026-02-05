@@ -8,6 +8,7 @@ import { BottomControlBar } from './BottomControlBar';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import SilenceNudge from './SilenceNudge';
 import SessionProgressBar from './SessionProgressBar';
+import LoadingSpinner from './LoadingSpinner';
 import { saveBaseline } from '../services/baselineStorage';
 import { reconcileFillers } from '../lib/fillerReconciler';
 
@@ -121,6 +122,9 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
   // Loading state for start button
   const [isStarting, setIsStarting] = useState(false);
+
+  // Loading state for session end processing
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // AnalyserNode ref for WaveformVisualizer
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -318,6 +322,9 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   }, [startSpeech, startTimer]);
 
   const handleStop = useCallback(async () => {
+    // Show processing state
+    setIsProcessing(true);
+
     // Stop everything first to finalize audioBlob
     setIsPaused(false);
     stopTimer();
@@ -338,7 +345,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       wordTimings    // Already WordTiming[] from useWebSpeech (captured at line 84)
     );
 
-    // Convert audio blob to base64 for storage
+    // Convert audio blob to base64 for storage (show loading during this)
     let audioData: string | null = null;
     if (audioBlob) {
       try {
@@ -397,6 +404,9 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     } else {
       navigate('/practice/results');
     }
+
+    // Reset processing state
+    setIsProcessing(false);
   }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, isBaseline, silenceDuration, audioBlob, qualityWarnings, averageConfidence, lowConfidenceSegments, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
@@ -408,9 +418,19 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const error = audioError || speechError;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe transition-all duration-200">
       {/* Countdown bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
       <SessionProgressBar remaining={countdownRemaining} visible={isCapturing && !isPaused && durationSeconds > 0} />
+
+      {/* Processing overlay */}
+      {isProcessing && (
+        <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+          <div className="flex flex-col items-center gap-3">
+            <LoadingSpinner size="lg" />
+            <p className="text-sm text-gray-600">Processing your session...</p>
+          </div>
+        </div>
+      )}
 
       {/* Error display */}
       {error && (

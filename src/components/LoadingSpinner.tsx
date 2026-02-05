@@ -21,18 +21,18 @@ export default function LoadingSpinner({
     lg: 'w-8 h-8 border-3',
   };
 
-  // Use Tailwind color if provided, otherwise default
-  const borderColor = color.startsWith('#') ? color : `var(--${color})`;
-  const borderStyle = color.startsWith('#')
+  // Use inline styles for hex colors, Tailwind classes otherwise
+  const isHexColor = color.startsWith('#');
+  const borderStyle = isHexColor
     ? { borderColor: color, borderTopColor: 'transparent' }
     : {};
 
   return (
     <div
       className={`${sizeClasses[size]} rounded-full animate-spin ${
-        !color.startsWith('#') ? `border-${color} border-t-transparent` : ''
+        !isHexColor ? `border-${color} border-t-transparent` : ''
       } ${className}`}
-      style={color.startsWith('#') ? borderStyle : undefined}
+      style={isHexColor ? borderStyle : undefined}
       role="status"
       aria-label="Loading"
     >
