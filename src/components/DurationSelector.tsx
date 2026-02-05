@@ -1,15 +1,10 @@
+import { DURATION_OPTIONS } from '../services/durationConfig';
+
 interface DurationSelectorProps {
   selected: number;
   onChange: (duration: number) => void;
   disabled?: boolean;
 }
-
-const DURATION_OPTIONS = [
-  { value: 30, label: '30s' },
-  { value: 60, label: '60s' },
-  { value: 90, label: '90s' },
-  { value: 120, label: '2min' },
-];
 
 export default function DurationSelector({
   selected,
@@ -17,7 +12,7 @@ export default function DurationSelector({
   disabled = false,
 }: DurationSelectorProps) {
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-center gap-2 flex-wrap">
       {DURATION_OPTIONS.map((option) => {
         const isSelected = selected === option.value;
         return (
@@ -26,15 +21,15 @@ export default function DurationSelector({
             onClick={() => onChange(option.value)}
             disabled={disabled}
             className={`
-              px-4 py-2 rounded-full border text-sm font-medium transition-colors
+              px-6 py-3 rounded-full border text-sm font-medium transition-colors
               ${isSelected
-                ? 'bg-clinical-accent text-white border-clinical-accent'
-                : 'bg-white text-clinical-muted border-clinical-border hover:border-clinical-accent'
+                ? 'bg-black text-white border-black'
+                : 'bg-white text-gray-700 border-gray-300 hover:border-black'
               }
               ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             `}
           >
-            {option.label}
+            {option.value === 0 ? '∞' : option.label}
           </button>
         );
       })}

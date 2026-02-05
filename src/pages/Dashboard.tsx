@@ -79,7 +79,7 @@ export default function Dashboard() {
               icon="🎤"
               title="Filler Words"
               description="Practice reducing ums, uhs, and likes with real-time feedback"
-              onClick={() => navigate('/practice/filler')}
+              onClick={() => navigate('/practice/filler/setup')}
               accent="cyan"
             />
 
@@ -88,7 +88,7 @@ export default function Dashboard() {
               icon="📊"
               title="Speech Pace"
               description="Practice speaking at the right pace with visual feedback"
-              onClick={() => navigate('/practice/pace')}
+              onClick={() => navigate('/practice/pace/setup')}
               accent="cyan"
             />
 

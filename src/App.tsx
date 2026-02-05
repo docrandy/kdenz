@@ -10,6 +10,7 @@ import DiagnosticOnboarding from './components/DiagnosticOnboarding'
 import ConsentModal from './components/ConsentModal'
 import Privacy from './pages/Privacy'
 import Dashboard from './pages/Dashboard'
+import PreSessionScreen from './pages/PreSessionScreen'
 import PostSessionResults from './pages/PostSessionResults'
 import { SessionDetail } from './pages/SessionDetail'
 import { Settings } from './pages/Settings'
@@ -193,6 +194,7 @@ function App() {
         <Routes>
           <Route path="/" element={renderHome()} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/practice/:mode/setup" element={<PreSessionScreen />} />
           <Route path="/practice/filler" element={<FreePracticeFillerRoute />} />
           <Route path="/practice/pace" element={<FreePracticePaceRoute />} />
           <Route path="/practice/results" element={<PostSessionResults />} />
