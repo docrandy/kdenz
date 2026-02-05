@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 05 planned — ready for execution
-**Active Phase:** 05 of 10 (Transcript with Highlights) — PLANNED
-**Plan:** Phase 05 verified (3 plans in 3 waves). Ready for execution.
-**Last Action:** 2026-02-05 - Phase 05 planning complete (verified)
+**Status:** Phase 05 in progress — plan 05-01 complete
+**Active Phase:** 05 of 10 (Transcript with Highlights) — IN PROGRESS
+**Plan:** 05-01 complete (2/2 tasks). Next: 05-02 EvaluationPage.
+**Last Action:** 2026-02-05 - Completed plan 05-01 (hybrid filler reconciliation)
 
-**Progress:** ████████████████████ 4/10 phases complete
+**Progress:** ████████████████████░░ 4.3/10 phases complete (05-01 done)
 
 ## Decisions Made
 
@@ -66,6 +66,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-04 | Red markers (#EF4444) for filler highlighting | Contrasts with teal progress bar; small size (1px × 3px) avoids clutter |
 | 2026-02-04 | Three playback speeds (0.75x/1x/1.25x) | Research-backed: slow motion for careful listening, 1.25x for quick review |
 | 2026-02-04 | Click-to-seek on filler markers | Two-phase awareness pattern: real-time feedback + playback review with direct navigation |
+| 2026-02-05 | Reconciliation timing at session end | Transcript-based detection requires complete transcript for accuracy |
+| 2026-02-05 | Optional fields in SessionResultData | Maintains backwards compatibility with existing stored sessions |
+| 2026-02-05 | Pass empty fillerEvents to reconcileFillers | Acoustic detection disabled but interface preserved for future reactivation |
 
 ## Blockers
 
@@ -81,15 +84,15 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Phase 05 planning complete — ready for execution
-**Resume with:** `/gsd:execute-phase 5`
+**Stopped at:** Completed plan 05-01 (hybrid filler reconciliation)
+**Resume with:** `/gsd:execute-phase 5` (continue with 05-02)
 
-**Phase 05 planning context (complete):**
-- 3 plans in 3 waves, all verified
-- 05-01: Wire hybrid filler reconciliation + sessionStorage (Wave 1, autonomous)
-- 05-02: Create EvaluationPage with TranscriptView + HighlightToggle (Wave 2, autonomous)
-- 05-03: Filler type distinction with color-coded categories (Wave 3, checkpoint)
-- Verification: Passed after 1 revision (type safety + wordTimings availability issues fixed)
+**Phase 05 execution context (in progress):**
+- Plan 05-01 complete: 2 tasks, 2 commits, 2m 52s duration
+- Commits: a747137 (reconciliation), 1b11486 (interface updates)
+- Ready for 05-02: reconciledFillers available in sessionStorage
+- Next: EvaluationPage with TranscriptView + HighlightToggle (Wave 2, autonomous)
+- Remaining: 05-03 filler type distinction (Wave 3, checkpoint)
 
 **Phase 04 completion context (carried forward):**
 - 2 plans executed: 04-01 (audio blob + playback), 04-02 (filler markers + speed controls)
@@ -114,4 +117,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Phase 05 planning complete (3 plans verified, ready for execution)*
+*Last updated: 2026-02-05 - Completed plan 05-01 (hybrid filler reconciliation wired into session end)*
