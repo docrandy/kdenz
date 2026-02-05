@@ -5,7 +5,7 @@
 
 import { useMemo } from 'react';
 import { WordTiming } from '../core/audio/useWebSpeech';
-import { ReconciledFiller, getFillerWordIndices, getFillerCategory, FillerCategory } from '../lib/fillerReconciler';
+import { ReconciledFiller, getFillerWordIndices } from '../lib/fillerReconciler';
 import { HighlightMode } from './HighlightToggle';
 
 interface TranscriptViewProps {
@@ -23,13 +23,8 @@ const PACE_SLOW_WPM = 100;
 /** Window size for pace calculation (number of words) */
 const PACE_WINDOW_SIZE = 5;
 
-/** Filler category colors for highlighting */
-const FILLER_CATEGORY_COLORS: Record<FillerCategory, { bg: string; text: string }> = {
-  hesitation: { bg: 'bg-red-200', text: 'text-red-800' },
-  discourse: { bg: 'bg-orange-200', text: 'text-orange-800' },
-  hedge: { bg: 'bg-yellow-200', text: 'text-yellow-800' },
-  phrase: { bg: 'bg-purple-200', text: 'text-purple-800' },
-};
+/** Single neutral color for all fillers (non-judgmental) */
+const FILLER_HIGHLIGHT_CLASS = 'bg-clinical-accent/20 text-gray-900 rounded px-0.5';
 
 export default function TranscriptView({
   transcript,
@@ -44,14 +39,8 @@ export default function TranscriptView({
     [reconciledFillers]
   );
 
-  // Map word index to filler details for display
-  const fillerDetails = useMemo(() => {
-    const details = new Map<number, ReconciledFiller>();
-    reconciledFillers.forEach((f) => {
-      details.set(f.wordIndex, f);
-    });
-    return details;
-  }, [reconciledFillers]);
+  // Note: fillerDetails map removed - using neutral color for all fillers
+  // Category data preserved in fillerReconciler for future analytics
 
   // Calculate pace for each word (rolling window WPM)
   const wordPaces = useMemo(() => {
@@ -113,10 +102,7 @@ export default function TranscriptView({
           let title: string | undefined = undefined;
 
           if (highlightMode === 'fillers' && isFiller) {
-            const filler = fillerDetails.get(index);
-            const category = filler?.category || getFillerCategory(word);
-            const colors = FILLER_CATEGORY_COLORS[category];
-            highlightClass = `${colors.bg} ${colors.text} rounded px-0.5`;
+            highlightClass = FILLER_HIGHLIGHT_CLASS;
             title = `Filler: ${word}`;
           } else if (highlightMode === 'pace') {
             if (pace === 'fast') {
@@ -137,23 +123,8 @@ export default function TranscriptView({
 
       {/* Legend for filler mode */}
       {highlightMode === 'fillers' && (
-        <div className="mt-3 pt-2 border-t border-gray-200 flex flex-wrap justify-center gap-3 text-xs text-clinical-muted">
-          <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-red-200 rounded" />
-            Hesitation (um, uh)
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-orange-200 rounded" />
-            Discourse (like, so)
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-yellow-200 rounded" />
-            Hedge (basically, actually)
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-purple-200 rounded" />
-            Phrase (you know, I mean)
-          </span>
+        <div className="mt-3 pt-2 border-t border-gray-200 text-center text-xs text-clinical-muted">
+          Filler words highlighted (hover to see specific word)
         </div>
       )}
 
