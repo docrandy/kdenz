@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { getBaseline } from '../services/baselineStorage';
 import { AudioPlayback } from '../components/AudioPlayback';
 
+interface FillerEvent {
+  type: string;
+  timestamp: number;
+  confidence: number;
+}
+
 interface SessionResultData {
   durationSeconds: number;
   wordCount: number;
@@ -13,6 +19,7 @@ interface SessionResultData {
   transcript: string;
   is_baseline?: boolean;
   audioData?: string | null;
+  fillerEvents?: FillerEvent[];
 }
 
 export default function PostSessionResults() {
@@ -204,6 +211,7 @@ export default function PostSessionResults() {
             <AudioPlayback
               audioData={sessionData.audioData}
               durationSeconds={sessionData.durationSeconds}
+              fillerEvents={sessionData.fillerEvents}
             />
           </div>
         )}
