@@ -9,6 +9,16 @@ import SilenceNudge from './SilenceNudge';
 import SessionProgressBar from './SessionProgressBar';
 import { saveBaseline } from '../services/baselineStorage';
 
+// Helper function to convert Blob to base64 for sessionStorage
+async function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
 // Filler phrases to detect in real-time (multi-word phrases checked first)
 const FILLER_PHRASES = ['you know', 'i mean', 'kind of', 'sort of'];
 // Single filler words checked with word boundary matching
@@ -61,6 +71,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     isCapturing,
     audioContext,
     sourceNode,
+    audioBlob,
     error: audioError,
     start: startAudio,
     stop: stopAudio,
@@ -301,11 +312,28 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     startTimer();
   }, [startSpeech, startTimer]);
 
-  const handleStop = useCallback(() => {
+  const handleStop = useCallback(async () => {
+    // Stop everything first to finalize audioBlob
+    setIsPaused(false);
+    stopTimer();
+    stopFillerDetection();
+    stopSpeech();
+    stopAudio();
+
     // Calculate filler count from transcript
     const transcriptFillerCount = countFillerWords(finalTranscript + ' ' + interimTranscript);
     const elapsedMinutes = elapsedTime / 60;
     const transcriptFillerRate = elapsedMinutes > 0 ? transcriptFillerCount / elapsedMinutes : 0;
+
+    // Convert audio blob to base64 for storage
+    let audioData: string | null = null;
+    if (audioBlob) {
+      try {
+        audioData = await blobToBase64(audioBlob);
+      } catch {
+        console.warn('[PracticeSession] Failed to convert audio blob');
+      }
+    }
 
     // If this is a baseline session, save baseline metrics
     if (isBaseline) {
@@ -332,6 +360,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       fillerRate: transcriptFillerRate,
       focusMode,
       is_baseline: isBaseline,
+      audioData,
     };
 
     try {
@@ -345,20 +374,13 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       // sessionStorage not available
     }
 
-    // Stop everything
-    setIsPaused(false);
-    stopTimer();
-    stopFillerDetection();
-    stopSpeech();
-    stopAudio();
-
     // Navigate to baseline results or regular results
     if (isBaseline) {
       navigate('/baseline/results');
     } else {
       navigate('/practice/results');
     }
-  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, isBaseline, silenceDuration, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
+  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, isBaseline, silenceDuration, audioBlob, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
   useEffect(() => {
