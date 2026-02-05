@@ -1,5 +1,5 @@
 {
-  "mode": "interactive",
+  "mode": "autonomous",
   "depth": "standard",
   "parallelization": true,
   "commit_docs": true,
@@ -7,7 +7,15 @@
   "workflow": {
     "research": false,
     "plan_check": true,
-    "verifier": true
+    "verifier": true,
+    "auto_execute_after_plan": true,
+    "skip_plan_review": true
   },
-  "notes": "Research skipped - domain already researched (see research.txt). Config can be updated via /gsd:settings."
+  "user_preferences": {
+    "involve_in_decisions": true,
+    "involve_in_checkpoints": true,
+    "skip_plan_review": true,
+    "skip_status_confirmations": true
+  },
+  "notes": "Streamlined flow: plan→execute without review prompts. User involved only at decisions (discuss-phase) and checkpoints (execution). Research skipped - domain already researched."
 }
