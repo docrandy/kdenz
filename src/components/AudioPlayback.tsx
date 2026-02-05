@@ -1,11 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 
+interface FillerEvent {
+  type: string;      // 'um', 'uh', 'like', 'you-know'
+  timestamp: number; // ms since session start
+  confidence: number;
+}
+
 interface AudioPlaybackProps {
   audioData: string | null; // base64 data URL
   durationSeconds: number;  // for timeline display
+  fillerEvents?: FillerEvent[]; // Add filler events
 }
 
-export function AudioPlayback({ audioData, durationSeconds }: AudioPlaybackProps) {
+export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: AudioPlaybackProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -60,6 +67,11 @@ export function AudioPlayback({ audioData, durationSeconds }: AudioPlaybackProps
     audioRef.current.currentTime = ratio * duration;
   };
 
+  const handleSeekTo = (seconds: number) => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = seconds;
+  };
+
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -106,6 +118,23 @@ export function AudioPlayback({ audioData, durationSeconds }: AudioPlaybackProps
               className="h-full bg-clinical-accent rounded-full"
               style={{ width: `${progress}%` }}
             />
+            {/* Filler markers */}
+            {fillerEvents?.map((event, index) => {
+              const position = (event.timestamp / 1000 / duration) * 100;
+              return (
+                <button
+                  key={`filler-${index}`}
+                  className="absolute top-1/2 -translate-y-1/2 w-1 h-3 bg-red-400 rounded-full hover:scale-150 hover:bg-red-500 transition-transform cursor-pointer"
+                  style={{ left: `${position}%` }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent scrub bar click
+                    handleSeekTo(event.timestamp / 1000);
+                  }}
+                  title={`${event.type} (${formatTime(event.timestamp / 1000)})`}
+                  aria-label={`Jump to ${event.type} at ${formatTime(event.timestamp / 1000)}`}
+                />
+              );
+            })}
           </div>
           <div className="flex justify-between mt-1 text-xs text-gray-500">
             <span>{formatTime(currentTime)}</span>
