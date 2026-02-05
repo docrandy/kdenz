@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 07 IN PROGRESS — Copy-lint complete
+**Status:** Phase 07 IN PROGRESS — Transcript confidence complete
 **Active Phase:** 07 of 10 (Polish & Error Handling)
-**Plan:** Completed 07-03 (copy-lint enforcement). Next: Continue Phase 07 plans.
-**Last Action:** 2026-02-05 - Completed 07-03 (Copy-lint tool)
+**Plan:** Completed 07-02 (transcript confidence indicator). Next: Continue Phase 07 plans.
+**Last Action:** 2026-02-05 - Completed 07-02 (Transcript confidence tracking)
 
-**Progress:** ██████████████████████░░░░ 6.3/10 phases complete (Phase 07 in progress)
+**Progress:** ██████████████████████░░░░ 6.4/10 phases complete (Phase 07 in progress)
 
 ## Decisions Made
 
@@ -89,6 +89,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Regex-based copy-lint scanning | Simpler than AST parsing, sufficient for banned word detection with whole-word boundaries |
 | 2026-02-05 | Exit code 1 for copy violations | Enables CI/CD integration and git pre-commit hooks for automated enforcement |
 | 2026-02-05 | Comment filtering in copy-lint | Allow technical discussion in code comments while enforcing language boundaries in UI strings |
+| 2026-02-05 | Confidence threshold 0.7 for low warning | Chrome Web Speech API confidence below 0.7 indicates significant transcription uncertainty |
+| 2026-02-05 | Hide high confidence indicator (>= 0.85) | Don't clutter UI with non-issues; only show when confidence warrants user attention |
+| 2026-02-05 | Neutral tier system: High/Medium/Low | Per Core Principle #3 and language boundaries - no judgment colors or words |
 
 ## Blockers
 
@@ -104,8 +107,18 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed plan 07-03 (copy-lint tool) - Phase 07 IN PROGRESS
-**Resume with:** Continue Phase 07 plans (audio quality warnings, error states, etc.)
+**Stopped at:** Completed plan 07-02 (transcript confidence indicator) - Phase 07 IN PROGRESS
+**Resume with:** Continue Phase 07 plans (audio quality warnings, mobile polish, error states, etc.)
+
+**Phase 07 execution context (IN PROGRESS - 2/5 plans complete):**
+- Plan 07-02 complete: 3 tasks, 3 commits, 9m duration
+- Commits (07-02): c754a76 (useWebSpeech tracking), 63936f3 (TranscriptConfidenceIndicator), 25001c4 (integration + lucide-react fix)
+- Web Speech API confidence tracking with averageConfidence and lowConfidenceSegments metrics
+- TranscriptConfidenceIndicator component with High/Medium/Low neutral tiers
+- Confidence display on PostSessionResults and EvaluationPage (only when < 0.85)
+- Foundation copy verbatim for low confidence warning
+- Deviation fix: Replaced lucide-react imports with inline SVG in AudioQualityWarning.tsx (blocking build issue)
+- Next: Plan 07-01 (audio quality monitoring), 07-04 (mobile polish), or 07-05 (feedback + end-to-end)
 
 **Phase 07 execution context (IN PROGRESS):**
 - Plan 07-03 complete: 2 tasks, 2 commits, 8m duration
