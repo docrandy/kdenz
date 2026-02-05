@@ -26,13 +26,13 @@ export default function PreSessionScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col pb-safe">
       {/* Header with back button */}
       <div className="border-b sticky top-0 z-10 bg-white">
-        <div className="max-w-2xl mx-auto px-4 py-4">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-4">
           <button
             onClick={() => navigate('/')}
-            className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+            className="text-gray-600 hover:text-gray-900 active:text-black flex items-center gap-2 text-sm sm:text-base min-h-[44px]"
           >
             ← Back to Dashboard
           </button>
@@ -40,14 +40,14 @@ export default function PreSessionScreen() {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
-        <div className="w-full max-w-md space-y-8">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 pb-20">
+        <div className="w-full max-w-md space-y-6 sm:space-y-8">
           {/* Title */}
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
               {getModeTitle()}
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-sm sm:text-base text-gray-600 mt-2">
               Choose your session length
             </p>
           </div>
@@ -61,7 +61,7 @@ export default function PreSessionScreen() {
           {/* Start button */}
           <button
             onClick={handleStartSession}
-            className="w-full bg-black text-white py-4 rounded-xl font-semibold text-lg hover:bg-gray-900 transition-colors"
+            className="w-full bg-black text-white py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-gray-900 active:bg-gray-800 transition-colors min-h-[56px]"
           >
             Start Session
           </button>

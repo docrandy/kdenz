@@ -12,7 +12,7 @@ export default function DurationSelector({
   disabled = false,
 }: DurationSelectorProps) {
   return (
-    <div className="flex justify-center gap-2 flex-wrap">
+    <div className="flex justify-center gap-2 sm:gap-3 flex-wrap">
       {DURATION_OPTIONS.map((option) => {
         const isSelected = selected === option.value;
         return (
@@ -21,10 +21,11 @@ export default function DurationSelector({
             onClick={() => onChange(option.value)}
             disabled={disabled}
             className={`
-              px-6 py-3 rounded-full border text-sm font-medium transition-colors
+              px-5 sm:px-6 py-3 rounded-full border text-sm sm:text-base font-medium transition-colors
+              min-h-[44px] min-w-[80px] sm:min-w-[100px]
               ${isSelected
                 ? 'bg-black text-white border-black'
-                : 'bg-white text-gray-700 border-gray-300 hover:border-black'
+                : 'bg-white text-gray-700 border-gray-300 hover:border-black active:bg-gray-50'
               }
               ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             `}

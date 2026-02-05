@@ -40,10 +40,10 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-safe">
       {/* Header with hamburger menu */}
       <header className="bg-white border-b sticky top-0 z-20">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-900">VoiceLab</h1>
           <HamburgerMenu
             onProfile={() => navigate('/profile')}
@@ -53,22 +53,22 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Profile Preview Card */}
         <section
           onClick={() => navigate('/profile')}
-          className="bg-white rounded-2xl p-6 shadow-sm border cursor-pointer hover:shadow-md transition-shadow"
+          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border cursor-pointer hover:shadow-md transition-shadow"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold flex-shrink-0">
               {profile?.demographics?.preferredName?.[0]?.toUpperCase() || '?'}
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate">
                 {profile?.demographics?.preferredName || 'Set up your profile'}
               </h2>
               {profile?.demographics?.jobTitle && (
-                <p className="text-gray-600">{profile.demographics.jobTitle}</p>
+                <p className="text-sm sm:text-base text-gray-600 truncate">{profile.demographics.jobTitle}</p>
               )}
               {profile?.focusAreas?.specificGoal && (
                 <div className="flex flex-wrap gap-1 mt-2">
@@ -78,7 +78,7 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
-            <span className="text-gray-400">→</span>
+            <span className="text-gray-400 flex-shrink-0">→</span>
           </div>
         </section>
 
@@ -171,26 +171,26 @@ export default function Dashboard() {
 
         {/* Quick Stats */}
         {allSessions.length > 0 && (
-          <section className="bg-white rounded-2xl p-6 shadow-sm border">
+          <section className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Progress</h2>
-            <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
               <div>
-                <p className="text-3xl font-bold text-cyan-600">{allSessions.length}</p>
-                <p className="text-sm text-gray-500">Sessions</p>
+                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">{allSessions.length}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Sessions</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-cyan-600">
+                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
                   {Math.round(
                     allSessions.reduce((acc, s) => acc + (s.durationSeconds || 0), 0) / 60
                   )}
                 </p>
-                <p className="text-sm text-gray-500">Minutes</p>
+                <p className="text-xs sm:text-sm text-gray-500">Minutes</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-cyan-600">
+                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
                   {calculateStreak(allSessions)}
                 </p>
-                <p className="text-sm text-gray-500">Day Streak</p>
+                <p className="text-xs sm:text-sm text-gray-500">Day Streak</p>
               </div>
             </div>
           </section>
@@ -236,13 +236,13 @@ function HamburgerMenu({
           />
 
           {/* Menu */}
-          <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border z-40 py-2">
+          <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border z-40 py-2 max-w-[calc(100vw-2rem)]">
             <button
               onClick={() => {
                 setIsOpen(false);
                 onProfile();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3"
+              className="w-full px-4 py-3 text-left hover:bg-gray-50 active:bg-gray-100 flex items-center gap-3 text-sm sm:text-base"
             >
               <span>👤</span>
               <span>Profile</span>
@@ -252,7 +252,7 @@ function HamburgerMenu({
                 setIsOpen(false);
                 onSettings();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3"
+              className="w-full px-4 py-3 text-left hover:bg-gray-50 active:bg-gray-100 flex items-center gap-3 text-sm sm:text-base"
             >
               <span>⚙️</span>
               <span>Settings</span>
@@ -262,7 +262,7 @@ function HamburgerMenu({
                 setIsOpen(false);
                 onPrivacy();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3"
+              className="w-full px-4 py-3 text-left hover:bg-gray-50 active:bg-gray-100 flex items-center gap-3 text-sm sm:text-base"
             >
               <span>🔒</span>
               <span>Privacy</span>
@@ -298,15 +298,15 @@ function PracticeCard({
   return (
     <button
       onClick={onClick}
-      className={`w-full bg-white rounded-xl p-4 border border-l-4 ${accentColors[accent]} text-left transition-colors`}
+      className={`w-full bg-white rounded-xl p-4 sm:p-5 border border-l-4 ${accentColors[accent]} text-left transition-colors min-h-[60px] active:bg-cyan-50`}
     >
       <div className="flex items-center gap-3">
-        <span className="text-2xl">{icon}</span>
-        <div className="flex-1">
-          <h3 className="font-semibold text-gray-900">{title}</h3>
-          <p className="text-sm text-gray-500">{description}</p>
+        <span className="text-2xl flex-shrink-0">{icon}</span>
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">{title}</h3>
+          <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">{description}</p>
         </div>
-        <span className="text-gray-400">→</span>
+        <span className="text-gray-400 flex-shrink-0">→</span>
       </div>
     </button>
   );
@@ -324,22 +324,22 @@ function SessionCard({
   return (
     <button
       onClick={onClick}
-      className="w-full bg-white rounded-xl p-4 border text-left hover:bg-gray-50 transition-colors"
+      className="w-full bg-white rounded-xl p-4 border text-left hover:bg-gray-50 active:bg-gray-100 transition-colors min-h-[72px]"
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="font-medium text-gray-900">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-gray-900 text-sm sm:text-base truncate">
             {session.durationSeconds ? `${Math.round(session.durationSeconds)}s session` : 'Practice session'}
           </p>
-          <p className="text-sm text-gray-500">{timeAgo}</p>
+          <p className="text-xs sm:text-sm text-gray-500">{timeAgo}</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <div className="text-right">
-            <p className="text-lg font-semibold text-gray-900">
-              {session.fillerCount} fillers
+            <p className="text-base sm:text-lg font-semibold text-gray-900">
+              {session.fillerCount}
             </p>
-            <p className="text-sm text-gray-500">
-              {session.wpm ? `${Math.round(session.wpm)} WPM` : ''}
+            <p className="text-xs sm:text-sm text-gray-500">
+              {session.wpm ? `${Math.round(session.wpm)} WPM` : 'fillers'}
             </p>
           </div>
           <span className="text-gray-300">→</span>
