@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 04 in progress — 1/3 plans executed (04-01 complete)
+**Status:** Phase 04 in progress — 2/3 plans executed (04-01, 04-02 complete)
 **Active Phase:** 04 of 10 (Audio Playback & Filler Highlighting) — IN PROGRESS
-**Plan:** 3 plans total, 1 complete (04-01), 2 remaining (04-02, 04-03)
-**Last Action:** 2026-02-04 - Completed plan 04-01: Audio Playback Wiring
+**Plan:** 3 plans total, 2 complete (04-01, 04-02), 1 remaining (04-03)
+**Last Action:** 2026-02-04 - Completed plan 04-02: Filler Marker Highlighting
 
-**Progress:** ██████░░░░░░░░░░░░░░ 1/3 plans in phase
+**Progress:** ████████████░░░░░░░░ 2/3 plans in phase
 
 ## Decisions Made
 
@@ -61,6 +61,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-04 | Base64 encoding for sessionStorage blob | Blobs can't be stored directly in sessionStorage, FileReader.readAsDataURL() converts to base64 |
 | 2026-02-04 | Stop audio first in handleStop | Ensures MediaRecorder finalizes audioBlob before conversion |
 | 2026-02-04 | Minimal AudioPlayback for phase 04-01 | Basic playback controls (play/pause/seek); filler highlighting in 04-02 |
+| 2026-02-04 | Extended design tokens in Tailwind | Added clinical-signal-green, clinical-warm-amber, etc. from design-system-v1.md |
+| 2026-02-04 | Perplexity copy-lint audit complete | Baseline/delta display and design tokens implemented per recommendations |
+| 2026-02-04 | Red markers (#EF4444) for filler highlighting | Contrasts with teal progress bar; small size (1px × 3px) avoids clutter |
+| 2026-02-04 | Three playback speeds (0.75x/1x/1.25x) | Research-backed: slow motion for careful listening, 1.25x for quick review |
+| 2026-02-04 | Click-to-seek on filler markers | Two-phase awareness pattern: real-time feedback + playback review with direct navigation |
 
 ## Blockers
 
@@ -76,8 +81,8 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-04
-**Stopped at:** Completed plan 04-01 (Audio Playback Wiring). 1/3 plans in Phase 04 complete.
-**Resume with:** `/gsd:execute-plan 04-02` — Filler marker highlighting on audio timeline
+**Stopped at:** Completed plan 04-02 (Filler Marker Highlighting). 2/3 plans in Phase 04 complete.
+**Resume with:** `/gsd:execute-plan 04-03` — Next plan in Phase 04
 
 **Research audit context (2026-02-04):**
 - Audited docs/REGISTRY.md against all 10 roadmap phases
@@ -96,4 +101,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-04 - Completed plan 04-01 (Audio Playback Wiring); 1/3 plans in Phase 04 complete*
+*Last updated: 2026-02-04 - Completed plan 04-02 (Filler Marker Highlighting); 2/3 plans in Phase 04 complete*
