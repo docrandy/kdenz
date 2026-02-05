@@ -9,6 +9,9 @@ export interface SessionSummary {
   wpm: number;
   fillerCount: number;
   fillerRate: number;
+  is_baseline?: boolean;   // Whether this session is a baseline capture
+  pauseRate?: number;      // Pauses per minute (from silence detection)
+  focusMode?: 'filler' | 'pace'; // Which focus mode was used
 }
 
 export interface DailyAggregate {
