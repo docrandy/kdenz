@@ -32,7 +32,7 @@ export function useSessionTimer({
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
-  const timeRemaining = Math.max(0, durationSeconds - elapsedTime);
+  const timeRemaining = durationSeconds === 0 ? Infinity : Math.max(0, durationSeconds - elapsedTime);
 
   const clearTimer = useCallback(() => {
     if (intervalRef.current !== null) {
@@ -54,7 +54,8 @@ export function useSessionTimer({
       const newElapsed = (Date.now() - startTimeRef.current) / 1000;
       setElapsedTime(newElapsed);
 
-      if (newElapsed >= durationSeconds) {
+      // Skip completion check if durationSeconds is 0 (Unlimited mode)
+      if (durationSeconds > 0 && newElapsed >= durationSeconds) {
         clearTimer();
         setIsRunning(false);
         setIsComplete(true);

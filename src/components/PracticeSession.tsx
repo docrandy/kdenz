@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } from '../core/audio';
 import MicPermissionError from './MicPermissionError';
 import { SessionOrb } from './SessionOrb';
@@ -24,6 +24,10 @@ interface PracticeSessionProps {
 
 export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Read duration from route state with 120s (2min) fallback
+  const durationSeconds = (location.state as any)?.durationSeconds ?? 120;
 
   const {
     isCapturing,
@@ -49,9 +53,6 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     start: startFillerDetection,
     stop: stopFillerDetection,
   } = useFillerDetector(audioContext, sourceNode);
-
-  // Duration - default 2 minutes for free practice
-  const selectedDuration = 120;
 
   // WPM calculation state
   const [wpm, setWpm] = useState(0);
@@ -94,7 +95,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     stop: stopTimer,
     reset: resetTimer,
   } = useSessionTimer({
-    durationSeconds: selectedDuration,
+    durationSeconds: durationSeconds,
     onComplete: handleTimerComplete,
   });
 
@@ -237,8 +238,8 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     }
   }, [isCapturing, isPaused, audioContext, sourceNode, startFillerDetection]);
 
-  // Session progress calculation (0-1)
-  const sessionProgress = selectedDuration > 0 ? Math.min(elapsedTime / selectedDuration, 1) : 0;
+  // Countdown remaining calculation (1 -> 0) for countdown bar
+  const countdownRemaining = durationSeconds > 0 ? Math.max(0, 1 - (elapsedTime / durationSeconds)) : undefined;
 
   const handleStart = useCallback(async () => {
     setIsStarting(true);
@@ -316,8 +317,8 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
-      {/* Progress bar at top */}
-      <SessionProgressBar progress={sessionProgress} visible={isCapturing && !isPaused} />
+      {/* Countdown bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
+      <SessionProgressBar remaining={countdownRemaining} visible={isCapturing && !isPaused && durationSeconds > 0} />
 
       {/* Error display */}
       {error && (
