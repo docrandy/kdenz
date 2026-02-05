@@ -70,14 +70,14 @@ Requirements for private beta release.
 ### Content Pages
 
 - [ ] **PAGE-01**: Privacy transparency page at /privacy
-- [ ] **PAGE-02**: In-app feedback button (opens email/form)
+- [x] **PAGE-02**: In-app feedback button (opens email/form) ✓
 - [ ] **PAGE-03**: 1-2 optional speaking prompts available before session
 
 ### UI/Design
 
 - [x] **UI-01**: High-Performance Clinical theme applied (white/black/teal) ✓
 - [x] **UI-02**: Light mode only (no dark mode toggle) ✓
-- [ ] **UI-03**: Mobile layout usable on Chrome mobile
+- [x] **UI-03**: Mobile layout usable on Chrome mobile ✓
 
 ## v2 Requirements
 
@@ -144,12 +144,14 @@ Deferred to future releases.
 | AI-01 | 06 | Complete |
 | AI-02 | 06 | Complete |
 | AI-03 | 06 | Complete |
+| PAGE-02 | 07 | Complete |
+| UI-03 | 07 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
-- Complete: 28
-- Remaining: 2
+- Complete: 30
+- Remaining: 0
 
 ---
 *Requirements defined: 2026-01-25*
-*Last updated: 2026-02-05 - Phase 06 requirements complete (VIZ-03, VIZ-04, AI-01, AI-02, AI-03)*
+*Last updated: 2026-02-05 - Phase 07 requirements complete (PAGE-02, UI-03)*
