@@ -5,6 +5,8 @@ import { AudioPlayback } from '../components/AudioPlayback';
 import Scorecard from '../components/Scorecard';
 import { WordTiming } from '../core/audio/useWebSpeech';
 import { ReconciledFiller } from '../lib/fillerReconciler';
+import SelfAssessment, { SelfAssessmentResponse } from '../components/SelfAssessment';
+import ImplementationIntention from '../components/ImplementationIntention';
 
 interface FillerEvent {
   type: string;
@@ -27,9 +29,12 @@ interface SessionResultData {
   reconciledFillers?: ReconciledFiller[];
 }
 
+type ResultsPhase = 'self-assess' | 'metrics' | 'intention' | 'complete';
+
 export default function PostSessionResults() {
   const navigate = useNavigate();
   const [sessionData, setSessionData] = useState<SessionResultData | null>(null);
+  const [phase, setPhase] = useState<ResultsPhase>('self-assess');
 
   useEffect(() => {
     // Load session data from sessionStorage
@@ -42,6 +47,11 @@ export default function PostSessionResults() {
       }
       const data = JSON.parse(stored) as SessionResultData;
       setSessionData(data);
+
+      // If baseline session, skip reflection prompts and go straight to metrics
+      if (data.is_baseline) {
+        setPhase('metrics');
+      }
     } catch {
       // Corrupted data — redirect to dashboard
       navigate('/');
@@ -115,6 +125,30 @@ export default function PostSessionResults() {
     }
   };
 
+  // Phase transition handlers
+  const handleSelfAssessComplete = (_response: SelfAssessmentResponse) => {
+    // Response captured for future analytics/storage
+    setPhase('metrics');
+  };
+
+  const handleSelfAssessSkip = () => {
+    setPhase('metrics');
+  };
+
+  const handleMetricsContinue = () => {
+    setPhase('intention');
+  };
+
+  const handleIntentionComplete = (intention: string) => {
+    // Intention is already stored in sessionStorage by component
+    console.log('Implementation intention set:', intention);
+    setPhase('complete');
+  };
+
+  const handleIntentionSkip = () => {
+    setPhase('complete');
+  };
+
   // Navigation handlers
   const handleDashboard = () => {
     navigate('/');
@@ -128,6 +162,111 @@ export default function PostSessionResults() {
     navigate('/');
   };
 
+  // Phase 1: Self-assessment (before metrics reveal)
+  if (phase === 'self-assess') {
+    return (
+      <SelfAssessment
+        focusMode={sessionData.focusMode}
+        onComplete={handleSelfAssessComplete}
+        onSkip={handleSelfAssessSkip}
+      />
+    );
+  }
+
+  // Phase 2: Metrics display
+  if (phase === 'metrics') {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
+        <div className="max-w-md w-full space-y-8">
+          {/* Header */}
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-full bg-clinical-accent flex items-center justify-center">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900">Session Complete</h1>
+          </div>
+
+          {/* Summary paragraph */}
+          <div className="bg-gray-50 rounded-lg p-6">
+            <p className="text-lg text-gray-700 text-center leading-relaxed">
+              {generateSummary()}
+            </p>
+          </div>
+
+          {/* Scorecard with metrics */}
+          <Scorecard
+            wpm={sessionData.wpm}
+            wordCount={sessionData.wordCount}
+            fillerCount={sessionData.fillerCount}
+            fillerRate={sessionData.fillerRate}
+            durationSeconds={sessionData.durationSeconds}
+            baseline={sessionData.is_baseline ? null : baseline}
+            fillerBreakdown={fillerBreakdown}
+          />
+
+          {/* Audio playback */}
+          {sessionData.audioData && (
+            <div className="bg-gray-50 rounded-lg p-4">
+              <p className="text-sm text-gray-600 mb-3">Listen to your session</p>
+              <AudioPlayback
+                audioData={sessionData.audioData}
+                durationSeconds={sessionData.durationSeconds}
+                fillerEvents={sessionData.fillerEvents}
+              />
+            </div>
+          )}
+
+          {/* View Transcript link */}
+          {sessionData.transcript && sessionData.wordTimings && (
+            <div className="text-center">
+              <button
+                onClick={() => navigate('/practice/evaluation')}
+                className="text-clinical-accent hover:underline text-sm"
+              >
+                View full transcript with highlights →
+              </button>
+            </div>
+          )}
+
+          {/* Continue button - for baseline sessions, go straight to complete */}
+          <div className="flex justify-center">
+            <button
+              onClick={() => sessionData.is_baseline ? setPhase('complete') : handleMetricsContinue()}
+              className="px-8 py-4 bg-black text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Phase 3: Implementation intention (post-metrics commitment)
+  if (phase === 'intention') {
+    return (
+      <ImplementationIntention
+        focusMode={sessionData.focusMode}
+        fillerCount={sessionData.fillerCount}
+        onComplete={handleIntentionComplete}
+        onSkip={handleIntentionSkip}
+      />
+    );
+  }
+
+  // Phase 4: Complete (full navigation)
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
       <div className="max-w-md w-full space-y-8">
@@ -148,50 +287,31 @@ export default function PostSessionResults() {
               </svg>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Session Complete</h1>
+          <h1 className="text-3xl font-bold text-gray-900">All Set!</h1>
+          <p className="text-clinical-muted mt-2">Ready to practice again?</p>
         </div>
 
-        {/* Summary paragraph */}
+        {/* Key stats summary */}
         <div className="bg-gray-50 rounded-lg p-6">
-          <p className="text-lg text-gray-700 text-center leading-relaxed">
-            {generateSummary()}
-          </p>
+          <div className="flex items-center justify-center gap-8">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-gray-900">
+                {sessionData.focusMode === 'filler'
+                  ? sessionData.fillerCount
+                  : sessionData.wpm}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {sessionData.focusMode === 'filler' ? 'Filler Words' : 'WPM'}
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-gray-900">
+                {formatDuration(sessionData.durationSeconds)}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Duration</p>
+            </div>
+          </div>
         </div>
-
-        {/* Scorecard with metrics */}
-        <Scorecard
-          wpm={sessionData.wpm}
-          wordCount={sessionData.wordCount}
-          fillerCount={sessionData.fillerCount}
-          fillerRate={sessionData.fillerRate}
-          durationSeconds={sessionData.durationSeconds}
-          baseline={sessionData.is_baseline ? null : baseline}
-          fillerBreakdown={fillerBreakdown}
-        />
-
-        {/* Audio playback */}
-        {sessionData.audioData && (
-          <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-3">Listen to your session</p>
-            <AudioPlayback
-              audioData={sessionData.audioData}
-              durationSeconds={sessionData.durationSeconds}
-              fillerEvents={sessionData.fillerEvents}
-            />
-          </div>
-        )}
-
-        {/* View Transcript link */}
-        {sessionData.transcript && sessionData.wordTimings && (
-          <div className="text-center">
-            <button
-              onClick={() => navigate('/practice/evaluation')}
-              className="text-clinical-accent hover:underline text-sm"
-            >
-              View full transcript with highlights →
-            </button>
-          </div>
-        )}
 
         {/* Navigation bar */}
         <div className="grid grid-cols-3 gap-4">
