@@ -181,6 +181,17 @@ Plans:
 
 **Requirements:** UI-03, PAGE-02, QUALITY-01, COPY-01
 
+**Status:** Planned (2026-02-05)
+
+**Plans:** 5 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Audio quality monitoring (noise/clipping detection) with foundation copy warnings
+- [ ] 07-02-PLAN.md — Transcript confidence indicator with uncertainty display
+- [ ] 07-03-PLAN.md — Copy-lint script for language boundary enforcement
+- [ ] 07-04-PLAN.md — Mobile responsive polish (Chrome mobile usability)
+- [ ] 07-05-PLAN.md — Feedback button enhancement + loading states + end-to-end verification
+
 **Success Criteria:**
 - [ ] Mic permission error handling works
 - [ ] Audio quality monitoring: noise/clipping detection with warning messages (copy from foundation docs)
@@ -246,7 +257,7 @@ Plans:
 | 04 | Playback with Filler Highlighting | 5 | Complete |
 | 05 | Transcript with Highlights | 6 | Complete |
 | 06 | Scorecard & AI Summary | 9 | Complete |
-| 07 | Polish & Error Handling | 4 | Pending |
+| 07 | Polish & Error Handling | 4 | Planned (5 plans) |
 | 08 | Deployment & Beta Prep | 1 | Pending |
 | 09 | Light Diagnostics (Parallel) | 3 | Pending |
 | 10 | Privacy & Prompts (Parallel) | 2 | Pending |
@@ -257,4 +268,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-05 - Phase 06 complete (3/3 plans verified)*
+*Last updated: 2026-02-05 - Phase 07 planned (5 plans in 2 waves)*
