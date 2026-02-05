@@ -1,8 +1,10 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBaseline } from '../services/baselineStorage';
+import { saveSession } from '../services/sessionStorage';
 import { AudioPlayback } from '../components/AudioPlayback';
 import Scorecard from '../components/Scorecard';
+import WeeklyTrendChart from '../components/WeeklyTrendChart';
 import { WordTiming } from '../core/audio/useWebSpeech';
 import { ReconciledFiller } from '../lib/fillerReconciler';
 import SelfAssessment, { SelfAssessmentResponse } from '../components/SelfAssessment';
@@ -35,6 +37,8 @@ export default function PostSessionResults() {
   const navigate = useNavigate();
   const [sessionData, setSessionData] = useState<SessionResultData | null>(null);
   const [phase, setPhase] = useState<ResultsPhase>('self-assess');
+  const [sessionSaved, setSessionSaved] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     // Load session data from sessionStorage
@@ -57,6 +61,22 @@ export default function PostSessionResults() {
       navigate('/');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    // Save session to storage (for trend chart) after loading session data
+    if (sessionData && !sessionSaved && !sessionData.is_baseline) {
+      saveSession({
+        durationSeconds: sessionData.durationSeconds,
+        wordCount: sessionData.wordCount,
+        wpm: sessionData.wpm,
+        fillerCount: sessionData.fillerCount,
+        fillerRate: sessionData.fillerRate,
+        focusMode: sessionData.focusMode,
+      });
+      setSessionSaved(true);
+      setRefreshKey(k => k + 1); // Trigger chart refresh
+    }
+  }, [sessionData, sessionSaved]);
 
   // Load baseline for delta calculation
   const baseline = getBaseline();
@@ -225,6 +245,13 @@ export default function PostSessionResults() {
                 durationSeconds={sessionData.durationSeconds}
                 fillerEvents={sessionData.fillerEvents}
               />
+            </div>
+          )}
+
+          {/* Weekly trend chart (non-baseline sessions only) */}
+          {!sessionData.is_baseline && (
+            <div className="mt-6">
+              <WeeklyTrendChart refreshKey={refreshKey} />
             </div>
           )}
 
