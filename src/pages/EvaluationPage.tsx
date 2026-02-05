@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TranscriptView from '../components/TranscriptView';
 import HighlightToggle, { HighlightMode } from '../components/HighlightToggle';
+import TranscriptConfidenceIndicator from '../components/TranscriptConfidenceIndicator';
 import { WordTiming } from '../core/audio/useWebSpeech';
 import { ReconciledFiller } from '../lib/fillerReconciler';
 
@@ -13,6 +14,8 @@ interface SessionEvalData {
   fillerCount: number;
   wpm: number;
   focusMode: 'filler' | 'pace';
+  averageConfidence?: number;
+  lowConfidenceSegments?: number;
 }
 
 export default function EvaluationPage() {
@@ -41,6 +44,8 @@ export default function EvaluationPage() {
         fillerCount: data.fillerCount,
         wpm: data.wpm,
         focusMode: data.focusMode,
+        averageConfidence: data.averageConfidence,
+        lowConfidenceSegments: data.lowConfidenceSegments,
       });
       // Default to filler highlight for filler mode, pace for pace mode
       setHighlightMode(data.focusMode === 'filler' ? 'fillers' : 'pace');
@@ -75,6 +80,16 @@ export default function EvaluationPage() {
 
       {/* Main content */}
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+        {/* Transcript confidence indicator (show if < 0.85) */}
+        {sessionData.averageConfidence !== undefined && sessionData.averageConfidence < 0.85 && (
+          <div className="bg-gray-50 rounded-lg p-4">
+            <TranscriptConfidenceIndicator
+              averageConfidence={sessionData.averageConfidence}
+              lowSegmentCount={sessionData.lowConfidenceSegments || 0}
+            />
+          </div>
+        )}
+
         {/* Highlight toggle */}
         <div className="flex justify-center">
           <HighlightToggle

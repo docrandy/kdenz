@@ -6,6 +6,7 @@ import { AudioPlayback } from '../components/AudioPlayback';
 import Scorecard from '../components/Scorecard';
 import WeeklyTrendChart from '../components/WeeklyTrendChart';
 import AISummary from '../components/AISummary';
+import TranscriptConfidenceIndicator from '../components/TranscriptConfidenceIndicator';
 import { WordTiming } from '../core/audio/useWebSpeech';
 import { ReconciledFiller } from '../lib/fillerReconciler';
 import SelfAssessment, { SelfAssessmentResponse } from '../components/SelfAssessment';
@@ -30,6 +31,8 @@ interface SessionResultData {
   fillerEvents?: FillerEvent[];
   wordTimings?: WordTiming[];
   reconciledFillers?: ReconciledFiller[];
+  averageConfidence?: number;
+  lowConfidenceSegments?: number;
 }
 
 type ResultsPhase = 'self-assess' | 'metrics' | 'intention' | 'complete';
@@ -197,8 +200,8 @@ export default function PostSessionResults() {
   // Phase 2: Metrics display
   if (phase === 'metrics') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
-        <div className="max-w-md w-full space-y-8">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+        <div className="max-w-md w-full space-y-6 sm:space-y-8">
           {/* Header */}
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
@@ -220,11 +223,21 @@ export default function PostSessionResults() {
           </div>
 
           {/* Summary paragraph */}
-          <div className="bg-gray-50 rounded-lg p-6">
-            <p className="text-lg text-gray-700 text-center leading-relaxed">
+          <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+            <p className="text-base sm:text-lg text-gray-700 text-center leading-relaxed">
               {generateSummary()}
             </p>
           </div>
+
+          {/* Transcript confidence indicator (show if < 0.85) */}
+          {sessionData.averageConfidence !== undefined && sessionData.averageConfidence < 0.85 && (
+            <div className="bg-gray-50 rounded-lg p-4">
+              <TranscriptConfidenceIndicator
+                averageConfidence={sessionData.averageConfidence}
+                lowSegmentCount={sessionData.lowConfidenceSegments || 0}
+              />
+            </div>
+          )}
 
           {/* Scorecard with metrics */}
           <Scorecard
@@ -239,8 +252,8 @@ export default function PostSessionResults() {
 
           {/* Audio playback */}
           {sessionData.audioData && (
-            <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-sm text-gray-600 mb-3">Listen to your session</p>
+            <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+              <p className="text-xs sm:text-sm text-gray-600 mb-3">Listen to your session</p>
               <AudioPlayback
                 audioData={sessionData.audioData}
                 durationSeconds={sessionData.durationSeconds}
@@ -272,7 +285,7 @@ export default function PostSessionResults() {
           <div className="flex justify-center">
             <button
               onClick={() => sessionData.is_baseline ? setPhase('complete') : handleMetricsContinue()}
-              className="px-8 py-4 bg-black text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+              className="px-8 py-4 bg-black text-white rounded-lg font-semibold hover:opacity-90 active:opacity-80 transition-opacity min-h-[56px] min-w-[160px]"
             >
               Continue
             </button>
@@ -296,8 +309,8 @@ export default function PostSessionResults() {
 
   // Phase 4: Complete (full navigation)
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+      <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center mb-4">
@@ -320,23 +333,23 @@ export default function PostSessionResults() {
         </div>
 
         {/* Key stats summary */}
-        <div className="bg-gray-50 rounded-lg p-6">
-          <div className="flex items-center justify-center gap-8">
+        <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+          <div className="flex items-center justify-center gap-6 sm:gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold text-gray-900">
+              <div className="text-3xl sm:text-4xl font-bold text-gray-900">
                 {sessionData.focusMode === 'filler'
                   ? sessionData.fillerCount
                   : sessionData.wpm}
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">
                 {sessionData.focusMode === 'filler' ? 'Filler Words' : 'WPM'}
               </p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-gray-900">
+              <div className="text-3xl sm:text-4xl font-bold text-gray-900">
                 {formatDuration(sessionData.durationSeconds)}
               </div>
-              <p className="text-xs text-gray-500 mt-1">Duration</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">Duration</p>
             </div>
           </div>
         </div>
@@ -357,22 +370,22 @@ export default function PostSessionResults() {
         )}
 
         {/* Navigation bar */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4">
           <button
             onClick={handleDashboard}
-            className="px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+            className="px-2 sm:px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 active:bg-gray-100 transition-colors text-xs sm:text-base min-h-[48px]"
           >
             Dashboard
           </button>
           <button
             onClick={handleTryAgain}
-            className="px-4 py-3 bg-clinical-accent text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+            className="px-2 sm:px-4 py-3 bg-clinical-accent text-white rounded-lg font-medium hover:opacity-90 active:opacity-80 transition-opacity text-xs sm:text-base min-h-[48px]"
           >
             Try Again
           </button>
           <button
             onClick={handleNewSession}
-            className="px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+            className="px-2 sm:px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 active:bg-gray-100 transition-colors text-xs sm:text-base min-h-[48px]"
           >
             New Session
           </button>

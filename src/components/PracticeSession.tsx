@@ -83,6 +83,8 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     finalTranscript,
     wordCount,
     wordTimings,
+    averageConfidence,
+    lowConfidenceSegments,
     error: speechError,
     start: startSpeech,
     stop: stopSpeech,
@@ -379,6 +381,8 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         fillerEvents: [...fillerEvents],
         wordTimings: [...wordTimings],
         reconciledFillers: reconciledFillers,
+        averageConfidence: averageConfidence,
+        lowConfidenceSegments: lowConfidenceSegments,
       }));
     } catch {
       // sessionStorage not available
