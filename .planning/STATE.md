@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 05 in progress — plan 05-01 complete
+**Status:** Phase 05 in progress — plan 05-02 complete
 **Active Phase:** 05 of 10 (Transcript with Highlights) — IN PROGRESS
-**Plan:** 05-01 complete (2/2 tasks). Next: 05-02 EvaluationPage.
-**Last Action:** 2026-02-05 - Completed plan 05-01 (hybrid filler reconciliation)
+**Plan:** 05-02 complete (3/3 tasks). Next: 05-03 filler type distinction.
+**Last Action:** 2026-02-05 - Completed plan 05-02 (EvaluationPage with transcript highlights)
 
-**Progress:** ████████████████████░░ 4.3/10 phases complete (05-01 done)
+**Progress:** ████████████████████░░ 4.4/10 phases complete (05-02 done)
 
 ## Decisions Made
 
@@ -69,6 +69,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Reconciliation timing at session end | Transcript-based detection requires complete transcript for accuracy |
 | 2026-02-05 | Optional fields in SessionResultData | Maintains backwards compatibility with existing stored sessions |
 | 2026-02-05 | Pass empty fillerEvents to reconcileFillers | Acoustic detection disabled but interface preserved for future reactivation |
+| 2026-02-05 | Default highlight mode based on focus mode | Filler mode sessions default to filler highlighting, pace mode sessions default to pace highlighting |
+| 2026-02-05 | Secondary link above navigation bar | Added transcript link above nav buttons instead of expanding grid to 4 buttons (cleaner UI) |
+| 2026-02-05 | Conditional link display for transcript | Only show "View full transcript" link when both transcript and wordTimings are available |
 
 ## Blockers
 
@@ -84,15 +87,16 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed plan 05-01 (hybrid filler reconciliation)
-**Resume with:** `/gsd:execute-phase 5` (continue with 05-02)
+**Stopped at:** Completed plan 05-02 (EvaluationPage with transcript highlights)
+**Resume with:** `/gsd:execute-phase 5` (continue with 05-03)
 
 **Phase 05 execution context (in progress):**
 - Plan 05-01 complete: 2 tasks, 2 commits, 2m 52s duration
-- Commits: a747137 (reconciliation), 1b11486 (interface updates)
-- Ready for 05-02: reconciledFillers available in sessionStorage
-- Next: EvaluationPage with TranscriptView + HighlightToggle (Wave 2, autonomous)
-- Remaining: 05-03 filler type distinction (Wave 3, checkpoint)
+- Plan 05-02 complete: 3 tasks, 3 commits, 4m duration
+- Commits (05-01): a747137 (reconciliation), 1b11486 (interface updates)
+- Commits (05-02): 158c584 (EvaluationPage), 877fc7f (route), f8a6def (link)
+- Next: 05-03 filler type distinction (Wave 3, checkpoint)
+- Ready for 05-03: EvaluationPage infrastructure complete, highlight toggle ready for expanded modes
 
 **Phase 04 completion context (carried forward):**
 - 2 plans executed: 04-01 (audio blob + playback), 04-02 (filler markers + speed controls)
@@ -117,4 +121,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Completed plan 05-01 (hybrid filler reconciliation wired into session end)*
+*Last updated: 2026-02-05 - Completed plan 05-02 (EvaluationPage with transcript highlights)*
