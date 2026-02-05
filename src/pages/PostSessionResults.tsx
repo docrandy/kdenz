@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBaseline } from '../services/baselineStorage';
+import { AudioPlayback } from '../components/AudioPlayback';
 
 interface SessionResultData {
   durationSeconds: number;
@@ -11,6 +12,7 @@ interface SessionResultData {
   focusMode: 'filler' | 'pace';
   transcript: string;
   is_baseline?: boolean;
+  audioData?: string | null;
 }
 
 export default function PostSessionResults() {
@@ -194,6 +196,17 @@ export default function PostSessionResults() {
             <p className="text-sm text-gray-500 mt-2">Duration</p>
           </div>
         </div>
+
+        {/* Audio playback */}
+        {sessionData.audioData && (
+          <div className="bg-gray-50 rounded-lg p-4">
+            <p className="text-sm text-gray-600 mb-3">Listen to your session</p>
+            <AudioPlayback
+              audioData={sessionData.audioData}
+              durationSeconds={sessionData.durationSeconds}
+            />
+          </div>
+        )}
 
         {/* Navigation bar */}
         <div className="grid grid-cols-3 gap-4">
