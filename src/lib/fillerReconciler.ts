@@ -7,6 +7,16 @@
 import { FillerDetection } from '../core/audio/FillerDetector';
 import { WordTiming } from '../core/audio/useWebSpeech';
 
+/** Filler word categories for display */
+export const FILLER_CATEGORIES = {
+  hesitation: ['um', 'uh', 'er', 'ah'],
+  discourse: ['like', 'so', 'right', 'okay'],
+  hedge: ['basically', 'actually', 'literally', 'honestly', 'essentially', 'obviously'],
+  phrase: ['you know', 'i mean', 'kind of', 'sort of'],
+} as const;
+
+export type FillerCategory = keyof typeof FILLER_CATEGORIES;
+
 /** Filler words to detect in transcript */
 const FILLER_WORDS = ['like', 'um', 'uh', 'basically', 'actually', 'literally', 'you know'];
 
@@ -20,6 +30,21 @@ export interface ReconciledFiller {
   source: 'acoustic' | 'transcript' | 'both';
   wordIndex: number;     // position in transcript for highlighting
   confidence?: number;   // from acoustic detection if available
+  category?: FillerCategory;  // filler type for display
+}
+
+/**
+ * Get the category for a filler word
+ */
+export function getFillerCategory(word: string): FillerCategory {
+  const normalized = word.toLowerCase().trim();
+
+  for (const [category, words] of Object.entries(FILLER_CATEGORIES)) {
+    if ((words as readonly string[]).includes(normalized)) {
+      return category as FillerCategory;
+    }
+  }
+  return 'hesitation'; // Default category
 }
 
 /**
@@ -43,6 +68,7 @@ function findTranscriptFillers(wordTimings: WordTiming[]): ReconciledFiller[] {
         timestamp: wt.timestamp,
         source: 'transcript',
         wordIndex: wt.index,
+        category: getFillerCategory(wt.word),
       });
     }
   });
@@ -135,6 +161,7 @@ export function reconcileFillers(
           source: 'acoustic',
           wordIndex: match.wordIndex,
           confidence: acoustic.confidence,
+          category: getFillerCategory(match.word),
         });
       }
     } else {
@@ -149,6 +176,7 @@ export function reconcileFillers(
         source: 'acoustic',
         wordIndex: estimatedIndex,
         confidence: acoustic.confidence,
+        category: getFillerCategory(acoustic.type),
       });
     }
   });
