@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBaseline } from '../services/baselineStorage';
 import { AudioPlayback } from '../components/AudioPlayback';
+import { WordTiming } from '../core/audio/useWebSpeech';
+import { ReconciledFiller } from '../lib/fillerReconciler';
 
 interface FillerEvent {
   type: string;
@@ -20,6 +22,8 @@ interface SessionResultData {
   is_baseline?: boolean;
   audioData?: string | null;
   fillerEvents?: FillerEvent[];
+  wordTimings?: WordTiming[];
+  reconciledFillers?: ReconciledFiller[];
 }
 
 export default function PostSessionResults() {
