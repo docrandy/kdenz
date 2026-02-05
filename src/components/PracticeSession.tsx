@@ -423,7 +423,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       )}
 
       {/* Session content - centered vertically */}
-      <div className="flex flex-col items-center gap-6 w-full max-w-md">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-md">
         {/* PRE-SESSION: Show orb in idle state */}
         {!isCapturing && (
           <div className="flex flex-col items-center gap-4">
@@ -434,7 +434,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
               isLoading={isStarting}
               disabled={isStarting}
             />
-            <p className="text-sm text-gray-500">Tap to start</p>
+            <p className="text-sm sm:text-base text-gray-500">Tap to start</p>
           </div>
         )}
 
@@ -456,8 +456,8 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
             {/* Focus-specific feedback */}
             {focusMode === 'filler' && (
               <div className="text-center">
-                <span className="text-5xl font-bold text-gray-900">{liveFillerCount}</span>
-                <p className="text-sm text-gray-500 mt-1">fillers detected</p>
+                <span className="text-4xl sm:text-5xl font-bold text-gray-900">{liveFillerCount}</span>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">fillers detected</p>
               </div>
             )}
 
@@ -466,20 +466,20 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
                 <WaveformVisualizer
                   analyserNode={analyserRef.current}
                   isActive={isCapturing && !isPaused}
-                  height={120}
+                  height={100}
                 />
                 <div className="text-center mt-2">
-                  <span className="text-2xl font-semibold text-gray-900">{wpm} WPM</span>
-                  <p className="text-sm text-gray-500 mt-1">Speaking Pace</p>
+                  <span className="text-xl sm:text-2xl font-semibold text-gray-900">{wpm} WPM</span>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Speaking Pace</p>
                 </div>
               </>
             )}
 
             {/* Baseline speaking prompt */}
             {isBaseline && baselinePromptIndex < BASELINE_PROMPTS.length && (
-              <div key={baselinePromptIndex} className="text-center max-w-sm animate-fade-in">
-                <div className="px-4 py-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-800">
+              <div key={baselinePromptIndex} className="text-center max-w-sm animate-fade-in px-2">
+                <div className="px-3 sm:px-4 py-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
                     {BASELINE_PROMPTS[baselinePromptIndex]}
                   </p>
                 </div>
