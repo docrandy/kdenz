@@ -99,9 +99,15 @@ Plans:
 
 ### Phase 04: Playback with Filler Highlighting
 
-**Goal:** Audio playback with visual filler markers
+**Goal:** Audio playback with visual filler markers on the post-session results page
 
 **Requirements:** PLAY-01, PLAY-02, PLAY-03, PLAY-04, FILLER-03
+
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Wire audio blob to session storage + AudioPlayback component with play/pause/seek
+- [ ] 04-02-PLAN.md — Filler markers on timeline + tap-to-seek + speed controls (0.75x, 1x, 1.25x)
 
 **Success Criteria:**
 - [ ] Audio playback controls (play/pause/seek)
@@ -214,7 +220,7 @@ Plans:
 | 01 | Project Setup & Scaffolding | 5 | Complete |
 | 02 | Audio Pipeline & Visual Gauge | 7 | Complete |
 | 03 | Session Foundation — Timing, Baseline & First-Run | 8 | Planned (4 plans) |
-| 04 | Playback with Filler Highlighting | 5 | Pending |
+| 04 | Playback with Filler Highlighting | 5 | Planned (2 plans) |
 | 05 | Transcript with Highlights | 6 | Pending |
 | 06 | Scorecard & AI Summary | 9 | Pending |
 | 07 | Polish & Error Handling | 4 | Pending |
@@ -228,4 +234,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-04 - Phase 03 planned (4 plans in 3 waves); Phase 06/07 adjusted per research audit*
+*Last updated: 2026-02-04 - Phase 04 planned (2 plans in 2 waves); Phase 03 complete*
