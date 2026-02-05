@@ -5,6 +5,7 @@ import { saveSession } from '../services/sessionStorage';
 import { AudioPlayback } from '../components/AudioPlayback';
 import Scorecard from '../components/Scorecard';
 import WeeklyTrendChart from '../components/WeeklyTrendChart';
+import AISummary from '../components/AISummary';
 import { WordTiming } from '../core/audio/useWebSpeech';
 import { ReconciledFiller } from '../lib/fillerReconciler';
 import SelfAssessment, { SelfAssessmentResponse } from '../components/SelfAssessment';
@@ -339,6 +340,21 @@ export default function PostSessionResults() {
             </div>
           </div>
         </div>
+
+        {/* AI Summary (button-triggered, secondary action) */}
+        {!sessionData.is_baseline && (
+          <div className="mt-6">
+            <AISummary
+              transcript={sessionData.transcript}
+              wpm={sessionData.wpm}
+              wordCount={sessionData.wordCount}
+              fillerCount={sessionData.fillerCount}
+              fillerRate={sessionData.fillerRate}
+              durationSeconds={sessionData.durationSeconds}
+              reconciledFillers={sessionData.reconciledFillers || []}
+            />
+          </div>
+        )}
 
         {/* Navigation bar */}
         <div className="grid grid-cols-3 gap-4">
