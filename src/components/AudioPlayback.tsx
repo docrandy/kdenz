@@ -17,6 +17,7 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(durationSeconds);
+  const [playbackRate, setPlaybackRate] = useState(1);
 
   // Convert base64 to object URL on mount
   useEffect(() => {
@@ -49,6 +50,13 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
       audio.removeEventListener('ended', handleEnded);
     };
   }, []);
+
+  // Update playback rate when state changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackRate;
+    }
+  }, [playbackRate]);
 
   const handlePlayPause = () => {
     if (!audioRef.current) return;
@@ -89,11 +97,11 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
       <audio ref={audioRef} preload="metadata" />
 
       {/* Controls row */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         {/* Play/Pause button */}
         <button
           onClick={handlePlayPause}
-          className="w-10 h-10 rounded-full bg-clinical-accent text-white flex items-center justify-center hover:opacity-90 transition-opacity"
+          className="w-10 h-10 rounded-full bg-clinical-accent text-white flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0"
           aria-label={isPlaying ? 'Pause' : 'Play'}
         >
           {isPlaying ? (
@@ -109,7 +117,7 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
         </button>
 
         {/* Scrub bar + time */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div
             className="h-2 bg-gray-200 rounded-full cursor-pointer relative"
             onClick={handleSeek}
@@ -140,6 +148,23 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
+        </div>
+
+        {/* Speed controls */}
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {[0.75, 1, 1.25].map((speed) => (
+            <button
+              key={speed}
+              onClick={() => setPlaybackRate(speed)}
+              className={`px-2 py-1 text-xs rounded ${
+                playbackRate === speed
+                  ? 'bg-clinical-accent text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              } transition-colors`}
+            >
+              {speed}x
+            </button>
+          ))}
         </div>
       </div>
     </div>
