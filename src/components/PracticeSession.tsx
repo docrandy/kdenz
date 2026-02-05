@@ -9,15 +9,41 @@ import SilenceNudge from './SilenceNudge';
 import SessionProgressBar from './SessionProgressBar';
 import { saveBaseline } from '../services/baselineStorage';
 
-// Filler words to detect in real-time
-const FILLER_WORDS = ['like', 'um', 'uh', 'basically', 'actually', 'literally', 'you know'];
+// Filler phrases to detect in real-time (multi-word phrases checked first)
+const FILLER_PHRASES = ['you know', 'i mean', 'kind of', 'sort of'];
+// Single filler words checked with word boundary matching
+const FILLER_WORDS = ['like', 'um', 'uh', 'so', 'basically', 'actually', 'literally', 'honestly', 'essentially', 'obviously', 'right'];
 
-// Count filler words in text
+// Count filler words/phrases in text using regex word boundaries
 function countFillerWords(text: string): number {
   if (!text.trim()) return 0;
-  const words = text.toLowerCase().split(/\s+/);
-  return words.filter(word => FILLER_WORDS.some(filler => word.includes(filler))).length;
+  const lower = text.toLowerCase();
+  let count = 0;
+
+  // Count multi-word phrases first
+  for (const phrase of FILLER_PHRASES) {
+    const regex = new RegExp(`\\b${phrase}\\b`, 'gi');
+    const matches = lower.match(regex);
+    if (matches) count += matches.length;
+  }
+
+  // Count single filler words with word boundaries (prevents "unlikely" matching "like")
+  for (const word of FILLER_WORDS) {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const matches = lower.match(regex);
+    if (matches) count += matches.length;
+  }
+
+  return count;
 }
+
+// Baseline speaking prompts — shown one at a time during recording, rotated on silence
+const BASELINE_PROMPTS = [
+  'Walk me through your typical morning routine.',
+  'Tell me about yourself — what do you do and what are you into?',
+  'Describe the last trip or outing you went on.',
+];
+// TODO: Add silence-based auto-rotation (BASELINE_PROMPT_SILENCE_MS = 8000) in a future phase
 
 interface PracticeSessionProps {
   focusMode: 'filler' | 'pace';
@@ -219,13 +245,16 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     };
   }, [isCapturing, isPaused, audioLevel, wordCount, SILENCE_AUDIO_THRESHOLD, SPEECH_IDLE_CHECK_MS]);
 
-  // Only trigger once per session
-  const showSilenceNudge = isCapturing && !isPaused && !nudgeShownRef.current && silenceDuration >= SILENCE_NUDGE_MS;
+  // Only trigger once per session (suppressed during baseline — prompts handle silence instead)
+  const showSilenceNudge = isCapturing && !isPaused && !nudgeShownRef.current && !isBaseline && silenceDuration >= SILENCE_NUDGE_MS;
 
   // Callback when nudge is dismissed
   const handleNudgeDismissed = useCallback(() => {
     nudgeShownRef.current = true;
   }, []);
+
+  // Baseline prompt rotation — user-controlled via "Next" button
+  const [baselinePromptIndex, setBaselinePromptIndex] = useState(0);
 
   // Real-time filler count from transcript
   const liveFillerCount = useMemo(() => {
@@ -248,6 +277,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     setWpm(0);
     resetTimer();
     nudgeShownRef.current = false; // Reset nudge for new session
+    setBaselinePromptIndex(0); // Reset baseline prompts
     try {
       await startAudio();
       startSpeech();
@@ -399,6 +429,25 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
                   <p className="text-sm text-gray-500 mt-1">Speaking Pace</p>
                 </div>
               </>
+            )}
+
+            {/* Baseline speaking prompt */}
+            {isBaseline && baselinePromptIndex < BASELINE_PROMPTS.length && (
+              <div key={baselinePromptIndex} className="text-center max-w-sm animate-fade-in">
+                <div className="px-4 py-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm text-gray-800">
+                    {BASELINE_PROMPTS[baselinePromptIndex]}
+                  </p>
+                </div>
+                {baselinePromptIndex < BASELINE_PROMPTS.length - 1 && (
+                  <button
+                    onClick={() => setBaselinePromptIndex(prev => prev + 1)}
+                    className="mt-2 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    Next topic &rarr;
+                  </button>
+                )}
+              </div>
             )}
 
             {/* Silence nudge */}

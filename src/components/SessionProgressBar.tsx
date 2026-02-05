@@ -10,9 +10,9 @@ export default function SessionProgressBar({ remaining, visible }: SessionProgre
   if (!visible || remaining === undefined || remaining === null) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-gray-100">
+    <div className="fixed top-0 left-0 right-0 z-50 h-2 bg-gray-200">
       <div
-        className="h-full bg-clinical-accent transition-all duration-300 ease-out"
+        className="h-full bg-clinical-accent transition-all duration-1000 ease-linear"
         style={{ width: `${Math.max(0, Math.min(remaining * 100, 100))}%` }}
       />
     </div>

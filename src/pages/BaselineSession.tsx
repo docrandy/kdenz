@@ -26,21 +26,20 @@ export default function BaselineSession() {
         {/* Main instructional copy */}
         <div className="bg-gray-50 rounded-lg p-6 space-y-4">
           <p className="text-lg text-gray-700 leading-relaxed">
-            For the next 3 minutes, speak on any topic. We'll measure your typical pace,
-            pauses, and filler usage in a relaxed context.
+            For the next 3 minutes, we'll measure your typical pace, pauses, and filler
+            word usage. Just speak naturally — there are no wrong answers.
           </p>
 
           <p className="text-base text-gray-600">
-            From your next session onward, we'll focus on changes relative to your
+            From your next session onward, we'll show your progress relative to this
             baseline — not comparisons to other people.
           </p>
         </div>
 
-        {/* Suggestion */}
+        {/* What to expect */}
         <div className="bg-clinical-accent bg-opacity-10 rounded-lg p-4 border border-clinical-accent border-opacity-20">
           <p className="text-sm text-gray-700">
-            <span className="font-medium">Suggestion:</span> Try talking about your day,
-            describing a recent trip, or explaining something you know well.
+            We'll give you a few topics to talk about. New prompts will appear as you go — just speak naturally.
           </p>
         </div>
 
