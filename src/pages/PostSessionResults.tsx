@@ -220,6 +220,18 @@ export default function PostSessionResults() {
           </div>
         )}
 
+        {/* View Transcript link */}
+        {sessionData.transcript && sessionData.wordTimings && (
+          <div className="text-center">
+            <button
+              onClick={() => navigate('/practice/evaluation')}
+              className="text-clinical-accent hover:underline text-sm"
+            >
+              View full transcript with highlights →
+            </button>
+          </div>
+        )}
+
         {/* Navigation bar */}
         <div className="grid grid-cols-3 gap-4">
           <button
