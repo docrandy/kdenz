@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 03 in progress — 2/4 plans executed (03-01, 03-02 complete)
+**Status:** Phase 03 in progress — 3/4 plans executed (03-01, 03-02, 03-03 complete)
 **Active Phase:** 03 of 10 (Session Foundation — Timing, Baseline & First-Run) — IN PROGRESS
-**Plan:** 4 plans total, 2 complete (03-01, 03-02), 2 remaining (03-03, 03-04)
-**Last Action:** 2026-02-05 - Completed plan 03-02: Consent Modal & First-Run Gating
+**Plan:** 4 plans total, 3 complete (03-01, 03-02, 03-03), 1 remaining (03-04)
+**Last Action:** 2026-02-05 - Completed plan 03-03: Duration Picker + Countdown Timer
 
-**Progress:** ██████████░░░░░░░░░░ 2/4 plans in phase
+**Progress:** ███████████████░░░░░ 3/4 plans in phase
 
 ## Decisions Made
 
@@ -55,6 +55,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Consent copy verbatim from foundation docs | Use locked copy from docs/foundation/copy/consent-and-onboarding-copy-v1.md for legal/compliance safety |
 | 2026-02-05 | Top-level consent gate blocks all routes | Cleaner than per-route guards; ensures consent before ANY interaction |
 | 2026-02-05 | localStorage key: voicelab_consent_accepted | Separate from welcome/diagnostic keys for clear separation of concerns |
+| 2026-02-05 | Infinity symbol (∞) for Unlimited option | Cleaner UI than text "Unlimited" in duration selector |
+| 2026-02-05 | Route state for duration passing | More React-idiomatic than query params for session config |
+| 2026-02-05 | Countdown bar hidden in Unlimited mode | Cleaner than showing static bar, reduces visual clutter |
 
 ## Blockers
 
@@ -70,8 +73,8 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed plan 03-02 (Consent Modal & First-Run Gating). 2/4 plans in Phase 03 complete.
-**Resume with:** `/gsd:execute-plan 03-03` — Duration picker + countdown timer + Unlimited mode
+**Stopped at:** Completed plan 03-03 (Duration Picker + Countdown Timer). 3/4 plans in Phase 03 complete.
+**Resume with:** `/gsd:execute-plan 03-04` — Baseline session flow + baseline results + PostSessionResults delta display
 
 **Research audit context (2026-02-04):**
 - Audited docs/REGISTRY.md against all 10 roadmap phases
@@ -90,4 +93,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Completed plan 03-02 (Consent Modal & First-Run Gating); 2/4 plans in Phase 03 complete*
+*Last updated: 2026-02-05 - Completed plan 03-03 (Duration Picker + Countdown Timer); 3/4 plans in Phase 03 complete*
