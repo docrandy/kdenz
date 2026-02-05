@@ -18,7 +18,7 @@ Requirements for private beta release.
 
 - [x] **FILLER-01**: Acoustic filler detection runs in real-time during speech ✓
 - [ ] **FILLER-02**: Transcript-based filler reconciliation runs at session end
-- [ ] **FILLER-03**: Filler timestamps captured for playback markers
+- [x] **FILLER-03**: Filler timestamps captured for playback markers ✓
 - [ ] **FILLER-04**: Filler types distinguished (um, uh, like, you know)
 
 ### Visual Feedback
@@ -30,10 +30,10 @@ Requirements for private beta release.
 
 ### Playback
 
-- [ ] **PLAY-01**: User can play back recorded audio after session
-- [ ] **PLAY-02**: Playback timeline shows filler markers at timestamps
-- [ ] **PLAY-03**: User can tap filler marker to seek to that moment
-- [ ] **PLAY-04**: Playback speed controls available (0.75x, 1x, 1.25x)
+- [x] **PLAY-01**: User can play back recorded audio after session ✓
+- [x] **PLAY-02**: Playback timeline shows filler markers at timestamps ✓
+- [x] **PLAY-03**: User can tap filler marker to seek to that moment ✓
+- [x] **PLAY-04**: Playback speed controls available (0.75x, 1x, 1.25x) ✓
 
 ### Transcript
 
@@ -128,12 +128,17 @@ Deferred to future releases.
 | FILLER-01 | 02 | Complete |
 | VIZ-01 | 02 | Complete |
 | VIZ-02 | 02 | Complete |
+| PLAY-01 | 04 | Complete |
+| PLAY-02 | 04 | Complete |
+| PLAY-03 | 04 | Complete |
+| PLAY-04 | 04 | Complete |
+| FILLER-03 | 04 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
-- Complete: 12
-- Remaining: 18
+- Complete: 17
+- Remaining: 13
 
 ---
 *Requirements defined: 2026-01-25*
-*Last updated: 2026-02-04 - Phase 02 requirements complete*
+*Last updated: 2026-02-04 - Phase 04 requirements complete (PLAY-01 through PLAY-04, FILLER-03)*

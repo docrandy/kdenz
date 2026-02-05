@@ -67,54 +67,58 @@ Plans:
 
 ---
 
-### Phase 03: Session Foundation — Timing, Baseline & First-Run
+### Phase 03: Session Foundation — Timing, Baseline & First-Run ✓
 
 **Goal:** Complete session lifecycle: first-run consent/baseline flow, duration selection, countdown timer, persistent baseline storage, and design system color alignment
 
+**Status:** Complete (2026-02-04)
+
 **Requirements:** SESS-01, SESS-02, SESS-03, SESS-04, BASE-01, BASE-02, CONSENT-01, DESIGN-01
 
-**Plans:** 4 plans
+**Plans:** 4/4 complete
 
 Plans:
-- [ ] 03-01-PLAN.md — Design system color alignment (Signal Green) + session data model + baseline storage service
-- [ ] 03-02-PLAN.md — Consent/disclosure modal with locked foundation copy + first-run gating
-- [ ] 03-03-PLAN.md — Pre-session duration picker + countdown bar + dynamic timer + Unlimited mode
-- [ ] 03-04-PLAN.md — Baseline session flow + baseline results + PostSessionResults delta display + end-to-end checkpoint
+- [x] 03-01-PLAN.md — Design system color alignment (Signal Green) + session data model + baseline storage service
+- [x] 03-02-PLAN.md — Consent/disclosure modal with locked foundation copy + first-run gating
+- [x] 03-03-PLAN.md — Pre-session duration picker + countdown bar + dynamic timer + Unlimited mode
+- [x] 03-04-PLAN.md — Baseline session flow + baseline results + PostSessionResults delta display + end-to-end checkpoint
 
 **Success Criteria:**
-- [ ] First-run consent/disclosure modal gates first recording (copy from foundation docs)
-- [ ] First session is a fixed 3-minute baseline capture with onboarding instructions
-- [ ] Baseline metrics stored in localStorage (WPM, filler rate, pause rate, timestamp)
-- [ ] Duration selection UI (1min / 2min / 3min / Unlimited) for regular sessions
-- [ ] Countdown bar displays correctly (visual bar only, no digital numbers)
-- [ ] Session auto-stops at duration end
-- [ ] Manual stop button works
-- [ ] Audio recording captured for playback
-- [ ] Last-used duration remembered (localStorage)
-- [ ] SessionOrb color updated to Signal Green (#00C851) per locked design system
-- [ ] Pace hue shift (green→yellow) removed; pace shown as number/label instead
-- [ ] Session data model distinguishes baseline vs regular sessions
+- [x] First-run consent/disclosure modal gates first recording (copy from foundation docs)
+- [x] First session is a fixed 3-minute baseline capture with onboarding instructions
+- [x] Baseline metrics stored in localStorage (WPM, filler rate, pause rate, timestamp)
+- [x] Duration selection UI (1min / 2min / 3min / Unlimited) for regular sessions
+- [x] Countdown bar displays correctly (visual bar only, no digital numbers)
+- [x] Session auto-stops at duration end
+- [x] Manual stop button works
+- [x] Audio recording captured for playback
+- [x] Last-used duration remembered (localStorage)
+- [x] SessionOrb color updated to Signal Green (#00C851) per locked design system
+- [x] Pace hue shift (green→yellow) removed; pace shown as number/label instead
+- [x] Session data model distinguishes baseline vs regular sessions
 
 ---
 
-### Phase 04: Playback with Filler Highlighting
+### Phase 04: Playback with Filler Highlighting ✓
 
 **Goal:** Audio playback with visual filler markers on the post-session results page
 
+**Status:** Complete (2026-02-04)
+
 **Requirements:** PLAY-01, PLAY-02, PLAY-03, PLAY-04, FILLER-03
 
-**Plans:** 2 plans
+**Plans:** 2/2 complete
 
 Plans:
-- [ ] 04-01-PLAN.md — Wire audio blob to session storage + AudioPlayback component with play/pause/seek
-- [ ] 04-02-PLAN.md — Filler markers on timeline + tap-to-seek + speed controls (0.75x, 1x, 1.25x)
+- [x] 04-01-PLAN.md — Wire audio blob to session storage + AudioPlayback component with play/pause/seek
+- [x] 04-02-PLAN.md — Filler markers on timeline + tap-to-seek + speed controls (0.75x, 1x, 1.25x)
 
 **Success Criteria:**
-- [ ] Audio playback controls (play/pause/seek)
-- [ ] Filler timestamps synced to audio timeline
-- [ ] Visual markers on playback timeline at filler locations
-- [ ] Tap filler marker jumps to that moment
-- [ ] Playback speed controls (0.75x, 1x, 1.25x)
+- [x] Audio playback controls (play/pause/seek)
+- [x] Filler timestamps synced to audio timeline
+- [x] Visual markers on playback timeline at filler locations
+- [x] Tap filler marker jumps to that moment
+- [x] Playback speed controls (0.75x, 1x, 1.25x)
 
 ---
 
@@ -219,8 +223,8 @@ Plans:
 |-------|------|--------------|--------|
 | 01 | Project Setup & Scaffolding | 5 | Complete |
 | 02 | Audio Pipeline & Visual Gauge | 7 | Complete |
-| 03 | Session Foundation — Timing, Baseline & First-Run | 8 | Planned (4 plans) |
-| 04 | Playback with Filler Highlighting | 5 | Planned (2 plans) |
+| 03 | Session Foundation — Timing, Baseline & First-Run | 8 | Complete |
+| 04 | Playback with Filler Highlighting | 5 | Complete |
 | 05 | Transcript with Highlights | 6 | Pending |
 | 06 | Scorecard & AI Summary | 9 | Pending |
 | 07 | Polish & Error Handling | 4 | Pending |
@@ -234,4 +238,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-04 - Phase 04 planned (2 plans in 2 waves); Phase 03 complete*
+*Last updated: 2026-02-04 - Phase 04 complete (2/2 plans verified)*
