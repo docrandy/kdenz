@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 03 in progress — 3/4 plans executed (03-01, 03-02, 03-03 complete)
-**Active Phase:** 03 of 10 (Session Foundation — Timing, Baseline & First-Run) — IN PROGRESS
-**Plan:** 4 plans total, 3 complete (03-01, 03-02, 03-03), 1 remaining (03-04)
-**Last Action:** 2026-02-05 - Completed plan 03-03: Duration Picker + Countdown Timer
+**Status:** Phase 04 in progress — 1/3 plans executed (04-01 complete)
+**Active Phase:** 04 of 10 (Audio Playback & Filler Highlighting) — IN PROGRESS
+**Plan:** 3 plans total, 1 complete (04-01), 2 remaining (04-02, 04-03)
+**Last Action:** 2026-02-04 - Completed plan 04-01: Audio Playback Wiring
 
-**Progress:** ███████████████░░░░░ 3/4 plans in phase
+**Progress:** ██████░░░░░░░░░░░░░░ 1/3 plans in phase
 
 ## Decisions Made
 
@@ -58,6 +58,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Infinity symbol (∞) for Unlimited option | Cleaner UI than text "Unlimited" in duration selector |
 | 2026-02-05 | Route state for duration passing | More React-idiomatic than query params for session config |
 | 2026-02-05 | Countdown bar hidden in Unlimited mode | Cleaner than showing static bar, reduces visual clutter |
+| 2026-02-04 | Base64 encoding for sessionStorage blob | Blobs can't be stored directly in sessionStorage, FileReader.readAsDataURL() converts to base64 |
+| 2026-02-04 | Stop audio first in handleStop | Ensures MediaRecorder finalizes audioBlob before conversion |
+| 2026-02-04 | Minimal AudioPlayback for phase 04-01 | Basic playback controls (play/pause/seek); filler highlighting in 04-02 |
 
 ## Blockers
 
@@ -72,9 +75,9 @@ None currently.
 
 ## Session Continuity
 
-**Last session:** 2026-02-05
-**Stopped at:** Completed plan 03-03 (Duration Picker + Countdown Timer). 3/4 plans in Phase 03 complete.
-**Resume with:** `/gsd:execute-plan 03-04` — Baseline session flow + baseline results + PostSessionResults delta display
+**Last session:** 2026-02-04
+**Stopped at:** Completed plan 04-01 (Audio Playback Wiring). 1/3 plans in Phase 04 complete.
+**Resume with:** `/gsd:execute-plan 04-02` — Filler marker highlighting on audio timeline
 
 **Research audit context (2026-02-04):**
 - Audited docs/REGISTRY.md against all 10 roadmap phases
@@ -93,4 +96,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Completed plan 03-03 (Duration Picker + Countdown Timer); 3/4 plans in Phase 03 complete*
+*Last updated: 2026-02-04 - Completed plan 04-01 (Audio Playback Wiring); 1/3 plans in Phase 04 complete*
