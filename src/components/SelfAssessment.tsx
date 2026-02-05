@@ -52,35 +52,35 @@ export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAs
       };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+      <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-clinical-text mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-clinical-text mb-4">
             Quick Reflection
           </h1>
-          <p className="text-lg text-clinical-muted">
+          <p className="text-base sm:text-lg text-clinical-muted">
             {question}
           </p>
         </div>
 
         {/* 5-point scale */}
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {([1, 2, 3, 4, 5] as const).map((rating) => (
             <button
               key={rating}
               onClick={() => setSelectedRating(rating)}
-              className={`w-full px-6 py-4 rounded-lg text-left border-2 transition-all ${
+              className={`w-full px-4 sm:px-6 py-4 rounded-lg text-left border-2 transition-all min-h-[56px] ${
                 selectedRating === rating
                   ? 'border-clinical-accent bg-clinical-accent/5'
-                  : 'border-gray-200 hover:border-gray-300'
+                  : 'border-gray-200 hover:border-gray-300 active:bg-gray-50'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-clinical-text font-medium">
+                <span className="text-clinical-text font-medium text-sm sm:text-base">
                   {labels[rating]}
                 </span>
-                <span className={`text-sm ${
+                <span className={`text-xs sm:text-sm ${
                   selectedRating === rating
                     ? 'text-clinical-accent font-semibold'
                     : 'text-gray-400'
@@ -115,17 +115,17 @@ export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAs
           <button
             onClick={handleComplete}
             disabled={selectedRating === null}
-            className={`w-full px-6 py-4 rounded-lg font-semibold transition-all ${
+            className={`w-full px-6 py-4 rounded-lg font-semibold transition-all min-h-[56px] ${
               selectedRating === null
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-black text-white hover:opacity-90'
+                : 'bg-black text-white hover:opacity-90 active:opacity-80'
             }`}
           >
             Show My Results
           </button>
           <button
             onClick={onSkip}
-            className="text-clinical-muted hover:text-clinical-text text-sm transition-colors"
+            className="text-clinical-muted hover:text-clinical-text active:text-clinical-text text-sm transition-colors min-h-[44px]"
           >
             Skip
           </button>

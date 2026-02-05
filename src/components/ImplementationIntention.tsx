@@ -61,23 +61,23 @@ export default function ImplementationIntention({
   const isValid = customText.trim() !== '' || selectedSuggestion !== null;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+      <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-clinical-text mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-clinical-text mb-4">
             Try This Next Time
           </h1>
-          <p className="text-lg text-clinical-muted mb-2">
+          <p className="text-base sm:text-lg text-clinical-muted mb-2">
             Pick one thing to try in your next conversation
           </p>
-          <p className="text-sm text-clinical-muted">
+          <p className="text-xs sm:text-sm text-clinical-muted">
             Research shows when/then commitments improve transfer to real situations
           </p>
         </div>
 
         {/* When/Then template */}
-        <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+        <div className="bg-gray-50 rounded-lg p-4 sm:p-6 space-y-4">
           <div>
             <p className="text-sm font-semibold text-clinical-muted uppercase tracking-wide mb-2">
               When
@@ -98,10 +98,10 @@ export default function ImplementationIntention({
                 <button
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all min-h-[40px] ${
                     selectedSuggestion === suggestion
                       ? 'bg-clinical-accent text-white'
-                      : 'bg-white border-2 border-gray-200 text-clinical-text hover:border-clinical-accent'
+                      : 'bg-white border-2 border-gray-200 text-clinical-text hover:border-clinical-accent active:bg-gray-50'
                   }`}
                 >
                   {suggestion}
@@ -140,17 +140,17 @@ export default function ImplementationIntention({
           <button
             onClick={handleComplete}
             disabled={!isValid}
-            className={`w-full px-6 py-4 rounded-lg font-semibold transition-all ${
+            className={`w-full px-6 py-4 rounded-lg font-semibold transition-all min-h-[56px] ${
               !isValid
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-black text-white hover:opacity-90'
+                : 'bg-black text-white hover:opacity-90 active:opacity-80'
             }`}
           >
             Save & Continue
           </button>
           <button
             onClick={onSkip}
-            className="text-clinical-muted hover:text-clinical-text text-sm transition-colors"
+            className="text-clinical-muted hover:text-clinical-text active:text-clinical-text text-sm transition-colors min-h-[44px]"
           >
             Skip for now
           </button>

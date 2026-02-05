@@ -53,8 +53,8 @@ export default function Scorecard({
   const fillerCI = durationSeconds < 60 ? 1.5 : durationSeconds < 120 ? 1.0 : 0.5;
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-clinical-text">Session Scorecard</h3>
+    <div className="space-y-3 sm:space-y-4">
+      <h3 className="text-base sm:text-lg font-semibold text-clinical-text">Session Scorecard</h3>
 
       {/* Speech Rate Card */}
       <MetricCard
@@ -80,7 +80,7 @@ export default function Scorecard({
       />
 
       {/* Summary stats row */}
-      <div className="flex justify-between text-sm text-clinical-muted pt-2 border-t border-clinical-border">
+      <div className="flex justify-between text-xs sm:text-sm text-clinical-muted pt-2 border-t border-clinical-border flex-wrap gap-2">
         <span>{wordCount} words</span>
         <span>{fillerCount} fillers total</span>
         <span>{formatDuration(durationSeconds)}</span>

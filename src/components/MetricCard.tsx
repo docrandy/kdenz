@@ -41,18 +41,18 @@ export default function MetricCard({
     : 'text-clinical-muted';
 
   return (
-    <div className="bg-white border border-clinical-border rounded-lg p-5">
+    <div className="bg-white border border-clinical-border rounded-lg p-4 sm:p-5">
       {/* Header */}
-      <h4 className="text-base font-semibold text-clinical-text mb-3">{label}</h4>
+      <h4 className="text-sm sm:text-base font-semibold text-clinical-text mb-3">{label}</h4>
 
       {/* Primary value with confidence interval */}
       <div className="mb-2">
-        <span className="text-3xl font-bold text-clinical-text">
+        <span className="text-2xl sm:text-3xl font-bold text-clinical-text">
           {value.toFixed(label === "Filler Words" ? 1 : 0)}
         </span>
-        <span className="text-lg text-clinical-text ml-2">{unit}</span>
+        <span className="text-base sm:text-lg text-clinical-text ml-2">{unit}</span>
         {confidenceInterval !== undefined && (
-          <span className="text-sm text-clinical-muted ml-2">
+          <span className="text-xs sm:text-sm text-clinical-muted ml-2">
             (+/-{confidenceInterval.toFixed(label === "Filler Words" ? 1 : 0)} {unit})
           </span>
         )}
