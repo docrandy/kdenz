@@ -18,6 +18,8 @@ import { ProfilePage } from './features/profile'
 import { isChrome, getBrowserName } from './utils/browserDetection'
 import DevFeedbackBoxes from './components/DevFeedbackBoxes'
 import { hasDiagnosticResults } from './lib/diagnosticQuestions'
+import BaselineSession from './pages/BaselineSession'
+import BaselineResults from './pages/BaselineResults'
 
 const CONSENT_ACCEPTED_KEY = 'voicelab_consent_accepted'
 const WELCOME_SEEN_KEY = 'voicelab_welcome_seen'
@@ -69,6 +71,11 @@ function FreePracticePaceRoute() {
       <PracticeSession focusMode="pace" />
     </div>
   )
+}
+
+// Wrapper for Baseline Practice with filler mode
+function BaselinePracticeRoute() {
+  return <PracticeSession focusMode="filler" />
 }
 
 function App() {
@@ -194,6 +201,9 @@ function App() {
         <Routes>
           <Route path="/" element={renderHome()} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/baseline" element={<BaselineSession />} />
+          <Route path="/practice/baseline" element={<BaselinePracticeRoute />} />
+          <Route path="/baseline/results" element={<BaselineResults />} />
           <Route path="/practice/:mode/setup" element={<PreSessionScreen />} />
           <Route path="/practice/filler" element={<FreePracticeFillerRoute />} />
           <Route path="/practice/pace" element={<FreePracticePaceRoute />} />

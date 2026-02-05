@@ -7,6 +7,7 @@ import { BottomControlBar } from './BottomControlBar';
 import { WaveformVisualizer } from './WaveformVisualizer';
 import SilenceNudge from './SilenceNudge';
 import SessionProgressBar from './SessionProgressBar';
+import { saveBaseline } from '../services/baselineStorage';
 
 // Filler words to detect in real-time
 const FILLER_WORDS = ['like', 'um', 'uh', 'basically', 'actually', 'literally', 'you know'];
@@ -28,6 +29,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
   // Read duration from route state with 120s (2min) fallback
   const durationSeconds = (location.state as any)?.durationSeconds ?? 120;
+  const isBaseline = (location.state as any)?.isBaseline ?? false;
 
   const {
     isCapturing,
@@ -275,6 +277,22 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     const elapsedMinutes = elapsedTime / 60;
     const transcriptFillerRate = elapsedMinutes > 0 ? transcriptFillerCount / elapsedMinutes : 0;
 
+    // If this is a baseline session, save baseline metrics
+    if (isBaseline) {
+      // Calculate pause rate from silence duration
+      const pauseRate = silenceDuration > 0 ? (silenceDuration / 1000) / (elapsedTime / 60) : 0;
+
+      saveBaseline({
+        wpm,
+        fillerRate: transcriptFillerRate,
+        fillerCount: transcriptFillerCount,
+        pauseRate,
+        wordCount,
+        durationSeconds: Math.round(elapsedTime),
+        timestamp: Date.now(),
+      });
+    }
+
     // Save session data to sessionStorage for post-session page
     const sessionData = {
       durationSeconds: Math.round(elapsedTime),
@@ -283,6 +301,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       fillerCount: transcriptFillerCount,
       fillerRate: transcriptFillerRate,
       focusMode,
+      is_baseline: isBaseline,
     };
 
     try {
@@ -303,9 +322,13 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     stopSpeech();
     stopAudio();
 
-    // Navigate to post-session results page
-    navigate('/practice/results');
-  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
+    // Navigate to baseline results or regular results
+    if (isBaseline) {
+      navigate('/baseline/results');
+    } else {
+      navigate('/practice/results');
+    }
+  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, isBaseline, silenceDuration, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
   useEffect(() => {

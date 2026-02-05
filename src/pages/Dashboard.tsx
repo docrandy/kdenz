@@ -9,6 +9,7 @@ import { getProfile } from '../features/profile';
 import type { UserProfile } from '../features/profile';
 import { getAllSessions, type SessionSummary } from '../services/sessionStorage';
 import { ContributionHeatmap } from '../components/ContributionHeatmap';
+import { hasBaseline } from '../services/baselineStorage';
 
 
 export default function Dashboard() {
@@ -26,6 +27,17 @@ export default function Dashboard() {
 
   // Quick Notes from profile
   const quickNotes = profile?.miscellaneous?.slice(-3).reverse() || [];
+
+  // Check if baseline exists for first-run routing
+  const handlePracticeClick = (mode: 'filler' | 'pace') => {
+    if (!hasBaseline()) {
+      // First-time user - redirect to baseline
+      navigate('/baseline');
+    } else {
+      // Regular user - go to duration picker
+      navigate(`/practice/${mode}/setup`);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -79,7 +91,7 @@ export default function Dashboard() {
               icon="🎤"
               title="Filler Words"
               description="Practice reducing ums, uhs, and likes with real-time feedback"
-              onClick={() => navigate('/practice/filler/setup')}
+              onClick={() => handlePracticeClick('filler')}
               accent="cyan"
             />
 
@@ -88,7 +100,7 @@ export default function Dashboard() {
               icon="📊"
               title="Speech Pace"
               description="Practice speaking at the right pace with visual feedback"
-              onClick={() => navigate('/practice/pace/setup')}
+              onClick={() => handlePracticeClick('pace')}
               accent="cyan"
             />
 
