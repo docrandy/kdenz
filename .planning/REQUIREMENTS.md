@@ -25,8 +25,8 @@ Requirements for private beta release.
 
 - [x] **VIZ-01**: Real-time filler count displayed as visual gauge (not plain number) ✓
 - [x] **VIZ-02**: WPM displayed with visual indicator during session ✓
-- [ ] **VIZ-03**: Weekly trend chart shows filler rate across sessions
-- [ ] **VIZ-04**: Post-session scorecard displays all metrics summary
+- [x] **VIZ-03**: Weekly trend chart shows filler rate across sessions ✓
+- [x] **VIZ-04**: Post-session scorecard displays all metrics summary ✓
 
 ### Playback
 
@@ -51,9 +51,9 @@ Requirements for private beta release.
 
 ### AI Summary
 
-- [ ] **AI-01**: Generate Summary button triggers Gemini API call
-- [ ] **AI-02**: AI summary displays coaching insights post-session
-- [ ] **AI-03**: Any API error falls back to local stats only (graceful degradation)
+- [x] **AI-01**: Generate Summary button triggers Gemini API call ✓
+- [x] **AI-02**: AI summary displays coaching insights post-session ✓
+- [x] **AI-03**: Any API error falls back to local stats only (graceful degradation) ✓
 
 ### Diagnostics
 
@@ -133,12 +133,23 @@ Deferred to future releases.
 | PLAY-03 | 04 | Complete |
 | PLAY-04 | 04 | Complete |
 | FILLER-03 | 04 | Complete |
+| FILLER-02 | 05 | Complete |
+| FILLER-04 | 05 | Complete |
+| TRANS-01 | 05 | Complete |
+| TRANS-02 | 05 | Complete |
+| TRANS-03 | 05 | Complete |
+| TRANS-04 | 05 | Complete |
+| VIZ-03 | 06 | Complete |
+| VIZ-04 | 06 | Complete |
+| AI-01 | 06 | Complete |
+| AI-02 | 06 | Complete |
+| AI-03 | 06 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
-- Complete: 17
-- Remaining: 13
+- Complete: 28
+- Remaining: 2
 
 ---
 *Requirements defined: 2026-01-25*
-*Last updated: 2026-02-04 - Phase 04 requirements complete (PLAY-01 through PLAY-04, FILLER-03)*
+*Last updated: 2026-02-05 - Phase 06 requirements complete (VIZ-03, VIZ-04, AI-01, AI-02, AI-03)*

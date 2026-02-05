@@ -147,22 +147,31 @@ Plans:
 
 ---
 
-### Phase 06: Scorecard & AI Summary
+### Phase 06: Scorecard & AI Summary ✓
+
+**Status:** Complete (2026-02-05)
 
 **Goal:** Post-session results with baseline comparison, self-reflection, implementation intentions, and optional AI insights
 
 **Requirements:** VIZ-03, VIZ-04, AI-01, AI-02, AI-03, REFLECT-01, TRANSFER-01
 
+**Plans:** 3/3 complete
+
+Plans:
+- [x] 06-01-PLAN.md — Self-assessment and implementation intention prompts (research-backed d=0.4-0.5)
+- [x] 06-02-PLAN.md — MetricCard composition with baseline deltas and uncertainty
+- [x] 06-03-PLAN.md — Weekly trend chart with neutral colors + AI summary with graceful degradation
+
 **Success Criteria:**
-- [ ] Self-assessment prompt before data reveal ("How do you think that went?")
-- [ ] Post-session Scorecard component displays
-- [ ] Metrics show as delta from baseline (e.g., "Filler rate: 6% (+2% from baseline)")
-- [ ] Confidence intervals / uncertainty shown on each metric (per core principle #3)
-- [ ] Weekly trend chart populated with session data
-- [ ] Implementation intention prompt post-scorecard ("When I notice a filler, I will ___")
-- [ ] Generate AI Summary button works
-- [ ] Gemini integration returns coaching insights
-- [ ] API error falls back to local stats only
+- [x] Self-assessment prompt before data reveal ("How do you think that went?")
+- [x] Post-session Scorecard component displays
+- [x] Metrics show as delta from baseline (e.g., "Filler rate: 6% (+2% from baseline)")
+- [x] Confidence intervals / uncertainty shown on each metric (per core principle #3)
+- [x] Weekly trend chart populated with session data
+- [x] Implementation intention prompt post-scorecard ("When I notice a filler, I will ___")
+- [x] Generate AI Summary button works
+- [x] Gemini integration returns coaching insights
+- [x] API error falls back to local stats only
 
 ---
 
@@ -235,8 +244,8 @@ Plans:
 | 02 | Audio Pipeline & Visual Gauge | 7 | Complete |
 | 03 | Session Foundation — Timing, Baseline & First-Run | 8 | Complete |
 | 04 | Playback with Filler Highlighting | 5 | Complete |
-| 05 | Transcript with Highlights | 6 | Pending |
-| 06 | Scorecard & AI Summary | 9 | Pending |
+| 05 | Transcript with Highlights | 6 | Complete |
+| 06 | Scorecard & AI Summary | 9 | Complete |
 | 07 | Polish & Error Handling | 4 | Pending |
 | 08 | Deployment & Beta Prep | 1 | Pending |
 | 09 | Light Diagnostics (Parallel) | 3 | Pending |
@@ -248,4 +257,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-04 - Phase 04 complete (2/2 plans verified)*
+*Last updated: 2026-02-05 - Phase 06 complete (3/3 plans verified)*
