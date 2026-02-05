@@ -101,6 +101,7 @@ export default function PostSessionResults() {
     }
   };
 
+  // Navigation handlers
   const handleDashboard = () => {
     navigate('/');
   };
