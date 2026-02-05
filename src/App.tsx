@@ -12,6 +12,7 @@ import Privacy from './pages/Privacy'
 import Dashboard from './pages/Dashboard'
 import PreSessionScreen from './pages/PreSessionScreen'
 import PostSessionResults from './pages/PostSessionResults'
+import EvaluationPage from './pages/EvaluationPage'
 import { SessionDetail } from './pages/SessionDetail'
 import { Settings } from './pages/Settings'
 import { ProfilePage } from './features/profile'
@@ -208,6 +209,7 @@ function App() {
           <Route path="/practice/filler" element={<FreePracticeFillerRoute />} />
           <Route path="/practice/pace" element={<FreePracticePaceRoute />} />
           <Route path="/practice/results" element={<PostSessionResults />} />
+          <Route path="/practice/evaluation" element={<EvaluationPage />} />
           <Route path="/profile" element={<ProfileRoute />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/session/:sessionId" element={<SessionDetail />} />
