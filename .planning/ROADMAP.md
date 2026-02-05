@@ -204,24 +204,28 @@ Plans:
 
 ---
 
-### Phase 08: Deployment & Beta Prep
+### Phase 08: Deployment & Beta Prep ✓
 
 **Goal:** Live URL ready for testers
 
+**Status:** Complete (2026-02-05)
+
 **Requirements:** PLAT-03
 
-**Plans:** 2 plans
+**Plans:** 2/2 complete
 
 Plans:
-- [ ] 08-01-PLAN.md — Production build verification + Vercel deploy + copy-lint compliance
-- [ ] 08-02-PLAN.md — Cross-device testing checkpoints + tester onboarding + distribution
+- [x] 08-01-PLAN.md — Production build verification + Vercel deploy + copy-lint compliance
+- [x] 08-02-PLAN.md — Cross-device testing checkpoints + tester onboarding + distribution
+
+**Deployed:** https://kdenz.vercel.app
 
 **Success Criteria:**
-- [ ] Final Vercel deploy successful
-- [ ] Tested on Chrome desktop + Chrome mobile
-- [ ] Non-Chrome browser warning displays correctly
-- [ ] Simple onboarding/instructions created
-- [ ] Sent to 5-10 testers
+- [x] Final Vercel deploy successful
+- [x] Tested on Chrome desktop + Chrome mobile
+- [x] Non-Chrome browser warning displays correctly
+- [x] Simple onboarding/instructions created
+- [ ] Sent to 5-10 testers (deferred by user)
 
 ---
 
@@ -264,7 +268,7 @@ Plans:
 | 05 | Transcript with Highlights | 6 | Complete |
 | 06 | Scorecard & AI Summary | 9 | Complete |
 | 07 | Polish & Error Handling | 4 | Complete |
-| 08 | Deployment & Beta Prep | 1 | Pending |
+| 08 | Deployment & Beta Prep | 1 | Complete |
 | 09 | Light Diagnostics (Parallel) | 3 | Pending |
 | 10 | Privacy & Prompts (Parallel) | 2 | Pending |
 
@@ -274,4 +278,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-05 - Phase 07 complete*
+*Last updated: 2026-02-05 - Phase 08 complete*
