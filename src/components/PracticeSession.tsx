@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } from '../core/audio';
 import MicPermissionError from './MicPermissionError';
+import AudioQualityWarning from './AudioQualityWarning';
 import { SessionOrb } from './SessionOrb';
 import { BottomControlBar } from './BottomControlBar';
 import { WaveformVisualizer } from './WaveformVisualizer';
@@ -73,6 +74,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     audioContext,
     sourceNode,
     audioBlob,
+    qualityWarnings,
     error: audioError,
     start: startAudio,
     stop: stopAudio,
@@ -383,6 +385,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         reconciledFillers: reconciledFillers,
         averageConfidence: averageConfidence,
         lowConfidenceSegments: lowConfidenceSegments,
+        qualityWarnings: [...qualityWarnings],
       }));
     } catch {
       // sessionStorage not available
@@ -394,7 +397,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     } else {
       navigate('/practice/results');
     }
-  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, isBaseline, silenceDuration, audioBlob, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
+  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, isBaseline, silenceDuration, audioBlob, qualityWarnings, averageConfidence, lowConfidenceSegments, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
   useEffect(() => {
@@ -405,7 +408,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const error = audioError || speechError;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
       {/* Countdown bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
       <SessionProgressBar remaining={countdownRemaining} visible={isCapturing && !isPaused && durationSeconds > 0} />
 
@@ -438,6 +441,11 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         {/* DURING SESSION */}
         {isCapturing && (
           <>
+            {/* Audio quality warnings */}
+            {!isPaused && qualityWarnings.length > 0 && (
+              <AudioQualityWarning warnings={qualityWarnings} className="mb-4" />
+            )}
+
             <SessionOrb
               audioLevel={audioLevel}
               isRecording={!isPaused}
