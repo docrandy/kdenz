@@ -210,6 +210,12 @@ Plans:
 
 **Requirements:** PLAT-03
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Production build verification + Vercel deploy + copy-lint compliance
+- [ ] 08-02-PLAN.md — Cross-device testing checkpoints + tester onboarding + distribution
+
 **Success Criteria:**
 - [ ] Final Vercel deploy successful
 - [ ] Tested on Chrome desktop + Chrome mobile
