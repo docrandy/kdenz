@@ -25,12 +25,10 @@ export function Settings() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [saved, setSaved] = useState(false);
   const [diagnosticSummary, setDiagnosticSummary] = useState<{ question: string; answer: string }[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const hasDiagnostic = hasDiagnosticResults();
 
   useEffect(() => {
     setProfile(getProfile());
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setDiagnosticSummary(getDiagnosticSummary());
   }, []);
 
