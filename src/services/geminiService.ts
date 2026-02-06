@@ -22,10 +22,11 @@ interface SummaryRequest {
   transcript: string;
   stats: SessionStats;
   fillerWords: { word: string; count: number }[];
+  diagnosticContext?: string;
 }
 
 function buildPrompt(request: SummaryRequest): string {
-  const { transcript, stats, fillerWords } = request;
+  const { transcript, stats, fillerWords, diagnosticContext } = request;
   const { wpm, wordCount, fillerCount, fillerRate, durationSeconds } = stats;
 
   const fillerList =
@@ -45,7 +46,12 @@ SESSION METRICS:
 TRANSCRIPT:
 "${transcript.slice(0, 2000)}"${transcript.length > 2000 ? '...' : ''}
 
-EVALUATION CRITERIA:
+${diagnosticContext ? `USER PROFILE:
+${diagnosticContext}
+
+Consider the user's stated goals and challenges when providing feedback. Reference what matters to them.
+
+` : ''}EVALUATION CRITERIA:
 1. DELIVERY: Pace, filler word usage, flow
 2. CLARITY: How clear and organized were the ideas?
 3. STRUCTURE: Did they have a beginning, middle, end? Logical flow?
