@@ -231,15 +231,26 @@ Plans:
 
 ### Phase 09: Light Diagnostics (Parallel)
 
-**Goal:** Onboarding diagnostic that differentiates from competitors
+**Goal:** Personalized AI coaching through diagnostic integration
 
 **Requirements:** DIAG-01, DIAG-02, DIAG-03
 
+**Status:** Ready for execution
+
+**Plans:** 2 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Wire diagnostic insights into AI summary generation (DIAG-03)
+- [ ] 09-02-PLAN.md — Add diagnostic retake mechanism in Settings
+
+**Note:** DIAG-01 and DIAG-02 were already implemented in the Black Swan fork. This phase completes DIAG-03 (AI context integration) and adds retake UX polish.
+
 **Success Criteria:**
-- [ ] 3-5 questions selected from Volitional Diagnostic framework
-- [ ] Onboarding diagnostic UI component created
-- [ ] Diagnostic results stored locally
+- [x] 3-5 questions selected from Volitional Diagnostic framework (pre-existing)
+- [x] Onboarding diagnostic UI component created (pre-existing)
+- [x] Diagnostic results stored locally (pre-existing)
 - [ ] Results passed to AI summary context
+- [ ] Retake mechanism available in Settings
 
 ---
 
