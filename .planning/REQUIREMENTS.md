@@ -57,9 +57,9 @@ Requirements for private beta release.
 
 ### Diagnostics
 
-- [ ] **DIAG-01**: 3-5 question onboarding from Volitional framework
-- [ ] **DIAG-02**: Diagnostic results stored locally
-- [ ] **DIAG-03**: Diagnostic context passed to AI summary generation
+- [x] **DIAG-01**: 3-5 question onboarding from Volitional framework ✓
+- [x] **DIAG-02**: Diagnostic results stored locally ✓
+- [x] **DIAG-03**: Diagnostic context passed to AI summary generation ✓
 
 ### Browser & Platform
 
