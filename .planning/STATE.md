@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 09 COMPLETE — Diagnostic AI integration and retake UX complete
+**Status:** Phase 10 COMPLETE — All MVP phases complete, ready for beta testing
 **Active Phase:** 10 of 10 (Privacy & Prompts)
-**Plan:** Phase 09 complete (2/2 plans). Ready for Phase 10.
-**Last Action:** 2026-02-05 - Phase 09 verified and complete
+**Plan:** Phase 10 complete (1/1 plan). All phases delivered.
+**Last Action:** 2026-02-05 - Phase 10 verified and complete
 
-**Progress:** ██████████████████████████████ 9/10 phases complete
+**Progress:** ████████████████████████████████ 10/10 phases complete
 
 ## Decisions Made
 
@@ -110,6 +110,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | USER PROFILE in Gemini prompt | Diagnostic context placed before EVALUATION CRITERIA for AI personalization prioritization |
 | 2026-02-05 | Fresh diagnostic loading per-request | Load diagnostic results each time instead of caching to handle retake scenarios |
 | 2026-02-05 | Concise diagnostic context (1-2 sentences) | Preserve token budget while providing essential AI personalization via summarizeInsights |
+| 2026-02-05 | PromptSelector below DurationSelector | Natural pre-session configuration flow, optional speaking prompts |
+| 2026-02-05 | Privacy link in Settings | Secondary entry point for users looking in Settings (in addition to hamburger menu) |
+| 2026-02-05 | Route state for selected prompt | Pass prompt to session via navigate state, not URL params |
 
 ## Blockers
 
@@ -125,8 +128,17 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed Phase 09 (Light Diagnostics) - all verification passed
-**Resume with:** Phase 10 (Privacy & Prompts)
+**Stopped at:** Completed Phase 10 (Privacy & Prompts) - all phases complete
+**Resume with:** Ready for beta testing
+
+**Phase 10 execution context (COMPLETE - 1/1 plan):**
+- Plan 10-01 complete: 2 tasks, 2 commits, 3m 15s duration
+- Commits (10-01): ad99796 (PromptSelector integration), 3f565be (Privacy link in Settings)
+- PromptSelector integrated into PreSessionScreen with optional prompt selection
+- Selected prompt passed to session via route state
+- Privacy & Data section added to Settings page
+- Secondary entry point for privacy page improves discoverability
+- All must-haves verified, build passes, phase complete
 
 **Phase 09 execution context (COMPLETE - 2/2 plans):**
 - Plan 09-01 complete: 3 tasks (+ 1 fix), 4 commits, 6m duration
@@ -244,4 +256,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Completed Phase 08 (Deployment & Beta Prep)*
+*Last updated: 2026-02-05 - Completed Phase 10 (Privacy & Prompts) - ALL PHASES COMPLETE*
