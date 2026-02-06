@@ -7,6 +7,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProfile, saveProfile } from '../features/profile/profileStorage';
 import type { UserProfile } from '../features/profile/types';
+import {
+  hasDiagnosticResults,
+  getDiagnosticSummary,
+  clearDiagnosticResults,
+} from '../lib/diagnosticQuestions';
 
 const TEAM_SIZE_OPTIONS = [
   { value: 'solo', label: 'Solo / Individual contributor' },
@@ -19,9 +24,14 @@ export function Settings() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [saved, setSaved] = useState(false);
+  const [diagnosticSummary, setDiagnosticSummary] = useState<{ question: string; answer: string }[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const hasDiagnostic = hasDiagnosticResults();
 
   useEffect(() => {
     setProfile(getProfile());
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setDiagnosticSummary(getDiagnosticSummary());
   }, []);
 
   const handleChange = (field: keyof UserProfile['demographics'], value: string) => {
@@ -41,6 +51,18 @@ export function Settings() {
     saveProfile(profile);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleRetakeDiagnostic = () => {
+    clearDiagnosticResults();
+    // Also clear the skipped flag so diagnostic shows again
+    try {
+      localStorage.removeItem('voicelab_diagnostic_skipped');
+    } catch {
+      // Storage not available
+    }
+    // Navigate to home - diagnostic will show automatically
+    navigate('/');
   };
 
   if (!profile) {
@@ -163,6 +185,38 @@ export function Settings() {
               />
             </div>
           </div>
+        </section>
+
+        {/* Speaking Goals */}
+        <section className="mb-8">
+          <h2 className="text-sm font-semibold text-gray-900 mb-4">Speaking Goals</h2>
+
+          {hasDiagnostic ? (
+            <div className="space-y-3">
+              {diagnosticSummary.map((item, i) => (
+                <div key={i} className="p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-500 mb-1">{item.question}</p>
+                  <p className="text-sm text-gray-900">{item.answer}</p>
+                </div>
+              ))}
+              <button
+                onClick={handleRetakeDiagnostic}
+                className="w-full mt-4 py-3 text-sm text-clinical-accent hover:text-clinical-accent/80 transition-colors"
+              >
+                Retake Diagnostic →
+              </button>
+            </div>
+          ) : (
+            <div className="text-center py-6 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-500 mb-3">No diagnostic completed yet</p>
+              <button
+                onClick={handleRetakeDiagnostic}
+                className="px-4 py-2 text-sm bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+              >
+                Take Diagnostic
+              </button>
+            </div>
+          )}
         </section>
 
         {/* Note about profile */}
