@@ -2,258 +2,58 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-25)
+See: .planning/PROJECT.md (updated 2026-02-05)
 
 **Core value:** Users discover unconscious speaking habits they didn't know they had
-**Current focus:** Milestone Complete — Ready for audit
+**Current focus:** v1.0 shipped — awaiting beta feedback for v1.1 planning
 
 ## Current State
 
-**Status:** Phase 10 COMPLETE — All MVP phases complete, ready for beta testing
-**Active Phase:** 10 of 10 (Privacy & Prompts)
-**Plan:** Phase 10 complete (1/1 plan). All phases delivered.
-**Last Action:** 2026-02-05 - Phase 10 verified and complete
+**Status:** v1.0 SHIPPED — Private Beta ready for testers
+**Version:** v1.0 Private Beta (shipped 2026-02-05)
+**Deployed:** https://kdenz.vercel.app
+**Last Action:** 2026-02-05 - Milestone v1.0 complete and archived
 
-**Progress:** ████████████████████████████████ 10/10 phases complete
+**Progress:** ████████████████████████████████ v1.0 complete (10/10 phases, 27 plans)
 
-## Decisions Made
+## Milestone Summary
 
-| Date | Decision | Rationale |
-|------|----------|-----------|
-| 2026-01-25 | Chrome-only for beta | Safari Web Speech API has 90% accuracy drop |
-| 2026-01-25 | Hybrid filler detection | Acoustic real-time + transcript reconciliation for accuracy |
-| 2026-01-25 | Visual gauges over numbers | 3.5x retention per research |
-| 2026-01-25 | Button-triggered AI summary | Graceful degradation, avoid latency issues |
-| 2026-01-25 | Light diagnostics in MVP | Differentiator, user has questions ready |
-| 2026-01-25 | Fork Black Swan codebase | Reuse proven audio pipeline |
-| 2026-01-25 | Clinical color palette (white/black/teal) | High-Performance Clinical design system |
-| 2026-01-25 | React 19 with Vite build system | Modern, fast dev experience |
-| 2026-01-25 | TypeScript strict mode | Catch errors early, improve maintainability |
-| 2026-01-25 | Light mode only (no dark mode) | Reduces complexity for beta |
-| 2026-01-25 | Browser detection uses navigator.userAgent | Chrome-only requirement validated via string matching |
-| 2026-01-25 | Vercel for deployment | Auto-detected Vite project, SPA routing configured |
-| 2026-02-03 | Canvas 2D for PlasmaOrb | **REJECTED** - User feedback: neon green circle + mic icon, not volumetric plasma |
-| 2026-02-03 | **REJECTED** PlasmaOrb teal plasma design | User feedback: neon green circle + mic icon, not volumetric plasma |
-| 2026-02-03 | **REJECTED** Post-session on same page | User feedback: post-session belongs on separate page/route |
-| 2026-02-03 | Phase 02 re-plan decision | Discard current orb design, re-plan Phase 02 with new feedback before executing |
-| 2026-02-03 | SessionOrb: Neon green circle (#39FF14) | CSS-based orb with box-shadow glow, icon states (waveform/stop) |
-| 2026-02-03 | SessionOrb: Volume-reactive brightness | 0.7-1.3 brightness range based on audioLevel prop |
-| 2026-02-03 | SessionOrb: Pace color feedback | Green (good) to yellow (fast) with smooth CSS transitions |
-| 2026-02-03 | WaveformVisualizer: Canvas-based | Real-time amplitude waveform with RMS calculation from AnalyserNode |
-| 2026-02-03 | WaveformVisualizer: Left-to-right build | Scrolling waveform using getImageData/putImageData |
-| 2026-02-03 | Focus-mode routing via prop | PracticeSession receives focusMode prop from route (simple, explicit) |
-| 2026-02-03 | Two-step stop pattern | Pause → Stop/Continue prevents accidental session endings |
-| 2026-02-03 | Session data in sessionStorage | Temporary storage for post-session page, auto-cleared |
-| 2026-02-04 | Research audit of docs/REGISTRY.md | Cross-referenced 20+ research docs against build plan |
-| 2026-02-04 | Phase 03 expanded: baseline + consent + color | Research shows baseline-first UX is foundational; consent modal gates first recording |
-| 2026-02-04 | Duration options: 1min/2min/3min/Unlimited | 30s dropped (unreliable metrics), 90s dropped (simplify), research-backed minimums |
-| 2026-02-04 | Baseline: 3-minute fixed first session | Research gaps tracker + bias research: personal baselining is "gold standard" |
-| 2026-02-04 | SessionOrb: #39FF14 → #00C851 (Signal Green) | Follow locked design system; neon green not in approved palette |
-| 2026-02-04 | Pace hue shift REMOVED | Violates design principle #2 "no judgment in visuals"; pace shown as number instead |
-| 2026-02-04 | Phase 06 expanded: self-assessment, implementation intentions, uncertainty | Transfer research (d=0.4-0.5 effect sizes), core principle #3 |
-| 2026-02-04 | Phase 07 expanded: audio quality warnings, copy-lint | Foundation docs have locked copy for warnings; language boundaries need enforcement |
-| 2026-02-05 | Consent copy verbatim from foundation docs | Use locked copy from docs/foundation/copy/consent-and-onboarding-copy-v1.md for legal/compliance safety |
-| 2026-02-05 | Top-level consent gate blocks all routes | Cleaner than per-route guards; ensures consent before ANY interaction |
-| 2026-02-05 | localStorage key: voicelab_consent_accepted | Separate from welcome/diagnostic keys for clear separation of concerns |
-| 2026-02-05 | Infinity symbol (∞) for Unlimited option | Cleaner UI than text "Unlimited" in duration selector |
-| 2026-02-05 | Route state for duration passing | More React-idiomatic than query params for session config |
-| 2026-02-05 | Countdown bar hidden in Unlimited mode | Cleaner than showing static bar, reduces visual clutter |
-| 2026-02-04 | Base64 encoding for sessionStorage blob | Blobs can't be stored directly in sessionStorage, FileReader.readAsDataURL() converts to base64 |
-| 2026-02-04 | Stop audio first in handleStop | Ensures MediaRecorder finalizes audioBlob before conversion |
-| 2026-02-04 | Minimal AudioPlayback for phase 04-01 | Basic playback controls (play/pause/seek); filler highlighting in 04-02 |
-| 2026-02-04 | Extended design tokens in Tailwind | Added clinical-signal-green, clinical-warm-amber, etc. from design-system-v1.md |
-| 2026-02-04 | Perplexity copy-lint audit complete | Baseline/delta display and design tokens implemented per recommendations |
-| 2026-02-04 | Red markers (#EF4444) for filler highlighting | Contrasts with teal progress bar; small size (1px × 3px) avoids clutter |
-| 2026-02-04 | Three playback speeds (0.75x/1x/1.25x) | Research-backed: slow motion for careful listening, 1.25x for quick review |
-| 2026-02-04 | Click-to-seek on filler markers | Two-phase awareness pattern: real-time feedback + playback review with direct navigation |
-| 2026-02-05 | Reconciliation timing at session end | Transcript-based detection requires complete transcript for accuracy |
-| 2026-02-05 | Optional fields in SessionResultData | Maintains backwards compatibility with existing stored sessions |
-| 2026-02-05 | Pass empty fillerEvents to reconcileFillers | Acoustic detection disabled but interface preserved for future reactivation |
-| 2026-02-05 | Default highlight mode based on focus mode | Filler mode sessions default to filler highlighting, pace mode sessions default to pace highlighting |
-| 2026-02-05 | Secondary link above navigation bar | Added transcript link above nav buttons instead of expanding grid to 4 buttons (cleaner UI) |
-| 2026-02-05 | Conditional link display for transcript | Only show "View full transcript" link when both transcript and wordTimings are available |
-| 2026-02-05 | Single neutral color for all fillers | Enforced Design Principle #2: no visual judgment hierarchy; clinical-accent/20 for all filler highlights |
-| 2026-02-05 | Tooltip-based filler distinction | FILLER-04 satisfied via hover tooltip showing specific word; category data preserved in backend for analytics |
-| 2026-02-05 | Remove judgment colors from Scorecard | Eliminated green/yellow/red coloring and "Excellent/Good/Needs Work" labels per design principle #2 |
-| 2026-02-05 | Confidence interval heuristic | Session length determines CI width: <60s = ±15 WPM, <120s = ±10 WPM, ≥120s = ±5 WPM |
-| 2026-02-05 | Verbatim foundation copy | Context notes and reflection prompts copied exactly from metric-card-templates-v1.md (locked foundation docs) |
-| 2026-02-05 | MetricCard composition pattern | Reusable component for individual metrics with baseline deltas and uncertainty display |
-| 2026-02-05 | Self-assessment before metrics reveal | Research-backed (d >= 0.4) self-regulated learning prompt improves metacognitive accuracy |
-| 2026-02-05 | Implementation intention after metrics | Research-backed (d >= 0.5) when/then commitment format improves skill transfer to real-world |
-| 2026-02-05 | Four-phase reflection flow | self-assess → metrics → intention → complete state machine in PostSessionResults |
-| 2026-02-05 | GAIN framework for prompts | Goal, Ally, Impact, Non-judgmental - all reflection copy uses neutral descriptive language |
-| 2026-02-05 | Baseline sessions skip reflection | First session is calibration only - no judgment or commitment until user has baseline data |
-| 2026-02-05 | AI summary button-triggered | Not automatic - reduces API costs, avoids latency, graceful degradation if Gemini fails |
-| 2026-02-05 | Neutral trend chart colors | Weekly trend uses clinical-accent (teal) for all bars - no red/yellow/green judgment per design principle #2 |
-| 2026-02-05 | Session storage integration | Sessions saved to localStorage with 30-day retention for weekly trend tracking |
-| 2026-02-05 | Regex-based copy-lint scanning | Simpler than AST parsing, sufficient for banned word detection with whole-word boundaries |
-| 2026-02-05 | Exit code 1 for copy violations | Enables CI/CD integration and git pre-commit hooks for automated enforcement |
-| 2026-02-05 | Comment filtering in copy-lint | Allow technical discussion in code comments while enforcing language boundaries in UI strings |
-| 2026-02-05 | Confidence threshold 0.7 for low warning | Chrome Web Speech API confidence below 0.7 indicates significant transcription uncertainty |
-| 2026-02-05 | Hide high confidence indicator (>= 0.85) | Don't clutter UI with non-issues; only show when confidence warrants user attention |
-| 2026-02-05 | Neutral tier system: High/Medium/Low | Per Core Principle #3 and language boundaries - no judgment colors or words |
-| 2026-02-05 | Inline SVG icons (no library) | Project has no icon dependencies, keeps bundle small, linter auto-converts |
-| 2026-02-05 | Quality warnings during active session only | Avoid distraction when paused, only warn when user is actively recording |
-| 2026-02-05 | Clinical-warm-amber for quality warnings | Amber palette (#EF6C00 family) for non-critical information per design system |
-| 2026-02-05 | Noise detection via frequency analysis | Low frequency bins (< 300Hz) indicate background noise with 0.3 threshold |
-| 2026-02-05 | Clipping detection via time-domain sampling | 3+ consecutive samples at max value indicates microphone clipping |
-| 2026-02-05 | Mobile-first responsive design | Default styles target mobile (320px+), sm: breakpoint (640px) for larger screens |
-| 2026-02-05 | Touch targets minimum 44x44px | WCAG 2.1 Level AAA compliance, most buttons 48-56px for comfortable tapping |
-| 2026-02-05 | Safe-area-inset padding (pb-safe) | Ensures controls don't get hidden by iPhone home indicator on notched devices |
-| 2026-02-05 | Active states on mobile interactions | Visual feedback for touch events (active:bg-gray-100, active:opacity-80) |
-| 2026-02-05 | Reduced waveform height for mobile | 100px height (was 120px) fits better in mobile viewport without scroll |
-| 2026-02-05 | Production deployment to kdenz.vercel.app | Vercel production deployment with verified build pipeline |
-| 2026-02-05 | Copy-lint as pre-deployment gate | Language boundary compliance verified before distribution |
-| 2026-02-05 | Distribution deferred by user | Task 5 (distribute to beta testers) deferred after verification tasks complete |
-| 2026-02-05 | Diagnostic retake in Settings | Retake button clears results and navigates to home for automatic diagnostic display |
-| 2026-02-05 | Speaking Goals section in Settings | Users can view current diagnostic answers and retake or complete diagnostic later |
-| 2026-02-05 | USER PROFILE in Gemini prompt | Diagnostic context placed before EVALUATION CRITERIA for AI personalization prioritization |
-| 2026-02-05 | Fresh diagnostic loading per-request | Load diagnostic results each time instead of caching to handle retake scenarios |
-| 2026-02-05 | Concise diagnostic context (1-2 sentences) | Preserve token budget while providing essential AI personalization via summarizeInsights |
-| 2026-02-05 | PromptSelector below DurationSelector | Natural pre-session configuration flow, optional speaking prompts |
-| 2026-02-05 | Privacy link in Settings | Secondary entry point for users looking in Settings (in addition to hamburger menu) |
-| 2026-02-05 | Route state for selected prompt | Pass prompt to session via navigate state, not URL params |
+**v1.0 Private Beta — SHIPPED**
+
+Key accomplishments:
+- Real-time filler detection with hybrid acoustic + transcript reconciliation
+- SessionOrb visual feedback with volume-reactive brightness
+- Audio playback with filler markers and tap-to-seek
+- Personal baseline capture with delta-from-baseline metrics
+- AI coaching summary with diagnostic personalization
+- Mobile-responsive design deployed to production
+
+**Stats:**
+- 126 commits
+- 15,049 lines of TypeScript/TSX
+- 11 days from init to ship (Jan 25 → Feb 5, 2026)
+- 30/30 requirements satisfied
+
+**Archive:** .planning/milestones/v1.0-ROADMAP.md
+
+## Next Steps
+
+1. Distribute to beta testers (5-10 friends/family)
+2. Collect feedback over 1-2 weeks
+3. Plan v1.1 based on feedback themes
+
+Run `/gsd:new-milestone` when ready to start v1.1 planning.
 
 ## Blockers
 
 None currently.
 
-## Notes
-
-- Source codebase: `C:\Users\randy\.claude\projects\bLACK SwaN`
-- Research validation completed 2026-01-25 (see research.txt)
-- Competitive analysis completed (see research.txt)
-- Original planning docs preserved: PRD.json, progress.txt, agents.md
-
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed Phase 10 (Privacy & Prompts) - all phases complete
-**Resume with:** Ready for beta testing
-
-**Phase 10 execution context (COMPLETE - 1/1 plan):**
-- Plan 10-01 complete: 2 tasks, 2 commits, 3m 15s duration
-- Commits (10-01): ad99796 (PromptSelector integration), 3f565be (Privacy link in Settings)
-- PromptSelector integrated into PreSessionScreen with optional prompt selection
-- Selected prompt passed to session via route state
-- Privacy & Data section added to Settings page
-- Secondary entry point for privacy page improves discoverability
-- All must-haves verified, build passes, phase complete
-
-**Phase 09 execution context (COMPLETE - 2/2 plans):**
-- Plan 09-01 complete: 3 tasks (+ 1 fix), 4 commits, 6m duration
-- Commits (09-01): a466973 (diagnostic context to prompt), 22bba21 (AISummary wiring), 0e0872d (Settings fix), 1f0e898 (docs)
-- Diagnostic context wired into AI summary generation
-- AI prompt includes USER PROFILE section with user's stated goals
-- Personalized coaching references what matters to users
-- Graceful degradation preserved (works with or without API key)
-- Plan 09-02 complete: 2 tasks, 3 commits, 4m duration
-- Commits (09-02): 226ed97 (clear/summary functions), 1f48ed1 (Speaking Goals UI), 9f08c6f (docs)
-- clearDiagnosticResults() and getDiagnosticSummary() functions added
-- Speaking Goals section in Settings displays current diagnostic answers
-- Retake button clears results and navigates to home for fresh diagnostic
-- Verification: 6/6 must-haves verified, all requirements satisfied
-
-**Phase 08 execution context (COMPLETE - 2/2 plans complete):**
-- Plan 08-01 complete: 3 tasks, 0 commits (deployment only), 2m duration
-- Production deployment to https://kdenz.vercel.app
-- Build verification passed (exit code 0)
-- Copy-lint compliance verified (0 violations across 92 files)
-- Bundle size: 676.31 KB (acceptable for beta)
-- Plan 08-02 complete: 4 tasks (+ 1 deferred), 1 commit, 8m duration
-- Commits (08-02): 65c016f (BETA_TESTERS.md)
-- All verification checkpoints passed: desktop, mobile, browser warning
-- Tester materials created (BETA_TESTERS.md)
-- Distribution deferred by user choice (manual task for later)
-- Ready for Phase 08-03: Beta tester feedback collection
-
-**Phase 07 COMPLETE (all 5 plans delivered):**
-- Plan 07-01 complete: 4 tasks (3 executed, 1 pre-existing), 1 commit, 52m duration
-- Commits (07-01): d505829 (wire warnings into PracticeSession)
-- Audio quality detection in useAudioCapture (noise via frequency analysis, clipping via time-domain sampling)
-- AudioQualityWarning component with verbatim foundation copy, inline SVG icons
-- Warnings display during active session only (not when paused), positioned above SessionOrb
-- Plan 07-04 complete: 3 tasks, 3 commits, 15m 48s duration
-- Commits (07-04): 5686337 (Dashboard/PreSession), 72c5105 (PostSessionResults/Scorecard), 559c452 (PracticeSession)
-- Mobile-responsive layout with 44px+ touch targets, safe-area insets, responsive text sizing
-- All pages tested via build (no horizontal overflow, proper scaling)
-- Ready for Chrome mobile beta testing
-- Plan 07-05 complete: 3 tasks, 3 commits, 18m duration
-- Commits (07-05): 26da8da (FeedbackButton), 35e6231 (LoadingSpinner), 9c5fadc (loading states)
-- Enhanced feedback button with session context in mailto body
-- Reusable LoadingSpinner component with clinical styling
-- Loading states for AI summary and smooth phase transitions
-- Full mobile verification checkpoint approved
-
-**Phase 07 execution context (IN PROGRESS - 2/5 plans complete as of prior session):**
-- Plan 07-02 complete: 3 tasks, 3 commits, 9m duration
-- Commits (07-02): c754a76 (useWebSpeech tracking), 63936f3 (TranscriptConfidenceIndicator), 25001c4 (integration + lucide-react fix)
-- Web Speech API confidence tracking with averageConfidence and lowConfidenceSegments metrics
-- TranscriptConfidenceIndicator component with High/Medium/Low neutral tiers
-- Confidence display on PostSessionResults and EvaluationPage (only when < 0.85)
-- Foundation copy verbatim for low confidence warning
-- Deviation fix: Replaced lucide-react imports with inline SVG in AudioQualityWarning.tsx (blocking build issue)
-
-**Phase 07 execution context (IN PROGRESS):**
-- Plan 07-03 complete: 2 tasks, 2 commits, 8m duration
-- Commits (07-03): e35bf35 (copy-lint script), 63936f3 (npm script + tsx)
-- Copy-lint script created with 35+ banned words across 4 categories
-- Automated scanning detects language boundary violations in TSX/TS files
-- npm run copy-lint provides easy execution for developers
-- Initial scan shows 0 violations across 91 files
-- Exit code 1 enables CI/CD integration
-- Ready for: pre-commit hooks, CI enforcement, ongoing compliance monitoring
-
-**Phase 06 execution context (ALL PLANS COMPLETE):**
-- Plan 06-01 complete: 3 tasks, 3 commits, 7m 52s duration
-- Commits (06-01): 14373b0 (SelfAssessment), a764b87 (ImplementationIntention), b25d355 (reflection flow)
-- Self-assessment component with GAIN-aligned copy and 5-point scale
-- Implementation intention component with when/then template and suggestion chips
-- Four-phase reflection flow: self-assess → metrics → intention → complete
-- Baseline sessions skip reflection prompts (no judgment on first session)
-- Plan 06-02 complete: 3 tasks, 3 commits, 22m duration
-- Commits (06-02): ff2d9ac (MetricCard), 798a0ad (Scorecard refactor), 6c21bec (PostSessionResults integration)
-- MetricCard component created with baseline delta and uncertainty display
-- Scorecard refactored to use MetricCard composition, judgment colors removed
-- Foundation copy templates applied verbatim
-- Plan 06-03 complete: 4 tasks, 3 commits, 12m duration
-- Commits (06-03): 41d51a3 (session save + trend chart), 57ffea2 (neutral colors), 30bba60 (AI summary)
-- Session storage integration for trend tracking (30-day retention)
-- Weekly trend chart with neutral clinical-accent color (no judgment)
-- AI Summary button-triggered with graceful fallback to local stats
-- Phase 06 COMPLETE - all scorecard and AI summary features delivered
-
-**Phase 05 execution context (complete):**
-- Plan 05-01 complete: 2 tasks, 2 commits, 2m 52s duration
-- Plan 05-02 complete: 3 tasks, 3 commits, 4m duration
-- Plan 05-03 complete: 3 tasks, 3 commits, 22m duration (includes checkpoint revision)
-- Commits (05-01): a747137 (reconciliation), 1b11486 (interface updates)
-- Commits (05-02): 877fc7f (route), f8a6def (link), 5ad1c75 (docs)
-- Commits (05-03): 7b97902 (categorization), cc7192d (display), 6e607d2 (design fix)
-- Next: Manual verification of transcript highlighting (Task 3 checkpoint)
-- Ready for Phase 06: Transcript highlighting complete, design principles enforced
-
-**Phase 04 completion context (carried forward):**
-- 2 plans executed: 04-01 (audio blob + playback), 04-02 (filler markers + speed controls)
-- 8 commits total across both plans
-- Verification passed: 5/5 must-haves verified
-- "Two-phase awareness" pattern complete (real-time feedback + playback review)
-
-**Research audit context (2026-02-04):**
-- Audited docs/REGISTRY.md against all 10 roadmap phases
-- Identified 6 red flags (baseline missing, design drift, duration concerns, etc.)
-- Identified 4 high-leverage ideas (self-assessment d=0.4, implementation intentions d=0.5, feedback-off sessions, baseline delta)
-- Phase 03 expanded to include: consent modal, baseline capture, color alignment
-- Phase 06 expanded to include: self-assessment, implementation intentions, uncertainty display, baseline deltas
-- Phase 07 expanded to include: audio quality warnings, copy-lint compliance
-- All changes documented in ROADMAP.md and 03-CONTEXT.md
-
-**Phase 02 completion context (carried forward):**
-- All 3 plans executed and verified
-- Dashboard cleaned: v1.2 skill module cards removed
-- Bundle reduced from 744 KB → 584 KB
-- Manual mic-dependent tests still recommended before Vercel deploy
+**Stopped at:** v1.0 milestone complete and archived
+**Resume with:** Beta tester distribution or v1.1 planning
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-05 - Completed Phase 10 (Privacy & Prompts) - ALL PHASES COMPLETE*
+*Last updated: 2026-02-05 - v1.0 milestone complete*
