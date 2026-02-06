@@ -10,6 +10,7 @@ import {
   storeApiKey,
   isValidApiKeyFormat,
 } from '../services/geminiService';
+import { loadDiagnosticResults, summarizeInsights } from '../lib/diagnosticQuestions';
 import type { ReconciledFiller } from '../lib/fillerReconciler';
 
 interface AISummaryProps {
@@ -58,6 +59,10 @@ export default function AISummary({
     const apiKey = getStoredApiKey();
     const fillerWords = countFillerWords(reconciledFillers);
 
+    // Load diagnostic insights for personalized coaching
+    const diagnosticResults = loadDiagnosticResults();
+    const diagnosticContext = summarizeInsights(diagnosticResults);
+
     try {
       const result = await generateCoachingSummary(
         {
@@ -71,6 +76,7 @@ export default function AISummary({
             topFillerWords: fillerWords,
           },
           fillerWords,
+          diagnosticContext,
         },
         apiKey
       );
