@@ -260,10 +260,19 @@ Plans:
 
 **Requirements:** PAGE-01, PAGE-03
 
+**Status:** Planning complete
+
+**Plans:** 1 plan
+
+Plans:
+- [ ] 10-01-PLAN.md — Wire existing PromptSelector into pre-session flow + add Privacy link to Settings
+
+**Note:** Privacy page (PAGE-01) and speaking prompts (PAGE-03) were already implemented in earlier development. This phase completes the integration of PromptSelector into the user flow.
+
 **Success Criteria:**
-- [ ] /privacy page created with transparency content
-- [ ] Explains: no emotion detection, local processing, what Gemini sees
-- [ ] 1-2 speaking prompts adapted from Black Swan
+- [x] /privacy page created with transparency content
+- [x] Explains: no emotion detection, local processing, what Gemini sees
+- [x] 1-2 speaking prompts adapted from Black Swan
 - [ ] Prompt selection UI before session start
 
 ---
