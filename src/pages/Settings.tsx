@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getProfile, saveProfile } from '../features/profile/profileStorage';
 import type { UserProfile } from '../features/profile/types';
 import {
@@ -215,6 +215,28 @@ export function Settings() {
               </button>
             </div>
           )}
+        </section>
+
+        {/* Privacy & Data */}
+        <section className="mb-8">
+          <h2 className="text-sm font-semibold text-gray-900 mb-4">Privacy & Data</h2>
+          <Link
+            to="/privacy"
+            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <div>
+                <p className="text-sm font-medium text-gray-900">Privacy & Your Data</p>
+                <p className="text-xs text-gray-500">How we handle your information</p>
+              </div>
+            </div>
+            <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
         </section>
 
         {/* Note about profile */}
