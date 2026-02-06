@@ -11,8 +11,8 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Status:** Phase 09 IN PROGRESS — Light Diagnostics
 **Active Phase:** 09 of 10 (Light Diagnostics)
-**Plan:** Phase 09 plan 02 complete (2/3 plans). Plan 09-01 and 09-02 delivered.
-**Last Action:** 2026-02-05 - Completed 09-02-PLAN.md (diagnostic retake mechanism)
+**Plan:** Phase 09 plan 01 complete (1/3 plans). Plan 09-01 delivered.
+**Last Action:** 2026-02-05 - Completed 09-01-PLAN.md (diagnostic context integration)
 
 **Progress:** █████████████████████████░ 8/10 phases complete
 
@@ -107,6 +107,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Distribution deferred by user | Task 5 (distribute to beta testers) deferred after verification tasks complete |
 | 2026-02-05 | Diagnostic retake in Settings | Retake button clears results and navigates to home for automatic diagnostic display |
 | 2026-02-05 | Speaking Goals section in Settings | Users can view current diagnostic answers and retake or complete diagnostic later |
+| 2026-02-05 | USER PROFILE in Gemini prompt | Diagnostic context placed before EVALUATION CRITERIA for AI personalization prioritization |
+| 2026-02-05 | Fresh diagnostic loading per-request | Load diagnostic results each time instead of caching to handle retake scenarios |
+| 2026-02-05 | Concise diagnostic context (1-2 sentences) | Preserve token budget while providing essential AI personalization via summarizeInsights |
 
 ## Blockers
 
@@ -122,17 +125,17 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed 09-02-PLAN.md (diagnostic retake mechanism)
-**Resume with:** Phase 09 plan 03 (AI diagnostic context) or Phase 10 (Privacy & Prompts)
+**Stopped at:** Completed 09-01-PLAN.md (diagnostic context integration)
+**Resume with:** Phase 09 plan 02 (next diagnostic plan) or Phase 10 (Privacy & Prompts)
 
-**Phase 09 execution context (IN PROGRESS - 2/3 plans complete):**
-- Plan 09-01 complete: 2 tasks, 2 commits, duration not tracked (prior session)
-- Plan 09-02 complete: 2 tasks, 2 commits, 4m duration
-- Commits (09-02): 226ed97 (diagnostic clear/summary functions), 1f48ed1 (Speaking Goals section)
-- Diagnostic onboarding component on first app open (skippable)
-- Diagnostic retake mechanism in Settings page
-- Speaking Goals section shows current answers with card-based UI
-- Ready for Phase 09-03: AI diagnostic context integration
+**Phase 09 execution context (IN PROGRESS - 1/3 plans complete):**
+- Plan 09-01 complete: 3 tasks (+ 1 fix), 3 commits, 6m duration
+- Commits (09-01): a466973 (diagnostic context to prompt), 22bba21 (AISummary wiring), 0e0872d (Settings fix)
+- Diagnostic context wired into AI summary generation
+- AI prompt includes USER PROFILE section with user's stated goals
+- Personalized coaching references what matters to users
+- Graceful degradation preserved (works with or without API key)
+- Ready for Phase 09-02 or next diagnostic feature
 
 **Phase 08 execution context (COMPLETE - 2/2 plans complete):**
 - Plan 08-01 complete: 3 tasks, 0 commits (deployment only), 2m duration
