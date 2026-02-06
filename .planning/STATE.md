@@ -9,10 +9,10 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current State
 
-**Status:** Phase 08 COMPLETE — Deployed to production, verified, ready for testers
+**Status:** Phase 09 IN PROGRESS — Light Diagnostics
 **Active Phase:** 09 of 10 (Light Diagnostics)
-**Plan:** Phase 08 complete (2/2 plans). Ready for Phase 09.
-**Last Action:** 2026-02-05 - Phase 08 verified and complete
+**Plan:** Phase 09 plan 02 complete (2/3 plans). Plan 09-01 and 09-02 delivered.
+**Last Action:** 2026-02-05 - Completed 09-02-PLAN.md (diagnostic retake mechanism)
 
 **Progress:** █████████████████████████░ 8/10 phases complete
 
@@ -105,6 +105,8 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 | 2026-02-05 | Production deployment to kdenz.vercel.app | Vercel production deployment with verified build pipeline |
 | 2026-02-05 | Copy-lint as pre-deployment gate | Language boundary compliance verified before distribution |
 | 2026-02-05 | Distribution deferred by user | Task 5 (distribute to beta testers) deferred after verification tasks complete |
+| 2026-02-05 | Diagnostic retake in Settings | Retake button clears results and navigates to home for automatic diagnostic display |
+| 2026-02-05 | Speaking Goals section in Settings | Users can view current diagnostic answers and retake or complete diagnostic later |
 
 ## Blockers
 
@@ -120,10 +122,19 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Completed Phase 08 (Deployment & Beta Prep) - all verification passed
-**Resume with:** Phase 09 (Light Diagnostics) or Phase 10 (Privacy & Prompts)
+**Stopped at:** Completed 09-02-PLAN.md (diagnostic retake mechanism)
+**Resume with:** Phase 09 plan 03 (AI diagnostic context) or Phase 10 (Privacy & Prompts)
 
-**Phase 08 execution context (IN PROGRESS - 2/3 plans complete):**
+**Phase 09 execution context (IN PROGRESS - 2/3 plans complete):**
+- Plan 09-01 complete: 2 tasks, 2 commits, duration not tracked (prior session)
+- Plan 09-02 complete: 2 tasks, 2 commits, 4m duration
+- Commits (09-02): 226ed97 (diagnostic clear/summary functions), 1f48ed1 (Speaking Goals section)
+- Diagnostic onboarding component on first app open (skippable)
+- Diagnostic retake mechanism in Settings page
+- Speaking Goals section shows current answers with card-based UI
+- Ready for Phase 09-03: AI diagnostic context integration
+
+**Phase 08 execution context (COMPLETE - 2/2 plans complete):**
 - Plan 08-01 complete: 3 tasks, 0 commits (deployment only), 2m duration
 - Production deployment to https://kdenz.vercel.app
 - Build verification passed (exit code 0)
