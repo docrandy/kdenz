@@ -44,10 +44,10 @@ Requirements for private beta release.
 
 ### Session Flow
 
-- [ ] **SESS-01**: Duration selection UI (30s/60s/90s+)
-- [ ] **SESS-02**: Countdown timer displays during session
-- [ ] **SESS-03**: Session auto-stops at duration end
-- [ ] **SESS-04**: Manual stop button available at any time
+- [x] **SESS-01**: Duration selection UI (1min/2min/3min/Unlimited) ✓
+- [x] **SESS-02**: Countdown timer displays during session ✓
+- [x] **SESS-03**: Session auto-stops at duration end ✓
+- [x] **SESS-04**: Manual stop button available at any time ✓
 
 ### AI Summary
 
@@ -69,9 +69,9 @@ Requirements for private beta release.
 
 ### Content Pages
 
-- [ ] **PAGE-01**: Privacy transparency page at /privacy
+- [x] **PAGE-01**: Privacy transparency page at /privacy ✓
 - [x] **PAGE-02**: In-app feedback button (opens email/form) ✓
-- [ ] **PAGE-03**: 1-2 optional speaking prompts available before session
+- [x] **PAGE-03**: 1-2 optional speaking prompts available before session ✓
 
 ### UI/Design
 
@@ -146,6 +146,15 @@ Deferred to future releases.
 | AI-03 | 06 | Complete |
 | PAGE-02 | 07 | Complete |
 | UI-03 | 07 | Complete |
+| DIAG-01 | 09 | Complete |
+| DIAG-02 | 09 | Complete |
+| DIAG-03 | 09 | Complete |
+| PAGE-01 | 10 | Complete |
+| PAGE-03 | 10 | Complete |
+| SESS-01 | 03 | Complete |
+| SESS-02 | 03 | Complete |
+| SESS-03 | 03 | Complete |
+| SESS-04 | 03 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
@@ -154,4 +163,4 @@ Deferred to future releases.
 
 ---
 *Requirements defined: 2026-01-25*
-*Last updated: 2026-02-05 - Phase 07 requirements complete (PAGE-02, UI-03)*
+*Last updated: 2026-02-05 - Phase 10 complete (PAGE-01, PAGE-03), all v1 requirements met*

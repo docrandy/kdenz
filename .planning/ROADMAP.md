@@ -254,26 +254,26 @@ Plans:
 
 ---
 
-### Phase 10: Privacy & Prompts (Parallel)
+### Phase 10: Privacy & Prompts (Parallel) ✓
 
 **Goal:** Trust-building content pages
 
 **Requirements:** PAGE-01, PAGE-03
 
-**Status:** Planning complete
+**Status:** Complete (2026-02-05)
 
-**Plans:** 1 plan
+**Plans:** 1/1 complete
 
 Plans:
-- [ ] 10-01-PLAN.md — Wire existing PromptSelector into pre-session flow + add Privacy link to Settings
+- [x] 10-01-PLAN.md — Wire existing PromptSelector into pre-session flow + add Privacy link to Settings
 
-**Note:** Privacy page (PAGE-01) and speaking prompts (PAGE-03) were already implemented in earlier development. This phase completes the integration of PromptSelector into the user flow.
+**Note:** Privacy page (PAGE-01) and speaking prompts (PAGE-03) were already implemented in earlier development. This phase completed the integration of PromptSelector into the user flow.
 
 **Success Criteria:**
 - [x] /privacy page created with transparency content
 - [x] Explains: no emotion detection, local processing, what Gemini sees
 - [x] 1-2 speaking prompts adapted from Black Swan
-- [ ] Prompt selection UI before session start
+- [x] Prompt selection UI before session start
 
 ---
 
@@ -290,7 +290,7 @@ Plans:
 | 07 | Polish & Error Handling | 4 | Complete |
 | 08 | Deployment & Beta Prep | 1 | Complete |
 | 09 | Light Diagnostics (Parallel) | 3 | Complete |
-| 10 | Privacy & Prompts (Parallel) | 2 | Pending |
+| 10 | Privacy & Prompts (Parallel) | 2 | Complete |
 
 **Total phases:** 10
 **Total requirements mapped:** 41 (some requirements appear in multiple phases)
@@ -298,4 +298,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-05 - Phase 09 complete*
+*Last updated: 2026-02-05 - Phase 10 complete, all phases complete*
