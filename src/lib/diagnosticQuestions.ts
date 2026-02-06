@@ -185,3 +185,31 @@ export function isReDiagnosticDue(daysInterval: number = 7): boolean {
 
   return daysSince >= daysInterval;
 }
+
+/**
+ * Clear diagnostic results (for retake)
+ */
+export function clearDiagnosticResults(): void {
+  try {
+    localStorage.removeItem(DIAGNOSTIC_STORAGE_KEY);
+  } catch {
+    // Storage not available
+  }
+}
+
+/**
+ * Get readable summary of diagnostic results
+ */
+export function getDiagnosticSummary(): { question: string; answer: string }[] {
+  const results = loadDiagnosticResults();
+  if (results.length === 0) return [];
+
+  return results.map((r) => {
+    const question = diagnosticQuestions.find((q) => q.id === r.questionId);
+    const option = question?.options.find((o) => o.value === r.selectedValue);
+    return {
+      question: question?.question || r.questionId,
+      answer: option?.label || r.selectedValue,
+    };
+  });
+}
