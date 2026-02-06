@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DurationSelector from '../components/DurationSelector';
+import PromptSelector from '../components/PromptSelector';
+import { SpeakingPrompt } from '../data/speakingPrompts';
 import { getLastDuration, saveLastDuration } from '../services/durationConfig';
 
 export default function PreSessionScreen() {
@@ -8,14 +10,18 @@ export default function PreSessionScreen() {
   const navigate = useNavigate();
 
   const [selectedDuration, setSelectedDuration] = useState(() => getLastDuration());
+  const [selectedPrompt, setSelectedPrompt] = useState<SpeakingPrompt | null>(null);
 
   const handleStartSession = () => {
     // Save duration preference
     saveLastDuration(selectedDuration);
 
-    // Navigate to session with duration in route state
+    // Navigate to session with duration and optional prompt in route state
     navigate(`/practice/${mode}`, {
-      state: { durationSeconds: selectedDuration }
+      state: {
+        durationSeconds: selectedDuration,
+        speakingPrompt: selectedPrompt
+      }
     });
   };
 
@@ -56,6 +62,12 @@ export default function PreSessionScreen() {
           <DurationSelector
             selected={selectedDuration}
             onChange={setSelectedDuration}
+          />
+
+          {/* Prompt selector */}
+          <PromptSelector
+            onSelect={setSelectedPrompt}
+            selectedDuration={selectedDuration}
           />
 
           {/* Start button */}
