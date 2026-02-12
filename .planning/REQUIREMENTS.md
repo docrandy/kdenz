@@ -16,12 +16,12 @@
 
 ### Color Migration (Wave 2)
 
-- [ ] **CM-01**: All accent colors changed from teal (#00D4FF) to gold (#c9a84c) (~51 files)
-- [ ] **CM-02**: Background colors migrated from white to dark navy (#0b0e14)
-- [ ] **CM-03**: Surface colors (cards, panels) updated to #131720
-- [ ] **CM-04**: Text colors changed to warm cream (#e8e2d6)
-- [ ] **CM-05**: Semantic colors established (status: green/rose/blue on dark background)
-- [ ] **CM-06**: Build verified with no visual regressions
+- [x] **CM-01**: All accent colors changed from teal (#00D4FF) to gold (#c9a84c) (~51 files)
+- [x] **CM-02**: Background colors migrated from white to dark navy (#0b0e14)
+- [x] **CM-03**: Surface colors (cards, panels) updated to #131720
+- [x] **CM-04**: Text colors changed to warm cream (#e8e2d6)
+- [x] **CM-05**: Semantic colors established (status: green/rose/blue on dark background)
+- [x] **CM-06**: Build verified with no visual regressions
 
 ### SessionOrb Redesign (Wave 3)
 
@@ -101,12 +101,12 @@
 | DS-04 | Phase 11 | Complete |
 | DS-05 | Phase 11 | Complete |
 | DS-06 | Phase 11 | Complete |
-| CM-01 | Phase 2 | Pending |
-| CM-02 | Phase 2 | Pending |
-| CM-03 | Phase 2 | Pending |
-| CM-04 | Phase 2 | Pending |
-| CM-05 | Phase 2 | Pending |
-| CM-06 | Phase 2 | Pending |
+| CM-01 | Phase 12 | Complete |
+| CM-02 | Phase 12 | Complete |
+| CM-03 | Phase 12 | Complete |
+| CM-04 | Phase 12 | Complete |
+| CM-05 | Phase 12 | Complete |
+| CM-06 | Phase 12 | Complete |
 | ORB-01 | Phase 3 | Pending |
 | ORB-02 | Phase 3 | Pending |
 | ORB-03 | Phase 3 | Pending |
@@ -149,4 +149,4 @@
 
 ---
 *Requirements defined: 2026-02-12*
-*Last updated: 2026-02-12 - Phase 11 requirements (DS-01 to DS-06) marked Complete*
+*Last updated: 2026-02-12 - Phase 12 requirements (CM-01 to CM-06) marked Complete*
