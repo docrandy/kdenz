@@ -1,93 +1,175 @@
-/* SessionOrb — Neon green circle with icon and ambient glow */
+/* SessionOrb — Premium animated orb with gold gradient and 3 SVG rings */
 
-.session-orb-container {
-  /* Base circle */
-  border-radius: 50%;
+/* Wrapper container */
+.session-orb-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   user-select: none;
-
-  /* Smooth transitions for color, glow, brightness */
-  transition:
-    background-color 0.5s ease,
-    box-shadow 0.5s ease,
-    filter 0.1s ease,
-    transform 0.15s ease;
-
-  /* Prevent layout shift during interactions */
   flex-shrink: 0;
+
+  /* Smooth state transitions */
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Orb body with gradient */
+.session-orb-body {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+
+  /* Smooth transitions for glow and scale */
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+/* SVG rings layer */
+.session-orb-rings {
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+
+/* Ring animations */
+.orb-ring-outer {
+  animation: orb-ring-rotate 20s linear infinite;
+  transform-origin: center;
+}
+
+.orb-ring-middle {
+  animation: orb-ring-breathe 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.orb-ring-inner {
+  animation: orb-ring-shimmer 1.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Keyframes for ring animations */
+@keyframes orb-ring-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orb-ring-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes orb-ring-shimmer {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: rotate(0deg);
+  }
+  50% {
+    opacity: 0.5;
+    transform: rotate(15deg);
+  }
 }
 
 /* Hover state — subtle brightness increase */
-.session-orb-container:hover:not(.disabled):not(.loading) {
-  filter: brightness(1.1) !important;
+.session-orb-wrapper:hover:not(.disabled):not(.loading) .session-orb-body {
+  filter: brightness(1.1);
 }
 
 /* Active (press) state — slight scale down */
-.session-orb-container:active:not(.disabled):not(.loading) {
+.session-orb-wrapper:active:not(.disabled):not(.loading) {
   transform: scale(0.97);
 }
 
 /* Focus visible for keyboard accessibility */
-.session-orb-container:focus-visible {
-  outline: 3px solid rgba(0, 0, 0, 0.5);
+.session-orb-wrapper:focus-visible {
+  outline: 3px solid rgba(201, 168, 76, 0.6);
   outline-offset: 8px;
 }
 
-/* Loading state — pulsing animation */
-.session-orb-container.loading {
+/* Loading state — gentle pulse */
+.session-orb-wrapper.loading {
   cursor: wait;
-  animation: orb-pulse 1.5s ease-in-out infinite;
+  animation: orb-body-pulse 1.5s ease-in-out infinite;
 }
 
-@keyframes orb-pulse {
-  0%, 100% {
-    opacity: 1;
+.session-orb-wrapper.loading .orb-ring {
+  opacity: 0.3 !important;
+}
+
+@keyframes orb-body-pulse {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
-    opacity: 0.7;
     transform: scale(0.95);
   }
 }
 
 /* Disabled state */
-.session-orb-container.disabled {
+.session-orb-wrapper.disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
   filter: brightness(0.8) saturate(0.5);
 }
 
-/* Reduced motion preference */
+.session-orb-wrapper.disabled .orb-ring {
+  animation: none !important;
+}
+
+/* Recording state transition - orb "wakes up" */
+.session-orb-wrapper.recording {
+  /* Rings brighten via inline styles based on audioLevel */
+}
+
+/* Reduced motion preference - CRITICAL for accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .session-orb-container {
+  .session-orb-wrapper {
     transition: none;
-    animation: none;
+    animation: none !important;
   }
 
-  .session-orb-container.loading {
-    animation: none;
+  .session-orb-body {
+    transition: none;
+  }
+
+  .orb-ring {
+    animation: none !important;
+  }
+
+  .session-orb-wrapper.loading {
+    animation: none !important;
     opacity: 0.8;
   }
 }
 
-/* Icon transitions */
-.session-orb-container svg {
-  transition: opacity 0.2s ease;
-}
-
 /* Mobile optimizations */
 @media (max-width: 640px) {
-  .session-orb-container {
-    /* Slightly larger touch target on mobile */
+  .session-orb-wrapper {
+    /* Touch target ensured by parent component size */
     min-width: 48px;
     min-height: 48px;
   }
 
-  .session-orb-container:focus-visible {
+  .session-orb-wrapper:focus-visible {
     outline-offset: 4px;
   }
 }
+
+/* Responsive sizing - component scales with size prop */
+/* SVG viewBox handles ring scaling automatically */
+/* Body size controlled via inline style */
