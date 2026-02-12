@@ -17,15 +17,15 @@ interface FillerGaugeProps {
 }
 
 function getGaugeColor(rate: number, good: number, warning: number): string {
-  if (rate <= good) return '#22c55e'; // green-500
-  if (rate <= warning) return '#eab308'; // yellow-500
-  return '#ef4444'; // red-500
+  if (rate <= good) return "hsl(var(--status-success))";
+  if (rate <= warning) return "hsl(var(--status-warning))";
+  return "hsl(var(--status-error))";
 }
 
 function getStatusLabel(rate: number, good: number, warning: number): string {
-  if (rate <= good) return 'Great';
-  if (rate <= warning) return 'OK';
-  return 'High';
+  if (rate <= good) return "Great";
+  if (rate <= warning) return "OK";
+  return "High";
 }
 
 export default function FillerGauge({
@@ -36,7 +36,11 @@ export default function FillerGauge({
   maxCount = 10,
 }: FillerGaugeProps) {
   const gaugeColor = getGaugeColor(fillerRate, thresholdGood, thresholdWarning);
-  const statusLabel = getStatusLabel(fillerRate, thresholdGood, thresholdWarning);
+  const statusLabel = getStatusLabel(
+    fillerRate,
+    thresholdGood,
+    thresholdWarning,
+  );
 
   // Calculate fill percentage (capped at 100%)
   const fillPercentage = Math.min((fillerCount / maxCount) * 100, 100);
@@ -46,10 +50,11 @@ export default function FillerGauge({
   const strokeWidth = 8;
   const circumference = 2 * Math.PI * radius;
   const strokeDasharray = circumference;
-  const strokeDashoffset = circumference - (fillPercentage / 100) * circumference;
+  const strokeDashoffset =
+    circumference - (fillPercentage / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center p-3 bg-white rounded-lg">
+    <div className="flex flex-col items-center p-3 bg-background-surface rounded-lg">
       {/* Circular Gauge */}
       <div className="relative w-28 h-28">
         <svg
@@ -62,7 +67,7 @@ export default function FillerGauge({
             cy="50"
             r={radius}
             fill="none"
-            stroke="#e5e7eb"
+            stroke="hsl(var(--background-elevated))"
             strokeWidth={strokeWidth}
           />
           {/* Filled arc */}
@@ -88,20 +93,20 @@ export default function FillerGauge({
           >
             {fillerCount}
           </span>
-          <span className="text-xs text-clinical-muted">fillers</span>
+          <span className="text-xs text-text-subtle">fillers</span>
         </div>
       </div>
 
       {/* Status label */}
       <div
-        className="mt-2 px-3 py-1 rounded-full text-xs font-medium text-white transition-colors duration-300"
+        className="mt-2 px-3 py-1 rounded-full text-xs font-medium text-text-inverse transition-colors duration-300"
         style={{ backgroundColor: gaugeColor }}
       >
         {statusLabel}
       </div>
 
       {/* Rate display */}
-      <p className="text-xs text-clinical-muted mt-2">
+      <p className="text-xs text-text-subtle mt-2">
         {fillerRate.toFixed(1)}/min
       </p>
     </div>
