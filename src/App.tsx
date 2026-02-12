@@ -6,6 +6,7 @@ import BrowserWarning from "./components/BrowserWarning";
 import ErrorBoundary from "./components/ErrorBoundary";
 import FeedbackButton from "./components/FeedbackButton";
 import WelcomeScreen from "./components/WelcomeScreen";
+import InlineProfileSetup from "./components/InlineProfileSetup";
 import DiagnosticOnboarding from "./components/DiagnosticOnboarding";
 import ConsentModal from "./components/ConsentModal";
 import Privacy from "./pages/Privacy";
@@ -19,15 +20,47 @@ import { ProfilePage } from "./features/profile";
 import { isChrome, getBrowserName } from "./utils/browserDetection";
 import DevFeedbackBoxes from "./components/DevFeedbackBoxes";
 import { hasDiagnosticResults } from "./lib/diagnosticQuestions";
+import { getProfile } from "./features/profile/profileStorage";
 import BaselineSession from "./pages/BaselineSession";
 import BaselineResults from "./pages/BaselineResults";
 import ScenarioLibrary from "./pages/ScenarioLibrary";
 import ScenarioDetail from "./pages/ScenarioDetail";
 import TechniqueFeedback from "./pages/TechniqueFeedback";
+import { AppHeader } from "./components/AppHeader";
+import { SlideTransition } from "./components/SlideTransition";
 
 const CONSENT_ACCEPTED_KEY = "voicelab_consent_accepted";
 const WELCOME_SEEN_KEY = "voicelab_welcome_seen";
+const PROFILE_SETUP_SEEN_KEY = "voicelab_profile_setup_seen";
 const DIAGNOSTIC_SKIPPED_KEY = "voicelab_diagnostic_skipped";
+
+// ScreenLayout wrapper - AppHeader + children (for Phase 15 redesigned screens)
+interface ScreenLayoutProps {
+  children: React.ReactNode;
+  showBack?: boolean;
+  onBack?: () => void;
+  hideHeader?: boolean;
+}
+
+export function ScreenLayout({
+  children,
+  showBack,
+  onBack,
+  hideHeader,
+}: ScreenLayoutProps) {
+  return (
+    <SlideTransition>
+      <div className="min-h-screen bg-background flex flex-col">
+        <AppHeader
+          showBack={showBack}
+          onBack={onBack}
+          hideHeader={hideHeader}
+        />
+        <main className="flex-1">{children}</main>
+      </div>
+    </SlideTransition>
+  );
+}
 
 // Wrapper for ProfilePage with navigation
 function ProfileRoute() {
@@ -59,6 +92,7 @@ function App() {
   const [browserWarningDismissed, setBrowserWarningDismissed] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showProfileSetup, setShowProfileSetup] = useState(false);
   const [showDiagnostic, setShowDiagnostic] = useState(false);
   const chromeDetected = isChrome();
 
@@ -73,19 +107,27 @@ function App() {
       }
       setConsentAccepted(true);
 
-      // Then check welcome and diagnostic
+      // Then check welcome, profile setup, and diagnostic
       const welcomeSeen = localStorage.getItem(WELCOME_SEEN_KEY);
+      const profileSetupSeen = localStorage.getItem(PROFILE_SETUP_SEEN_KEY);
       const diagnosticSkipped = localStorage.getItem(DIAGNOSTIC_SKIPPED_KEY);
       const hasDiagnostics = hasDiagnosticResults();
 
       if (!welcomeSeen) {
         setShowWelcome(true);
+      } else if (!profileSetupSeen) {
+        // Check if profile has a name - if not, show profile setup
+        const profile = getProfile();
+        if (!profile.demographics.preferredName) {
+          setShowProfileSetup(true);
+        }
       } else if (!hasDiagnostics && !diagnosticSkipped) {
         setShowDiagnostic(true);
       }
     } catch {
       setConsentAccepted(false);
       setShowWelcome(false);
+      setShowProfileSetup(false);
       setShowDiagnostic(false);
     }
   }, []);
@@ -115,7 +157,36 @@ function App() {
       // Storage not available
     }
     setShowWelcome(false);
-    // Show diagnostic after welcome if not completed
+    // Check if profile setup needed
+    const profile = getProfile();
+    if (!profile.demographics.preferredName) {
+      setShowProfileSetup(true);
+    } else if (!hasDiagnosticResults()) {
+      setShowDiagnostic(true);
+    }
+  };
+
+  const handleProfileSetupComplete = () => {
+    try {
+      localStorage.setItem(PROFILE_SETUP_SEEN_KEY, "true");
+    } catch {
+      // Storage not available
+    }
+    setShowProfileSetup(false);
+    // Show diagnostic after profile setup if not completed
+    if (!hasDiagnosticResults()) {
+      setShowDiagnostic(true);
+    }
+  };
+
+  const handleProfileSetupSkip = () => {
+    try {
+      localStorage.setItem(PROFILE_SETUP_SEEN_KEY, "true");
+    } catch {
+      // Storage not available
+    }
+    setShowProfileSetup(false);
+    // Continue to diagnostic check
     if (!hasDiagnosticResults()) {
       setShowDiagnostic(true);
     }
@@ -147,6 +218,15 @@ function App() {
 
     if (showWelcome) {
       return <WelcomeScreen onStart={handleWelcomeComplete} />;
+    }
+
+    if (showProfileSetup) {
+      return (
+        <InlineProfileSetup
+          onComplete={handleProfileSetupComplete}
+          onSkip={handleProfileSetupSkip}
+        />
+      );
     }
 
     if (showDiagnostic) {
