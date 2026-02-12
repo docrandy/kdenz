@@ -3,7 +3,7 @@
  * Catches React errors and displays fallback UI
  */
 
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -26,7 +26,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
   handleReset = () => {
@@ -40,12 +40,12 @@ export default class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen bg-clinical-bg flex items-center justify-center p-4">
-          <div className="bg-white border border-clinical-border rounded-lg p-8 max-w-md w-full text-center">
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+          <div className="bg-background-surface border border-background-elevated rounded-lg p-8 max-w-md w-full text-center">
             {/* Icon */}
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-status-error/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
-                className="w-8 h-8 text-red-600"
+                className="w-8 h-8 text-status-error"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -60,12 +60,12 @@ export default class ErrorBoundary extends Component<Props, State> {
             </div>
 
             {/* Title */}
-            <h2 className="text-xl font-semibold text-clinical-text mb-2">
+            <h2 className="text-xl font-semibold text-text mb-2">
               Something went wrong
             </h2>
 
             {/* Description */}
-            <p className="text-sm text-clinical-muted mb-6">
+            <p className="text-sm text-text-muted mb-6">
               An unexpected error occurred. Please try refreshing the page.
             </p>
 
@@ -73,14 +73,14 @@ export default class ErrorBoundary extends Component<Props, State> {
             <div className="flex flex-col gap-3">
               <button
                 onClick={() => window.location.reload()}
-                className="w-full py-2 px-4 bg-clinical-text text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
+                className="w-full py-2 px-4 bg-accent text-text-inverse rounded-lg font-medium hover:opacity-90 transition-opacity"
               >
                 Refresh Page
               </button>
 
               <button
                 onClick={this.handleReset}
-                className="w-full py-2 px-4 bg-gray-100 text-clinical-text rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                className="w-full py-2 px-4 bg-background-elevated text-text rounded-lg font-medium hover:bg-background-subtle transition-colors"
               >
                 Try Again
               </button>
@@ -89,12 +89,12 @@ export default class ErrorBoundary extends Component<Props, State> {
             {/* Error details (collapsed) */}
             {this.state.error && (
               <details className="mt-6 text-left">
-                <summary className="text-xs text-clinical-muted cursor-pointer hover:text-clinical-text">
+                <summary className="text-xs text-text-muted cursor-pointer hover:text-text">
                   Technical details
                 </summary>
-                <pre className="mt-2 p-3 bg-gray-50 rounded text-xs text-red-600 overflow-auto max-h-32">
+                <pre className="mt-2 p-3 bg-background-elevated rounded text-xs text-status-error overflow-auto max-h-32">
                   {this.state.error.message}
-                  {'\n\n'}
+                  {"\n\n"}
                   {this.state.error.stack}
                 </pre>
               </details>
