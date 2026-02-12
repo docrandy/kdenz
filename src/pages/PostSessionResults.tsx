@@ -1,16 +1,18 @@
-import { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getBaseline } from '../services/baselineStorage';
-import { saveSession } from '../services/sessionStorage';
-import { AudioPlayback } from '../components/AudioPlayback';
-import Scorecard from '../components/Scorecard';
-import WeeklyTrendChart from '../components/WeeklyTrendChart';
-import AISummary from '../components/AISummary';
-import TranscriptConfidenceIndicator from '../components/TranscriptConfidenceIndicator';
-import { WordTiming } from '../core/audio/useWebSpeech';
-import { ReconciledFiller } from '../lib/fillerReconciler';
-import SelfAssessment, { SelfAssessmentResponse } from '../components/SelfAssessment';
-import ImplementationIntention from '../components/ImplementationIntention';
+import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { getBaseline } from "../services/baselineStorage";
+import { saveSession } from "../services/sessionStorage";
+import { AudioPlayback } from "../components/AudioPlayback";
+import Scorecard from "../components/Scorecard";
+import WeeklyTrendChart from "../components/WeeklyTrendChart";
+import AISummary from "../components/AISummary";
+import TranscriptConfidenceIndicator from "../components/TranscriptConfidenceIndicator";
+import { WordTiming } from "../core/audio/useWebSpeech";
+import { ReconciledFiller } from "../lib/fillerReconciler";
+import SelfAssessment, {
+  SelfAssessmentResponse,
+} from "../components/SelfAssessment";
+import ImplementationIntention from "../components/ImplementationIntention";
 
 interface FillerEvent {
   type: string;
@@ -24,7 +26,7 @@ interface SessionResultData {
   wpm: number;
   fillerCount: number;
   fillerRate: number;
-  focusMode: 'filler' | 'pace';
+  focusMode: "filler" | "pace";
   transcript: string;
   is_baseline?: boolean;
   audioData?: string | null;
@@ -35,22 +37,24 @@ interface SessionResultData {
   lowConfidenceSegments?: number;
 }
 
-type ResultsPhase = 'self-assess' | 'metrics' | 'intention' | 'complete';
+type ResultsPhase = "self-assess" | "metrics" | "intention" | "complete";
 
 export default function PostSessionResults() {
   const navigate = useNavigate();
-  const [sessionData, setSessionData] = useState<SessionResultData | null>(null);
-  const [phase, setPhase] = useState<ResultsPhase>('self-assess');
+  const [sessionData, setSessionData] = useState<SessionResultData | null>(
+    null,
+  );
+  const [phase, setPhase] = useState<ResultsPhase>("self-assess");
   const [sessionSaved, setSessionSaved] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     // Load session data from sessionStorage
     try {
-      const stored = sessionStorage.getItem('voicelab_last_session');
+      const stored = sessionStorage.getItem("voicelab_last_session");
       if (!stored) {
         // No session data — redirect to dashboard
-        navigate('/');
+        navigate("/");
         return;
       }
       const data = JSON.parse(stored) as SessionResultData;
@@ -58,11 +62,11 @@ export default function PostSessionResults() {
 
       // If baseline session, skip reflection prompts and go straight to metrics
       if (data.is_baseline) {
-        setPhase('metrics');
+        setPhase("metrics");
       }
     } catch {
       // Corrupted data — redirect to dashboard
-      navigate('/');
+      navigate("/");
     }
   }, [navigate]);
 
@@ -78,7 +82,7 @@ export default function PostSessionResults() {
         focusMode: sessionData.focusMode,
       });
       setSessionSaved(true);
-      setRefreshKey(k => k + 1); // Trigger chart refresh
+      setRefreshKey((k) => k + 1); // Trigger chart refresh
     }
   }, [sessionData, sessionSaved]);
 
@@ -89,7 +93,7 @@ export default function PostSessionResults() {
   const fillerBreakdown = useMemo(() => {
     if (!sessionData?.reconciledFillers) return [];
     const counts = new Map<string, number>();
-    sessionData.reconciledFillers.forEach(f => {
+    sessionData.reconciledFillers.forEach((f) => {
       const word = f.word.toLowerCase();
       counts.set(word, (counts.get(word) || 0) + 1);
     });
@@ -115,34 +119,35 @@ export default function PostSessionResults() {
   const generateSummary = (): string => {
     const duration = formatDuration(sessionData.durationSeconds);
 
-    if (sessionData.focusMode === 'filler') {
+    if (sessionData.focusMode === "filler") {
       const count = sessionData.fillerCount;
-      let commentary = '';
+      let commentary = "";
 
       if (count === 0) {
-        commentary = 'Amazing — not a single filler word!';
+        commentary = "Amazing — not a single filler word!";
       } else if (count <= 3) {
-        commentary = 'Great job — minimal filler usage.';
+        commentary = "Great job — minimal filler usage.";
       } else if (count <= 7) {
-        commentary = 'Good practice session. Keep working on awareness.';
+        commentary = "Good practice session. Keep working on awareness.";
       } else {
-        commentary = 'Lots to work with! Awareness is the first step.';
+        commentary = "Lots to work with! Awareness is the first step.";
       }
 
-      return `You spoke for ${duration} and used ${count} filler word${count === 1 ? '' : 's'}. ${commentary}`;
+      return `You spoke for ${duration} and used ${count} filler word${count === 1 ? "" : "s"}. ${commentary}`;
     } else {
       // Pace mode
       const wpm = sessionData.wpm;
-      let commentary = '';
+      let commentary = "";
 
       if (wpm < 100) {
-        commentary = 'Your pace was on the slower side — try picking up a bit.';
+        commentary = "Your pace was on the slower side — try picking up a bit.";
       } else if (wpm <= 150) {
-        commentary = 'Great conversational pace!';
+        commentary = "Great conversational pace!";
       } else if (wpm <= 180) {
-        commentary = 'You were speaking fairly quickly — try slowing down.';
+        commentary = "You were speaking fairly quickly — try slowing down.";
       } else {
-        commentary = 'You were speaking quite fast. Practice pausing between thoughts.';
+        commentary =
+          "You were speaking quite fast. Practice pausing between thoughts.";
       }
 
       return `You spoke for ${duration} at an average pace of ${wpm} WPM. ${commentary}`;
@@ -152,30 +157,30 @@ export default function PostSessionResults() {
   // Phase transition handlers
   const handleSelfAssessComplete = (_response: SelfAssessmentResponse) => {
     // Response captured for future analytics/storage
-    setPhase('metrics');
+    setPhase("metrics");
   };
 
   const handleSelfAssessSkip = () => {
-    setPhase('metrics');
+    setPhase("metrics");
   };
 
   const handleMetricsContinue = () => {
-    setPhase('intention');
+    setPhase("intention");
   };
 
   const handleIntentionComplete = (intention: string) => {
     // Intention is already stored in sessionStorage by component
-    console.log('Implementation intention set:', intention);
-    setPhase('complete');
+    console.log("Implementation intention set:", intention);
+    setPhase("complete");
   };
 
   const handleIntentionSkip = () => {
-    setPhase('complete');
+    setPhase("complete");
   };
 
   // Navigation handlers
   const handleDashboard = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleTryAgain = () => {
@@ -183,11 +188,11 @@ export default function PostSessionResults() {
   };
 
   const handleNewSession = () => {
-    navigate('/');
+    navigate("/");
   };
 
   // Phase 1: Self-assessment (before metrics reveal)
-  if (phase === 'self-assess') {
+  if (phase === "self-assess") {
     return (
       <div className="transition-opacity duration-300">
         <SelfAssessment
@@ -200,16 +205,16 @@ export default function PostSessionResults() {
   }
 
   // Phase 2: Metrics display
-  if (phase === 'metrics') {
+  if (phase === "metrics") {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe transition-opacity duration-300">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 sm:px-6 pb-safe transition-opacity duration-300">
         <div className="max-w-md w-full space-y-6 sm:space-y-8">
           {/* Header */}
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
-              <div className="w-16 h-16 rounded-full bg-clinical-accent flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
                 <svg
-                  className="w-8 h-8 text-white"
+                  className="w-8 h-8 text-text-inverse"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -221,25 +226,26 @@ export default function PostSessionResults() {
                 </svg>
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900">Session Complete</h1>
+            <h1 className="text-3xl font-bold text-text">Session Complete</h1>
           </div>
 
           {/* Summary paragraph */}
-          <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
-            <p className="text-base sm:text-lg text-gray-700 text-center leading-relaxed">
+          <div className="bg-background-surface rounded-lg p-4 sm:p-6 border border-background-elevated">
+            <p className="text-base sm:text-lg text-text-muted text-center leading-relaxed">
               {generateSummary()}
             </p>
           </div>
 
           {/* Transcript confidence indicator (show if < 0.85) */}
-          {sessionData.averageConfidence !== undefined && sessionData.averageConfidence < 0.85 && (
-            <div className="bg-gray-50 rounded-lg p-4">
-              <TranscriptConfidenceIndicator
-                averageConfidence={sessionData.averageConfidence}
-                lowSegmentCount={sessionData.lowConfidenceSegments || 0}
-              />
-            </div>
-          )}
+          {sessionData.averageConfidence !== undefined &&
+            sessionData.averageConfidence < 0.85 && (
+              <div className="bg-background-surface rounded-lg p-4 border border-background-elevated">
+                <TranscriptConfidenceIndicator
+                  averageConfidence={sessionData.averageConfidence}
+                  lowSegmentCount={sessionData.lowConfidenceSegments || 0}
+                />
+              </div>
+            )}
 
           {/* Scorecard with metrics */}
           <Scorecard
@@ -254,8 +260,10 @@ export default function PostSessionResults() {
 
           {/* Audio playback */}
           {sessionData.audioData && (
-            <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
-              <p className="text-xs sm:text-sm text-gray-600 mb-3">Listen to your session</p>
+            <div className="bg-background-surface rounded-lg p-3 sm:p-4 border border-background-elevated">
+              <p className="text-xs sm:text-sm text-text-muted mb-3">
+                Listen to your session
+              </p>
               <AudioPlayback
                 audioData={sessionData.audioData}
                 durationSeconds={sessionData.durationSeconds}
@@ -275,8 +283,8 @@ export default function PostSessionResults() {
           {sessionData.transcript && sessionData.wordTimings && (
             <div className="text-center">
               <button
-                onClick={() => navigate('/practice/evaluation')}
-                className="text-clinical-accent hover:underline text-sm"
+                onClick={() => navigate("/practice/evaluation")}
+                className="text-accent hover:underline text-sm"
               >
                 View full transcript with highlights →
               </button>
@@ -286,8 +294,12 @@ export default function PostSessionResults() {
           {/* Continue button - for baseline sessions, go straight to complete */}
           <div className="flex justify-center">
             <button
-              onClick={() => sessionData.is_baseline ? setPhase('complete') : handleMetricsContinue()}
-              className="px-8 py-4 bg-black text-white rounded-lg font-semibold hover:opacity-90 active:opacity-80 transition-opacity min-h-[56px] min-w-[160px]"
+              onClick={() =>
+                sessionData.is_baseline
+                  ? setPhase("complete")
+                  : handleMetricsContinue()
+              }
+              className="btn-primary min-h-[56px] min-w-[160px]"
             >
               Continue
             </button>
@@ -298,7 +310,7 @@ export default function PostSessionResults() {
   }
 
   // Phase 3: Implementation intention (post-metrics commitment)
-  if (phase === 'intention') {
+  if (phase === "intention") {
     return (
       <div className="transition-opacity duration-300">
         <ImplementationIntention
@@ -313,14 +325,14 @@ export default function PostSessionResults() {
 
   // Phase 4: Complete (full navigation)
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe transition-opacity duration-300">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 sm:px-6 pb-safe transition-opacity duration-300">
       <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 rounded-full bg-clinical-accent flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
               <svg
-                className="w-8 h-8 text-white"
+                className="w-8 h-8 text-text-inverse"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -332,28 +344,30 @@ export default function PostSessionResults() {
               </svg>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">All Set!</h1>
-          <p className="text-clinical-muted mt-2">Ready to practice again?</p>
+          <h1 className="text-3xl font-bold text-text">All Set!</h1>
+          <p className="text-text-muted mt-2">Ready to practice again?</p>
         </div>
 
         {/* Key stats summary */}
-        <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+        <div className="bg-background-surface rounded-lg p-4 sm:p-6 border border-background-elevated">
           <div className="flex items-center justify-center gap-6 sm:gap-8">
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900">
-                {sessionData.focusMode === 'filler'
+              <div className="text-3xl sm:text-4xl font-bold text-text">
+                {sessionData.focusMode === "filler"
                   ? sessionData.fillerCount
                   : sessionData.wpm}
               </div>
-              <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                {sessionData.focusMode === 'filler' ? 'Filler Words' : 'WPM'}
+              <p className="text-xs sm:text-sm text-text-muted mt-1">
+                {sessionData.focusMode === "filler" ? "Filler Words" : "WPM"}
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900">
+              <div className="text-3xl sm:text-4xl font-bold text-text">
                 {formatDuration(sessionData.durationSeconds)}
               </div>
-              <p className="text-xs sm:text-sm text-gray-500 mt-1">Duration</p>
+              <p className="text-xs sm:text-sm text-text-muted mt-1">
+                Duration
+              </p>
             </div>
           </div>
         </div>
@@ -377,19 +391,19 @@ export default function PostSessionResults() {
         <div className="grid grid-cols-3 gap-2 sm:gap-4">
           <button
             onClick={handleDashboard}
-            className="px-2 sm:px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 active:bg-gray-100 transition-colors text-xs sm:text-base min-h-[48px]"
+            className="px-2 sm:px-4 py-3 bg-background-surface border-2 border-background-elevated rounded-lg text-text font-medium hover:bg-background-elevated active:bg-background-elevated transition-colors text-xs sm:text-base min-h-[48px]"
           >
             Dashboard
           </button>
           <button
             onClick={handleTryAgain}
-            className="px-2 sm:px-4 py-3 bg-clinical-accent text-white rounded-lg font-medium hover:opacity-90 active:opacity-80 transition-opacity text-xs sm:text-base min-h-[48px]"
+            className="btn-primary text-xs sm:text-base min-h-[48px]"
           >
             Try Again
           </button>
           <button
             onClick={handleNewSession}
-            className="px-2 sm:px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 active:bg-gray-100 transition-colors text-xs sm:text-base min-h-[48px]"
+            className="px-2 sm:px-4 py-3 bg-background-surface border-2 border-background-elevated rounded-lg text-text font-medium hover:bg-background-elevated active:bg-background-elevated transition-colors text-xs sm:text-base min-h-[48px]"
           >
             New Session
           </button>
