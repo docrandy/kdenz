@@ -3,10 +3,13 @@
  * Displays session transcript with optional filler/pace highlighting
  */
 
-import { useMemo } from 'react';
-import { WordTiming } from '../core/audio/useWebSpeech';
-import { ReconciledFiller, getFillerWordIndices } from '../lib/fillerReconciler';
-import { HighlightMode } from './HighlightToggle';
+import { useMemo } from "react";
+import { WordTiming } from "../core/audio/useWebSpeech";
+import {
+  ReconciledFiller,
+  getFillerWordIndices,
+} from "../lib/fillerReconciler";
+import { HighlightMode } from "./HighlightToggle";
 
 interface TranscriptViewProps {
   transcript: string;
@@ -24,7 +27,7 @@ const PACE_SLOW_WPM = 100;
 const PACE_WINDOW_SIZE = 5;
 
 /** Single neutral color for all fillers (non-judgmental) */
-const FILLER_HIGHLIGHT_CLASS = 'bg-clinical-accent/20 text-gray-900 rounded px-0.5';
+const FILLER_HIGHLIGHT_CLASS = "bg-status-warning/20 text-text rounded px-0.5";
 
 export default function TranscriptView({
   transcript,
@@ -36,7 +39,7 @@ export default function TranscriptView({
   // Get filler word indices for highlighting
   const fillerIndices = useMemo(
     () => getFillerWordIndices(reconciledFillers),
-    [reconciledFillers]
+    [reconciledFillers],
   );
 
   // Note: fillerDetails map removed - using neutral color for all fillers
@@ -44,14 +47,18 @@ export default function TranscriptView({
 
   // Calculate pace for each word (rolling window WPM)
   const wordPaces = useMemo(() => {
-    if (wordTimings.length < 2) return new Map<number, 'fast' | 'slow' | 'normal'>();
+    if (wordTimings.length < 2)
+      return new Map<number, "fast" | "slow" | "normal">();
 
-    const paces = new Map<number, 'fast' | 'slow' | 'normal'>();
+    const paces = new Map<number, "fast" | "slow" | "normal">();
 
     wordTimings.forEach((wt, i) => {
       // Calculate WPM using a window around this word
       const windowStart = Math.max(0, i - Math.floor(PACE_WINDOW_SIZE / 2));
-      const windowEnd = Math.min(wordTimings.length - 1, i + Math.floor(PACE_WINDOW_SIZE / 2));
+      const windowEnd = Math.min(
+        wordTimings.length - 1,
+        i + Math.floor(PACE_WINDOW_SIZE / 2),
+      );
 
       if (windowEnd > windowStart) {
         const startTime = wordTimings[windowStart].timestamp;
@@ -63,11 +70,11 @@ export default function TranscriptView({
           const wpm = (wordCount / durationMs) * 60000;
 
           if (wpm >= PACE_FAST_WPM) {
-            paces.set(wt.index, 'fast');
+            paces.set(wt.index, "fast");
           } else if (wpm <= PACE_SLOW_WPM) {
-            paces.set(wt.index, 'slow');
+            paces.set(wt.index, "slow");
           } else {
-            paces.set(wt.index, 'normal');
+            paces.set(wt.index, "normal");
           }
         }
       }
@@ -84,60 +91,64 @@ export default function TranscriptView({
 
   if (!transcript.trim()) {
     return (
-      <div className="p-4 text-center text-clinical-muted text-sm">
+      <div className="p-4 text-center text-text-muted text-sm">
         No transcript available
       </div>
     );
   }
 
   return (
-    <div className="max-h-48 overflow-y-auto p-3 bg-gray-50 rounded-lg">
-      <p className="text-sm text-clinical-text leading-relaxed">
+    <div className="max-h-48 overflow-y-auto p-3 bg-background-surface rounded-lg">
+      <p className="text-sm text-text leading-relaxed">
         {words.map((word, index) => {
           const isFiller = fillerIndices.has(index);
           const pace = wordPaces.get(index);
 
           // Determine highlight class based on mode
-          let highlightClass = '';
+          let highlightClass = "";
           let title: string | undefined = undefined;
 
-          if (highlightMode === 'fillers' && isFiller) {
+          if (highlightMode === "fillers" && isFiller) {
             highlightClass = FILLER_HIGHLIGHT_CLASS;
             title = `Filler: ${word}`;
-          } else if (highlightMode === 'pace') {
-            if (pace === 'fast') {
-              highlightClass = 'bg-orange-200 text-orange-800 rounded px-0.5';
-            } else if (pace === 'slow') {
-              highlightClass = 'bg-blue-200 text-blue-800 rounded px-0.5';
+          } else if (highlightMode === "pace") {
+            if (pace === "fast") {
+              highlightClass =
+                "bg-status-warning/20 text-status-warning rounded px-0.5";
+            } else if (pace === "slow") {
+              highlightClass =
+                "bg-status-info/20 text-status-info rounded px-0.5";
             }
           }
 
           return (
             <span key={index}>
-              <span className={highlightClass} title={title}>{word}</span>
-              {index < words.length - 1 && ' '}
+              <span className={highlightClass} title={title}>
+                {word}
+              </span>
+              {index < words.length - 1 && " "}
             </span>
           );
         })}
       </p>
 
       {/* Legend for filler mode */}
-      {highlightMode === 'fillers' && (
-        <div className="mt-3 pt-2 border-t border-gray-200 text-center text-xs text-clinical-muted">
+      {highlightMode === "fillers" && (
+        <div className="mt-3 pt-2 border-t border-background-elevated text-center text-xs text-text-muted">
           Filler words highlighted (hover to see specific word)
         </div>
       )}
 
       {/* Legend for pace mode */}
-      {highlightMode === 'pace' && (
-        <div className="mt-3 pt-2 border-t border-gray-200 flex justify-center gap-4 text-xs text-clinical-muted">
+      {highlightMode === "pace" && (
+        <div className="mt-3 pt-2 border-t border-background-elevated flex justify-center gap-4 text-xs text-text-muted">
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-orange-200 rounded" />
-            Fast ({'>'}180 WPM)
+            <span className="w-3 h-3 bg-status-warning/20 rounded" />
+            Fast ({">"}180 WPM)
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-blue-200 rounded" />
-            Slow ({'<'}100 WPM)
+            <span className="w-3 h-3 bg-status-info/20 rounded" />
+            Slow ({"<"}100 WPM)
           </span>
         </div>
       )}

@@ -4,8 +4,8 @@
  * Displays baseline deltas and uncertainty per core principles #2 and #3
  */
 
-import MetricCard from './MetricCard';
-import type { BaselineMetrics } from '../services/baselineStorage';
+import MetricCard from "./MetricCard";
+import type { BaselineMetrics } from "../services/baselineStorage";
 
 interface ScorecardProps {
   wpm: number;
@@ -17,14 +17,19 @@ interface ScorecardProps {
   fillerBreakdown?: { word: string; count: number }[];
 }
 
-function FillerBreakdown({ breakdown }: { breakdown: { word: string; count: number }[] }) {
+function FillerBreakdown({
+  breakdown,
+}: {
+  breakdown: { word: string; count: number }[];
+}) {
   if (!breakdown || breakdown.length === 0) return null;
 
   return (
-    <div className="text-sm text-clinical-muted">
-      You used: {breakdown.map((item, index) => (
+    <div className="text-sm text-text-muted">
+      You used:{" "}
+      {breakdown.map((item, index) => (
         <span key={item.word}>
-          {index > 0 && ', '}
+          {index > 0 && ", "}
           <span className="font-medium">'{item.word}'</span> {item.count}x
         </span>
       ))}
@@ -45,16 +50,19 @@ export default function Scorecard({
   fillerRate,
   durationSeconds,
   baseline,
-  fillerBreakdown
+  fillerBreakdown,
 }: ScorecardProps) {
   // Estimated confidence intervals (heuristic based on session length)
   // Longer sessions = tighter confidence
   const wpmCI = durationSeconds < 60 ? 15 : durationSeconds < 120 ? 10 : 5;
-  const fillerCI = durationSeconds < 60 ? 1.5 : durationSeconds < 120 ? 1.0 : 0.5;
+  const fillerCI =
+    durationSeconds < 60 ? 1.5 : durationSeconds < 120 ? 1.0 : 0.5;
 
   return (
     <div className="space-y-3 sm:space-y-4">
-      <h3 className="text-base sm:text-lg font-semibold text-clinical-text">Session Scorecard</h3>
+      <h3 className="text-base sm:text-lg font-semibold text-text">
+        Session Scorecard
+      </h3>
 
       {/* Speech Rate Card */}
       <MetricCard
@@ -74,13 +82,15 @@ export default function Scorecard({
         unit="per minute"
         baseline={baseline?.fillerRate}
         confidenceInterval={fillerCI}
-        details={fillerBreakdown && <FillerBreakdown breakdown={fillerBreakdown} />}
+        details={
+          fillerBreakdown && <FillerBreakdown breakdown={fillerBreakdown} />
+        }
         contextNote="Context note: Fillers are common in conversational speech. In more formal settings, they may be more noticeable."
         reflectionPrompt="Did you feel more time-pressure or uncertainty in this part?"
       />
 
       {/* Summary stats row */}
-      <div className="flex justify-between text-xs sm:text-sm text-clinical-muted pt-2 border-t border-clinical-border flex-wrap gap-2">
+      <div className="flex justify-between text-xs sm:text-sm text-text-muted pt-2 border-t border-background-elevated flex-wrap gap-2">
         <span>{wordCount} words</span>
         <span>{fillerCount} fillers total</span>
         <span>{formatDuration(durationSeconds)}</span>
