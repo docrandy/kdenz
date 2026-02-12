@@ -44,15 +44,19 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-safe">
-      {/* Header with hamburger menu */}
+      {/* Header with centered title and hamburger menu */}
       <header className="bg-background-surface border-b border-background-elevated sticky top-0 z-20">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <h1 className="text-h4 font-bold text-text-heading">VoiceLab</h1>
-          <HamburgerMenu
-            onProfile={() => navigate("/profile")}
-            onSettings={() => navigate("/settings")}
-            onPrivacy={() => navigate("/privacy")}
-          />
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-5 flex items-center justify-center relative">
+          <h1 className="text-h2 font-display font-bold text-text-heading tracking-wide">
+            VoiceLab
+          </h1>
+          <div className="absolute right-4 sm:right-6">
+            <HamburgerMenu
+              onProfile={() => navigate("/profile")}
+              onSettings={() => navigate("/settings")}
+              onPrivacy={() => navigate("/privacy")}
+            />
+          </div>
         </div>
       </header>
 
@@ -218,14 +222,11 @@ export default function Dashboard() {
           </section>
         )}
 
-        {/* Activity Heatmap */}
-        {allSessions.length > 0 && <ContributionHeatmap />}
-
-        {/* Quick Stats */}
+        {/* Activity + Stats (unified card) */}
         {allSessions.length > 0 && (
-          <section className="bg-background-surface rounded-2xl p-4 sm:p-6 border border-background-elevated">
-            <h2 className="text-lg font-semibold text-text mb-4">
-              Your Progress
+          <section className="bg-background-surface rounded-2xl p-4 sm:p-6 border border-background-elevated space-y-6">
+            <h2 className="text-h5 font-semibold text-text-heading">
+              Your Activity
             </h2>
             <div className="grid grid-cols-3 gap-6 text-center">
               <div>
@@ -252,6 +253,7 @@ export default function Dashboard() {
                 <p className="text-caption text-text-muted">Day Streak</p>
               </div>
             </div>
+            <ContributionHeatmap />
           </section>
         )}
       </main>
