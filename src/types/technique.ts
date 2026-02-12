@@ -123,11 +123,19 @@ export const DIFFICULTY_CONFIG: Record<
   Difficulty,
   { label: string; color: string; bg: string }
 > = {
-  beginner: { label: "Beginner", color: "text-green-700", bg: "bg-green-100" },
+  beginner: {
+    label: "Beginner",
+    color: "text-status-success",
+    bg: "bg-status-success/15",
+  },
   intermediate: {
     label: "Intermediate",
-    color: "text-amber-700",
-    bg: "bg-amber-100",
+    color: "text-status-warning",
+    bg: "bg-status-warning/15",
   },
-  advanced: { label: "Advanced", color: "text-red-700", bg: "bg-red-100" },
+  advanced: {
+    label: "Advanced",
+    color: "text-status-error",
+    bg: "bg-status-error/15",
+  },
 };
