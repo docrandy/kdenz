@@ -3,14 +3,17 @@ interface BrowserWarningProps {
   onDismiss: () => void;
 }
 
-export default function BrowserWarning({ browserName, onDismiss }: BrowserWarningProps) {
+export default function BrowserWarning({
+  browserName,
+  onDismiss,
+}: BrowserWarningProps) {
   return (
-    <div className="fixed inset-0 bg-white z-50 flex items-center justify-center p-6">
+    <div className="fixed inset-0 bg-status-warning/10 border border-status-warning/30 z-50 flex items-center justify-center p-6">
       <div className="max-w-lg text-center">
         {/* Warning Icon */}
         <div className="mb-6 flex justify-center">
           <svg
-            className="w-20 h-20 text-clinical-accent"
+            className="w-20 h-20 text-status-warning"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -25,33 +28,40 @@ export default function BrowserWarning({ browserName, onDismiss }: BrowserWarnin
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-clinical-text mb-4">
+        <h1 className="text-3xl font-bold text-status-warning mb-4">
           Chrome Required
         </h1>
 
         {/* Main Message */}
-        <p className="text-lg text-clinical-muted mb-4">
-          VoiceLab uses Chrome's Web Speech API for accurate voice transcription.
-          Safari and Firefox have significant accuracy issues that would hurt your practice experience.
+        <p className="text-lg text-text-muted mb-4">
+          VoiceLab uses Chrome's Web Speech API for accurate voice
+          transcription. Safari and Firefox have significant accuracy issues
+          that would hurt your practice experience.
         </p>
 
         {/* Subtext */}
-        <p className="text-base text-clinical-muted mb-6">
-          Please open this page in <span className="font-semibold">Google Chrome</span> for the best results.
+        <p className="text-base text-text-muted mb-6">
+          Please open this page in{" "}
+          <span className="font-semibold">Google Chrome</span> for the best
+          results.
         </p>
 
         {/* Detected Browser */}
-        <p className="text-sm text-clinical-muted mb-8">
-          You're currently using: <span className="font-semibold">{browserName}</span>
+        <p className="text-sm text-text-muted mb-8">
+          You're currently using:{" "}
+          <span className="font-semibold">{browserName}</span>
         </p>
 
         {/* Continue Anyway Button (for testing) */}
         <button
           onClick={() => {
-            console.warn('⚠️ User continuing on non-Chrome browser:', browserName);
+            console.warn(
+              "⚠️ User continuing on non-Chrome browser:",
+              browserName,
+            );
             onDismiss();
           }}
-          className="px-6 py-3 bg-clinical-accent text-white rounded-lg hover:bg-clinical-accent-hover transition-colors"
+          className="btn-primary"
         >
           Continue Anyway (Not Recommended)
         </button>

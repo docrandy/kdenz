@@ -3,12 +3,12 @@
  * Light diagnostic questions to understand user's speaking challenges
  */
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   diagnosticQuestions,
   DiagnosticResult,
   saveDiagnosticResults,
-} from '../lib/diagnosticQuestions';
+} from "../lib/diagnosticQuestions";
 
 interface DiagnosticOnboardingProps {
   onComplete: () => void;
@@ -46,27 +46,27 @@ export default function DiagnosticOnboarding({
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-clinical-bg px-4 py-6">
+    <div className="flex items-center justify-center min-h-screen bg-background px-4 py-6">
       <div className="w-full max-w-md">
-        <div className="bg-white border-2 border-clinical-accent rounded-lg shadow-lg p-6 sm:p-8">
+        <div className="bg-background-surface border border-background-elevated rounded-lg shadow-lg p-6 sm:p-8">
           {/* Progress bar */}
           <div className="mb-6">
-            <div className="flex justify-between text-xs text-clinical-muted mb-2">
+            <div className="flex justify-between text-xs text-text-muted mb-2">
               <span>Quick diagnostic</span>
               <span>
                 {currentIndex + 1} of {diagnosticQuestions.length}
               </span>
             </div>
-            <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-1 bg-background-elevated rounded-full overflow-hidden">
               <div
-                className="h-full bg-clinical-accent transition-all duration-300"
+                className="h-full bg-accent transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
           {/* Question */}
-          <h2 className="text-xl font-semibold text-clinical-text mb-6">
+          <h2 className="text-xl font-semibold text-text mb-6">
             {currentQuestion.question}
           </h2>
 
@@ -76,9 +76,9 @@ export default function DiagnosticOnboarding({
               <button
                 key={option.value}
                 onClick={() => handleSelect(option.value, option.insight)}
-                className="w-full p-4 text-left border border-clinical-border rounded-lg hover:border-clinical-accent hover:bg-clinical-accent/5 transition-colors"
+                className="w-full p-4 text-left border border-background-elevated rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
               >
-                <span className="text-sm text-clinical-text">{option.label}</span>
+                <span className="text-sm text-text">{option.label}</span>
               </button>
             ))}
           </div>
@@ -87,7 +87,7 @@ export default function DiagnosticOnboarding({
           <div className="text-center">
             <button
               onClick={onSkip}
-              className="text-xs text-clinical-muted hover:text-clinical-accent transition-colors"
+              className="text-xs text-text-muted hover:text-accent transition-colors"
             >
               Skip for now
             </button>
