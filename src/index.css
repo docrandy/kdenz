@@ -21,6 +21,10 @@
     --color-muted-brown: #5e5a52;
     --color-muted-tan: #9a9484;
 
+    /* Brightness Hierarchy */
+    --color-heading: #d4cbb8;   /* warm-white for headings */
+    --color-body: #a09888;       /* muted brown for body text */
+
     /* Status */
     --color-status-success: #6b9e78;
     --color-status-info: #5e8fa8;
@@ -45,15 +49,16 @@
 
   /* Base body styles */
   body {
-    @apply bg-background text-text antialiased;
+    @apply bg-background antialiased;
     font-family: var(--font-body);
+    color: var(--color-body);
     line-height: 1.5;
   }
 
   /* Heading font family default */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    color: var(--color-cream-100);
+    color: var(--color-heading);
     line-height: 1.2;
   }
 
@@ -177,7 +182,7 @@
 
   /* Overline text style */
   .text-style-overline {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1.4;
     letter-spacing: 0.08em;
     font-weight: 600;

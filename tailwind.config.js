@@ -13,6 +13,8 @@ export default {
         },
         text: {
           DEFAULT: "var(--color-cream-100)",
+          heading: "var(--color-heading)",
+          body: "var(--color-body)",
           muted: "var(--color-muted-tan)",
           subtle: "var(--color-muted-brown)",
           inverse: "var(--color-black)",
@@ -31,21 +33,21 @@ export default {
 
       fontSize: {
         // Heading scale (Cormorant Garamond)
-        display: ["3rem", { lineHeight: "1.1", letterSpacing: "0.02em" }], // 48px
-        h1: ["2.25rem", { lineHeight: "1.2", letterSpacing: "0.015em" }], // 36px
-        h2: ["1.75rem", { lineHeight: "1.2", letterSpacing: "0.01em" }], // 28px
-        h3: ["1.5rem", { lineHeight: "1.3", letterSpacing: "0.01em" }], // 24px
-        h4: ["1.25rem", { lineHeight: "1.3", letterSpacing: "0.005em" }], // 20px
-        h5: ["1.125rem", { lineHeight: "1.4" }], // 18px
+        display: ["4rem", { lineHeight: "1.1", letterSpacing: "0.02em" }], // 64px
+        h1: ["3rem", { lineHeight: "1.15", letterSpacing: "0.015em" }], // 48px
+        h2: ["2.25rem", { lineHeight: "1.2", letterSpacing: "0.01em" }], // 36px
+        h3: ["1.75rem", { lineHeight: "1.25", letterSpacing: "0.01em" }], // 28px
+        h4: ["1.5rem", { lineHeight: "1.3", letterSpacing: "0.005em" }], // 24px
+        h5: ["1.25rem", { lineHeight: "1.4" }], // 20px
         // Body scale (Outfit)
-        "body-lg": ["1.125rem", { lineHeight: "1.6" }], // 18px
-        body: ["1rem", { lineHeight: "1.6" }], // 16px
-        "body-sm": ["0.875rem", { lineHeight: "1.5" }], // 14px
-        caption: ["0.75rem", { lineHeight: "1.4" }], // 12px
+        "body-lg": ["1.25rem", { lineHeight: "1.6" }], // 20px
+        body: ["1.125rem", { lineHeight: "1.6" }], // 18px
+        "body-sm": ["1rem", { lineHeight: "1.5" }], // 16px
+        caption: ["0.875rem", { lineHeight: "1.4" }], // 14px
         overline: [
-          "0.6875rem",
+          "0.75rem",
           { lineHeight: "1.4", letterSpacing: "0.08em", fontWeight: "600" },
-        ], // 11px
+        ], // 12px
       },
 
       fontFamily: {
