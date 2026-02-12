@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './SessionOrb.css';
+import React, { useEffect, useState } from "react";
+import "./SessionOrb.css";
 
 interface SessionOrbProps {
   /** 0-1 audio level from mic — drives brightness during recording */
@@ -24,11 +24,11 @@ export const SessionOrb: React.FC<SessionOrbProps> = ({
   disabled = false,
   size = 200,
 }) => {
-  const [iconState, setIconState] = useState<'waveform' | 'stop'>('waveform');
+  const [iconState, setIconState] = useState<"waveform" | "stop">("waveform");
 
   // Sync icon state with recording state
   useEffect(() => {
-    setIconState(isRecording ? 'stop' : 'waveform');
+    setIconState(isRecording ? "stop" : "waveform");
   }, [isRecording]);
 
   // Calculate brightness based on audio level during recording
@@ -38,23 +38,23 @@ export const SessionOrb: React.FC<SessionOrbProps> = ({
   // Calculate glow intensity based on audio level
   const glowIntensity = isRecording ? 0.5 + audioLevel * 0.5 : 0.6;
 
-  // Signal Green color from locked design system
-  const baseColor = '#00C851';
-  const glowColor = 'rgba(0, 200, 81, OPACITY)';
+  // Gold accent from v2.0 design system
+  const baseColor = "#c9a84c";
+  const glowColor = "rgba(201, 168, 76, OPACITY)";
 
   // Build dynamic box-shadow for ambient glow
   const boxShadow = `
-    0 0 ${20 * glowIntensity}px ${glowColor.replace('OPACITY', '0.4')},
-    0 0 ${60 * glowIntensity}px ${glowColor.replace('OPACITY', '0.2')},
-    0 0 ${100 * glowIntensity}px ${glowColor.replace('OPACITY', '0.1')}
+    0 0 ${20 * glowIntensity}px ${glowColor.replace("OPACITY", "0.4")},
+    0 0 ${60 * glowIntensity}px ${glowColor.replace("OPACITY", "0.2")},
+    0 0 ${100 * glowIntensity}px ${glowColor.replace("OPACITY", "0.1")}
   `;
 
   // Accessibility label
-  const ariaLabel = isRecording ? 'Stop recording' : 'Start recording';
+  const ariaLabel = isRecording ? "Stop recording" : "Start recording";
 
   // Keyboard handler
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       if (!disabled) {
         onClick();
@@ -64,7 +64,7 @@ export const SessionOrb: React.FC<SessionOrbProps> = ({
 
   return (
     <div
-      className={`session-orb-container ${isLoading ? 'loading' : ''} ${disabled ? 'disabled' : ''}`}
+      className={`session-orb-container ${isLoading ? "loading" : ""} ${disabled ? "disabled" : ""}`}
       style={{
         width: size,
         height: size,
@@ -79,7 +79,7 @@ export const SessionOrb: React.FC<SessionOrbProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
     >
-      {iconState === 'waveform' ? <WaveformBarsIcon /> : <StopSquareIcon />}
+      {iconState === "waveform" ? <WaveformBarsIcon /> : <StopSquareIcon />}
     </div>
   );
 };
@@ -94,15 +94,15 @@ const WaveformBarsIcon: React.FC = () => (
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <rect x="8" y="20" width="6" height="20" rx="3" fill="#000000" />
-    <rect x="18" y="12" width="6" height="36" rx="3" fill="#000000" />
-    <rect x="28" y="8" width="6" height="44" rx="3" fill="#000000" />
-    <rect x="38" y="16" width="6" height="28" rx="3" fill="#000000" />
-    <rect x="48" y="22" width="6" height="16" rx="3" fill="#000000" />
+    <rect x="8" y="20" width="6" height="20" rx="3" fill="#0b0e14" />
+    <rect x="18" y="12" width="6" height="36" rx="3" fill="#0b0e14" />
+    <rect x="28" y="8" width="6" height="44" rx="3" fill="#0b0e14" />
+    <rect x="38" y="16" width="6" height="28" rx="3" fill="#0b0e14" />
+    <rect x="48" y="22" width="6" height="16" rx="3" fill="#0b0e14" />
   </svg>
 );
 
-// Red stop square icon
+// Cream stop square icon
 const StopSquareIcon: React.FC = () => (
   <svg
     width="60"
@@ -112,6 +112,6 @@ const StopSquareIcon: React.FC = () => (
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <rect x="15" y="15" width="30" height="30" rx="4" fill="#EF4444" />
+    <rect x="15" y="15" width="30" height="30" rx="4" fill="#e8e2d6" />
   </svg>
 );
