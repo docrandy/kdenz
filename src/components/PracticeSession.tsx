@@ -9,11 +9,13 @@ import {
 import MicPermissionError from "./MicPermissionError";
 import AudioQualityWarning from "./AudioQualityWarning";
 import { SessionOrb } from "./SessionOrb";
-import { BottomControlBar } from "./BottomControlBar";
-import { WaveformVisualizer } from "./WaveformVisualizer";
 import SilenceNudge from "./SilenceNudge";
 import SessionProgressBar from "./SessionProgressBar";
 import LoadingSpinner from "./LoadingSpinner";
+import CountdownOverlay from "./CountdownOverlay";
+// Unused imports (for future recording screen redesign in Phase 15)
+// import BottomControlBar from "./BottomControlBar";
+// import WaveformVisualizer from "./WaveformVisualizer";
 import { saveBaseline } from "../services/baselineStorage";
 import { reconcileFillers } from "../lib/fillerReconciler";
 
@@ -133,7 +135,10 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   // Audio level for orb reactivity (0-1 normalized)
   const [audioLevel, setAudioLevel] = useState(0);
 
-  // Pause/resume state
+  // Countdown state
+  const [showCountdown, setShowCountdown] = useState(true);
+
+  // Pause/resume state (kept for backwards compatibility, but pause UI removed)
   const [isPaused, setIsPaused] = useState(false);
 
   // Silence tracking — dual signal: audio level + speech recognition activity
@@ -147,9 +152,6 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const SILENCE_AUDIO_THRESHOLD = 0.02; // audioLevel below this = no voice signal
   const SPEECH_IDLE_CHECK_MS = 2000; // if wordCount hasn't changed in 2s, speech recognition is idle
   const SILENCE_NUDGE_MS = 10000; // 10 seconds of combined silence before nudge
-
-  // Loading state for start button
-  const [isStarting, setIsStarting] = useState(false);
 
   // Loading state for session end processing
   const [isProcessing, setIsProcessing] = useState(false);
@@ -337,33 +339,22 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       : undefined;
 
   const handleStart = useCallback(async () => {
-    setIsStarting(true);
     setWpm(0);
     resetTimer();
     nudgeShownRef.current = false; // Reset nudge for new session
     setBaselinePromptIndex(0); // Reset baseline prompts
-    try {
-      await startAudio();
-      startSpeech();
-      startTimer();
-      setIsPaused(false);
-      // Filler detection starts via useEffect when audioContext/sourceNode are ready
-    } finally {
-      setIsStarting(false);
-    }
-  }, [resetTimer, startAudio, startSpeech, startTimer]);
-
-  const handlePause = useCallback(() => {
-    setIsPaused(true);
-    stopSpeech();
-    stopTimer();
-  }, [stopSpeech, stopTimer]);
-
-  const handleContinue = useCallback(() => {
-    setIsPaused(false);
+    await startAudio();
     startSpeech();
     startTimer();
-  }, [startSpeech, startTimer]);
+    setIsPaused(false);
+    // Filler detection starts via useEffect when audioContext/sourceNode are ready
+  }, [resetTimer, startAudio, startSpeech, startTimer]);
+
+  // Countdown complete handler - auto-start recording
+  const handleCountdownComplete = useCallback(() => {
+    setShowCountdown(false);
+    handleStart();
+  }, [handleStart]);
 
   const handleStop = useCallback(async () => {
     // Show processing state
@@ -496,8 +487,13 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const error = audioError || speechError;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 sm:px-6 pb-safe transition-all duration-200">
-      {/* Countdown bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Countdown overlay (shows before recording starts) */}
+      {showCountdown && !isCapturing && (
+        <CountdownOverlay onComplete={handleCountdownComplete} />
+      )}
+
+      {/* Progress bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
       <SessionProgressBar
         remaining={countdownRemaining}
         visible={isCapturing && !isPaused && durationSeconds > 0}
@@ -517,144 +513,97 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
       {/* Error display */}
       {error && (
-        <div className="mb-6 max-w-md w-full">
+        <div className="mb-6 max-w-md w-full mx-auto px-4">
           <MicPermissionError error={error} onRetry={handleStart} />
         </div>
       )}
 
-      {/* Back button in pre-recording state */}
-      {!isCapturing && (
-        <button
-          onClick={() => navigate("/")}
-          className="absolute top-4 left-4 text-text-subtle hover:text-text-muted flex items-center gap-1.5 transition-colors"
-        >
-          ← Back
-        </button>
-      )}
-
-      {/* Session content - centered vertically */}
-      <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-md">
-        {/* PRE-SESSION: Show orb in idle state */}
-        {!isCapturing && (
-          <div className="flex flex-col items-center gap-4">
-            {techniqueName && (
-              <p className="text-body-sm font-medium text-text-muted">
-                {techniqueName}
-              </p>
-            )}
-            <SessionOrb
-              audioLevel={0}
-              isRecording={false}
-              onClick={handleStart}
-              isLoading={isStarting}
-              disabled={isStarting}
-            />
-            <p className="text-body-sm sm:text-body text-text-subtle">
-              Tap to start
-            </p>
-          </div>
-        )}
-
-        {/* DURING SESSION */}
-        {isCapturing && (
-          <>
+      {/* RECORDING SCREEN LAYOUT */}
+      {isCapturing && (
+        <div className="flex flex-col h-screen">
+          {/* Top section: Practice prompt (dimmed, persistent) */}
+          <div className="px-4 pt-4 pb-2">
             {/* Audio quality warnings */}
             {!isPaused && qualityWarnings.length > 0 && (
               <AudioQualityWarning
                 warnings={qualityWarnings}
-                className="mb-4"
+                className="mb-2"
               />
             )}
 
-            <SessionOrb
-              audioLevel={audioLevel}
-              isRecording={!isPaused}
-              onClick={() => {}}
-              disabled={true}
-            />
-
-            {/* Technique practice prompt (when practicing a specific technique) */}
+            {/* Practice prompt - dimmed at top, glanceable */}
             {practicePrompt && (
-              <div className="w-full max-w-sm max-h-32 overflow-y-auto px-3 sm:px-4 py-3 bg-background-surface rounded-lg">
-                {techniqueName && (
-                  <p className="text-caption font-bold text-text-subtle uppercase tracking-wider mb-1">
-                    {techniqueName}
-                  </p>
-                )}
-                <p className="text-body-sm sm:text-body text-text leading-relaxed">
+              <div className="max-w-lg mx-auto px-3 py-2 rounded-lg">
+                <p className="text-body-sm text-text-subtle text-center line-clamp-2">
                   {practicePrompt}
                 </p>
               </div>
-            )}
-
-            {/* Focus-specific feedback */}
-            {focusMode === "filler" && (
-              <div className="text-center">
-                <span className="text-h2 sm:text-5xl font-bold text-text">
-                  {liveFillerCount}
-                </span>
-                <p className="text-caption sm:text-body-sm text-text-subtle mt-1">
-                  fillers detected
-                </p>
-              </div>
-            )}
-
-            {focusMode === "pace" && (
-              <>
-                <WaveformVisualizer
-                  analyserNode={analyserRef.current}
-                  isActive={isCapturing && !isPaused}
-                  height={100}
-                />
-                <div className="text-center mt-2">
-                  <span className="text-h5 sm:text-h4 font-semibold text-text">
-                    {wpm} WPM
-                  </span>
-                  <p className="text-caption sm:text-body-sm text-text-subtle mt-1">
-                    Speaking Pace
-                  </p>
-                </div>
-              </>
             )}
 
             {/* Baseline speaking prompt */}
             {isBaseline && baselinePromptIndex < BASELINE_PROMPTS.length && (
               <div
                 key={baselinePromptIndex}
-                className="text-center max-w-sm animate-fade-in px-2"
+                className="max-w-lg mx-auto animate-fade-in"
               >
-                <div className="px-3 sm:px-4 py-3 bg-background-surface rounded-lg">
-                  <p className="text-body-sm sm:text-body text-text leading-relaxed">
+                <div className="px-3 py-2 rounded-lg">
+                  <p className="text-body-sm text-text-subtle text-center line-clamp-2">
                     {BASELINE_PROMPTS[baselinePromptIndex]}
                   </p>
                 </div>
                 {baselinePromptIndex < BASELINE_PROMPTS.length - 1 && (
                   <button
                     onClick={() => setBaselinePromptIndex((prev) => prev + 1)}
-                    className="mt-2 text-caption text-text-subtle hover:text-text-muted transition-colors"
+                    className="mt-1 text-caption text-text-subtle hover:text-text-muted transition-colors block mx-auto"
                   >
                     Next topic &rarr;
                   </button>
                 )}
               </div>
             )}
+          </div>
 
-            {/* Silence nudge */}
+          {/* Center section: SessionOrb dominates */}
+          <div className="flex-1 flex items-center justify-center">
+            <SessionOrb
+              audioLevel={audioLevel}
+              isRecording={!isPaused}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
+
+          {/* Silence nudge overlay */}
+          <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 pointer-events-none">
             <SilenceNudge
               triggered={showSilenceNudge}
               onDismissed={handleNudgeDismissed}
             />
+          </div>
 
-            {/* Bottom control bar */}
-            <BottomControlBar
-              sessionState={isPaused ? "paused" : "recording"}
-              onPause={handlePause}
-              onStop={handleStop}
-              onContinue={handleContinue}
-            />
-          </>
-        )}
-      </div>
+          {/* Bottom section: Real-time metrics strip + Stop button */}
+          <div className="border-t border-background-elevated">
+            {/* Metrics strip - thin, minimal */}
+            <div className="flex justify-between items-center px-6 py-2 max-w-md mx-auto">
+              <div className="text-body-sm text-text-muted">
+                {liveFillerCount} fillers
+              </div>
+              <div className="text-body-sm text-text-muted">{wpm} WPM</div>
+            </div>
+
+            {/* Stop button */}
+            <div className="flex justify-center pb-6 pt-2">
+              <button
+                onClick={handleStop}
+                className="px-6 py-3 text-body-sm text-text-subtle hover:text-text transition-colors"
+                aria-label="End session"
+              >
+                End Session
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -12,64 +12,25 @@ interface BottomControlBarProps {
 }
 
 export const BottomControlBar: React.FC<BottomControlBarProps> = ({
-  sessionState,
-  onPause,
   onStop,
-  onContinue,
 }) => {
+  // Stop-only controls (no pause button) per Phase 15 design
+  // onPause, onContinue, and sessionState props removed - stop-only flow
   return (
     <div className="w-full border-t border-background-elevated pt-6 pb-2">
-      {sessionState === "recording" && (
-        <div className="flex justify-center">
-          <button
-            onClick={onPause}
-            className="flex items-center gap-2 px-8 py-3 bg-background-elevated hover:bg-background-subtle text-text rounded-full transition-all duration-300 min-h-[44px]"
-            aria-label="Pause recording"
-          >
-            <PauseIcon />
-            <span className="font-medium">Pause</span>
-          </button>
-        </div>
-      )}
-
-      {sessionState === "paused" && (
-        <div className="flex justify-center gap-4 transition-all duration-300">
-          <button
-            onClick={onStop}
-            className="flex items-center gap-2 px-6 py-3 bg-status-error hover:bg-status-error/80 text-text-inverse rounded-full transition-all duration-300 min-h-[44px]"
-            aria-label="End session"
-          >
-            <StopIcon />
-            <span className="font-medium">End Session</span>
-          </button>
-          <button
-            onClick={onContinue}
-            className="flex items-center gap-2 px-6 py-3 bg-status-success hover:bg-status-success/80 text-text-inverse rounded-full transition-all duration-300 min-h-[44px]"
-            aria-label="Continue recording"
-          >
-            <PlayIcon />
-            <span className="font-medium">Continue</span>
-          </button>
-        </div>
-      )}
+      <div className="flex justify-center">
+        <button
+          onClick={onStop}
+          className="flex items-center gap-2 px-6 py-3 text-text-subtle hover:text-text transition-colors min-h-[44px]"
+          aria-label="End session"
+        >
+          <StopIcon />
+          <span className="font-medium">End Session</span>
+        </button>
+      </div>
     </div>
   );
 };
-
-// Pause icon (two vertical bars)
-const PauseIcon: React.FC = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <rect x="4" y="2" width="3" height="12" rx="1" fill="currentColor" />
-    <rect x="9" y="2" width="3" height="12" rx="1" fill="currentColor" />
-  </svg>
-);
 
 // Stop icon (square)
 const StopIcon: React.FC = () => (
@@ -82,19 +43,5 @@ const StopIcon: React.FC = () => (
     aria-hidden="true"
   >
     <rect x="3" y="3" width="10" height="10" rx="2" fill="currentColor" />
-  </svg>
-);
-
-// Play icon (triangle)
-const PlayIcon: React.FC = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <path d="M4 2L13 8L4 14V2Z" fill="currentColor" />
   </svg>
 );
