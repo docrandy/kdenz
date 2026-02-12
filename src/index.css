@@ -3,8 +3,69 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* ===== COLOR PRIMITIVES (Layer 1) ===== */
+
+    /* Navy Scale (background spectrum) */
+    --color-navy-950: #0b0e14;
+    --color-navy-900: #131720;
+    --color-navy-800: #1a1f2e;
+    --color-navy-700: #222838;
+
+    /* Gold Scale (accent spectrum) */
+    --color-gold-500: #c9a84c;
+    --color-gold-400: #d4b35a;
+
+    /* Neutrals */
+    --color-cream-100: #e8e2d6;
+    --color-muted-brown: #5e5a52;
+    --color-muted-tan: #9a9484;
+
+    /* Status */
+    --color-status-success: #6b9e78;
+    --color-status-info: #5e8fa8;
+    --color-status-warning: #b87171;
+    --color-status-error: #dc2626;
+
+    /* Utility */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-gray-400: #9ca3af;
+    --color-gray-200: #e5e7eb;
+
+    /* ===== TYPOGRAPHY PRIMITIVES ===== */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Outfit', 'Inter', system-ui, sans-serif;
+
+    /* ===== ELEVATION PRIMITIVES ===== */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Base body styles */
   body {
-    @apply bg-white text-black antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    @apply bg-background text-text antialiased;
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+
+  /* Heading font family default */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-cream-100);
+    line-height: 1.2;
+  }
+
+  /* Selection styling for dark theme */
+  ::selection {
+    background: rgba(201, 168, 76, 0.3);
+    color: var(--color-cream-100);
+  }
+
+  /* Focus ring for accessibility (gold accent) */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
   }
 }
