@@ -496,7 +496,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const error = audioError || speechError;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe transition-all duration-200">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 sm:px-6 pb-safe transition-all duration-200">
       {/* Countdown bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
       <SessionProgressBar
         remaining={countdownRemaining}
@@ -505,10 +505,12 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
       {/* Processing overlay */}
       {isProcessing && (
-        <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-background bg-opacity-90 flex items-center justify-center z-50">
           <div className="flex flex-col items-center gap-3">
             <LoadingSpinner size="lg" />
-            <p className="text-sm text-gray-600">Processing your session...</p>
+            <p className="text-sm text-text-muted">
+              Processing your session...
+            </p>
           </div>
         </div>
       )}
@@ -526,7 +528,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         {!isCapturing && (
           <div className="flex flex-col items-center gap-4">
             {techniqueName && (
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-sm font-medium text-text-muted">
                 {techniqueName}
               </p>
             )}
@@ -537,7 +539,9 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
               isLoading={isStarting}
               disabled={isStarting}
             />
-            <p className="text-sm sm:text-base text-gray-500">Tap to start</p>
+            <p className="text-sm sm:text-base text-text-subtle">
+              Tap to start
+            </p>
           </div>
         )}
 
@@ -561,13 +565,13 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
             {/* Technique practice prompt (when practicing a specific technique) */}
             {practicePrompt && (
-              <div className="w-full max-w-sm max-h-32 overflow-y-auto px-3 sm:px-4 py-3 bg-gray-50 rounded-lg">
+              <div className="w-full max-w-sm max-h-32 overflow-y-auto px-3 sm:px-4 py-3 bg-background-surface rounded-lg">
                 {techniqueName && (
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                  <p className="text-xs font-bold text-text-subtle uppercase tracking-wider mb-1">
                     {techniqueName}
                   </p>
                 )}
-                <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
+                <p className="text-sm sm:text-base text-text leading-relaxed">
                   {practicePrompt}
                 </p>
               </div>
@@ -576,10 +580,10 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
             {/* Focus-specific feedback */}
             {focusMode === "filler" && (
               <div className="text-center">
-                <span className="text-4xl sm:text-5xl font-bold text-gray-900">
+                <span className="text-4xl sm:text-5xl font-bold text-text">
                   {liveFillerCount}
                 </span>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                <p className="text-xs sm:text-sm text-text-subtle mt-1">
                   fillers detected
                 </p>
               </div>
@@ -593,10 +597,10 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
                   height={100}
                 />
                 <div className="text-center mt-2">
-                  <span className="text-xl sm:text-2xl font-semibold text-gray-900">
+                  <span className="text-xl sm:text-2xl font-semibold text-text">
                     {wpm} WPM
                   </span>
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                  <p className="text-xs sm:text-sm text-text-subtle mt-1">
                     Speaking Pace
                   </p>
                 </div>
@@ -609,15 +613,15 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
                 key={baselinePromptIndex}
                 className="text-center max-w-sm animate-fade-in px-2"
               >
-                <div className="px-3 sm:px-4 py-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
+                <div className="px-3 sm:px-4 py-3 bg-background-surface rounded-lg">
+                  <p className="text-sm sm:text-base text-text leading-relaxed">
                     {BASELINE_PROMPTS[baselinePromptIndex]}
                   </p>
                 </div>
                 {baselinePromptIndex < BASELINE_PROMPTS.length - 1 && (
                   <button
                     onClick={() => setBaselinePromptIndex((prev) => prev + 1)}
-                    className="mt-2 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                    className="mt-2 text-xs text-text-subtle hover:text-text-muted transition-colors"
                   >
                     Next topic &rarr;
                   </button>

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 interface BottomControlBarProps {
   /** Current session state */
-  sessionState: 'recording' | 'paused';
+  sessionState: "recording" | "paused";
   /** Called when user presses Pause */
   onPause: () => void;
   /** Called when user presses Stop (end session) */
@@ -18,12 +18,12 @@ export const BottomControlBar: React.FC<BottomControlBarProps> = ({
   onContinue,
 }) => {
   return (
-    <div className="w-full border-t border-gray-200 pt-6 pb-2">
-      {sessionState === 'recording' && (
+    <div className="w-full border-t border-background-elevated pt-6 pb-2">
+      {sessionState === "recording" && (
         <div className="flex justify-center">
           <button
             onClick={onPause}
-            className="flex items-center gap-2 px-8 py-3 bg-gray-700 hover:bg-gray-800 text-white rounded-full transition-all duration-300 min-h-[44px]"
+            className="flex items-center gap-2 px-8 py-3 bg-background-elevated hover:bg-background-subtle text-text rounded-full transition-all duration-300 min-h-[44px]"
             aria-label="Pause recording"
           >
             <PauseIcon />
@@ -32,11 +32,11 @@ export const BottomControlBar: React.FC<BottomControlBarProps> = ({
         </div>
       )}
 
-      {sessionState === 'paused' && (
+      {sessionState === "paused" && (
         <div className="flex justify-center gap-4 transition-all duration-300">
           <button
             onClick={onStop}
-            className="flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all duration-300 min-h-[44px]"
+            className="flex items-center gap-2 px-6 py-3 bg-status-error hover:bg-status-error/80 text-text-inverse rounded-full transition-all duration-300 min-h-[44px]"
             aria-label="End session"
           >
             <StopIcon />
@@ -44,7 +44,7 @@ export const BottomControlBar: React.FC<BottomControlBarProps> = ({
           </button>
           <button
             onClick={onContinue}
-            className="flex items-center gap-2 px-6 py-3 bg-[#00C851] hover:bg-[#00A843] text-black rounded-full transition-all duration-300 min-h-[44px]"
+            className="flex items-center gap-2 px-6 py-3 bg-status-success hover:bg-status-success/80 text-text-inverse rounded-full transition-all duration-300 min-h-[44px]"
             aria-label="Continue recording"
           >
             <PlayIcon />

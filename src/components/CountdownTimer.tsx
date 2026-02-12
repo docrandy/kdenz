@@ -10,7 +10,7 @@ function formatTime(seconds: number): string {
   if (rounded >= 60) {
     const mins = Math.floor(rounded / 60);
     const secs = rounded % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   }
   return rounded.toString();
 }
@@ -27,16 +27,16 @@ export default function CountdownTimer({
   const isWarning = rounded <= warningThreshold && rounded > criticalThreshold;
   const isCritical = rounded <= criticalThreshold;
 
-  let colorClass = 'text-clinical-text';
+  let colorClass = "text-text";
   if (isCritical) {
-    colorClass = 'text-red-500 animate-pulse';
+    colorClass = "text-status-error animate-pulse";
   } else if (isWarning) {
-    colorClass = 'text-yellow-500';
+    colorClass = "text-status-warning";
   }
 
   return (
     <div className="flex flex-col items-center mb-6">
-      <span className="text-xs text-clinical-muted mb-1 uppercase tracking-wide">
+      <span className="text-xs text-text-muted mb-1 uppercase tracking-wide">
         Time Remaining
       </span>
       <span className={`text-5xl font-mono font-bold ${colorClass}`}>

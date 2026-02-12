@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 interface SilenceNudgeProps {
   /** Whether the silence threshold has been reached */
@@ -14,9 +14,14 @@ const COACH_MESSAGES = [
   "No rush — speak when you're comfortable",
 ];
 
-export default function SilenceNudge({ triggered, onDismissed }: SilenceNudgeProps) {
+export default function SilenceNudge({
+  triggered,
+  onDismissed,
+}: SilenceNudgeProps) {
   const [visible, setVisible] = useState(false);
-  const [message] = useState(() => COACH_MESSAGES[Math.floor(Math.random() * COACH_MESSAGES.length)]);
+  const [message] = useState(
+    () => COACH_MESSAGES[Math.floor(Math.random() * COACH_MESSAGES.length)],
+  );
   const dismissTimerRef = useRef<number | null>(null);
   const hasShownRef = useRef(false);
 
@@ -60,12 +65,12 @@ export default function SilenceNudge({ triggered, onDismissed }: SilenceNudgePro
     <div
       className={`
         transition-opacity duration-300
-        ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+        ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}
       `}
     >
       <div className="flex items-center justify-center py-4">
-        <div className="bg-cyan-50 border border-clinical-accent rounded-lg px-6 py-3">
-          <p className="text-sm text-clinical-accent font-medium text-center">
+        <div className="bg-background-surface border border-background-elevated rounded-lg px-6 py-3">
+          <p className="text-sm text-text-muted font-medium text-center">
             {message}
           </p>
         </div>
