@@ -13,6 +13,7 @@ import {
 } from "../services/sessionStorage";
 import { ContributionHeatmap } from "../components/ContributionHeatmap";
 import { hasBaseline } from "../services/baselineStorage";
+import { CardCarousel } from "../components/CardCarousel";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 space-y-6">
+      <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-8 space-y-10">
         {/* Profile Preview Card */}
         <section
           onClick={() => navigate("/profile")}
@@ -88,11 +89,12 @@ export default function Dashboard() {
 
         {/* Practice Modules */}
         <section>
-          <h2 className="text-h5 font-semibold text-text-heading mb-3">
+          <h2 className="text-h5 font-semibold text-text-heading mb-4">
             Practice
           </h2>
-          <div className="grid gap-3">
-            {/* Filler Words Practice */}
+
+          {/* Desktop: grid layout */}
+          <div className="hidden md:grid md:grid-cols-3 gap-4">
             <PracticeCard
               icon="🎤"
               title="Filler Words"
@@ -100,8 +102,6 @@ export default function Dashboard() {
               onClick={() => handlePracticeClick("filler")}
               accent="cyan"
             />
-
-            {/* Speech Pace Practice */}
             <PracticeCard
               icon="📊"
               title="Speech Pace"
@@ -109,8 +109,6 @@ export default function Dashboard() {
               onClick={() => handlePracticeClick("pace")}
               accent="cyan"
             />
-
-            {/* Scenario Library - 51 techniques across 5 frameworks */}
             <PracticeCard
               icon="🎯"
               title="Technique Library"
@@ -119,11 +117,38 @@ export default function Dashboard() {
               accent="cyan"
             />
           </div>
+
+          {/* Mobile: carousel */}
+          <div className="md:hidden">
+            <CardCarousel>
+              <PracticeCard
+                icon="🎤"
+                title="Filler Words"
+                description="Practice reducing ums, uhs, and likes with real-time feedback"
+                onClick={() => handlePracticeClick("filler")}
+                accent="cyan"
+              />
+              <PracticeCard
+                icon="📊"
+                title="Speech Pace"
+                description="Practice speaking at the right pace with visual feedback"
+                onClick={() => handlePracticeClick("pace")}
+                accent="cyan"
+              />
+              <PracticeCard
+                icon="🎯"
+                title="Technique Library"
+                description="51 negotiation techniques from 5 frameworks — browse, learn, practice"
+                onClick={() => navigate("/library")}
+                accent="cyan"
+              />
+            </CardCarousel>
+          </div>
         </section>
 
         {/* Recent Sessions */}
         <section>
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="text-h5 font-semibold text-text-heading">
               Recent Sessions
             </h2>
@@ -146,7 +171,7 @@ export default function Dashboard() {
               </p>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
               {(showAllSessions ? allSessions : recentSessions).map(
                 (session) => (
                   <SessionCard
@@ -202,7 +227,7 @@ export default function Dashboard() {
             <h2 className="text-lg font-semibold text-text mb-4">
               Your Progress
             </h2>
-            <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
+            <div className="grid grid-cols-3 gap-6 text-center">
               <div>
                 <p className="text-h3 font-bold text-accent">
                   {allSessions.length}
