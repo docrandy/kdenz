@@ -17,6 +17,27 @@ The core value is the "holy shit moment": users see their actual filler count an
 **Codebase:** 15,049 lines TypeScript/TSX
 **Tech Stack:** React 19, Vite, Tailwind CSS, Web Speech API, Gemini API
 
+## Current Milestone: v2.0 - Dark Premium Transformation
+
+**Goal:** Complete visual and UX redesign to match dark premium prototype (kdenz-session-flow-prototype.html), transforming from light clinical to dark luxury aesthetic with 51-technique practice library as primary feature.
+
+**Target Vision:** $49/mo SaaS positioning with professional negotiation and difficult conversation practice as core offering. Leverages wave 1+2 technique library (51 techniques) and VCM diagnostics (already built, in background).
+
+**Scope:** 7 waves of design and UX work
+- Wave 1: Design System Foundation (tokens, Tailwind, CSS variables)
+- Wave 2: Systematic Color Migration (~51 files)
+- Wave 3: SessionOrb Redesign (gold radial gradient + animated rings)
+- Wave 4: Typography + Layout (Cormorant Garamond + Outfit, mobile-first 420px)
+- Wave 5: New Screens Phase 1 (Welcome, Pre-Session, Recording)
+- Wave 6: New Screens Phase 2 (Analysis Loader, Voice Profile, Practice Bridge, Breathing, Before/After)
+- Wave 7: Dashboard (DEFERRED — requires UX specialist collaboration)
+
+**Design Direction:**
+- Primary palette: dark navy (#0b0e14) + gold accent (#c9a84c)
+- Typography: Cormorant Garamond (headings) + Outfit (body)
+- Inspiration: premium SaaS aesthetic (Notion, Linear, Superhuman)
+- Reference: kdenz-session-flow-prototype.html (277KB, 10-screen flow)
+
 ## Requirements
 
 ### Validated
@@ -46,15 +67,15 @@ The core value is the "holy shit moment": users see their actual filler count an
 
 ### Out of Scope
 
-- Session history — v1.1 (adds complexity, not core to awareness moment)
-- User accounts/auth — not needed for private beta
-- Streak counter/badges — v1.1 gamification layer
-- Skill detection (mirroring, labeling) — v1.2 (not core to filler awareness)
-- Real-time AI coaching during session — v2 (latency + cost concerns)
-- Full psychological profiling — v1.3 NegotiateAI integration
-- Safari/Firefox support — Safari Web Speech API has 90% accuracy drop
-- Dark mode — single theme for beta simplicity
-- PDF/export features — not needed for awareness validation
+- Session history with replay — deferred (session viewing exists via VCM analysis)
+- User accounts/auth — localStorage only for MVP
+- Streak counter/badges — gamification layer deferred
+- Real-time AI coaching during session — post-session only, no latency risk
+- Full psychological profiling — VCM diagnostic in background (Wave 2) but not surfaced
+- Safari/Firefox support — Chrome-only (Web Speech API reliability)
+- Dashboard redesign — Wave 7 deferred, requires UX specialist
+- PDF/export features — not in current scope
+- Mobile app (native iOS/Android) — web-first, mobile-responsive only
 
 ## Context
 
@@ -100,6 +121,8 @@ The core value is the "holy shit moment": users see their actual filler count an
 | Self-assessment before metrics | Research d=0.4 effect size | ✓ Good — improves metacognition |
 | Implementation intentions | Research d=0.5 effect size | ✓ Good — when/then format |
 | 1min/2min/3min/Unlimited | 30s dropped (unreliable metrics) | ✓ Good — research-backed |
+| Dark premium redesign | Prototype testing revealed need for luxury aesthetic + 51-technique library | — Pending — starting v2.0 |
+| Technique library focus | Shift from "awareness" MVP to "practice" platform with VCM diagnostics | — Pending — Wave 1-6 in progress |
 
 ---
-*Last updated: 2026-02-05 after v1.0 milestone*
+*Last updated: 2026-02-12 after starting v2.0 milestone planning*
