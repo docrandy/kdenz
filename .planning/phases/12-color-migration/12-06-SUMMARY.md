@@ -29,28 +29,35 @@ key-files:
     - src/features/accusation-audit/AuditPatternSummary.tsx
     - src/features/accusation-audit/AuditScenarioPresenter.tsx
     - src/features/labeling/LabelFeedback.tsx
+    - src/features/labeling/PatternSummary.tsx
+    - src/features/labeling/LabelingPractice.tsx
+    - src/features/labeling/ScenarioPresenter.tsx
+    - src/features/profile/ProfilePage.tsx
+    - src/features/profile/components/DecisionTreeSelect.tsx
+    - src/features/profile/components/MultiSelectDecisionTree.tsx
+    - src/features/profile/components/ToggleInput.tsx
 
 decisions:
   - title: Systematic palette replacement approach
     rationale: Established repeatable pattern for migrating feature modules from clinical light to dark premium
-    impact: Remaining 7 files follow identical pattern
+    impact: All 13 files follow identical systematic pattern
 
   - title: Component class adoption
-    rationale: Migrated buttons to btn-primary/btn-secondary for consistency
+    rationale: Migrated buttons to btn-primary/btn-secondary/btn-ghost and inputs to input class for consistency
     impact: All feature modules now use design system component classes
 
 metrics:
-  duration: ~90 minutes
+  duration: ~120 minutes
   completed: 2026-02-12
 ---
 
 # Phase 12 Plan 06: Feature Module Color Migration Summary
 
-**One-liner:** Migrated accusation-audit and partial labeling modules from clinical light palette to dark premium semantic tokens with systematic pattern establishment
+**One-liner:** Migrated all feature modules (accusation-audit, labeling, profile) from clinical light palette to dark premium semantic tokens with systematic pattern
 
 ## What Was Delivered
 
-### Completed Files (6/13)
+### Completed Files (13/13) ✅ COMPLETE
 
 **Accusation-Audit Module (5 files) - COMPLETE ✅**
 1. **AccusationAuditPractice.tsx** (~52 refs migrated)
@@ -89,11 +96,62 @@ metrics:
    - Stakes: `bg-status-warning/10`
    - Task guidance: `bg-accent/10 border-accent/30`
 
-**Labeling Module (1/4 files) - IN PROGRESS 🚧**
+**Labeling Module (4/4 files) - COMPLETE ✅**
 6. **LabelFeedback.tsx** (~32 refs migrated)
    - Same affect config as AuditFeedback
    - Depth indicator: `bg-status-success/10` for underlying driver hit
    - Same button pattern migration
+
+7. **PatternSummary.tsx** (~28 refs migrated)
+   - Stats cards: `bg-background-surface border-background-elevated`
+   - Trend indicators: `text-status-success/accent/warning`
+   - Progress: `bg-accent` fill on `bg-background-elevated` track
+   - Mistakes/repetitive: `bg-status-warning/10 border-status-warning/30`
+   - Vocabulary chips: `bg-background-elevated`
+   - Chart bars: `bg-accent` with hover
+
+8. **LabelingPractice.tsx** (~41 refs migrated)
+   - Page: `bg-background`, header: `bg-background-surface`
+   - Step indicators: active = `bg-accent text-text-inverse`, inactive = `bg-background-elevated`
+   - Recording state: `bg-status-error/10` for mic indicator
+   - Conversation UI: user = `bg-background-elevated`, AI = `bg-accent/10 border-accent`
+   - Buttons: migrated to component classes
+   - Form inputs: `input` class
+
+9. **ScenarioPresenter.tsx** (~9 refs migrated)
+   - Scenario card: `bg-background-elevated border-accent`
+   - Category badge: `bg-background-elevated text-text-muted`
+   - Difficulty badges: badge-success/warning/error classes
+   - Instruction: `bg-accent/10 border-accent/30`
+   - Button: `btn-primary`
+
+**Profile Module (4/4 files) - COMPLETE ✅**
+10. **ProfilePage.tsx** (~19 refs migrated)
+    - Page: `bg-background`, header: `bg-background-surface`
+    - Progress bar: `bg-accent` on `bg-background-elevated`
+    - Profile summary: `bg-accent/10 border-accent/20`
+    - Avatar: gradient `from-accent/60 to-accent`
+    - Form selects: `input` class
+    - Buttons: `btn-primary`, `btn-ghost`
+    - Save success: `bg-status-success`
+
+11. **DecisionTreeSelect.tsx** (~8 refs migrated)
+    - Category buttons: active = `bg-accent text-text-inverse`, inactive = `bg-background-elevated`
+    - Option cards: selected = `border-accent bg-accent/10`, unselected = `border-background-elevated`
+    - Context link: `text-accent`
+    - Input/textarea: `input` class
+
+12. **MultiSelectDecisionTree.tsx** (~10 refs migrated)
+    - Selected chips: `bg-accent/10 text-accent border-accent/30`
+    - Category tabs: active = `bg-accent text-text-inverse`
+    - Options: selected = `border-accent bg-accent/10`
+    - At max: `border-background-elevated bg-background-elevated/50 opacity-50`
+    - Success text: `text-status-success`
+
+13. **ToggleInput.tsx** (~5 refs migrated)
+    - Toggle options: selected = `bg-accent text-text-inverse`, unselected = `bg-background-elevated`
+    - Toggle button: `text-text-subtle hover:text-text-muted`
+    - Textarea: `input` class
 
 ### Migration Pattern Established
 
@@ -155,11 +213,13 @@ metrics:
 
 | Task | Files | Commit | Refs Migrated |
 |------|-------|--------|---------------|
-| 1 | AccusationAuditPractice, CriticismBrainstorm | 18ace20 | ~62 |
-| 2 (partial) | AuditFeedback, AuditPatternSummary, AuditScenarioPresenter | ec2615e | ~67 |
-| 2 (partial) | LabelFeedback | 019fdc1 | ~32 |
+| Initial (partial) | AccusationAuditPractice, CriticismBrainstorm | 18ace20 | ~62 |
+| Initial (partial) | AuditFeedback, AuditPatternSummary, AuditScenarioPresenter | ec2615e | ~67 |
+| Initial (partial) | LabelFeedback | 019fdc1 | ~32 |
+| 1 (complete) | PatternSummary, LabelingPractice, ScenarioPresenter | 2c2a59e | ~78 |
+| 2 (complete) | ProfilePage, DecisionTreeSelect, MultiSelectDecisionTree, ToggleInput | 9b0b8d7 | ~42 |
 
-**Total:** 6 files, 3 commits, ~161 color references migrated
+**Total:** 13 files, 5 commits, ~281 color references migrated
 
 ## Deviations from Plan
 
@@ -171,40 +231,33 @@ metrics:
 **Files affected:** All 6 migrated files
 **Commit:** Included in per-file commits
 
-### Remaining Work
+### Migration Completion
 
-**7 files not yet migrated:**
-- `src/features/labeling/PatternSummary.tsx` (~29 refs)
-- `src/features/labeling/LabelingPractice.tsx` (~44 refs)
-- `src/features/labeling/ScenarioPresenter.tsx` (~10 refs)
-- `src/features/profile/ProfilePage.tsx` (~19 refs)
-- `src/features/profile/components/DecisionTreeSelect.tsx` (~8 refs)
-- `src/features/profile/components/MultiSelectDecisionTree.tsx` (~10 refs)
-- `src/features/profile/components/ToggleInput.tsx` (~5 refs)
+**All 13 files successfully migrated:**
+- ✅ Accusation-Audit module: 5/5 files
+- ✅ Labeling module: 4/4 files
+- ✅ Profile module: 4/4 files
 
-**Total remaining:** ~125 color references across 7 files
-
-**Migration approach for remaining files:**
-All 7 files follow the exact same systematic pattern established above. The labeling files mirror accusation-audit structure (just s/Audit/Label/), and profile components are smaller form elements following the same semantic token mappings.
-
-**Completion path:**
-1. Apply the documented replacement mapping to each file
-2. Verify with `grep` for old palette refs (should find 0)
-3. Test build with `npx tsc --noEmit`
-4. Commit each file individually with proper commit format
+**Total:** ~281 color references migrated across 13 files
 
 ## Verification
 
-**Accusation-Audit Module Verification:**
+**Accusation-Audit Module:**
 ```bash
 $ grep -r "clinical-|bg-white|text-gray|border-gray|bg-cyan|text-cyan" src/features/accusation-audit/
 # Result: 0 matches (fully migrated ✅)
 ```
 
-**Labeling Module Verification (partial):**
+**Labeling Module:**
 ```bash
 $ grep -r "clinical-|bg-white|text-gray|border-gray|bg-cyan|text-cyan" src/features/labeling/
-# Result: 83 matches in 3 files (LabelFeedback complete, 3 remain)
+# Result: 0 matches (fully migrated ✅)
+```
+
+**Profile Module:**
+```bash
+$ grep -r "clinical-|bg-white|text-gray|border-gray|bg-cyan|text-cyan" src/features/profile/
+# Result: 0 matches (fully migrated ✅)
 ```
 
 **Build Verification:**
@@ -217,25 +270,27 @@ $ npx tsc --noEmit
 ## Next Phase Readiness
 
 **Phase 13 (SessionOrb Redesign):**
-- ✅ Ready - Feature modules now use dark premium background that SessionOrb will render against
+- ✅ Ready - All feature modules now use dark premium background that SessionOrb will render against
 - ✅ Component classes established - SessionOrb can use btn-primary for consistency
-- ⚠️ Blocker: Remaining 7 feature files need migration for full visual consistency
+- ✅ Full visual consistency - All technique modules migrated
 
 **Phase 14 (Typography & Layout):**
-- ✅ Ready - Color migration pattern works independently of typography changes
+- ✅ Ready - Color migration complete, typography changes are independent
 - ✅ Systematic approach documented for future module additions
 
 ## Lessons Learned
 
-1. **Pattern establishment > full completion:** Establishing a systematic, repeatable pattern for 6 files provides clear path for remaining 7
+1. **Systematic pattern scales:** Established migration pattern for 6 files scaled cleanly to all 13 files with zero deviations
 
-2. **Component class adoption critical:** Migrating to `btn-primary`/`btn-secondary` wasn't in original plan but essential for design system consistency
+2. **Component class adoption critical:** Migrating to `btn-primary`/`btn-secondary`/`btn-ghost` and `input` classes essential for design system consistency
 
 3. **Status color semantics matter:** Affect levels map cleanly to status colors (success/warning/error), making feedback more intuitive
 
 4. **Labeling mirrors audit:** The two technique modules have identical structure, making future modules predictable
 
-5. **Atomic commits preserve migration clarity:** Per-file commits allow precise rollback if visual issues discovered in testing
+5. **Profile uses same tokens:** Form-heavy profile module uses identical semantic tokens as technique modules - design system is truly universal
+
+6. **Atomic commits preserve migration clarity:** Per-module commits allow precise rollback if visual issues discovered in testing
 
 ## Performance Impact
 
@@ -245,21 +300,22 @@ $ npx tsc --noEmit
 
 ---
 
-## Self-Check: PARTIAL
+## Self-Check: PASSED
 
 ✅ Files created: N/A (migration only)
 ✅ Commits exist:
-- 18ace20: Task 1
-- ec2615e: Task 2 partial
-- 019fdc1: Task 2 partial
+- 18ace20: Initial accusation-audit (partial)
+- ec2615e: Initial accusation-audit (partial)
+- 019fdc1: Initial labeling (partial)
+- 2c2a59e: Task 1 - Labeling module completion
+- 9b0b8d7: Task 2 - Profile module completion
 
-⚠️ Plan completion: 6/13 files migrated (46%)
-- Accusation-audit module: 100% complete
-- Labeling module: 25% complete (1/4)
-- Profile module: 0% complete (0/4)
+✅ Plan completion: 13/13 files migrated (100%)
+- Accusation-audit module: 100% complete (5/5)
+- Labeling module: 100% complete (4/4)
+- Profile module: 100% complete (4/4)
 
-**Reason for partial completion:**
-Established systematic migration pattern and completed heaviest module (accusation-audit: 5 files, ~161 refs). Remaining 7 files follow identical pattern documented above. Migration is mechanical application of established rules.
-
-**To complete:**
-Apply documented replacement mapping to remaining 7 files following the same verification and commit approach used for completed files.
+✅ All verification checks passed:
+- Grep verification: 0 old palette references in all modules
+- TypeScript compilation: No new errors (pre-existing errors unrelated to migration)
+- Commit atomicity: 5 commits, each with clear scope
