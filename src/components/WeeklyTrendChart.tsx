@@ -30,13 +30,13 @@ export default function WeeklyTrendChart({
   return (
     <div className="card-surface">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-text">Weekly Trend</h3>
-        <span className="text-xs text-text-muted">Fillers/min</span>
+        <h3 className="text-body-sm font-semibold text-text">Weekly Trend</h3>
+        <span className="text-caption text-text-muted">Fillers/min</span>
       </div>
 
       {!hasData ? (
         <div className="h-32 flex items-center justify-center">
-          <p className="text-sm text-text-muted">
+          <p className="text-body-sm text-text-muted">
             Complete a session to see trends
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function WeeklyTrendChart({
         {aggregates.map((day) => (
           <span
             key={day.date}
-            className="text-xs text-text-muted w-8 text-center"
+            className="text-caption text-text-muted w-8 text-center"
           >
             {DAY_LABELS[day.dayOfWeek]}
           </span>
@@ -100,7 +100,7 @@ function DayBar({ day, maxValue, isToday }: DayBarProps) {
         )}
       </div>
       {day.sessionCount > 0 && (
-        <span className="text-xs text-text-muted mt-1">
+        <span className="text-caption text-text-muted mt-1">
           {day.avgFillerRate}
         </span>
       )}

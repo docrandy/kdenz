@@ -88,25 +88,25 @@ export default function FillerGauge({
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span
-            className="text-3xl font-bold transition-colors duration-300"
+            className="text-h3 font-bold transition-colors duration-300"
             style={{ color: gaugeColor }}
           >
             {fillerCount}
           </span>
-          <span className="text-xs text-text-subtle">fillers</span>
+          <span className="text-caption text-text-subtle">fillers</span>
         </div>
       </div>
 
       {/* Status label */}
       <div
-        className="mt-2 px-3 py-1 rounded-full text-xs font-medium text-text-inverse transition-colors duration-300"
+        className="mt-2 px-3 py-1 rounded-full text-caption font-medium text-text-inverse transition-colors duration-300"
         style={{ backgroundColor: gaugeColor }}
       >
         {statusLabel}
       </div>
 
       {/* Rate display */}
-      <p className="text-xs text-text-subtle mt-2">
+      <p className="text-caption text-text-subtle mt-2">
         {fillerRate.toFixed(1)}/min
       </p>
     </div>

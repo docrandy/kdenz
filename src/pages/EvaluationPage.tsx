@@ -73,7 +73,7 @@ export default function EvaluationPage() {
           >
             ← Back to Results
           </button>
-          <h1 className="text-lg font-semibold text-text">Session Transcript</h1>
+          <h1 className="text-body-lg font-semibold text-text">Session Transcript</h1>
           <div className="w-24" /> {/* Spacer for centering */}
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function EvaluationPage() {
         </div>
 
         {/* Session stats summary */}
-        <div className="flex justify-center gap-8 text-sm text-text-muted">
+        <div className="flex justify-center gap-8 text-body-sm text-text-muted">
           <span>{sessionData.fillerCount} filler{sessionData.fillerCount !== 1 ? 's' : ''}</span>
           <span>{sessionData.wpm} WPM</span>
           <span>{Math.floor(sessionData.durationSeconds / 60)}m {sessionData.durationSeconds % 60}s</span>

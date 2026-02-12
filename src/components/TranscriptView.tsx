@@ -91,7 +91,7 @@ export default function TranscriptView({
 
   if (!transcript.trim()) {
     return (
-      <div className="p-4 text-center text-text-muted text-sm">
+      <div className="p-4 text-center text-text-muted text-body-sm">
         No transcript available
       </div>
     );
@@ -99,7 +99,7 @@ export default function TranscriptView({
 
   return (
     <div className="max-h-48 overflow-y-auto p-3 bg-background-surface rounded-lg">
-      <p className="text-sm text-text leading-relaxed">
+      <p className="text-body-sm text-text leading-relaxed">
         {words.map((word, index) => {
           const isFiller = fillerIndices.has(index);
           const pace = wordPaces.get(index);
@@ -134,14 +134,14 @@ export default function TranscriptView({
 
       {/* Legend for filler mode */}
       {highlightMode === "fillers" && (
-        <div className="mt-3 pt-2 border-t border-background-elevated text-center text-xs text-text-muted">
+        <div className="mt-3 pt-2 border-t border-background-elevated text-center text-caption text-text-muted">
           Filler words highlighted (hover to see specific word)
         </div>
       )}
 
       {/* Legend for pace mode */}
       {highlightMode === "pace" && (
-        <div className="mt-3 pt-2 border-t border-background-elevated flex justify-center gap-4 text-xs text-text-muted">
+        <div className="mt-3 pt-2 border-t border-background-elevated flex justify-center gap-4 text-caption text-text-muted">
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 bg-status-warning/20 rounded" />
             Fast ({">"}180 WPM)

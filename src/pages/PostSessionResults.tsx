@@ -225,7 +225,7 @@ export default function PostSessionResults() {
     const FillerBreakdown = () => {
       if (!fillerBreakdown || fillerBreakdown.length === 0) return null;
       return (
-        <div className="text-sm text-text-muted">
+        <div className="text-body-sm text-text-muted">
           You used:{" "}
           {fillerBreakdown.map((item, index) => (
             <span key={item.word}>
@@ -259,13 +259,13 @@ export default function PostSessionResults() {
                     </svg>
                   </div>
                 </div>
-                <h1 className="text-3xl font-bold text-text">
+                <h1 className="text-h3 font-bold text-text">
                   Session Complete
                 </h1>
               </div>
 
               <div className="bg-background-surface rounded-lg p-4 sm:p-6 border border-background-elevated">
-                <p className="text-base sm:text-lg text-text-muted text-center leading-relaxed">
+                <p className="text-body sm:text-body-lg text-text-muted text-center leading-relaxed">
                   {generateSummary()}
                 </p>
               </div>
@@ -314,7 +314,7 @@ export default function PostSessionResults() {
               {/* Audio playback */}
               {sessionData.audioData && (
                 <div className="bg-background-surface rounded-lg p-3 sm:p-4 border border-background-elevated">
-                  <p className="text-xs sm:text-sm text-text-muted mb-3">
+                  <p className="text-caption sm:text-body-sm text-text-muted mb-3">
                     Listen to your session
                   </p>
                   <AudioPlayback
@@ -330,7 +330,7 @@ export default function PostSessionResults() {
                 <div className="text-center">
                   <button
                     onClick={() => navigate("/practice/evaluation")}
-                    className="text-accent hover:underline text-sm"
+                    className="text-accent hover:underline text-body-sm"
                   >
                     View full transcript with highlights →
                   </button>
@@ -399,7 +399,7 @@ export default function PostSessionResults() {
               </svg>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-text">All Set!</h1>
+          <h1 className="text-h3 font-bold text-text">All Set!</h1>
           <p className="text-text-muted mt-2">Ready to practice again?</p>
         </div>
 
@@ -407,20 +407,20 @@ export default function PostSessionResults() {
         <div className="bg-background-surface rounded-lg p-4 sm:p-6 border border-background-elevated">
           <div className="flex items-center justify-center gap-6 sm:gap-8">
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-text">
+              <div className="text-h3 sm:text-h2 font-bold text-text">
                 {sessionData.focusMode === "filler"
                   ? sessionData.fillerCount
                   : sessionData.wpm}
               </div>
-              <p className="text-xs sm:text-sm text-text-muted mt-1">
+              <p className="text-caption sm:text-body-sm text-text-muted mt-1">
                 {sessionData.focusMode === "filler" ? "Filler Words" : "WPM"}
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-text">
+              <div className="text-h3 sm:text-h2 font-bold text-text">
                 {formatDuration(sessionData.durationSeconds)}
               </div>
-              <p className="text-xs sm:text-sm text-text-muted mt-1">
+              <p className="text-caption sm:text-body-sm text-text-muted mt-1">
                 Duration
               </p>
             </div>
@@ -446,19 +446,19 @@ export default function PostSessionResults() {
         <div className="grid grid-cols-3 gap-2 sm:gap-4">
           <button
             onClick={handleDashboard}
-            className="px-2 sm:px-4 py-3 bg-background-surface border-2 border-background-elevated rounded-lg text-text font-medium hover:bg-background-elevated active:bg-background-elevated transition-colors text-xs sm:text-base min-h-[48px]"
+            className="px-2 sm:px-4 py-3 bg-background-surface border-2 border-background-elevated rounded-lg text-text font-medium hover:bg-background-elevated active:bg-background-elevated transition-colors text-caption sm:text-body min-h-[48px]"
           >
             Dashboard
           </button>
           <button
             onClick={handleTryAgain}
-            className="btn-primary text-xs sm:text-base min-h-[48px]"
+            className="btn-primary text-caption sm:text-body min-h-[48px]"
           >
             Try Again
           </button>
           <button
             onClick={handleNewSession}
-            className="px-2 sm:px-4 py-3 bg-background-surface border-2 border-background-elevated rounded-lg text-text font-medium hover:bg-background-elevated active:bg-background-elevated transition-colors text-xs sm:text-base min-h-[48px]"
+            className="px-2 sm:px-4 py-3 bg-background-surface border-2 border-background-elevated rounded-lg text-text font-medium hover:bg-background-elevated active:bg-background-elevated transition-colors text-caption sm:text-body min-h-[48px]"
           >
             New Session
           </button>

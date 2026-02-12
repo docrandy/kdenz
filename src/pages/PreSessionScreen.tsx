@@ -42,7 +42,7 @@ export default function PreSessionScreen() {
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-4">
           <button
             onClick={() => navigate("/")}
-            className="text-text-muted hover:text-text active:text-text flex items-center gap-2 text-sm sm:text-base min-h-[44px]"
+            className="text-text-muted hover:text-text active:text-text flex items-center gap-2 text-body-sm sm:text-body min-h-[44px]"
           >
             ← Back to Dashboard
           </button>
@@ -54,10 +54,10 @@ export default function PreSessionScreen() {
         <div className="w-full max-w-md space-y-6 sm:space-y-8">
           {/* Title */}
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold text-text">
+            <h1 className="text-h4 sm:text-h3 font-bold text-text">
               {getModeTitle()}
             </h1>
-            <p className="text-sm sm:text-base text-text-muted mt-2">
+            <p className="text-body-sm sm:text-body text-text-muted mt-2">
               Choose your session length
             </p>
           </div>
@@ -77,7 +77,7 @@ export default function PreSessionScreen() {
           {/* Start button */}
           <button
             onClick={handleStartSession}
-            className="btn-primary w-full text-base sm:text-lg min-h-[56px]"
+            className="btn-primary w-full text-body sm:text-body-lg min-h-[56px]"
           >
             Start Session
           </button>
