@@ -41,13 +41,10 @@ export default function ScenarioDetail() {
   const pairedTechniques = resolveTechniqueIds(technique.pairs_well_with);
 
   const handleStartPractice = () => {
-    // Navigate to technique practice with full context
-    navigate("/practice/technique", {
+    // Navigate to pre-session setup screen with technique context
+    navigate("/practice/technique/setup", {
       state: {
         techniqueId: technique.id,
-        durationSeconds: technique.duration_seconds,
-        practicePrompt: technique.practice_prompt,
-        techniqueName: technique.technique_name,
       },
     });
   };

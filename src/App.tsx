@@ -278,6 +278,10 @@ function App() {
           <Route path="/library" element={<ScenarioLibrary />} />
           <Route path="/technique/:techniqueId" element={<ScenarioDetail />} />
           <Route
+            path="/practice/technique/setup"
+            element={<PreSessionScreen />}
+          />
+          <Route
             path="/practice/technique"
             element={<TechniquePracticeRoute />}
           />
