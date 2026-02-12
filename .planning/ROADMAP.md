@@ -14,6 +14,10 @@
 <summary>v2.0 Dark Premium Transformation (Phases 11-16) — IN PROGRESS</summary>
 
 - [ ] Phase 11: Design System Foundation (Wave 1: Design tokens, Tailwind, CSS variables) — 2-3 days
+  **Plans:** 2 plans
+  Plans:
+  - [ ] 11-01-PLAN.md — Design tokens: Tailwind premium color palette + CSS custom properties
+  - [ ] 11-02-PLAN.md — Typography (Cormorant Garamond + Outfit), component base classes
 - [ ] Phase 12: Color Migration (Wave 2: ~51 files, teal → gold, white → dark navy) — 2-3 days
 - [ ] Phase 13: SessionOrb Redesign (Wave 3: Gold gradient, 3 animated rings, volume-responsive) — 2-3 days
 - [ ] Phase 14: Typography & Layout (Wave 4: Cormorant + Outfit, mobile-first 420px) — 2-3 days
@@ -52,7 +56,7 @@
 
 | Phase | Title | Requirements | Status | Target |
 |-------|-------|--------------|--------|--------|
-| 11 | Design System Foundation | DS-01 to DS-06 | Pending | 2-3 days |
+| 11 | Design System Foundation | DS-01 to DS-06 | Planned (2 plans) | 2-3 days |
 | 12 | Color Migration | CM-01 to CM-06 | Pending | 2-3 days |
 | 13 | SessionOrb Redesign | ORB-01 to ORB-07 | Pending | 2-3 days |
 | 14 | Typography & Layout | TYP-01 to TYP-06, LAY-01 to LAY-03 | Pending | 2-3 days |
@@ -83,4 +87,4 @@
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-12 - v2.0 Dark Premium Transformation roadmap added*
+*Last updated: 2026-02-11 - Phase 11 planned (2 plans in 2 waves)*
