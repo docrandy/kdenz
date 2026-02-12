@@ -44,6 +44,25 @@ export default {
         },
       },
 
+      fontSize: {
+        // Heading scale (Cormorant Garamond)
+        display: ["3rem", { lineHeight: "1.1", letterSpacing: "0.02em" }], // 48px
+        h1: ["2.25rem", { lineHeight: "1.2", letterSpacing: "0.015em" }], // 36px
+        h2: ["1.75rem", { lineHeight: "1.2", letterSpacing: "0.01em" }], // 28px
+        h3: ["1.5rem", { lineHeight: "1.3", letterSpacing: "0.01em" }], // 24px
+        h4: ["1.25rem", { lineHeight: "1.3", letterSpacing: "0.005em" }], // 20px
+        h5: ["1.125rem", { lineHeight: "1.4" }], // 18px
+        // Body scale (Outfit)
+        "body-lg": ["1.125rem", { lineHeight: "1.6" }], // 18px
+        body: ["1rem", { lineHeight: "1.6" }], // 16px
+        "body-sm": ["0.875rem", { lineHeight: "1.5" }], // 14px
+        caption: ["0.75rem", { lineHeight: "1.4" }], // 12px
+        overline: [
+          "0.6875rem",
+          { lineHeight: "1.4", letterSpacing: "0.08em", fontWeight: "600" },
+        ], // 11px
+      },
+
       fontFamily: {
         display: ["var(--font-display)"],
         body: ["var(--font-body)"],
