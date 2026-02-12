@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { getBaseline } from "../services/baselineStorage";
 import { saveSession } from "../services/sessionStorage";
 import { AudioPlayback } from "../components/AudioPlayback";
-import Scorecard from "../components/Scorecard";
+import MetricCard from "../components/MetricCard";
 import WeeklyTrendChart from "../components/WeeklyTrendChart";
 import AISummary from "../components/AISummary";
 import TranscriptConfidenceIndicator from "../components/TranscriptConfidenceIndicator";
+import { CardCarousel } from "../components/CardCarousel";
 import { WordTiming } from "../core/audio/useWebSpeech";
 import { ReconciledFiller } from "../lib/fillerReconciler";
 import SelfAssessment, {
@@ -206,93 +207,147 @@ export default function PostSessionResults() {
 
   // Phase 2: Metrics display
   if (phase === "metrics") {
+    // Calculate confidence intervals (heuristic based on session length)
+    const wpmCI =
+      sessionData.durationSeconds < 60
+        ? 15
+        : sessionData.durationSeconds < 120
+          ? 10
+          : 5;
+    const fillerCI =
+      sessionData.durationSeconds < 60
+        ? 1.5
+        : sessionData.durationSeconds < 120
+          ? 1.0
+          : 0.5;
+
+    // Helper component for filler breakdown detail
+    const FillerBreakdown = () => {
+      if (!fillerBreakdown || fillerBreakdown.length === 0) return null;
+      return (
+        <div className="text-sm text-text-muted">
+          You used:{" "}
+          {fillerBreakdown.map((item, index) => (
+            <span key={item.word}>
+              {index > 0 && ", "}
+              <span className="font-medium">'{item.word}'</span> {item.count}x
+            </span>
+          ))}
+        </div>
+      );
+    };
+
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 sm:px-6 pb-safe transition-opacity duration-300">
-        <div className="max-w-md w-full space-y-6 sm:space-y-8">
-          {/* Header */}
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
-                <svg
-                  className="w-8 h-8 text-text-inverse"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 pb-safe transition-opacity duration-300">
+        <div className="max-w-md w-full">
+          <CardCarousel>
+            {/* Card 1: Session Summary */}
+            <div className="space-y-6 py-8">
+              <div className="text-center">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-text-inverse"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                </div>
+                <h1 className="text-3xl font-bold text-text">
+                  Session Complete
+                </h1>
               </div>
+
+              <div className="bg-background-surface rounded-lg p-4 sm:p-6 border border-background-elevated">
+                <p className="text-base sm:text-lg text-text-muted text-center leading-relaxed">
+                  {generateSummary()}
+                </p>
+              </div>
+
+              {/* Transcript confidence indicator (show if < 0.85) */}
+              {sessionData.averageConfidence !== undefined &&
+                sessionData.averageConfidence < 0.85 && (
+                  <div className="bg-background-surface rounded-lg p-4 border border-background-elevated">
+                    <TranscriptConfidenceIndicator
+                      averageConfidence={sessionData.averageConfidence}
+                      lowSegmentCount={sessionData.lowConfidenceSegments || 0}
+                    />
+                  </div>
+                )}
             </div>
-            <h1 className="text-3xl font-bold text-text">Session Complete</h1>
-          </div>
 
-          {/* Summary paragraph */}
-          <div className="bg-background-surface rounded-lg p-4 sm:p-6 border border-background-elevated">
-            <p className="text-base sm:text-lg text-text-muted text-center leading-relaxed">
-              {generateSummary()}
-            </p>
-          </div>
-
-          {/* Transcript confidence indicator (show if < 0.85) */}
-          {sessionData.averageConfidence !== undefined &&
-            sessionData.averageConfidence < 0.85 && (
-              <div className="bg-background-surface rounded-lg p-4 border border-background-elevated">
-                <TranscriptConfidenceIndicator
-                  averageConfidence={sessionData.averageConfidence}
-                  lowSegmentCount={sessionData.lowConfidenceSegments || 0}
-                />
-              </div>
-            )}
-
-          {/* Scorecard with metrics */}
-          <Scorecard
-            wpm={sessionData.wpm}
-            wordCount={sessionData.wordCount}
-            fillerCount={sessionData.fillerCount}
-            fillerRate={sessionData.fillerRate}
-            durationSeconds={sessionData.durationSeconds}
-            baseline={sessionData.is_baseline ? null : baseline}
-            fillerBreakdown={fillerBreakdown}
-          />
-
-          {/* Audio playback */}
-          {sessionData.audioData && (
-            <div className="bg-background-surface rounded-lg p-3 sm:p-4 border border-background-elevated">
-              <p className="text-xs sm:text-sm text-text-muted mb-3">
-                Listen to your session
-              </p>
-              <AudioPlayback
-                audioData={sessionData.audioData}
-                durationSeconds={sessionData.durationSeconds}
-                fillerEvents={sessionData.fillerEvents}
+            {/* Card 2: Speech Rate */}
+            <div className="space-y-4 py-8">
+              <MetricCard
+                label="Speech Rate"
+                value={sessionData.wpm}
+                unit="WPM"
+                baseline={baseline?.wpm}
+                confidenceInterval={wpmCI}
+                contextNote="Note: Accuracy is highest in quiet environments. Background noise can widen the margin of error."
+                reflectionPrompt="What do you think drove the pace in this section?"
               />
             </div>
-          )}
 
-          {/* Weekly trend chart (non-baseline sessions only) */}
-          {!sessionData.is_baseline && (
-            <div className="mt-6">
-              <WeeklyTrendChart refreshKey={refreshKey} />
+            {/* Card 3: Filler Words */}
+            <div className="space-y-4 py-8">
+              <MetricCard
+                label="Filler Words"
+                value={sessionData.fillerRate}
+                unit="per minute"
+                baseline={baseline?.fillerRate}
+                confidenceInterval={fillerCI}
+                details={<FillerBreakdown />}
+                contextNote="Context note: Fillers are common in conversational speech. In more formal settings, they may be more noticeable."
+                reflectionPrompt="Did you feel more time-pressure or uncertainty in this part?"
+              />
             </div>
-          )}
 
-          {/* View Transcript link */}
-          {sessionData.transcript && sessionData.wordTimings && (
-            <div className="text-center">
-              <button
-                onClick={() => navigate("/practice/evaluation")}
-                className="text-accent hover:underline text-sm"
-              >
-                View full transcript with highlights →
-              </button>
+            {/* Card 4: Listen & Review */}
+            <div className="space-y-4 py-8">
+              {/* Audio playback */}
+              {sessionData.audioData && (
+                <div className="bg-background-surface rounded-lg p-3 sm:p-4 border border-background-elevated">
+                  <p className="text-xs sm:text-sm text-text-muted mb-3">
+                    Listen to your session
+                  </p>
+                  <AudioPlayback
+                    audioData={sessionData.audioData}
+                    durationSeconds={sessionData.durationSeconds}
+                    fillerEvents={sessionData.fillerEvents}
+                  />
+                </div>
+              )}
+
+              {/* View Transcript link */}
+              {sessionData.transcript && sessionData.wordTimings && (
+                <div className="text-center">
+                  <button
+                    onClick={() => navigate("/practice/evaluation")}
+                    className="text-accent hover:underline text-sm"
+                  >
+                    View full transcript with highlights →
+                  </button>
+                </div>
+              )}
+
+              {/* Weekly trend chart (non-baseline sessions only) */}
+              {!sessionData.is_baseline && (
+                <div className="mt-6">
+                  <WeeklyTrendChart refreshKey={refreshKey} />
+                </div>
+              )}
             </div>
-          )}
+          </CardCarousel>
 
-          {/* Continue button - for baseline sessions, go straight to complete */}
-          <div className="flex justify-center">
+          {/* Continue button - always visible below carousel */}
+          <div className="flex justify-center py-6">
             <button
               onClick={() =>
                 sessionData.is_baseline
