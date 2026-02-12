@@ -52,7 +52,7 @@ export default function TranscriptConfidenceIndicator({
     tier === "low" ? "text-status-error" : "text-status-warning";
 
   return (
-    <div className={`flex items-start gap-2 text-sm ${className}`}>
+    <div className={`flex items-start gap-2 text-body-sm ${className}`}>
       {/* Info icon - uses status color */}
       <div className="flex-shrink-0 mt-0.5">
         <svg
@@ -82,7 +82,7 @@ export default function TranscriptConfidenceIndicator({
 
         {/* Show segment count for context (low tier only) */}
         {tier === "low" && lowSegmentCount > 0 && (
-          <p className="text-xs text-text-subtle mt-1">
+          <p className="text-caption text-text-subtle mt-1">
             {lowSegmentCount} segment{lowSegmentCount !== 1 ? "s" : ""} below
             confidence threshold
           </p>

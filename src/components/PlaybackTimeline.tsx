@@ -82,10 +82,10 @@ export default function PlaybackTimeline({
 
       {/* Time display */}
       <div className="flex justify-between mt-1">
-        <span className="text-xs text-text-muted font-mono">
+        <span className="text-caption text-text-muted font-mono">
           {formatTime(currentTime)}
         </span>
-        <span className="text-xs text-text-muted font-mono">
+        <span className="text-caption text-text-muted font-mono">
           {formatTime(duration)}
         </span>
       </div>

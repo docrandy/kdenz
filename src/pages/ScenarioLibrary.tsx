@@ -66,14 +66,14 @@ export default function ScenarioLibrary() {
                   />
                 </svg>
               </button>
-              <h1 className="text-xl font-bold text-text">Practice</h1>
+              <h1 className="text-h5 font-bold text-text">Practice</h1>
             </div>
 
             {/* Sort dropdown */}
             <div className="relative">
               <button
                 onClick={() => setShowSortMenu(!showSortMenu)}
-                className="text-sm text-text-muted hover:text-text flex items-center gap-1 min-h-[44px] px-2"
+                className="text-body-sm text-text-muted hover:text-text flex items-center gap-1 min-h-[44px] px-2"
               >
                 Sort:{" "}
                 {sort === "recommended"
@@ -109,7 +109,7 @@ export default function ScenarioLibrary() {
                           setSort(opt);
                           setShowSortMenu(false);
                         }}
-                        className={`w-full px-4 py-2.5 text-left text-sm hover:bg-background-surface ${sort === opt ? "font-semibold text-accent" : "text-text-muted"}`}
+                        className={`w-full px-4 py-2.5 text-left text-body-sm hover:bg-background-surface ${sort === opt ? "font-semibold text-accent" : "text-text-muted"}`}
                       >
                         {opt === "recommended"
                           ? "Recommended"
@@ -152,7 +152,7 @@ export default function ScenarioLibrary() {
               placeholder="Search techniques..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 bg-background-elevated rounded-xl text-sm text-text placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-background transition-colors"
+              className="w-full pl-9 pr-4 py-2.5 bg-background-elevated rounded-xl text-body-sm text-text placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-background transition-colors"
             />
             {search && (
               <button
@@ -243,7 +243,7 @@ export default function ScenarioLibrary() {
               )}
               <button
                 onClick={clearAllFilters}
-                className="text-xs text-accent hover:text-accent ml-1"
+                className="text-caption text-accent hover:text-accent ml-1"
               >
                 Clear all
               </button>
@@ -254,7 +254,7 @@ export default function ScenarioLibrary() {
 
       {/* Results count */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4 pb-2">
-        <p className="text-sm text-text-muted">
+        <p className="text-body-sm text-text-muted">
           {filteredTechniques.length} technique
           {filteredTechniques.length !== 1 ? "s" : ""}
         </p>
@@ -264,12 +264,12 @@ export default function ScenarioLibrary() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-8">
         {filteredTechniques.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-text-muted text-base">
+            <p className="text-text-muted text-body">
               No techniques match your filters.
             </p>
             <button
               onClick={clearAllFilters}
-              className="mt-3 text-accent hover:text-accent text-sm font-medium"
+              className="mt-3 text-accent hover:text-accent text-body-sm font-medium"
             >
               Clear all filters
             </button>
@@ -304,7 +304,7 @@ function FilterPill({
   return (
     <button
       onClick={onClick}
-      className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors min-h-[32px] ${
+      className={`px-3 py-1.5 rounded-full text-caption font-medium whitespace-nowrap transition-colors min-h-[32px] ${
         active
           ? "btn-primary"
           : "bg-background-elevated text-text-muted hover:bg-background-elevated"
@@ -330,7 +330,7 @@ function CategoryFilterPill({
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1 min-h-[32px] ${
+        className={`px-3 py-1.5 rounded-full text-caption font-medium whitespace-nowrap transition-colors flex items-center gap-1 min-h-[32px] ${
           value !== "all"
             ? "btn-primary"
             : "bg-background-elevated text-text-muted hover:bg-background-elevated"
@@ -356,7 +356,7 @@ function CategoryFilterPill({
                 onChange("all");
                 setOpen(false);
               }}
-              className={`w-full px-4 py-2 text-left text-sm hover:bg-background-surface ${value === "all" ? "font-semibold text-accent" : "text-text-muted"}`}
+              className={`w-full px-4 py-2 text-left text-body-sm hover:bg-background-surface ${value === "all" ? "font-semibold text-accent" : "text-text-muted"}`}
             >
               All Categories
             </button>
@@ -367,7 +367,7 @@ function CategoryFilterPill({
                   onChange(cat);
                   setOpen(false);
                 }}
-                className={`w-full px-4 py-2 text-left text-sm hover:bg-background-surface ${value === cat ? "font-semibold text-accent" : "text-text-muted"}`}
+                className={`w-full px-4 py-2 text-left text-body-sm hover:bg-background-surface ${value === cat ? "font-semibold text-accent" : "text-text-muted"}`}
               >
                 {CATEGORY_DISPLAY[cat]}
               </button>
@@ -387,7 +387,7 @@ function DismissibleChip({
   onDismiss: () => void;
 }) {
   return (
-    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-accent/10 text-accent text-xs rounded-full">
+    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-accent/10 text-accent text-caption rounded-full">
       {label}
       <button
         onClick={onDismiss}
@@ -428,32 +428,32 @@ function TechniqueCard({
     >
       {/* Top row: framework badge + difficulty */}
       <div className="flex items-center justify-between gap-2 mb-2">
-        <span className="px-2 py-0.5 bg-accent/10 text-accent text-[10px] sm:text-xs font-bold rounded uppercase tracking-wide">
+        <span className="px-2 py-0.5 bg-accent/10 text-accent text-[10px] sm:text-caption font-bold rounded uppercase tracking-wide">
           {fw.label}
         </span>
         <span
-          className={`text-[10px] sm:text-xs font-medium ${diff.color} ${diff.bg} px-1.5 py-0.5 rounded`}
+          className={`text-[10px] sm:text-caption font-medium ${diff.color} ${diff.bg} px-1.5 py-0.5 rounded`}
         >
           {diff.label}
         </span>
       </div>
 
       {/* Technique name */}
-      <h3 className="font-semibold text-text text-sm sm:text-base leading-tight mb-1.5">
+      <h3 className="font-semibold text-text text-body-sm sm:text-body leading-tight mb-1.5">
         {technique.technique_name}
       </h3>
 
       {/* Description truncated */}
-      <p className="text-xs text-text-muted line-clamp-2 mb-3 flex-1">
+      <p className="text-caption text-text-muted line-clamp-2 mb-3 flex-1">
         {technique.description}
       </p>
 
       {/* Bottom row: category + duration */}
       <div className="flex items-center justify-between gap-2 mt-auto">
-        <span className="text-[10px] sm:text-xs text-text-muted bg-background-elevated px-2 py-0.5 rounded-full">
+        <span className="text-[10px] sm:text-caption text-text-muted bg-background-elevated px-2 py-0.5 rounded-full">
           {CATEGORY_DISPLAY[technique.category]}
         </span>
-        <span className="text-[10px] sm:text-xs text-text-subtle font-medium">
+        <span className="text-[10px] sm:text-caption text-text-subtle font-medium">
           {durationLabel}
         </span>
       </div>

@@ -213,7 +213,7 @@ export default function AISummary({
       {/* Error state */}
       {state === "error" && (
         <div className="text-center py-4">
-          <p className="text-sm text-status-error mb-3">
+          <p className="text-body-sm text-status-error mb-3">
             Something went wrong. Please try again.
           </p>
           <button

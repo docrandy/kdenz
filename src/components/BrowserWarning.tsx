@@ -28,26 +28,26 @@ export default function BrowserWarning({
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-status-warning mb-4">
+        <h1 className="text-h3 font-bold text-status-warning mb-4">
           Chrome Required
         </h1>
 
         {/* Main Message */}
-        <p className="text-lg text-text-muted mb-4">
+        <p className="text-body-lg text-text-muted mb-4">
           VoiceLab uses Chrome's Web Speech API for accurate voice
           transcription. Safari and Firefox have significant accuracy issues
           that would hurt your practice experience.
         </p>
 
         {/* Subtext */}
-        <p className="text-base text-text-muted mb-6">
+        <p className="text-body text-text-muted mb-6">
           Please open this page in{" "}
           <span className="font-semibold">Google Chrome</span> for the best
           results.
         </p>
 
         {/* Detected Browser */}
-        <p className="text-sm text-text-muted mb-8">
+        <p className="text-body-sm text-text-muted mb-8">
           You're currently using:{" "}
           <span className="font-semibold">{browserName}</span>
         </p>

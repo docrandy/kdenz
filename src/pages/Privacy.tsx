@@ -12,7 +12,7 @@ export default function Privacy() {
         {/* Back link */}
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-accent mb-6"
+          className="inline-flex items-center gap-2 text-body-sm text-text-muted hover:text-accent mb-6"
         >
           <svg
             className="w-4 h-4"
@@ -32,7 +32,7 @@ export default function Privacy() {
 
         <div className="bg-background-surface border border-background-elevated rounded-lg p-6 sm:p-8">
           {/* Header */}
-          <h1 className="text-2xl sm:text-3xl font-bold text-text mb-2">
+          <h1 className="text-h4 sm:text-h3 font-bold text-text mb-2">
             Privacy & Your Data
           </h1>
           <p className="text-text-muted mb-8">
@@ -63,7 +63,7 @@ export default function Privacy() {
                   <h3 className="font-semibold text-text">
                     Audio stays on your device
                   </h3>
-                  <p className="text-sm text-text-muted mt-1">
+                  <p className="text-body-sm text-text-muted mt-1">
                     Your voice recordings are processed entirely in your browser
                     using Chrome's built-in speech recognition. Audio never
                     leaves your device and is never sent to our servers.
@@ -94,7 +94,7 @@ export default function Privacy() {
                   <h3 className="font-semibold text-text">
                     No emotion or sentiment analysis
                   </h3>
-                  <p className="text-sm text-text-muted mt-1">
+                  <p className="text-body-sm text-text-muted mt-1">
                     We don't analyze your emotions, tone, or sentiment. We only
                     count filler words and measure speaking pace. Nothing more.
                   </p>
@@ -124,14 +124,14 @@ export default function Privacy() {
                   <h3 className="font-semibold text-text">
                     AI Summary (optional)
                   </h3>
-                  <p className="text-sm text-text-muted mt-1">
+                  <p className="text-body-sm text-text-muted mt-1">
                     If you choose to generate an AI coaching summary, only your{" "}
                     <strong>transcript text</strong> and
                     <strong> session metrics</strong> (word count, filler count,
                     pace) are sent to Google's Gemini API. No audio is ever
                     sent.
                   </p>
-                  <p className="text-sm text-text-muted mt-2">
+                  <p className="text-body-sm text-text-muted mt-2">
                     You can skip AI summaries entirely and still get local
                     analysis of your session.
                   </p>
@@ -161,7 +161,7 @@ export default function Privacy() {
                   <h3 className="font-semibold text-text">
                     Not used for AI training
                   </h3>
-                  <p className="text-sm text-text-muted mt-1">
+                  <p className="text-body-sm text-text-muted mt-1">
                     Your data is never used to train AI models. We use the
                     Gemini API in a way that explicitly opts out of data
                     retention for model improvement.
@@ -192,12 +192,12 @@ export default function Privacy() {
                   <h3 className="font-semibold text-text">
                     Session history stored locally
                   </h3>
-                  <p className="text-sm text-text-muted mt-1">
+                  <p className="text-body-sm text-text-muted mt-1">
                     Your session summaries (metrics only, not transcripts) are
                     stored in your browser's local storage to show your weekly
                     trends. This data never leaves your device.
                   </p>
-                  <p className="text-sm text-text-muted mt-2">
+                  <p className="text-body-sm text-text-muted mt-2">
                     Clear your browser data anytime to delete all stored
                     information.
                   </p>
@@ -208,7 +208,7 @@ export default function Privacy() {
 
           {/* Comparison note */}
           <div className="mt-8 p-4 bg-background-elevated rounded-lg">
-            <p className="text-sm text-text-muted">
+            <p className="text-body-sm text-text-muted">
               <strong>Why this matters:</strong> Some voice coaching apps have
               faced criticism for unclear data practices. We designed VoiceLab
               with privacy-first principles from day one.
@@ -217,7 +217,7 @@ export default function Privacy() {
 
           {/* Contact */}
           <div className="mt-8 pt-6 border-t border-background-elevated">
-            <p className="text-sm text-text-muted">
+            <p className="text-body-sm text-text-muted">
               Questions about privacy? Reach out via the feedback button or
               email us at{" "}
               <a

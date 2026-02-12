@@ -45,10 +45,10 @@ export default function BaselineResults() {
               </svg>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-text mb-2">
+          <h1 className="text-h3 font-bold text-text mb-2">
             Baseline Complete
           </h1>
-          <p className="text-lg text-text-muted">
+          <p className="text-body-lg text-text-muted">
             Here's your starting point. Future sessions will compare to these
             numbers.
           </p>
@@ -58,37 +58,37 @@ export default function BaselineResults() {
         <div className="space-y-4">
           {/* WPM */}
           <div className="bg-background-surface border border-background-elevated rounded-lg p-6">
-            <p className="text-sm text-text-muted mb-1">Your typical pace</p>
-            <p className="text-3xl font-bold text-text">
+            <p className="text-body-sm text-text-muted mb-1">Your typical pace</p>
+            <p className="text-h3 font-bold text-text">
               {baseline.wpm} words per minute
             </p>
           </div>
 
           {/* Filler rate */}
           <div className="bg-background-surface border border-background-elevated rounded-lg p-6">
-            <p className="text-sm text-text-muted mb-1">Fillers per minute</p>
-            <p className="text-3xl font-bold text-text">
+            <p className="text-body-sm text-text-muted mb-1">Fillers per minute</p>
+            <p className="text-h3 font-bold text-text">
               {baseline.fillerRate.toFixed(1)}/min
             </p>
           </div>
 
           {/* Duration */}
           <div className="bg-background-surface border border-background-elevated rounded-lg p-6">
-            <p className="text-sm text-text-muted mb-1">Baseline duration</p>
-            <p className="text-3xl font-bold text-text">3 min</p>
+            <p className="text-body-sm text-text-muted mb-1">Baseline duration</p>
+            <p className="text-h3 font-bold text-text">3 min</p>
           </div>
         </div>
 
         {/* Start practicing button */}
         <button
           onClick={handleStartPracticing}
-          className="btn-primary w-full text-lg"
+          className="btn-primary w-full text-body-lg"
         >
           Start Practicing
         </button>
 
         {/* Small note */}
-        <p className="text-xs text-text-muted text-center">
+        <p className="text-caption text-text-muted text-center">
           You can re-record your baseline anytime from Settings.
         </p>
       </div>

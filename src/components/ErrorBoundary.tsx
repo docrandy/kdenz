@@ -60,12 +60,12 @@ export default class ErrorBoundary extends Component<Props, State> {
             </div>
 
             {/* Title */}
-            <h2 className="text-xl font-semibold text-text mb-2">
+            <h2 className="text-h5 font-semibold text-text mb-2">
               Something went wrong
             </h2>
 
             {/* Description */}
-            <p className="text-sm text-text-muted mb-6">
+            <p className="text-body-sm text-text-muted mb-6">
               An unexpected error occurred. Please try refreshing the page.
             </p>
 
@@ -89,10 +89,10 @@ export default class ErrorBoundary extends Component<Props, State> {
             {/* Error details (collapsed) */}
             {this.state.error && (
               <details className="mt-6 text-left">
-                <summary className="text-xs text-text-muted cursor-pointer hover:text-text">
+                <summary className="text-caption text-text-muted cursor-pointer hover:text-text">
                   Technical details
                 </summary>
-                <pre className="mt-2 p-3 bg-background-elevated rounded text-xs text-status-error overflow-auto max-h-32">
+                <pre className="mt-2 p-3 bg-background-elevated rounded text-caption text-status-error overflow-auto max-h-32">
                   {this.state.error.message}
                   {"\n\n"}
                   {this.state.error.stack}

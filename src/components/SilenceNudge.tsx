@@ -70,7 +70,7 @@ export default function SilenceNudge({
     >
       <div className="flex items-center justify-center py-4">
         <div className="bg-background-surface border border-background-elevated rounded-lg px-6 py-3">
-          <p className="text-sm text-text-muted font-medium text-center">
+          <p className="text-body-sm text-text-muted font-medium text-center">
             {message}
           </p>
         </div>

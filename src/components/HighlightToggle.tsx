@@ -32,7 +32,7 @@ export default function HighlightToggle({
           <button
             key={value}
             onClick={() => onChange(value)}
-            className={`relative px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${
+            className={`relative px-3 py-1.5 text-caption font-medium rounded-full transition-colors ${
               isActive
                 ? "bg-accent text-text-inverse"
                 : "bg-background-elevated text-text-muted hover:bg-background-elevated/80"

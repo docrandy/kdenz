@@ -152,7 +152,7 @@ export function AudioPlayback({
               );
             })}
           </div>
-          <div className="flex justify-between mt-1 text-xs text-text-subtle">
+          <div className="flex justify-between mt-1 text-caption text-text-subtle">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -164,7 +164,7 @@ export function AudioPlayback({
             <button
               key={speed}
               onClick={() => setPlaybackRate(speed)}
-              className={`px-2 py-1 text-xs rounded ${
+              className={`px-2 py-1 text-caption rounded ${
                 playbackRate === speed
                   ? "bg-background-elevated text-text"
                   : "bg-background-surface text-text-muted hover:bg-background-elevated"

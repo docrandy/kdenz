@@ -36,7 +36,7 @@ export default function SettingsPanel({
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-background-elevated transition-colors"
       >
-        <span className="text-sm font-medium text-text">Settings</span>
+        <span className="text-body-sm font-medium text-text">Settings</span>
         <svg
           className={`w-4 h-4 text-text-muted transition-transform ${isOpen ? "rotate-180" : ""}`}
           fill="none"
@@ -57,12 +57,12 @@ export default function SettingsPanel({
         <div className="px-4 pb-4 border-t border-background-elevated">
           {/* Filler Rate Thresholds */}
           <div className="mt-4">
-            <p className="text-xs font-medium text-text-muted mb-2 uppercase tracking-wide">
+            <p className="text-caption font-medium text-text-muted mb-2 uppercase tracking-wide">
               Filler Rate Thresholds
             </p>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm text-text flex items-center gap-2">
+                <label className="text-body-sm text-text flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-status-success" />
                   Good (≤)
                 </label>
@@ -78,11 +78,11 @@ export default function SettingsPanel({
                       parseFloat(e.target.value) || 0,
                     )
                   }
-                  className="w-16 px-2 py-1 text-sm border border-background-elevated rounded text-right"
+                  className="w-16 px-2 py-1 text-body-sm border border-background-elevated rounded text-right"
                 />
               </div>
               <div className="flex items-center justify-between">
-                <label className="text-sm text-text flex items-center gap-2">
+                <label className="text-body-sm text-text flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-status-warning" />
                   Warning (≤)
                 </label>
@@ -98,10 +98,10 @@ export default function SettingsPanel({
                       parseFloat(e.target.value) || 0,
                     )
                   }
-                  className="w-16 px-2 py-1 text-sm border border-background-elevated rounded text-right"
+                  className="w-16 px-2 py-1 text-body-sm border border-background-elevated rounded text-right"
                 />
               </div>
-              <p className="text-xs text-text-muted">
+              <p className="text-caption text-text-muted">
                 Above {settings.fillerRateWarning} = needs work (red)
               </p>
             </div>
@@ -109,12 +109,12 @@ export default function SettingsPanel({
 
           {/* Timer Thresholds */}
           <div className="mt-4">
-            <p className="text-xs font-medium text-text-muted mb-2 uppercase tracking-wide">
+            <p className="text-caption font-medium text-text-muted mb-2 uppercase tracking-wide">
               Timer Warnings (seconds)
             </p>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm text-text">Warning at</label>
+                <label className="text-body-sm text-text">Warning at</label>
                 <div className="flex items-center gap-1">
                   <input
                     type="number"
@@ -127,13 +127,13 @@ export default function SettingsPanel({
                         parseInt(e.target.value) || 10,
                       )
                     }
-                    className="w-16 px-2 py-1 text-sm border border-background-elevated rounded text-right"
+                    className="w-16 px-2 py-1 text-body-sm border border-background-elevated rounded text-right"
                   />
-                  <span className="text-xs text-text-muted">s</span>
+                  <span className="text-caption text-text-muted">s</span>
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <label className="text-sm text-text">Critical at</label>
+                <label className="text-body-sm text-text">Critical at</label>
                 <div className="flex items-center gap-1">
                   <input
                     type="number"
@@ -146,9 +146,9 @@ export default function SettingsPanel({
                         parseInt(e.target.value) || 5,
                       )
                     }
-                    className="w-16 px-2 py-1 text-sm border border-background-elevated rounded text-right"
+                    className="w-16 px-2 py-1 text-body-sm border border-background-elevated rounded text-right"
                   />
-                  <span className="text-xs text-text-muted">s</span>
+                  <span className="text-caption text-text-muted">s</span>
                 </div>
               </div>
             </div>
@@ -156,17 +156,17 @@ export default function SettingsPanel({
 
           {/* Default Duration */}
           <div className="mt-4">
-            <p className="text-xs font-medium text-text-muted mb-2 uppercase tracking-wide">
+            <p className="text-caption font-medium text-text-muted mb-2 uppercase tracking-wide">
               Default Duration
             </p>
             <div className="flex items-center justify-between">
-              <label className="text-sm text-text">Session length</label>
+              <label className="text-body-sm text-text">Session length</label>
               <select
                 value={settings.defaultDuration}
                 onChange={(e) =>
                   handleChange("defaultDuration", parseInt(e.target.value))
                 }
-                className="px-2 py-1 text-sm border border-background-elevated rounded"
+                className="px-2 py-1 text-body-sm border border-background-elevated rounded"
               >
                 <option value={30}>30 seconds</option>
                 <option value={60}>60 seconds</option>
@@ -180,11 +180,11 @@ export default function SettingsPanel({
           <div className="mt-4 pt-3 border-t border-background-elevated">
             <button
               onClick={handleReset}
-              className="text-xs text-text-muted hover:text-text transition-colors"
+              className="text-caption text-text-muted hover:text-text transition-colors"
             >
               Reset to defaults
             </button>
-            <span className="text-xs text-text-muted ml-2">
+            <span className="text-caption text-text-muted ml-2">
               (Good: {DEFAULT_SETTINGS.fillerRateGood}, Warning:{" "}
               {DEFAULT_SETTINGS.fillerRateWarning})
             </span>

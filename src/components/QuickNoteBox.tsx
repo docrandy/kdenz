@@ -82,8 +82,8 @@ export function QuickNoteBox({ practiceContext }: QuickNoteBoxProps) {
         title="Add a note about yourself"
       >
         <div className="flex items-center gap-2">
-          <span className="text-lg">📝</span>
-          <span className="text-sm text-text-muted group-hover:text-accent hidden sm:inline">
+          <span className="text-body-lg">📝</span>
+          <span className="text-body-sm text-text-muted group-hover:text-accent hidden sm:inline">
             About me
           </span>
         </div>
@@ -96,7 +96,7 @@ export function QuickNoteBox({ practiceContext }: QuickNoteBoxProps) {
     return (
       <div className="fixed right-4 bottom-1/4 z-30 bg-status-success/10 border-2 border-status-success/30 rounded-xl p-4 shadow-lg w-64">
         <div className="flex items-center gap-2 text-status-success">
-          <span className="text-lg">✓</span>
+          <span className="text-body-lg">✓</span>
           <span className="font-medium">Saved to profile!</span>
         </div>
       </div>
@@ -108,10 +108,10 @@ export function QuickNoteBox({ practiceContext }: QuickNoteBoxProps) {
     <div className="fixed right-4 bottom-1/4 z-30 bg-background-surface border-2 border-accent/20 rounded-xl shadow-xl w-72">
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-background-elevated">
-        <span className="text-sm font-medium text-text">Quick note</span>
+        <span className="text-body-sm font-medium text-text">Quick note</span>
         <button
           onClick={() => setIsExpanded(false)}
-          className="text-text-subtle hover:text-text-muted text-lg leading-none"
+          className="text-text-subtle hover:text-text-muted text-body-lg leading-none"
         >
           ×
         </button>
@@ -126,18 +126,18 @@ export function QuickNoteBox({ practiceContext }: QuickNoteBoxProps) {
           onKeyDown={handleKeyDown}
           placeholder="Jot down any thought, preference, or insight..."
           rows={3}
-          className="w-full resize-none border border-background-elevated rounded-lg p-2 text-sm bg-background-elevated text-text focus:ring-2 focus:ring-accent focus:border-transparent"
+          className="w-full resize-none border border-background-elevated rounded-lg p-2 text-body-sm bg-background-elevated text-text focus:ring-2 focus:ring-accent focus:border-transparent"
           disabled={isSaving}
         />
 
         <div className="flex items-center justify-between mt-2">
-          <span className="text-xs text-text-subtle">
+          <span className="text-caption text-text-subtle">
             ⌘/Ctrl + Enter to save
           </span>
           <button
             onClick={handleSave}
             disabled={!note.trim() || isSaving}
-            className="px-3 py-1.5 btn-primary text-sm disabled:bg-background-elevated disabled:text-text-subtle disabled:cursor-not-allowed"
+            className="px-3 py-1.5 btn-primary text-body-sm disabled:bg-background-elevated disabled:text-text-subtle disabled:cursor-not-allowed"
           >
             {isSaving ? "Saving..." : "Save"}
           </button>
@@ -146,7 +146,7 @@ export function QuickNoteBox({ practiceContext }: QuickNoteBoxProps) {
 
       {/* Hint */}
       <div className="px-3 pb-3">
-        <p className="text-xs text-text-subtle">
+        <p className="text-caption text-text-subtle">
           Notes are saved to your profile. AI will suggest a category.
         </p>
       </div>

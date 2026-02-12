@@ -155,7 +155,7 @@ export default function TechniqueFeedback() {
           <div className="flex items-center justify-between">
             <button
               onClick={() => navigate("/library")}
-              className="text-text-muted hover:text-text flex items-center gap-2 text-sm min-h-[44px]"
+              className="text-text-muted hover:text-text flex items-center gap-2 text-body-sm min-h-[44px]"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path
@@ -169,11 +169,11 @@ export default function TechniqueFeedback() {
               Library
             </button>
             <div className="text-right">
-              <p className="text-sm font-semibold text-text">
+              <p className="text-body-sm font-semibold text-text">
                 {sessionData.techniqueName || "Practice Session"}
               </p>
               {fw && (
-                <p className="text-xs text-text-muted">
+                <p className="text-caption text-text-muted">
                   {fw.label} · {formatDuration(sessionData.durationSeconds)}
                 </p>
               )}
@@ -189,7 +189,7 @@ export default function TechniqueFeedback() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-4 py-3 text-body-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? "border-accent text-text"
                   : "border-transparent text-text-muted hover:text-text-muted"
@@ -226,19 +226,19 @@ export default function TechniqueFeedback() {
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex gap-3">
           <button
             onClick={handlePracticeAgain}
-            className="flex-1 btn-primary py-3 rounded-xl font-semibold text-sm hover:opacity-90 active:opacity-80 transition-colors min-h-[48px]"
+            className="flex-1 btn-primary py-3 rounded-xl font-semibold text-body-sm hover:opacity-90 active:opacity-80 transition-colors min-h-[48px]"
           >
             Practice Again
           </button>
           <button
             onClick={handleNextTechnique}
-            className="flex-1 bg-background border-2 border-background-elevated text-text-muted py-3 rounded-xl font-medium text-sm hover:bg-background-surface active:bg-background-elevated transition-colors min-h-[48px]"
+            className="flex-1 bg-background border-2 border-background-elevated text-text-muted py-3 rounded-xl font-medium text-body-sm hover:bg-background-surface active:bg-background-elevated transition-colors min-h-[48px]"
           >
             {pairedTechniques.length > 0 ? "Next Technique" : "Back to Library"}
           </button>
           <button
             onClick={() => navigate("/")}
-            className="px-4 bg-background border-2 border-background-elevated text-text-muted py-3 rounded-xl font-medium text-sm hover:bg-background-surface active:bg-background-elevated transition-colors min-h-[48px]"
+            className="px-4 bg-background border-2 border-background-elevated text-text-muted py-3 rounded-xl font-medium text-body-sm hover:bg-background-surface active:bg-background-elevated transition-colors min-h-[48px]"
           >
             Home
           </button>
@@ -276,8 +276,8 @@ function CoachingTab({
             </svg>
           </div>
         </div>
-        <h2 className="text-xl font-bold text-text mb-1">Session Complete</h2>
-        <p className="text-sm text-text-muted">
+        <h2 className="text-h5 font-bold text-text mb-1">Session Complete</h2>
+        <p className="text-body-sm text-text-muted">
           {sessionData.wordCount} words · {sessionData.wpm} WPM ·{" "}
           {sessionData.fillerCount} filler
           {sessionData.fillerCount !== 1 ? "s" : ""}
@@ -287,12 +287,12 @@ function CoachingTab({
       {/* Success criteria checklist */}
       {technique && technique.success_criteria.length > 0 && (
         <section>
-          <h3 className="text-xs font-bold text-text-subtle uppercase tracking-wider mb-3">
+          <h3 className="text-caption font-bold text-text-subtle uppercase tracking-wider mb-3">
             WHAT SUCCESS LOOKS LIKE
           </h3>
           <ul className="space-y-2.5">
             {technique.success_criteria.map((criterion, i) => (
-              <li key={i} className="flex gap-2.5 text-sm sm:text-base">
+              <li key={i} className="flex gap-2.5 text-body-sm sm:text-body">
                 <span className="text-text-subtle mt-0.5 flex-shrink-0">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <rect
@@ -310,7 +310,7 @@ function CoachingTab({
               </li>
             ))}
           </ul>
-          <p className="text-xs text-text-subtle mt-3">
+          <p className="text-caption text-text-subtle mt-3">
             AI-powered criterion scoring coming soon. For now, self-assess
             against these criteria.
           </p>
@@ -331,12 +331,12 @@ function CoachingTab({
       {/* Common mistakes reminder */}
       {technique && technique.common_mistakes.length > 0 && (
         <section>
-          <h3 className="text-xs font-bold text-text-subtle uppercase tracking-wider mb-3">
+          <h3 className="text-caption font-bold text-text-subtle uppercase tracking-wider mb-3">
             WATCH OUT FOR
           </h3>
           <ul className="space-y-2">
             {technique.common_mistakes.map((mistake, i) => (
-              <li key={i} className="flex gap-2.5 text-sm">
+              <li key={i} className="flex gap-2.5 text-body-sm">
                 <span className="text-status-error mt-0.5 flex-shrink-0">
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <path
@@ -384,7 +384,7 @@ function AnalyticsTab({
       {/* Audio playback */}
       {sessionData.audioData && (
         <div className="bg-background-surface rounded-lg p-3 sm:p-4">
-          <p className="text-xs sm:text-sm text-text-muted mb-3">
+          <p className="text-caption sm:text-body-sm text-text-muted mb-3">
             Listen to your session
           </p>
           <AudioPlayback
@@ -435,7 +435,7 @@ function TranscriptTab({ sessionData }: { sessionData: SessionData }) {
       sessionData.reconciledFillers.length === 0
     ) {
       return (
-        <p className="text-text-muted text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
+        <p className="text-text-muted text-body-sm sm:text-body leading-relaxed whitespace-pre-wrap">
           {highlightedTranscript}
         </p>
       );
@@ -452,7 +452,7 @@ function TranscriptTab({ sessionData }: { sessionData: SessionData }) {
     const parts = sessionData.transcript.split(regex);
 
     return (
-      <p className="text-text-muted text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
+      <p className="text-text-muted text-body-sm sm:text-body leading-relaxed whitespace-pre-wrap">
         {parts.map((part, i) => {
           const isFillerWord = fillerWords.some(
             (fw) => fw === part.toLowerCase(),
@@ -477,12 +477,12 @@ function TranscriptTab({ sessionData }: { sessionData: SessionData }) {
     <div className="space-y-4">
       {/* Toggle */}
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-bold text-text-subtle uppercase tracking-wider">
+        <h3 className="text-caption font-bold text-text-subtle uppercase tracking-wider">
           TRANSCRIPT
         </h3>
         <button
           onClick={() => setShowFillers(!showFillers)}
-          className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
+          className={`text-caption px-3 py-1.5 rounded-full transition-colors ${
             showFillers
               ? "bg-status-error/10 text-status-error"
               : "bg-background-elevated text-text-muted"

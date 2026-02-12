@@ -27,7 +27,7 @@ export default function PromptSelector({
     return (
       <button
         onClick={() => setIsExpanded(true)}
-        className="w-full p-3 text-sm text-text-muted border border-dashed border-background-elevated rounded-lg hover:border-accent hover:text-accent transition-colors"
+        className="w-full p-3 text-body-sm text-text-muted border border-dashed border-background-elevated rounded-lg hover:border-accent hover:text-accent transition-colors"
       >
         + Add a speaking prompt (optional)
       </button>
@@ -37,13 +37,13 @@ export default function PromptSelector({
   return (
     <div className="border border-background-elevated rounded-lg p-4">
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-medium text-text">Choose a prompt</h4>
+        <h4 className="text-body-sm font-medium text-text">Choose a prompt</h4>
         <button
           onClick={() => {
             setIsExpanded(false);
             onSelect(null);
           }}
-          className="text-xs text-text-muted hover:text-accent"
+          className="text-caption text-text-muted hover:text-accent"
         >
           Skip
         </button>
@@ -60,14 +60,14 @@ export default function PromptSelector({
             className="w-full p-3 text-left border border-background-elevated rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
           >
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-medium text-text">
+              <span className="text-body-sm font-medium text-text">
                 {prompt.title}
               </span>
-              <span className="text-xs px-1.5 py-0.5 bg-background-elevated text-text-muted rounded">
+              <span className="text-caption px-1.5 py-0.5 bg-background-elevated text-text-muted rounded">
                 {prompt.category}
               </span>
             </div>
-            <p className="text-xs text-text-muted line-clamp-2">
+            <p className="text-caption text-text-muted line-clamp-2">
               {prompt.prompt}
             </p>
           </button>
@@ -91,14 +91,14 @@ export function ActivePrompt({ prompt, onClear }: ActivePromptProps) {
     <div className="bg-accent/5 border border-accent/20 rounded-lg p-4">
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1">
-          <p className="text-xs font-medium text-accent mb-1">
+          <p className="text-caption font-medium text-accent mb-1">
             Speaking Prompt
           </p>
-          <p className="text-sm text-text">{prompt.prompt}</p>
+          <p className="text-body-sm text-text">{prompt.prompt}</p>
           {prompt.tips && (
             <div className="mt-3 p-2 bg-background-elevated/50 rounded">
-              <p className="text-xs font-medium text-accent mb-1">Tips:</p>
-              <ul className="text-sm text-text-muted space-y-1">
+              <p className="text-caption font-medium text-accent mb-1">Tips:</p>
+              <ul className="text-body-sm text-text-muted space-y-1">
                 {prompt.tips.map((tip, i) => (
                   <li key={i}>• {tip}</li>
                 ))}

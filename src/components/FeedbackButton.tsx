@@ -84,7 +84,7 @@ export default function FeedbackButton({
       {isExpanded && (
         <div className="bg-background-surface border border-background-elevated rounded-lg shadow-lg p-3 max-w-xs animate-fade-in">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-sm text-text">How was your session?</p>
+            <p className="text-body-sm text-text">How was your session?</p>
             <button
               onClick={handleDismiss}
               className="text-text-subtle hover:text-text-muted transition-colors"
@@ -107,7 +107,7 @@ export default function FeedbackButton({
           </div>
           <button
             onClick={handleClick}
-            className="mt-2 w-full text-sm text-accent hover:underline text-left"
+            className="mt-2 w-full text-body-sm text-accent hover:underline text-left"
           >
             Send feedback →
           </button>
@@ -141,7 +141,7 @@ export default function FeedbackButton({
 
         {/* Label - shown on hover */}
         <span
-          className={`text-sm font-medium overflow-hidden transition-all duration-200 ${
+          className={`text-body-sm font-medium overflow-hidden transition-all duration-200 ${
             isHovered ? "max-w-32 opacity-100" : "max-w-0 opacity-0"
           }`}
         >

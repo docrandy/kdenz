@@ -77,7 +77,7 @@ export default function AudioQualityWarning({
             <line x1="12" y1="9" x2="12" y2="13" />
             <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
-          <p className="text-sm text-status-warning flex-1">
+          <p className="text-body-sm text-status-warning flex-1">
             {WARNING_MESSAGES[warning]}
           </p>
           <button

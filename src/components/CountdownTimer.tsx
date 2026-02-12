@@ -36,7 +36,7 @@ export default function CountdownTimer({
 
   return (
     <div className="flex flex-col items-center mb-6">
-      <span className="text-xs text-text-muted mb-1 uppercase tracking-wide">
+      <span className="text-caption text-text-muted mb-1 uppercase tracking-wide">
         Time Remaining
       </span>
       <span className={`text-5xl font-mono font-bold ${colorClass}`}>

@@ -20,7 +20,7 @@ export default function ScenarioDetail() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <p className="text-text-muted text-lg">Technique not found</p>
+          <p className="text-text-muted text-body-lg">Technique not found</p>
           <button
             onClick={() => navigate("/library")}
             className="mt-4 text-accent hover:text-accent font-medium"
@@ -59,7 +59,7 @@ export default function ScenarioDetail() {
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3">
           <button
             onClick={() => navigate("/library")}
-            className="text-text-muted hover:text-text active:text-text flex items-center gap-2 text-sm min-h-[44px]"
+            className="text-text-muted hover:text-text active:text-text flex items-center gap-2 text-body-sm min-h-[44px]"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
@@ -81,29 +81,29 @@ export default function ScenarioDetail() {
           {/* Technique header */}
           <div className="mb-6">
             {/* Framework + Author */}
-            <p className="text-sm text-text-muted mb-1">
+            <p className="text-body-sm text-text-muted mb-1">
               {fw.author} — <span className="italic">{fw.book}</span>
             </p>
 
             {/* Technique name */}
-            <h1 className="text-2xl sm:text-3xl font-bold text-text mb-3">
+            <h1 className="text-h4 sm:text-h3 font-bold text-text mb-3">
               {technique.technique_name}
             </h1>
 
             {/* Badges row */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 bg-accent/10 text-accent text-xs font-bold rounded uppercase tracking-wide">
+              <span className="px-2.5 py-1 bg-accent/10 text-accent text-caption font-bold rounded uppercase tracking-wide">
                 {fw.label}
               </span>
               <span
-                className={`px-2.5 py-1 text-xs font-medium rounded ${diff.color} ${diff.bg}`}
+                className={`px-2.5 py-1 text-caption font-medium rounded ${diff.color} ${diff.bg}`}
               >
                 {diff.label}
               </span>
-              <span className="px-2.5 py-1 bg-background-elevated text-text-muted text-xs rounded">
+              <span className="px-2.5 py-1 bg-background-elevated text-text-muted text-caption rounded">
                 {CATEGORY_DISPLAY[technique.category]}
               </span>
-              <span className="px-2.5 py-1 bg-background-elevated text-text-muted text-xs rounded flex items-center gap-1">
+              <span className="px-2.5 py-1 bg-background-elevated text-text-muted text-caption rounded flex items-center gap-1">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <circle
                     cx="6"
@@ -129,7 +129,7 @@ export default function ScenarioDetail() {
           <div className="flex border-b mb-6">
             <button
               onClick={() => setActiveTab("briefing")}
-              className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-4 py-3 text-body-sm font-medium border-b-2 transition-colors ${
                 activeTab === "briefing"
                   ? "border-accent text-text"
                   : "border-transparent text-text-muted hover:text-text-muted"
@@ -139,7 +139,7 @@ export default function ScenarioDetail() {
             </button>
             <button
               onClick={() => setActiveTab("learn")}
-              className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-4 py-3 text-body-sm font-medium border-b-2 transition-colors ${
                 activeTab === "learn"
                   ? "border-accent text-text"
                   : "border-transparent text-text-muted hover:text-text-muted"
@@ -167,7 +167,7 @@ export default function ScenarioDetail() {
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3">
           <button
             onClick={handleStartPractice}
-            className="w-full btn-primary py-4 rounded-xl font-semibold text-base sm:text-lg hover:opacity-90 active:opacity-80 transition-colors flex items-center justify-center gap-3 min-h-[56px]"
+            className="w-full btn-primary py-4 rounded-xl font-semibold text-body sm:text-body-lg hover:opacity-90 active:opacity-80 transition-colors flex items-center justify-center gap-3 min-h-[56px]"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M6 4L16 10L6 16V4Z" fill="currentColor" />
@@ -198,7 +198,7 @@ function BriefingTab({
     <div className="space-y-6">
       {/* What This Is */}
       <BriefingSection title="WHAT THIS IS">
-        <p className="text-text-muted text-sm sm:text-base leading-relaxed">
+        <p className="text-text-muted text-body-sm sm:text-body leading-relaxed">
           {technique.description}
         </p>
       </BriefingSection>
@@ -207,7 +207,7 @@ function BriefingTab({
       <BriefingSection title="WHAT SUCCESS LOOKS LIKE">
         <ul className="space-y-2.5">
           {technique.success_criteria.map((criterion, i) => (
-            <li key={i} className="flex gap-2.5 text-sm sm:text-base">
+            <li key={i} className="flex gap-2.5 text-body-sm sm:text-body">
               <span className="text-status-success mt-0.5 flex-shrink-0">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path
@@ -229,7 +229,7 @@ function BriefingTab({
       <BriefingSection title="COMMON MISTAKES">
         <ul className="space-y-2.5">
           {technique.common_mistakes.map((mistake, i) => (
-            <li key={i} className="flex gap-2.5 text-sm sm:text-base">
+            <li key={i} className="flex gap-2.5 text-body-sm sm:text-body">
               <span className="text-status-error mt-0.5 flex-shrink-0">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path
@@ -249,7 +249,7 @@ function BriefingTab({
       {/* Session Structure */}
       <BriefingSection title="SESSION STRUCTURE">
         <div className="bg-background-surface rounded-lg p-4">
-          <p className="text-text-muted text-sm sm:text-base leading-relaxed">
+          <p className="text-text-muted text-body-sm sm:text-body leading-relaxed">
             {technique.structure}
           </p>
         </div>
@@ -268,10 +268,10 @@ function BriefingTab({
                 <span className="text-[10px] font-bold text-accent uppercase tracking-wide">
                   {FRAMEWORK_DISPLAY[paired.framework].label}
                 </span>
-                <p className="font-semibold text-text text-sm mt-1 leading-tight">
+                <p className="font-semibold text-text text-body-sm mt-1 leading-tight">
                   {paired.technique_name}
                 </p>
-                <p className="text-xs text-text-muted mt-1">
+                <p className="text-caption text-text-muted mt-1">
                   {DIFFICULTY_CONFIG[paired.difficulty].label} ·{" "}
                   {CATEGORY_DISPLAY[paired.category]}
                 </p>
@@ -294,7 +294,7 @@ function LearnTab({
       {/* Coaching notes as educational content */}
       {technique.coaching_notes ? (
         <BriefingSection title="TECHNIQUE BREAKDOWN">
-          <p className="text-text-muted text-sm sm:text-base leading-relaxed">
+          <p className="text-text-muted text-body-sm sm:text-body leading-relaxed">
             {technique.coaching_notes}
           </p>
         </BriefingSection>
@@ -303,10 +303,10 @@ function LearnTab({
       {/* Framework context */}
       <BriefingSection title="FRAMEWORK CONTEXT">
         <div className="bg-background-surface rounded-lg p-4">
-          <p className="text-sm font-medium text-text mb-1">
+          <p className="text-body-sm font-medium text-text mb-1">
             {FRAMEWORK_DISPLAY[technique.framework].author}
           </p>
-          <p className="text-xs text-text-muted italic mb-3">
+          <p className="text-caption text-text-muted italic mb-3">
             {FRAMEWORK_DISPLAY[technique.framework].book}
           </p>
         </div>
@@ -314,7 +314,7 @@ function LearnTab({
 
       {/* Placeholder for future content */}
       <div className="bg-background-surface rounded-xl p-6 text-center">
-        <p className="text-text-muted text-sm">
+        <p className="text-text-muted text-body-sm">
           Written breakdown coming soon. Practice first — the feedback will
           teach you.
         </p>
@@ -334,7 +334,7 @@ function BriefingSection({
 }) {
   return (
     <section>
-      <h3 className="text-xs font-bold text-text-subtle uppercase tracking-wider mb-3">
+      <h3 className="text-caption font-bold text-text-subtle uppercase tracking-wider mb-3">
         {title}
       </h3>
       {children}

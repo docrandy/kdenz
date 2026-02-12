@@ -95,22 +95,22 @@ export default function MicPermissionError({
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-semibold text-status-error text-center mb-2">
+      <h3 className="text-body-lg font-semibold text-status-error text-center mb-2">
         {content.title}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-status-error text-center mb-4">
+      <p className="text-body-sm text-status-error text-center mb-4">
         {content.description}
       </p>
 
       {/* Steps */}
       <div className="bg-background-surface rounded-lg p-4 mb-4">
-        <p className="text-xs font-medium text-text-muted mb-2">How to fix:</p>
-        <ol className="text-sm text-text space-y-2">
+        <p className="text-caption font-medium text-text-muted mb-2">How to fix:</p>
+        <ol className="text-body-sm text-text space-y-2">
           {content.steps.map((step, index) => (
             <li key={index} className="flex gap-2">
-              <span className="flex-shrink-0 w-5 h-5 bg-background-elevated rounded-full text-xs flex items-center justify-center text-text-subtle">
+              <span className="flex-shrink-0 w-5 h-5 bg-background-elevated rounded-full text-caption flex items-center justify-center text-text-subtle">
                 {index + 1}
               </span>
               <span>{step}</span>
@@ -125,7 +125,7 @@ export default function MicPermissionError({
       </button>
 
       {/* Technical error */}
-      <p className="text-xs text-text-subtle text-center mt-3">
+      <p className="text-caption text-text-subtle text-center mt-3">
         Error: {error}
       </p>
     </div>

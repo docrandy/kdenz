@@ -51,7 +51,7 @@ export default function DiagnosticOnboarding({
         <div className="bg-background-surface border border-background-elevated rounded-lg shadow-lg p-6 sm:p-8">
           {/* Progress bar */}
           <div className="mb-6">
-            <div className="flex justify-between text-xs text-text-muted mb-2">
+            <div className="flex justify-between text-caption text-text-muted mb-2">
               <span>Quick diagnostic</span>
               <span>
                 {currentIndex + 1} of {diagnosticQuestions.length}
@@ -66,7 +66,7 @@ export default function DiagnosticOnboarding({
           </div>
 
           {/* Question */}
-          <h2 className="text-xl font-semibold text-text mb-6">
+          <h2 className="text-h5 font-semibold text-text mb-6">
             {currentQuestion.question}
           </h2>
 
@@ -78,7 +78,7 @@ export default function DiagnosticOnboarding({
                 onClick={() => handleSelect(option.value, option.insight)}
                 className="w-full p-4 text-left border border-background-elevated rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
               >
-                <span className="text-sm text-text">{option.label}</span>
+                <span className="text-body-sm text-text">{option.label}</span>
               </button>
             ))}
           </div>
@@ -87,7 +87,7 @@ export default function DiagnosticOnboarding({
           <div className="text-center">
             <button
               onClick={onSkip}
-              className="text-xs text-text-muted hover:text-accent transition-colors"
+              className="text-caption text-text-muted hover:text-accent transition-colors"
             >
               Skip for now
             </button>

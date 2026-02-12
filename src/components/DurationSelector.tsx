@@ -21,7 +21,7 @@ export default function DurationSelector({
             onClick={() => onChange(option.value)}
             disabled={disabled}
             className={`
-              px-5 sm:px-6 py-3 rounded-full border text-sm sm:text-base font-medium transition-colors
+              px-5 sm:px-6 py-3 rounded-full border text-body-sm sm:text-body font-medium transition-colors
               min-h-[44px] min-w-[80px] sm:min-w-[100px]
               ${
                 isSelected

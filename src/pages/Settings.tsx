@@ -100,11 +100,11 @@ export function Settings() {
                 />
               </svg>
             </button>
-            <h1 className="text-lg font-semibold text-text">Settings</h1>
+            <h1 className="text-body-lg font-semibold text-text">Settings</h1>
           </div>
           <button
             onClick={handleSave}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-lg text-body-sm font-medium transition-colors ${
               saved ? "bg-status-success/10 text-status-success" : "btn-primary"
             }`}
           >
@@ -116,12 +116,12 @@ export function Settings() {
       {/* Content */}
       <main className="max-w-2xl mx-auto px-4 py-6">
         <section className="mb-8">
-          <h2 className="text-sm font-semibold text-text mb-4">About You</h2>
+          <h2 className="text-body-sm font-semibold text-text mb-4">About You</h2>
 
           <div className="space-y-4">
             {/* Preferred Name */}
             <div>
-              <label className="block text-sm text-text-muted mb-1">
+              <label className="block text-body-sm text-text-muted mb-1">
                 Preferred Name
               </label>
               <input
@@ -135,7 +135,7 @@ export function Settings() {
 
             {/* Pronouns */}
             <div>
-              <label className="block text-sm text-text-muted mb-1">
+              <label className="block text-body-sm text-text-muted mb-1">
                 Pronouns
               </label>
               <input
@@ -149,7 +149,7 @@ export function Settings() {
 
             {/* Job Title */}
             <div>
-              <label className="block text-sm text-text-muted mb-1">
+              <label className="block text-body-sm text-text-muted mb-1">
                 Job Title
               </label>
               <input
@@ -163,7 +163,7 @@ export function Settings() {
 
             {/* Industry */}
             <div>
-              <label className="block text-sm text-text-muted mb-1">
+              <label className="block text-body-sm text-text-muted mb-1">
                 Industry
               </label>
               <input
@@ -177,7 +177,7 @@ export function Settings() {
 
             {/* Team Size */}
             <div>
-              <label className="block text-sm text-text-muted mb-1">
+              <label className="block text-body-sm text-text-muted mb-1">
                 Team Size
               </label>
               <select
@@ -196,7 +196,7 @@ export function Settings() {
 
             {/* Reports To */}
             <div>
-              <label className="block text-sm text-text-muted mb-1">
+              <label className="block text-body-sm text-text-muted mb-1">
                 Reports To
               </label>
               <input
@@ -212,7 +212,7 @@ export function Settings() {
 
         {/* Speaking Goals */}
         <section className="mb-8">
-          <h2 className="text-sm font-semibold text-text mb-4">
+          <h2 className="text-body-sm font-semibold text-text mb-4">
             Speaking Goals
           </h2>
 
@@ -220,22 +220,22 @@ export function Settings() {
             <div className="space-y-3">
               {diagnosticSummary.map((item, i) => (
                 <div key={i} className="p-3 bg-background-elevated rounded-lg">
-                  <p className="text-xs text-text-muted mb-1">
+                  <p className="text-caption text-text-muted mb-1">
                     {item.question}
                   </p>
-                  <p className="text-sm text-text">{item.answer}</p>
+                  <p className="text-body-sm text-text">{item.answer}</p>
                 </div>
               ))}
               <button
                 onClick={handleRetakeDiagnostic}
-                className="w-full mt-4 py-3 text-sm text-accent hover:text-accent/80 transition-colors"
+                className="w-full mt-4 py-3 text-body-sm text-accent hover:text-accent/80 transition-colors"
               >
                 Retake Diagnostic →
               </button>
             </div>
           ) : (
             <div className="text-center py-6 bg-background-elevated rounded-lg">
-              <p className="text-sm text-text-muted mb-3">
+              <p className="text-body-sm text-text-muted mb-3">
                 No diagnostic completed yet
               </p>
               <button onClick={handleRetakeDiagnostic} className="btn-primary">
@@ -247,7 +247,7 @@ export function Settings() {
 
         {/* Privacy & Data */}
         <section className="mb-8">
-          <h2 className="text-sm font-semibold text-text mb-4">
+          <h2 className="text-body-sm font-semibold text-text mb-4">
             Privacy & Data
           </h2>
           <Link
@@ -269,10 +269,10 @@ export function Settings() {
                 />
               </svg>
               <div>
-                <p className="text-sm font-medium text-text">
+                <p className="text-body-sm font-medium text-text">
                   Privacy & Your Data
                 </p>
-                <p className="text-xs text-text-muted">
+                <p className="text-caption text-text-muted">
                   How we handle your information
                 </p>
               </div>
@@ -294,7 +294,7 @@ export function Settings() {
         </section>
 
         {/* Note about profile */}
-        <div className="text-center text-sm text-text-subtle">
+        <div className="text-center text-body-sm text-text-subtle">
           Your goals and preferences are managed in your{" "}
           <button
             onClick={() => navigate("/profile")}
