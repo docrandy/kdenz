@@ -3,7 +3,7 @@
  * Visual progress bar with scrubber for audio playback
  */
 
-import { useRef, useCallback, MouseEvent } from 'react';
+import { useRef, useCallback, MouseEvent } from "react";
 
 interface PlaybackTimelineProps {
   /** Current playback position in seconds */
@@ -20,10 +20,10 @@ interface PlaybackTimelineProps {
  * Format seconds to MM:SS
  */
 function formatTime(seconds: number): string {
-  if (!isFinite(seconds) || seconds < 0) return '0:00';
+  if (!isFinite(seconds) || seconds < 0) return "0:00";
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
 export default function PlaybackTimeline({
@@ -48,7 +48,7 @@ export default function PlaybackTimeline({
       const seekTime = percentage * duration;
       onSeek(seekTime);
     },
-    [duration, onSeek]
+    [duration, onSeek],
   );
 
   return (
@@ -60,17 +60,17 @@ export default function PlaybackTimeline({
         onClick={handleSeek}
       >
         {/* Background track */}
-        <div className="absolute top-1/2 left-0 right-0 h-2 -translate-y-1/2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="absolute top-1/2 left-0 right-0 h-2 -translate-y-1/2 bg-background-elevated rounded-full overflow-hidden">
           {/* Progress fill */}
           <div
-            className="h-full bg-clinical-accent transition-all duration-100"
+            className="h-full bg-accent transition-all duration-100"
             style={{ width: `${progress}%` }}
           />
         </div>
 
         {/* Scrubber handle */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-clinical-accent rounded-full shadow-md transition-transform group-hover:scale-110"
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-accent rounded-full shadow-md transition-transform group-hover:scale-110"
           style={{ left: `${progress}%` }}
         />
 
@@ -82,10 +82,10 @@ export default function PlaybackTimeline({
 
       {/* Time display */}
       <div className="flex justify-between mt-1">
-        <span className="text-xs text-clinical-muted font-mono">
+        <span className="text-xs text-text-muted font-mono">
           {formatTime(currentTime)}
         </span>
-        <span className="text-xs text-clinical-muted font-mono">
+        <span className="text-xs text-text-muted font-mono">
           {formatTime(duration)}
         </span>
       </div>

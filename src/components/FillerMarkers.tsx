@@ -3,7 +3,7 @@
  * Renders clickable dots on the playback timeline showing filler positions
  */
 
-import { FillerDetection } from '../core/audio/FillerDetector';
+import { FillerDetection } from "../core/audio/FillerDetector";
 
 interface FillerMarkersProps {
   /** Array of filler detection events */
@@ -36,7 +36,7 @@ export default function FillerMarkers({
         return (
           <button
             key={`${event.timestamp}-${index}`}
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full pointer-events-auto hover:scale-150 hover:bg-red-600 transition-transform cursor-pointer z-10"
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 bg-status-warning rounded-full pointer-events-auto hover:scale-150 hover:bg-status-warning/80 transition-transform cursor-pointer z-10"
             style={{ left: `${position}%` }}
             onClick={(e) => {
               e.stopPropagation(); // Prevent timeline click

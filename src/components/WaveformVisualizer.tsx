@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 interface WaveformVisualizerProps {
   /** AnalyserNode from Web Audio API — provides frequency/time domain data */
@@ -25,7 +25,7 @@ export const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set canvas dimensions with devicePixelRatio for crisp rendering
@@ -40,13 +40,13 @@ export const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
 
     ctx.scale(dpr, dpr);
 
-    // Initialize with light gray background and center line
+    // Initialize with dark background and center line
     const initializeCanvas = () => {
-      ctx.fillStyle = '#F9FAFB'; // Very light gray background
+      ctx.fillStyle = "#1a1f2e"; // Dark navy background
       ctx.fillRect(0, 0, displayWidth, displayHeight);
 
       // Draw faint center line
-      ctx.strokeStyle = '#E5E7EB';
+      ctx.strokeStyle = "#2a3241";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(0, displayHeight / 2);
@@ -70,16 +70,16 @@ export const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
       // Clear canvas and reset when not active
       const canvas = canvasRef.current;
       if (canvas) {
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (ctx) {
           const displayWidth = width || canvas.offsetWidth;
           const displayHeight = height;
 
-          ctx.fillStyle = '#F9FAFB';
+          ctx.fillStyle = "#1a1f2e";
           ctx.fillRect(0, 0, displayWidth, displayHeight);
 
           // Draw center line
-          ctx.strokeStyle = '#E5E7EB';
+          ctx.strokeStyle = "#2a3241";
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(0, displayHeight / 2);
@@ -100,7 +100,7 @@ export const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const displayWidth = width || canvas.offsetWidth;
@@ -133,13 +133,18 @@ export const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
 
       // If we've reached the end, shift the canvas left
       if (x >= displayWidth - barWidth) {
-        const imageData = ctx.getImageData(barWidth + barGap, 0, displayWidth - barWidth - barGap, displayHeight);
-        ctx.fillStyle = '#F9FAFB';
+        const imageData = ctx.getImageData(
+          barWidth + barGap,
+          0,
+          displayWidth - barWidth - barGap,
+          displayHeight,
+        );
+        ctx.fillStyle = "#1a1f2e";
         ctx.fillRect(0, 0, displayWidth, displayHeight);
         ctx.putImageData(imageData, 0, 0);
 
         // Redraw center line
-        ctx.strokeStyle = '#E5E7EB';
+        ctx.strokeStyle = "#2a3241";
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(0, displayHeight / 2);
@@ -148,22 +153,17 @@ export const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
 
         // Draw at the right edge
         const drawX = displayWidth - barWidth - barGap;
-        ctx.fillStyle = '#4B5563'; // Gray/dark color
+        ctx.fillStyle = "#c9a84c"; // Gold accent color
         ctx.fillRect(
           drawX,
           displayHeight / 2 - barHeight,
           barWidth,
-          barHeight * 2
+          barHeight * 2,
         );
       } else {
         // Draw bar at current position
-        ctx.fillStyle = '#4B5563'; // Gray/dark color
-        ctx.fillRect(
-          x,
-          displayHeight / 2 - barHeight,
-          barWidth,
-          barHeight * 2
-        );
+        ctx.fillStyle = "#c9a84c"; // Gold accent color
+        ctx.fillRect(x, displayHeight / 2 - barHeight, barWidth, barHeight * 2);
 
         // Advance position
         dataIndexRef.current += barWidth + barGap;
@@ -183,11 +183,11 @@ export const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
   }, [isActive, analyserNode, width, height]);
 
   return (
-    <div className="waveform-visualizer-container rounded-lg overflow-hidden bg-gray-50 border border-gray-200">
+    <div className="waveform-visualizer-container rounded-lg overflow-hidden bg-background-surface border border-background-elevated">
       <canvas
         ref={canvasRef}
         className="w-full h-full"
-        style={{ display: 'block' }}
+        style={{ display: "block" }}
       />
     </div>
   );

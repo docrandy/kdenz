@@ -1,18 +1,22 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 
 interface FillerEvent {
-  type: string;      // 'um', 'uh', 'like', 'you-know'
+  type: string; // 'um', 'uh', 'like', 'you-know'
   timestamp: number; // ms since session start
   confidence: number;
 }
 
 interface AudioPlaybackProps {
   audioData: string | null; // base64 data URL
-  durationSeconds: number;  // for timeline display
+  durationSeconds: number; // for timeline display
   fillerEvents?: FillerEvent[]; // Add filler events
 }
 
-export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: AudioPlaybackProps) {
+export function AudioPlayback({
+  audioData,
+  durationSeconds,
+  fillerEvents,
+}: AudioPlaybackProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -40,14 +44,14 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
     const handleLoadedMetadata = () => setDuration(audio.duration);
     const handleEnded = () => setIsPlaying(false);
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("ended", handleEnded);
 
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("ended", handleEnded);
     };
   }, []);
 
@@ -83,7 +87,7 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   if (!audioData) {
@@ -101,8 +105,8 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
         {/* Play/Pause button */}
         <button
           onClick={handlePlayPause}
-          className="w-10 h-10 rounded-full bg-clinical-accent text-white flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0"
-          aria-label={isPlaying ? 'Pause' : 'Play'}
+          className="w-10 h-10 rounded-full bg-accent text-text-inverse flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0"
+          aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? (
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -110,7 +114,11 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
               <rect x="14" y="4" width="4" height="16" />
             </svg>
           ) : (
-            <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-5 h-5 ml-0.5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path d="M8 5v14l11-7z" />
             </svg>
           )}
@@ -119,11 +127,11 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
         {/* Scrub bar + time */}
         <div className="flex-1 min-w-0">
           <div
-            className="h-2 bg-gray-200 rounded-full cursor-pointer relative"
+            className="h-2 bg-background-elevated rounded-full cursor-pointer relative"
             onClick={handleSeek}
           >
             <div
-              className="h-full bg-clinical-accent rounded-full"
+              className="h-full bg-accent rounded-full"
               style={{ width: `${progress}%` }}
             />
             {/* Filler markers */}
@@ -132,7 +140,7 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
               return (
                 <button
                   key={`filler-${index}`}
-                  className="absolute top-1/2 -translate-y-1/2 w-1 h-3 bg-red-400 rounded-full hover:scale-150 hover:bg-red-500 transition-transform cursor-pointer"
+                  className="absolute top-1/2 -translate-y-1/2 w-1 h-3 bg-status-warning rounded-full hover:scale-150 hover:bg-status-warning/80 transition-transform cursor-pointer"
                   style={{ left: `${position}%` }}
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent scrub bar click
@@ -144,7 +152,7 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
               );
             })}
           </div>
-          <div className="flex justify-between mt-1 text-xs text-gray-500">
+          <div className="flex justify-between mt-1 text-xs text-text-subtle">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -158,8 +166,8 @@ export function AudioPlayback({ audioData, durationSeconds, fillerEvents }: Audi
               onClick={() => setPlaybackRate(speed)}
               className={`px-2 py-1 text-xs rounded ${
                 playbackRate === speed
-                  ? 'bg-clinical-accent text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? "bg-background-elevated text-text"
+                  : "bg-background-surface text-text-muted hover:bg-background-elevated"
               } transition-colors`}
             >
               {speed}x
