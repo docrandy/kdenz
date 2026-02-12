@@ -35,15 +35,15 @@
 
 ### Typography & Layout (Wave 4)
 
-- [ ] **TYP-01**: Cormorant Garamond imported and applied to all headings (h1-h6)
-- [ ] **TYP-02**: Outfit sans-serif imported and applied to body text, labels, buttons
-- [ ] **TYP-03**: Heading sizes follow typographic scale (h1: 48px, h2: 36px, h3: 28px on desktop)
-- [ ] **TYP-04**: Mobile-first layout: 420px minimum width baseline
-- [ ] **TYP-05**: Line heights optimized for readability (1.5 for body, 1.2 for headings)
-- [ ] **TYP-06**: Letter spacing adjusted for premium feel (headings: +1px, body: normal)
-- [ ] **LAY-01**: Full page layout uses dark premium spacing (24px gutters desktop, 16px mobile)
-- [ ] **LAY-02**: Card-based sections with subtle borders (#1f2937) on dark backgrounds
-- [ ] **LAY-03**: Maximum content width 1200px, centered on desktop
+- [x] **TYP-01**: Cormorant Garamond imported and applied to all headings (h1-h6)
+- [x] **TYP-02**: Outfit sans-serif imported and applied to body text, labels, buttons
+- [x] **TYP-03**: Heading sizes follow typographic scale (h1: 48px, h2: 36px, h3: 28px on desktop)
+- [x] **TYP-04**: Mobile-first layout: 420px minimum width baseline
+- [x] **TYP-05**: Line heights optimized for readability (1.5 for body, 1.2 for headings)
+- [x] **TYP-06**: Letter spacing adjusted for premium feel (headings: +1px, body: normal)
+- [x] **LAY-01**: Full page layout uses dark premium spacing (24px gutters desktop, 16px mobile)
+- [x] **LAY-02**: Card-based sections with subtle borders (#1f2937) on dark backgrounds
+- [x] **LAY-03**: Maximum content width 1200px, centered on desktop
 
 ### New Screens — Core Flow (Wave 5)
 
@@ -107,40 +107,40 @@
 | CM-04 | Phase 12 | Complete |
 | CM-05 | Phase 12 | Complete |
 | CM-06 | Phase 12 | Complete |
-| ORB-01 | Phase 3 | Pending |
-| ORB-02 | Phase 3 | Pending |
-| ORB-03 | Phase 3 | Pending |
-| ORB-04 | Phase 3 | Pending |
-| ORB-05 | Phase 3 | Pending |
-| ORB-06 | Phase 3 | Pending |
-| ORB-07 | Phase 3 | Pending |
-| TYP-01 | Phase 4 | Pending |
-| TYP-02 | Phase 4 | Pending |
-| TYP-03 | Phase 4 | Pending |
-| TYP-04 | Phase 4 | Pending |
-| TYP-05 | Phase 4 | Pending |
-| TYP-06 | Phase 4 | Pending |
-| LAY-01 | Phase 4 | Pending |
-| LAY-02 | Phase 4 | Pending |
-| LAY-03 | Phase 4 | Pending |
-| SCR-01 | Phase 5 | Pending |
-| SCR-02 | Phase 5 | Pending |
-| SCR-03 | Phase 5 | Pending |
-| SCR-04 | Phase 5 | Pending |
-| SCR-05 | Phase 5 | Pending |
-| SCR-06 | Phase 5 | Pending |
-| SCR-07 | Phase 6 | Pending |
-| SCR-08 | Phase 6 | Pending |
-| SCR-09 | Phase 6 | Pending |
-| SCR-10 | Phase 6 | Pending |
-| SCR-11 | Phase 6 | Pending |
-| SCR-12 | Phase 6 | Pending |
-| VIS-01 | Phase 1-6 | Pending |
-| VIS-02 | Phase 1-6 | Pending |
-| VIS-03 | Phase 1-6 | Pending |
-| VIS-04 | Phase 1-6 | Pending |
-| VIS-05 | Phase 1-6 | Pending |
-| VIS-06 | Phase 1-6 | Pending |
+| ORB-01 | Phase 13 | Complete |
+| ORB-02 | Phase 13 | Complete |
+| ORB-03 | Phase 13 | Complete |
+| ORB-04 | Phase 13 | Complete |
+| ORB-05 | Phase 13 | Complete |
+| ORB-06 | Phase 13 | Complete |
+| ORB-07 | Phase 13 | Complete |
+| TYP-01 | Phase 14 | Complete |
+| TYP-02 | Phase 14 | Complete |
+| TYP-03 | Phase 14 | Complete |
+| TYP-04 | Phase 14 | Complete |
+| TYP-05 | Phase 14 | Complete |
+| TYP-06 | Phase 14 | Complete |
+| LAY-01 | Phase 14 | Complete |
+| LAY-02 | Phase 14 | Complete |
+| LAY-03 | Phase 14 | Complete |
+| SCR-01 | Phase 15 | Pending |
+| SCR-02 | Phase 15 | Pending |
+| SCR-03 | Phase 15 | Pending |
+| SCR-04 | Phase 15 | Pending |
+| SCR-05 | Phase 15 | Pending |
+| SCR-06 | Phase 15 | Pending |
+| SCR-07 | Phase 16 | Pending |
+| SCR-08 | Phase 16 | Pending |
+| SCR-09 | Phase 16 | Pending |
+| SCR-10 | Phase 16 | Pending |
+| SCR-11 | Phase 16 | Pending |
+| SCR-12 | Phase 16 | Pending |
+| VIS-01 | Phase 11-16 | Pending |
+| VIS-02 | Phase 11-16 | Pending |
+| VIS-03 | Phase 11-16 | Pending |
+| VIS-04 | Phase 11-16 | Pending |
+| VIS-05 | Phase 11-16 | Pending |
+| VIS-06 | Phase 11-16 | Pending |
 
 **Coverage:**
 - v2.0 requirements: 44 total
@@ -149,4 +149,4 @@
 
 ---
 *Requirements defined: 2026-02-12*
-*Last updated: 2026-02-12 - Phase 12 requirements (CM-01 to CM-06) marked Complete*
+*Last updated: 2026-02-12 - Phase 14 requirements (TYP-01 to TYP-06, LAY-01 to LAY-03) marked Complete*

@@ -13,9 +13,9 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 **Version:** v2.0 (Phases 11-16, 44 requirements)
 **Previous:** v1.0 shipped 2026-02-05, v1.0 + Wave 1+2 technique lib at commit 90c53cd
 **Deployed:** https://kdenz.vercel.app (v1.0 active, v2.0 in development)
-**Last Action:** 2026-02-12 - Completed 14-03-PLAN.md (Layout & Spacing) — generous Calm-level spacing, immersive recording mode, Dashboard mobile carousel, subdued warnings, soft nudge glow
+**Last Action:** 2026-02-12 - Completed Phase 14 (Typography & Layout) — 4/4 plans, 9/9 must-haves verified
 
-**Progress:** ██████████████░░░░░░░░░░░░░░░░░░ v2.0 in progress (Phase 11 ✅, Phase 12 ✅, Phase 13 ✅, Phase 14 in progress, 2 phases remaining)
+**Progress:** ████████████████████░░░░░░░░░░░░ v2.0 in progress (Phase 11 ✅, Phase 12 ✅, Phase 13 ✅, Phase 14 ✅, 2 phases remaining)
 
 ## Milestone Summary
 
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 - Phase 11: Design System Foundation ✅ COMPLETE (11-01, 11-02)
 - Phase 12: Color Migration ✅ COMPLETE (12-01 through 12-07, ~57 files migrated)
 - Phase 13: SessionOrb Redesign ✅ COMPLETE (13-01: gold gradient, 3 animated rings, volume-responsive)
-- Phase 14: Typography & Layout — IN PROGRESS (14-01: typography scale ✅, 14-02: card carousel ✅, 14-03: layout spacing ✅, 1 plan remaining)
+- Phase 14: Typography & Layout ✅ COMPLETE (14-01 through 14-04, 9/9 must-haves verified)
 - Phase 15: New Screens — Core Flow (Welcome, Pre-Session, Recording, Post-Session)
 - Phase 16: New Screens — Advanced (Analysis Loader, Voice Profile, Practice Bridge, etc.)
 
@@ -52,7 +52,7 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 5. Phase 15: New Screens — Core Flow (Welcome, Pre-Session, Recording, Post-Session)
 6. Phase 16: New Screens — Advanced (Analysis Loader, Voice Profile, Practice Bridge, etc.)
 
-**Next:** Phase 14 - Typography & Layout (font integration + mobile-first refinements)
+**Next:** Phase 15 - New Screens — Core Flow (Welcome, Pre-Session, Recording, Post-Session)
 
 ## Blockers
 
@@ -66,8 +66,8 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-12
-**Stopped at:** Completed 14-03-PLAN.md — Layout & spacing refinements with generous Calm-level spacing, immersive recording mode, Dashboard mobile carousel
-**Resume with:** Phase 14 continued (plan 14-04 remaining)
+**Stopped at:** Completed Phase 14 — Typography & Layout (4/4 plans, 9/9 verified)
+**Resume with:** Phase 15 (New Screens — Core Flow) — /gsd:discuss-phase 15
 
 ## User Feedback from Phase 13 Verification (for Phase 14+)
 
@@ -82,6 +82,12 @@ None currently.
 9. Information density — good info but feels overwhelming, needs layout to be conducive to learning
 10. Possibly need a designer for layout work
 
+## User Feedback from Phase 14 Verification (for Phase 15/16)
+
+1. Profile setup should be part of signup flow, not a standalone dashboard card. Once filled, profile info in header area.
+2. Navigation: hamburger menu (☰) + circular profile image button (same size) in top bar.
+3. Move "My Activity/Progress" and "Recent Sessions" off dashboard into a dedicated Activity page.
+
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-12 - 14-03 complete (Generous Calm-level spacing throughout, immersive recording mode with no header/nav during session, Dashboard mobile carousel for one-at-a-time practice cards, subdued inline warnings, soft readable silence nudge glow)*
+*Last updated: 2026-02-12 - Phase 14 complete (4/4 plans, 9/9 verified, Calm/Headspace typography + layout across ~50 files)*
