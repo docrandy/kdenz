@@ -18,7 +18,16 @@
   Plans:
   - [x] 11-01-PLAN.md — @fontsource fonts, primitive CSS vars (18 colors + shadows), semantic Tailwind tokens
   - [x] 11-02-PLAN.md — Typography scale, component base classes (buttons, cards, inputs, badges), utility extensions
-- [ ] Phase 12: Color Migration (Wave 2: ~51 files, teal → gold, white → dark navy) — 2-3 days
+- [ ] Phase 12: Color Migration (Wave 2: ~57 files, teal → gold, white → dark navy) — 2-3 days
+  **Plans:** 7 plans (6 parallel in Wave 1, 1 cleanup in Wave 2)
+  Plans:
+  - [ ] 12-01-PLAN.md — App shell + core infrastructure (App.tsx, ErrorBoundary, LoadingSpinner, SessionOrb, SessionProgressBar)
+  - [ ] 12-02-PLAN.md — Practice session + audio components (PracticeSession, BottomControlBar, CountdownTimer, DurationSelector, SilenceNudge, AudioPlayback, WaveformVisualizer, PlaybackTimeline, FillerMarkers)
+  - [ ] 12-03-PLAN.md — Feedback, metrics & transcript components (FillerGauge, MetricCard, Scorecard, AISummary, HighlightToggle, WeeklyTrendChart, ContributionHeatmap, TranscriptView, TranscriptConfidenceIndicator)
+  - [ ] 12-04-PLAN.md — Onboarding, modals, settings components + types (WelcomeScreen, ConsentModal, BrowserWarning, DiagnosticOnboarding, PromptSelector, MicPermissionError, FeedbackButton, SelfAssessment, ImplementationIntention, SettingsPanel, QuickNoteBox, DevFeedbackBoxes, AudioQualityWarning, technique.ts)
+  - [ ] 12-05-PLAN.md — All pages (Dashboard, Settings, Privacy, PostSessionResults, BaselineResults, BaselineSession, PreSessionScreen, EvaluationPage, ScenarioLibrary, ScenarioDetail, SessionDetail, TechniqueFeedback)
+  - [ ] 12-06-PLAN.md — All features (AccusationAudit module, Labeling module, Profile module)
+  - [ ] 12-07-PLAN.md — Clinical palette removal + build verification + visual checkpoint
 - [ ] Phase 13: SessionOrb Redesign (Wave 3: Gold gradient, 3 animated rings, volume-responsive) — 2-3 days
 - [ ] Phase 14: Typography & Layout (Wave 4: Cormorant + Outfit, mobile-first 420px) — 2-3 days
 - [ ] Phase 15: New Screens — Core Flow (Wave 5: Welcome, Pre-Session, Recording, Post-Session) — 3-4 days
@@ -57,7 +66,7 @@
 | Phase | Title | Requirements | Status | Target |
 |-------|-------|--------------|--------|--------|
 | 11 | Design System Foundation | DS-01 to DS-06 | Complete (2/2 plans) | 2026-02-12 |
-| 12 | Color Migration | CM-01 to CM-06 | Pending | 2-3 days |
+| 12 | Color Migration | CM-01 to CM-06 | Planned (7 plans) | 2-3 days |
 | 13 | SessionOrb Redesign | ORB-01 to ORB-07 | Pending | 2-3 days |
 | 14 | Typography & Layout | TYP-01 to TYP-06, LAY-01 to LAY-03 | Pending | 2-3 days |
 | 15 | New Screens — Core Flow | SCR-01 to SCR-06 | Pending | 3-4 days |
@@ -87,4 +96,4 @@
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-12 - Phase 11 complete (2/2 plans, verified)*
+*Last updated: 2026-02-12 - Phase 12 planned (7 plans in 2 waves)*
