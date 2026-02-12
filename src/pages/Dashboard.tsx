@@ -45,7 +45,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background pb-safe">
       {/* Header with hamburger menu */}
       <header className="bg-background-surface border-b border-background-elevated sticky top-0 z-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <h1 className="text-h4 font-bold text-text-heading">VoiceLab</h1>
           <HamburgerMenu
             onProfile={() => navigate("/profile")}
@@ -55,7 +55,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+      <main className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Profile Preview Card */}
         <section
           onClick={() => navigate("/profile")}
@@ -88,7 +88,9 @@ export default function Dashboard() {
 
         {/* Practice Modules */}
         <section>
-          <h2 className="text-h5 font-semibold text-text-heading mb-3">Practice</h2>
+          <h2 className="text-h5 font-semibold text-text-heading mb-3">
+            Practice
+          </h2>
           <div className="grid gap-3">
             {/* Filler Words Practice */}
             <PracticeCard
@@ -122,7 +124,9 @@ export default function Dashboard() {
         {/* Recent Sessions */}
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-h5 font-semibold text-text-heading">Recent Sessions</h2>
+            <h2 className="text-h5 font-semibold text-text-heading">
+              Recent Sessions
+            </h2>
             {allSessions.length > 5 && (
               <button
                 onClick={() => setShowAllSessions(!showAllSessions)}
@@ -333,9 +337,7 @@ function PracticeCard({
       <div className="flex items-center gap-3">
         <span className="text-2xl flex-shrink-0">{icon}</span>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-body text-text-heading">
-            {title}
-          </h3>
+          <h3 className="font-semibold text-body text-text-heading">{title}</h3>
           <p className="text-body-sm text-text-body line-clamp-2">
             {description}
           </p>

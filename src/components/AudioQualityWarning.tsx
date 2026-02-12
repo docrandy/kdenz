@@ -9,8 +9,6 @@
  * - Clinical-warm-amber styling per design system
  */
 
-import { useState, useEffect } from "react";
-
 interface AudioQualityWarningProps {
   warnings: ("noise" | "clipping")[];
   className?: string;
@@ -27,45 +25,26 @@ export default function AudioQualityWarning({
   warnings,
   className = "",
 }: AudioQualityWarningProps) {
-  const [dismissedWarnings, setDismissedWarnings] = useState<Set<string>>(
-    new Set(),
-  );
-
-  // Reset dismissed warnings when warnings array changes (new session)
-  useEffect(() => {
-    if (warnings.length === 0) {
-      setDismissedWarnings(new Set());
-    }
-  }, [warnings.length]);
-
-  const handleDismiss = (warning: "noise" | "clipping") => {
-    setDismissedWarnings((prev) => new Set(prev).add(warning));
-  };
-
-  // Filter out dismissed warnings
-  const activeWarnings = warnings.filter((w) => !dismissedWarnings.has(w));
-
   // Only show unique warnings (no duplicates)
-  const uniqueWarnings = Array.from(new Set(activeWarnings));
+  const uniqueWarnings = Array.from(new Set(warnings));
 
-  // Max 2 warnings visible at once
-  const visibleWarnings = uniqueWarnings.slice(0, 2);
+  // Show only 1 warning at a time (most relevant)
+  const visibleWarnings = uniqueWarnings.slice(0, 1);
 
   if (visibleWarnings.length === 0) {
     return null;
   }
 
   return (
-    <div className={`flex flex-col gap-2 w-full max-w-md ${className}`}>
+    <div className={`w-full max-w-md ${className}`}>
       {visibleWarnings.map((warning) => (
         <div
           key={warning}
-          className="flex items-start gap-3 px-4 py-3 bg-status-warning/10 border border-status-warning/30 rounded-lg shadow-sm animate-fade-in"
-          role="alert"
+          className="flex items-center gap-1.5 animate-fade-in"
         >
-          {/* AlertTriangle icon */}
+          {/* AlertTriangle icon - small and muted */}
           <svg
-            className="w-5 h-5 text-status-warning flex-shrink-0 mt-0.5"
+            className="w-3.5 h-3.5 text-text-subtle flex-shrink-0"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -77,28 +56,9 @@ export default function AudioQualityWarning({
             <line x1="12" y1="9" x2="12" y2="13" />
             <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
-          <p className="text-body-sm text-status-warning flex-1">
+          <p className="text-caption text-text-subtle">
             {WARNING_MESSAGES[warning]}
           </p>
-          <button
-            onClick={() => handleDismiss(warning)}
-            className="flex-shrink-0 p-1 hover:bg-status-warning/15 rounded transition-colors"
-            aria-label="Dismiss warning"
-          >
-            {/* X icon */}
-            <svg
-              className="w-4 h-4 text-status-warning"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
         </div>
       ))}
     </div>

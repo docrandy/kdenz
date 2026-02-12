@@ -522,6 +522,16 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         </div>
       )}
 
+      {/* Back button in pre-recording state */}
+      {!isCapturing && (
+        <button
+          onClick={() => navigate("/")}
+          className="absolute top-4 left-4 text-text-subtle hover:text-text-muted flex items-center gap-1.5 transition-colors"
+        >
+          ← Back
+        </button>
+      )}
+
       {/* Session content - centered vertically */}
       <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-md">
         {/* PRE-SESSION: Show orb in idle state */}

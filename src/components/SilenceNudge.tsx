@@ -69,8 +69,14 @@ export default function SilenceNudge({
       `}
     >
       <div className="flex items-center justify-center py-4">
-        <div className="bg-background-surface border border-background-elevated rounded-lg px-6 py-3">
-          <p className="text-body-sm text-text-muted font-medium text-center">
+        <div
+          className="bg-background-surface/80 backdrop-blur-sm border border-accent/10 rounded-lg px-6 py-3"
+          style={{
+            boxShadow:
+              "0 0 30px rgba(201,168,76,0.08), 0 0 60px rgba(201,168,76,0.04)",
+          }}
+        >
+          <p className="text-body-sm text-text-body font-medium text-center">
             {message}
           </p>
         </div>

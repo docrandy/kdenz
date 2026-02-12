@@ -37,64 +37,17 @@ function ProfileRoute() {
 
 // Wrapper for Free Practice with navigation - Filler mode
 function FreePracticeFillerRoute() {
-  const navigate = useNavigate();
-  return (
-    <div>
-      {/* Back button header */}
-      <div className="bg-background-surface border-b border-background-elevated sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <button
-            onClick={() => navigate("/")}
-            className="text-text-muted hover:text-text flex items-center gap-2"
-          >
-            ← Back to Dashboard
-          </button>
-        </div>
-      </div>
-      <PracticeSession focusMode="filler" />
-    </div>
-  );
+  return <PracticeSession focusMode="filler" />;
 }
 
 // Wrapper for Free Practice with navigation - Pace mode
 function FreePracticePaceRoute() {
-  const navigate = useNavigate();
-  return (
-    <div>
-      {/* Back button header */}
-      <div className="bg-background-surface border-b border-background-elevated sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <button
-            onClick={() => navigate("/")}
-            className="text-text-muted hover:text-text flex items-center gap-2"
-          >
-            ← Back to Dashboard
-          </button>
-        </div>
-      </div>
-      <PracticeSession focusMode="pace" />
-    </div>
-  );
+  return <PracticeSession focusMode="pace" />;
 }
 
 // Wrapper for Technique Practice with navigation back to library
 function TechniquePracticeRoute() {
-  const navigate = useNavigate();
-  return (
-    <div>
-      <div className="bg-background-surface border-b border-background-elevated sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <button
-            onClick={() => navigate("/library")}
-            className="text-text-muted hover:text-text flex items-center gap-2"
-          >
-            ← Back to Library
-          </button>
-        </div>
-      </div>
-      <PracticeSession focusMode="filler" />
-    </div>
-  );
+  return <PracticeSession focusMode="filler" />;
 }
 
 // Wrapper for Baseline Practice with filler mode

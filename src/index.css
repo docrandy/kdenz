@@ -41,6 +41,12 @@
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Outfit', 'Inter', system-ui, sans-serif;
 
+    /* ===== SPACING PRIMITIVES ===== */
+    --spacing-gutter-desktop: 1.5rem;  /* 24px */
+    --spacing-gutter-mobile: 1rem;     /* 16px */
+    --spacing-section: 2.5rem;         /* 40px vertical between sections */
+    --spacing-card-padding: 2rem;      /* 32px internal card padding */
+
     /* ===== ELEVATION PRIMITIVES ===== */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -114,13 +120,13 @@
   .card-surface {
     @apply bg-background-surface rounded-xl
            border border-background-elevated
-           p-6 transition-all duration-200;
+           p-8 transition-all duration-200;
   }
 
   .card-elevated {
     @apply bg-background-elevated rounded-xl
            border border-background-subtle
-           p-6 shadow-md transition-all duration-200
+           p-8 shadow-md transition-all duration-200
            hover:border-accent;
   }
 
