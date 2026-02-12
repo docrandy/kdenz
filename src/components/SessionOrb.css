@@ -75,12 +75,14 @@
 @keyframes orb-ring-shimmer {
   0%,
   100% {
-    opacity: 0.15;
+    opacity: 0.1;
     transform: rotate(0deg);
+    stroke-width: inherit;
   }
   50% {
-    opacity: 0.5;
-    transform: rotate(15deg);
+    opacity: 0.85;
+    transform: rotate(30deg);
+    stroke-width: 2.5px;
   }
 }
 

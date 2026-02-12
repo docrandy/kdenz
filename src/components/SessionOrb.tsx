@@ -51,8 +51,8 @@ export const SessionOrb: React.FC<SessionOrbProps> = ({
   const middleRingOpacity = 0.3 + sensitiveAudioLevel * 0.4;
   const middleRingStroke = 2 + sensitiveAudioLevel * 0.5;
 
-  const innerRingOpacity = 0.25 + sensitiveAudioLevel * 0.35;
-  const innerRingStroke = 1 + sensitiveAudioLevel * 0.5;
+  const innerRingOpacity = 0.35 + sensitiveAudioLevel * 0.45;
+  const innerRingStroke = 1.5 + sensitiveAudioLevel * 1;
 
   // Body scale and glow modulation
   const bodyScale = 1.0 + sensitiveAudioLevel * 0.03;
