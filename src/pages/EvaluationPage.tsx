@@ -63,17 +63,17 @@ export default function EvaluationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-background border-b sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <button
             onClick={handleBack}
-            className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+            className="text-text-muted hover:text-text flex items-center gap-2"
           >
             ← Back to Results
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Session Transcript</h1>
+          <h1 className="text-lg font-semibold text-text">Session Transcript</h1>
           <div className="w-24" /> {/* Spacer for centering */}
         </div>
       </div>
@@ -82,7 +82,7 @@ export default function EvaluationPage() {
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
         {/* Transcript confidence indicator (show if < 0.85) */}
         {sessionData.averageConfidence !== undefined && sessionData.averageConfidence < 0.85 && (
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-background-surface rounded-lg p-4">
             <TranscriptConfidenceIndicator
               averageConfidence={sessionData.averageConfidence}
               lowSegmentCount={sessionData.lowConfidenceSegments || 0}
@@ -100,7 +100,7 @@ export default function EvaluationPage() {
         </div>
 
         {/* Transcript with highlighting */}
-        <div className="bg-white border rounded-lg shadow-sm">
+        <div className="bg-background border rounded-lg shadow-sm">
           <TranscriptView
             transcript={sessionData.transcript}
             reconciledFillers={sessionData.reconciledFillers}
@@ -111,7 +111,7 @@ export default function EvaluationPage() {
         </div>
 
         {/* Session stats summary */}
-        <div className="flex justify-center gap-8 text-sm text-gray-500">
+        <div className="flex justify-center gap-8 text-sm text-text-muted">
           <span>{sessionData.fillerCount} filler{sessionData.fillerCount !== 1 ? 's' : ''}</span>
           <span>{sessionData.wpm} WPM</span>
           <span>{Math.floor(sessionData.durationSeconds / 60)}m {sessionData.durationSeconds % 60}s</span>

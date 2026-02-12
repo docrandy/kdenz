@@ -45,15 +45,15 @@ export default function ScenarioLibrary() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-safe">
+    <div className="min-h-screen bg-background-surface pb-safe">
       {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-20">
+      <header className="bg-background border-b sticky top-0 z-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate("/")}
-                className="text-gray-600 hover:text-gray-900 active:text-black min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="text-text-muted hover:text-text active:text-text min-h-[44px] min-w-[44px] flex items-center justify-center"
                 aria-label="Back to Dashboard"
               >
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -66,14 +66,14 @@ export default function ScenarioLibrary() {
                   />
                 </svg>
               </button>
-              <h1 className="text-xl font-bold text-gray-900">Practice</h1>
+              <h1 className="text-xl font-bold text-text">Practice</h1>
             </div>
 
             {/* Sort dropdown */}
             <div className="relative">
               <button
                 onClick={() => setShowSortMenu(!showSortMenu)}
-                className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1 min-h-[44px] px-2"
+                className="text-sm text-text-muted hover:text-text flex items-center gap-1 min-h-[44px] px-2"
               >
                 Sort:{" "}
                 {sort === "recommended"
@@ -99,7 +99,7 @@ export default function ScenarioLibrary() {
                     className="fixed inset-0 z-30"
                     onClick={() => setShowSortMenu(false)}
                   />
-                  <div className="absolute right-0 top-full mt-1 w-44 bg-white rounded-xl shadow-lg border z-40 py-1">
+                  <div className="absolute right-0 top-full mt-1 w-44 bg-background rounded-xl shadow-lg border z-40 py-1">
                     {(
                       ["recommended", "difficulty", "framework"] as SortOption[]
                     ).map((opt) => (
@@ -109,7 +109,7 @@ export default function ScenarioLibrary() {
                           setSort(opt);
                           setShowSortMenu(false);
                         }}
-                        className={`w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 ${sort === opt ? "font-semibold text-cyan-700" : "text-gray-700"}`}
+                        className={`w-full px-4 py-2.5 text-left text-sm hover:bg-background-surface ${sort === opt ? "font-semibold text-accent" : "text-text-muted"}`}
                       >
                         {opt === "recommended"
                           ? "Recommended"
@@ -127,7 +127,7 @@ export default function ScenarioLibrary() {
           {/* Search bar */}
           <div className="mt-3 relative">
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-text-subtle"
               width="16"
               height="16"
               viewBox="0 0 16 16"
@@ -152,12 +152,12 @@ export default function ScenarioLibrary() {
               placeholder="Search techniques..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 bg-gray-100 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-colors"
+              className="w-full pl-9 pr-4 py-2.5 bg-background-elevated rounded-xl text-sm text-text placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-background transition-colors"
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-subtle hover:text-text-muted"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path
@@ -243,7 +243,7 @@ export default function ScenarioLibrary() {
               )}
               <button
                 onClick={clearAllFilters}
-                className="text-xs text-cyan-600 hover:text-cyan-700 ml-1"
+                className="text-xs text-accent hover:text-accent ml-1"
               >
                 Clear all
               </button>
@@ -254,7 +254,7 @@ export default function ScenarioLibrary() {
 
       {/* Results count */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4 pb-2">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-text-muted">
           {filteredTechniques.length} technique
           {filteredTechniques.length !== 1 ? "s" : ""}
         </p>
@@ -264,12 +264,12 @@ export default function ScenarioLibrary() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-8">
         {filteredTechniques.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-gray-500 text-base">
+            <p className="text-text-muted text-base">
               No techniques match your filters.
             </p>
             <button
               onClick={clearAllFilters}
-              className="mt-3 text-cyan-600 hover:text-cyan-700 text-sm font-medium"
+              className="mt-3 text-accent hover:text-accent text-sm font-medium"
             >
               Clear all filters
             </button>
@@ -306,8 +306,8 @@ function FilterPill({
       onClick={onClick}
       className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors min-h-[32px] ${
         active
-          ? "bg-black text-white"
-          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+          ? "btn-primary"
+          : "bg-background-elevated text-text-muted hover:bg-background-elevated"
       }`}
     >
       {label}
@@ -332,8 +332,8 @@ function CategoryFilterPill({
         onClick={() => setOpen(!open)}
         className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1 min-h-[32px] ${
           value !== "all"
-            ? "bg-black text-white"
-            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            ? "btn-primary"
+            : "bg-background-elevated text-text-muted hover:bg-background-elevated"
         }`}
       >
         {value === "all" ? "Category" : CATEGORY_DISPLAY[value]}
@@ -350,13 +350,13 @@ function CategoryFilterPill({
       {open && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
-          <div className="absolute left-0 top-full mt-1 w-48 bg-white rounded-xl shadow-lg border z-40 py-1 max-h-64 overflow-y-auto">
+          <div className="absolute left-0 top-full mt-1 w-48 bg-background rounded-xl shadow-lg border z-40 py-1 max-h-64 overflow-y-auto">
             <button
               onClick={() => {
                 onChange("all");
                 setOpen(false);
               }}
-              className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 ${value === "all" ? "font-semibold text-cyan-700" : "text-gray-700"}`}
+              className={`w-full px-4 py-2 text-left text-sm hover:bg-background-surface ${value === "all" ? "font-semibold text-accent" : "text-text-muted"}`}
             >
               All Categories
             </button>
@@ -367,7 +367,7 @@ function CategoryFilterPill({
                   onChange(cat);
                   setOpen(false);
                 }}
-                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 ${value === cat ? "font-semibold text-cyan-700" : "text-gray-700"}`}
+                className={`w-full px-4 py-2 text-left text-sm hover:bg-background-surface ${value === cat ? "font-semibold text-accent" : "text-text-muted"}`}
               >
                 {CATEGORY_DISPLAY[cat]}
               </button>
@@ -387,11 +387,11 @@ function DismissibleChip({
   onDismiss: () => void;
 }) {
   return (
-    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-cyan-100 text-cyan-800 text-xs rounded-full">
+    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-accent/10 text-accent text-xs rounded-full">
       {label}
       <button
         onClick={onDismiss}
-        className="hover:text-cyan-900"
+        className="hover:text-accent/80"
         aria-label={`Remove ${label} filter`}
       >
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -424,11 +424,11 @@ function TechniqueCard({
   return (
     <button
       onClick={onClick}
-      className="bg-white rounded-xl border p-3 sm:p-4 text-left hover:shadow-md active:bg-gray-50 transition-all flex flex-col h-full"
+      className="bg-background rounded-xl border p-3 sm:p-4 text-left hover:shadow-md active:bg-background-surface transition-all flex flex-col h-full"
     >
       {/* Top row: framework badge + difficulty */}
       <div className="flex items-center justify-between gap-2 mb-2">
-        <span className="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[10px] sm:text-xs font-bold rounded uppercase tracking-wide">
+        <span className="px-2 py-0.5 bg-accent/10 text-accent text-[10px] sm:text-xs font-bold rounded uppercase tracking-wide">
           {fw.label}
         </span>
         <span
@@ -439,21 +439,21 @@ function TechniqueCard({
       </div>
 
       {/* Technique name */}
-      <h3 className="font-semibold text-gray-900 text-sm sm:text-base leading-tight mb-1.5">
+      <h3 className="font-semibold text-text text-sm sm:text-base leading-tight mb-1.5">
         {technique.technique_name}
       </h3>
 
       {/* Description truncated */}
-      <p className="text-xs text-gray-500 line-clamp-2 mb-3 flex-1">
+      <p className="text-xs text-text-muted line-clamp-2 mb-3 flex-1">
         {technique.description}
       </p>
 
       {/* Bottom row: category + duration */}
       <div className="flex items-center justify-between gap-2 mt-auto">
-        <span className="text-[10px] sm:text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+        <span className="text-[10px] sm:text-xs text-text-muted bg-background-elevated px-2 py-0.5 rounded-full">
           {CATEGORY_DISPLAY[technique.category]}
         </span>
-        <span className="text-[10px] sm:text-xs text-gray-400 font-medium">
+        <span className="text-[10px] sm:text-xs text-text-subtle font-medium">
           {durationLabel}
         </span>
       </div>

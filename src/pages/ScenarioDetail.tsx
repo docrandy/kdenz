@@ -18,12 +18,12 @@ export default function ScenarioDetail() {
 
   if (!technique) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-500 text-lg">Technique not found</p>
+          <p className="text-text-muted text-lg">Technique not found</p>
           <button
             onClick={() => navigate("/library")}
-            className="mt-4 text-cyan-600 hover:text-cyan-700 font-medium"
+            className="mt-4 text-accent hover:text-accent font-medium"
           >
             Back to Library
           </button>
@@ -53,13 +53,13 @@ export default function ScenarioDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col pb-safe">
+    <div className="min-h-screen bg-background flex flex-col pb-safe">
       {/* Header */}
-      <header className="border-b sticky top-0 z-10 bg-white">
+      <header className="border-b sticky top-0 z-10 bg-background">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3">
           <button
             onClick={() => navigate("/library")}
-            className="text-gray-600 hover:text-gray-900 active:text-black flex items-center gap-2 text-sm min-h-[44px]"
+            className="text-text-muted hover:text-text active:text-text flex items-center gap-2 text-sm min-h-[44px]"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
@@ -81,18 +81,18 @@ export default function ScenarioDetail() {
           {/* Technique header */}
           <div className="mb-6">
             {/* Framework + Author */}
-            <p className="text-sm text-gray-500 mb-1">
+            <p className="text-sm text-text-muted mb-1">
               {fw.author} — <span className="italic">{fw.book}</span>
             </p>
 
             {/* Technique name */}
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+            <h1 className="text-2xl sm:text-3xl font-bold text-text mb-3">
               {technique.technique_name}
             </h1>
 
             {/* Badges row */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 bg-cyan-100 text-cyan-800 text-xs font-bold rounded uppercase tracking-wide">
+              <span className="px-2.5 py-1 bg-accent/10 text-accent text-xs font-bold rounded uppercase tracking-wide">
                 {fw.label}
               </span>
               <span
@@ -100,10 +100,10 @@ export default function ScenarioDetail() {
               >
                 {diff.label}
               </span>
-              <span className="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+              <span className="px-2.5 py-1 bg-background-elevated text-text-muted text-xs rounded">
                 {CATEGORY_DISPLAY[technique.category]}
               </span>
-              <span className="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded flex items-center gap-1">
+              <span className="px-2.5 py-1 bg-background-elevated text-text-muted text-xs rounded flex items-center gap-1">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <circle
                     cx="6"
@@ -131,8 +131,8 @@ export default function ScenarioDetail() {
               onClick={() => setActiveTab("briefing")}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === "briefing"
-                  ? "border-black text-gray-900"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "border-black text-text"
+                  : "border-transparent text-text-muted hover:text-text-muted"
               }`}
             >
               Briefing
@@ -141,8 +141,8 @@ export default function ScenarioDetail() {
               onClick={() => setActiveTab("learn")}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === "learn"
-                  ? "border-black text-gray-900"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "border-black text-text"
+                  : "border-transparent text-text-muted hover:text-text-muted"
               }`}
             >
               Learn
@@ -163,11 +163,11 @@ export default function ScenarioDetail() {
       </div>
 
       {/* Sticky bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t z-20">
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t z-20">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3">
           <button
             onClick={handleStartPractice}
-            className="w-full bg-black text-white py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-gray-900 active:bg-gray-800 transition-colors flex items-center justify-center gap-3 min-h-[56px]"
+            className="w-full btn-primary py-4 rounded-xl font-semibold text-base sm:text-lg hover:opacity-90 active:opacity-80 transition-colors flex items-center justify-center gap-3 min-h-[56px]"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M6 4L16 10L6 16V4Z" fill="currentColor" />
@@ -196,7 +196,7 @@ function BriefingTab({
     <div className="space-y-6">
       {/* What This Is */}
       <BriefingSection title="WHAT THIS IS">
-        <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+        <p className="text-text-muted text-sm sm:text-base leading-relaxed">
           {technique.description}
         </p>
       </BriefingSection>
@@ -206,7 +206,7 @@ function BriefingTab({
         <ul className="space-y-2.5">
           {technique.success_criteria.map((criterion, i) => (
             <li key={i} className="flex gap-2.5 text-sm sm:text-base">
-              <span className="text-green-600 mt-0.5 flex-shrink-0">
+              <span className="text-status-success mt-0.5 flex-shrink-0">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path
                     d="M3 8L6.5 11.5L13 5"
@@ -217,7 +217,7 @@ function BriefingTab({
                   />
                 </svg>
               </span>
-              <span className="text-gray-700">{criterion}</span>
+              <span className="text-text-muted">{criterion}</span>
             </li>
           ))}
         </ul>
@@ -228,7 +228,7 @@ function BriefingTab({
         <ul className="space-y-2.5">
           {technique.common_mistakes.map((mistake, i) => (
             <li key={i} className="flex gap-2.5 text-sm sm:text-base">
-              <span className="text-red-500 mt-0.5 flex-shrink-0">
+              <span className="text-status-error mt-0.5 flex-shrink-0">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path
                     d="M4 4L12 12M12 4L4 12"
@@ -238,7 +238,7 @@ function BriefingTab({
                   />
                 </svg>
               </span>
-              <span className="text-gray-700">{mistake}</span>
+              <span className="text-text-muted">{mistake}</span>
             </li>
           ))}
         </ul>
@@ -246,8 +246,8 @@ function BriefingTab({
 
       {/* Session Structure */}
       <BriefingSection title="SESSION STRUCTURE">
-        <div className="bg-gray-50 rounded-lg p-4">
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+        <div className="bg-background-surface rounded-lg p-4">
+          <p className="text-text-muted text-sm sm:text-base leading-relaxed">
             {technique.structure}
           </p>
         </div>
@@ -261,15 +261,15 @@ function BriefingTab({
               <button
                 key={paired.id}
                 onClick={() => onTechniqueClick(paired.id)}
-                className="flex-shrink-0 w-44 sm:w-52 bg-gray-50 hover:bg-gray-100 rounded-xl border p-3 text-left transition-colors"
+                className="flex-shrink-0 w-44 sm:w-52 bg-background-surface hover:bg-background-elevated rounded-xl border p-3 text-left transition-colors"
               >
-                <span className="text-[10px] font-bold text-cyan-700 uppercase tracking-wide">
+                <span className="text-[10px] font-bold text-accent uppercase tracking-wide">
                   {FRAMEWORK_DISPLAY[paired.framework].label}
                 </span>
-                <p className="font-semibold text-gray-900 text-sm mt-1 leading-tight">
+                <p className="font-semibold text-text text-sm mt-1 leading-tight">
                   {paired.technique_name}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-text-muted mt-1">
                   {DIFFICULTY_CONFIG[paired.difficulty].label} ·{" "}
                   {CATEGORY_DISPLAY[paired.category]}
                 </p>
@@ -292,7 +292,7 @@ function LearnTab({
       {/* Coaching notes as educational content */}
       {technique.coaching_notes ? (
         <BriefingSection title="TECHNIQUE BREAKDOWN">
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+          <p className="text-text-muted text-sm sm:text-base leading-relaxed">
             {technique.coaching_notes}
           </p>
         </BriefingSection>
@@ -300,19 +300,19 @@ function LearnTab({
 
       {/* Framework context */}
       <BriefingSection title="FRAMEWORK CONTEXT">
-        <div className="bg-gray-50 rounded-lg p-4">
-          <p className="text-sm font-medium text-gray-900 mb-1">
+        <div className="bg-background-surface rounded-lg p-4">
+          <p className="text-sm font-medium text-text mb-1">
             {FRAMEWORK_DISPLAY[technique.framework].author}
           </p>
-          <p className="text-xs text-gray-500 italic mb-3">
+          <p className="text-xs text-text-muted italic mb-3">
             {FRAMEWORK_DISPLAY[technique.framework].book}
           </p>
         </div>
       </BriefingSection>
 
       {/* Placeholder for future content */}
-      <div className="bg-gray-50 rounded-xl p-6 text-center">
-        <p className="text-gray-500 text-sm">
+      <div className="bg-background-surface rounded-xl p-6 text-center">
+        <p className="text-text-muted text-sm">
           Written breakdown coming soon. Practice first — the feedback will
           teach you.
         </p>
@@ -332,7 +332,7 @@ function BriefingSection({
 }) {
   return (
     <section>
-      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
+      <h3 className="text-xs font-bold text-text-subtle uppercase tracking-wider mb-3">
         {title}
       </h3>
       {children}
