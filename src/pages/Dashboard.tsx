@@ -42,11 +42,11 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-safe">
+    <div className="min-h-screen bg-background pb-safe">
       {/* Header with hamburger menu */}
-      <header className="bg-white border-b sticky top-0 z-20">
+      <header className="bg-background-surface border-b border-background-elevated sticky top-0 z-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-900">VoiceLab</h1>
+          <h1 className="text-xl font-bold text-text">VoiceLab</h1>
           <HamburgerMenu
             onProfile={() => navigate("/profile")}
             onSettings={() => navigate("/settings")}
@@ -59,36 +59,36 @@ export default function Dashboard() {
         {/* Profile Preview Card */}
         <section
           onClick={() => navigate("/profile")}
-          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border cursor-pointer hover:shadow-md transition-shadow"
+          className="bg-background-surface rounded-2xl p-4 sm:p-6 border border-background-elevated cursor-pointer hover:border-accent/20 transition-colors"
         >
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold flex-shrink-0">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-accent/80 to-accent rounded-full flex items-center justify-center text-text-inverse text-xl sm:text-2xl font-bold flex-shrink-0">
               {profile?.demographics?.preferredName?.[0]?.toUpperCase() || "?"}
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate">
+              <h2 className="text-lg sm:text-xl font-bold text-text truncate">
                 {profile?.demographics?.preferredName || "Set up your profile"}
               </h2>
               {profile?.demographics?.jobTitle && (
-                <p className="text-sm sm:text-base text-gray-600 truncate">
+                <p className="text-sm sm:text-base text-text-muted truncate">
                   {profile.demographics.jobTitle}
                 </p>
               )}
               {profile?.focusAreas?.specificGoal && (
                 <div className="flex flex-wrap gap-1 mt-2">
-                  <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 text-xs rounded-full">
+                  <span className="px-2 py-0.5 bg-accent/10 text-accent text-xs rounded-full">
                     {profile.focusAreas.specificGoal.replace(/-/g, " ")}
                   </span>
                 </div>
               )}
             </div>
-            <span className="text-gray-400 flex-shrink-0">→</span>
+            <span className="text-text-subtle flex-shrink-0">→</span>
           </div>
         </section>
 
         {/* Practice Modules */}
         <section>
-          <h2 className="text-lg font-semibold text-gray-900 mb-3">Practice</h2>
+          <h2 className="text-lg font-semibold text-text mb-3">Practice</h2>
           <div className="grid gap-3">
             {/* Filler Words Practice */}
             <PracticeCard
@@ -122,13 +122,11 @@ export default function Dashboard() {
         {/* Recent Sessions */}
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Recent Sessions
-            </h2>
+            <h2 className="text-lg font-semibold text-text">Recent Sessions</h2>
             {allSessions.length > 5 && (
               <button
                 onClick={() => setShowAllSessions(!showAllSessions)}
-                className="text-sm text-cyan-600 hover:text-cyan-700"
+                className="text-sm text-accent hover:text-accent/80"
               >
                 {showAllSessions
                   ? "Show less"
@@ -138,8 +136,8 @@ export default function Dashboard() {
           </div>
 
           {recentSessions.length === 0 ? (
-            <div className="bg-white rounded-xl p-6 text-center border">
-              <p className="text-gray-500">
+            <div className="bg-background-surface rounded-xl p-6 text-center border border-background-elevated">
+              <p className="text-text-subtle">
                 No sessions yet. Start practicing!
               </p>
             </div>
@@ -162,23 +160,24 @@ export default function Dashboard() {
         {quickNotes.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-gray-900">
-                Quick Notes
-              </h2>
+              <h2 className="text-lg font-semibold text-text">Quick Notes</h2>
               <button
                 onClick={() => navigate("/profile")}
-                className="text-sm text-cyan-600 hover:text-cyan-700"
+                className="text-sm text-accent hover:text-accent/80"
               >
                 View all
               </button>
             </div>
             <div className="space-y-2">
               {quickNotes.map((note) => (
-                <div key={note.id} className="bg-white rounded-xl p-4 border">
-                  <p className="text-gray-900 text-sm line-clamp-2">
+                <div
+                  key={note.id}
+                  className="bg-background-surface rounded-xl p-4 border border-background-elevated"
+                >
+                  <p className="text-text text-sm line-clamp-2">
                     {note.content}
                   </p>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-text-subtle mt-1">
                     {new Date(note.createdAt).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
@@ -195,19 +194,19 @@ export default function Dashboard() {
 
         {/* Quick Stats */}
         {allSessions.length > 0 && (
-          <section className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <section className="bg-background-surface rounded-2xl p-4 sm:p-6 border border-background-elevated">
+            <h2 className="text-lg font-semibold text-text mb-4">
               Your Progress
             </h2>
             <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
               <div>
-                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
+                <p className="text-2xl sm:text-3xl font-bold text-accent">
                   {allSessions.length}
                 </p>
-                <p className="text-xs sm:text-sm text-gray-500">Sessions</p>
+                <p className="text-xs sm:text-sm text-text-muted">Sessions</p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
+                <p className="text-2xl sm:text-3xl font-bold text-accent">
                   {Math.round(
                     allSessions.reduce(
                       (acc, s) => acc + (s.durationSeconds || 0),
@@ -215,13 +214,13 @@ export default function Dashboard() {
                     ) / 60,
                   )}
                 </p>
-                <p className="text-xs sm:text-sm text-gray-500">Minutes</p>
+                <p className="text-xs sm:text-sm text-text-muted">Minutes</p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
+                <p className="text-2xl sm:text-3xl font-bold text-accent">
                   {calculateStreak(allSessions)}
                 </p>
-                <p className="text-xs sm:text-sm text-gray-500">Day Streak</p>
+                <p className="text-xs sm:text-sm text-text-muted">Day Streak</p>
               </div>
             </div>
           </section>
@@ -248,13 +247,13 @@ function HamburgerMenu({
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        className="p-2 hover:bg-background-elevated rounded-lg transition-colors"
         aria-label="Menu"
       >
         <div className="w-5 h-4 flex flex-col justify-between">
-          <span className="w-full h-0.5 bg-gray-700 rounded" />
-          <span className="w-full h-0.5 bg-gray-700 rounded" />
-          <span className="w-full h-0.5 bg-gray-700 rounded" />
+          <span className="w-full h-0.5 bg-text-muted rounded" />
+          <span className="w-full h-0.5 bg-text-muted rounded" />
+          <span className="w-full h-0.5 bg-text-muted rounded" />
         </div>
       </button>
 
@@ -267,13 +266,13 @@ function HamburgerMenu({
           />
 
           {/* Menu */}
-          <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border z-40 py-2 max-w-[calc(100vw-2rem)]">
+          <div className="absolute right-0 top-full mt-2 w-48 bg-background-surface rounded-xl shadow-lg border border-background-elevated z-40 py-2 max-w-[calc(100vw-2rem)]">
             <button
               onClick={() => {
                 setIsOpen(false);
                 onProfile();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 active:bg-gray-100 flex items-center gap-3 text-sm sm:text-base"
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-sm sm:text-base text-text"
             >
               <span>👤</span>
               <span>Profile</span>
@@ -283,7 +282,7 @@ function HamburgerMenu({
                 setIsOpen(false);
                 onSettings();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 active:bg-gray-100 flex items-center gap-3 text-sm sm:text-base"
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-sm sm:text-base text-text"
             >
               <span>⚙️</span>
               <span>Settings</span>
@@ -293,13 +292,13 @@ function HamburgerMenu({
                 setIsOpen(false);
                 onPrivacy();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 active:bg-gray-100 flex items-center gap-3 text-sm sm:text-base"
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-sm sm:text-base text-text"
             >
               <span>🔒</span>
               <span>Privacy</span>
             </button>
-            <hr className="my-2" />
-            <div className="px-4 py-2 text-xs text-gray-400">
+            <hr className="my-2 border-background-elevated" />
+            <div className="px-4 py-2 text-xs text-text-subtle">
               Sign in coming soon
             </div>
           </div>
@@ -323,25 +322,25 @@ function PracticeCard({
   accent: "cyan";
 }) {
   const accentColors = {
-    cyan: "border-l-cyan-500 hover:bg-cyan-50",
+    cyan: "border-l-accent hover:bg-accent/5",
   };
 
   return (
     <button
       onClick={onClick}
-      className={`w-full bg-white rounded-xl p-4 sm:p-5 border border-l-4 ${accentColors[accent]} text-left transition-colors min-h-[60px] active:bg-cyan-50`}
+      className={`w-full bg-background-surface rounded-xl p-4 sm:p-5 border border-background-elevated border-l-4 ${accentColors[accent]} text-left transition-colors min-h-[60px] active:bg-accent/10`}
     >
       <div className="flex items-center gap-3">
         <span className="text-2xl flex-shrink-0">{icon}</span>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">
+          <h3 className="font-semibold text-text text-sm sm:text-base">
             {title}
           </h3>
-          <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">
+          <p className="text-xs sm:text-sm text-text-muted line-clamp-2">
             {description}
           </p>
         </div>
-        <span className="text-gray-400 flex-shrink-0">→</span>
+        <span className="text-text-subtle flex-shrink-0">→</span>
       </div>
     </button>
   );
@@ -359,27 +358,27 @@ function SessionCard({
   return (
     <button
       onClick={onClick}
-      className="w-full bg-white rounded-xl p-4 border text-left hover:bg-gray-50 active:bg-gray-100 transition-colors min-h-[72px]"
+      className="w-full bg-background-surface rounded-xl p-4 border border-background-elevated text-left hover:bg-background-elevated active:bg-background-elevated transition-colors min-h-[72px]"
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-gray-900 text-sm sm:text-base truncate">
+          <p className="font-medium text-text text-sm sm:text-base truncate">
             {session.durationSeconds
               ? `${Math.round(session.durationSeconds)}s session`
               : "Practice session"}
           </p>
-          <p className="text-xs sm:text-sm text-gray-500">{timeAgo}</p>
+          <p className="text-xs sm:text-sm text-text-muted">{timeAgo}</p>
         </div>
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <div className="text-right">
-            <p className="text-base sm:text-lg font-semibold text-gray-900">
+            <p className="text-base sm:text-lg font-semibold text-text">
               {session.fillerCount}
             </p>
-            <p className="text-xs sm:text-sm text-gray-500">
+            <p className="text-xs sm:text-sm text-text-muted">
               {session.wpm ? `${Math.round(session.wpm)} WPM` : "fillers"}
             </p>
           </div>
-          <span className="text-gray-300">→</span>
+          <span className="text-text-subtle">→</span>
         </div>
       </div>
     </button>
