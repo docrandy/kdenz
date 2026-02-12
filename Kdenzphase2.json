@@ -1,0 +1,1486 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-02-11",
+    "total_techniques": 51,
+    "frameworks": 5,
+    "total_scenarios": 51,
+    "difficulty_distribution": {
+      "beginner": 18,
+      "intermediate": 20,
+      "advanced": 13
+    },
+    "target_user": "Mid-career professionals (35-50), negotiations and difficult conversations",
+    "session_format": "60-second voice recordings with AI feedback"
+  },
+
+  "frameworks": {
+    "voss": {
+      "name": "Chris Voss — Never Split the Difference",
+      "id": "voss",
+      "description": "FBI hostage negotiation techniques adapted for business. Tactical empathy, emotional labeling, and calibrated questions to influence without direct confrontation.",
+      "technique_count": 12,
+      "core_philosophy": "Negotiation is not about being nice or being tough — it's about understanding and leveraging emotions to reach better outcomes."
+    },
+    "camp": {
+      "name": "Jim Camp — Start With No",
+      "id": "camp",
+      "description": "Decision-based negotiation system. Removes neediness, builds mission-driven discipline, and uses the power of 'no' to create genuine decisions rather than compromises.",
+      "technique_count": 10,
+      "core_philosophy": "A negotiation is not about agreement — it's about decisions. The moment you need a 'yes,' you've lost your power."
+    },
+    "belfort": {
+      "name": "Jordan Belfort — Straight Line Persuasion",
+      "id": "belfort",
+      "description": "Systematic persuasion through tonality control, certainty building, and structured conversation management. Keeps the conversation moving toward a decision.",
+      "technique_count": 10,
+      "core_philosophy": "Every sale follows a straight line from opening to close. Deviations are managed, not followed."
+    },
+    "bustamante": {
+      "name": "Andrew Bustamante — CIA Influence",
+      "id": "bustamante",
+      "description": "Intelligence-trained influence techniques. RICE framework (Reward, Ideology, Coercion, Ego), perception management, rapport building, and elicitation.",
+      "technique_count": 10,
+      "core_philosophy": "Everyone is motivated by RICE — Reward, Ideology, Coercion, or Ego. Identify their driver, and you control the conversation."
+    },
+    "ury": {
+      "name": "William Ury — Getting Past No",
+      "id": "ury",
+      "description": "Breakthrough negotiation for dealing with difficult people. Five-step strategy: go to the balcony, step to their side, reframe, build a golden bridge, use power to educate.",
+      "technique_count": 9,
+      "core_philosophy": "The biggest barrier to getting what you want is not the other side — it's yourself. Don't react. Go to the balcony."
+    }
+  },
+
+  "techniques": [
+
+    {
+      "id": "voss-01",
+      "technique_name": "Mirroring",
+      "framework": "voss",
+      "difficulty": "beginner",
+      "category": "rapport",
+      "description": "Repeating the last 1-3 critical words (or a selected phrase) the other person said. Creates connection, buys time, and encourages elaboration without asking a direct question.",
+      "practice_prompt": "Your colleague just told you: 'I don't think we can hit the Q3 deadline with the current resources.' Mirror their statement to get them to elaborate on what they really mean. Speak as if you're in the conversation — use a calm, curious tone.",
+      "success_criteria": [
+        "Repeats the last 1-3 words or a key phrase (e.g., 'Current resources?')",
+        "Uses upward inflection suggesting curiosity, not challenge",
+        "Pauses after the mirror — doesn't rush to fill silence",
+        "Tone is warm and genuinely curious, not mechanical or mocking",
+        "Does NOT add interpretation or assumption after the mirror"
+      ],
+      "common_mistakes": [
+        "Mirroring too many words (full sentence repeat sounds robotic)",
+        "Using a flat or confrontational tone instead of curious",
+        "Immediately following the mirror with a question or opinion (kills the silence)",
+        "Mirroring irrelevant words instead of the emotionally loaded ones",
+        "Making it sound like a challenge ('Resources?!' vs 'Resources?')"
+      ],
+      "duration_seconds": 60,
+      "structure": "Listen to the setup prompt → deliver the mirror → hold silence for 3-5 seconds → optionally deliver a second mirror based on an imagined response",
+      "pairs_well_with": ["voss-02", "voss-03"],
+      "coaching_notes": "This is the single easiest Voss technique to learn and produces immediate results. The key coaching point is the SILENCE after the mirror. Most people rush past it. Train the pause."
+    },
+
+    {
+      "id": "voss-02",
+      "technique_name": "Labeling",
+      "framework": "voss",
+      "difficulty": "beginner",
+      "category": "empathy",
+      "description": "Identifying and verbalizing the other person's emotion or position using 'It seems like...', 'It sounds like...', or 'It looks like...' Validates without agreeing, and defuses negative emotions.",
+      "practice_prompt": "Your direct report just told you they're frustrated because they feel overlooked for the promotion. They say: 'I've been here three years and watched two people get promoted over me.' Label their emotion. Don't solve the problem — just name what you hear.",
+      "success_criteria": [
+        "Uses 'It seems like...' or 'It sounds like...' (NOT 'I think you feel...')",
+        "Accurately identifies the underlying emotion (frustration, feeling undervalued, being overlooked)",
+        "Tone conveys empathy, not clinical detachment",
+        "Does NOT immediately pivot to problem-solving or advice",
+        "Allows space after the label for the person to confirm or correct"
+      ],
+      "common_mistakes": [
+        "Starting with 'I' instead of 'It' — makes it about you, not them",
+        "Labeling the wrong emotion (e.g., saying 'angry' when it's 'hurt')",
+        "Following the label immediately with a solution or 'but...'",
+        "Using a patronizing or therapeutic tone",
+        "Being too vague ('It seems like this is hard' vs 'It seems like you feel your work hasn't been recognized')"
+      ],
+      "duration_seconds": 60,
+      "structure": "Listen to setup → deliver 1-2 labels → pause after each → optionally follow up based on imagined confirmation",
+      "pairs_well_with": ["voss-01", "voss-04"],
+      "coaching_notes": "Labeling is the gateway to tactical empathy. Coach users to aim for the emotion BEHIND the words, not the surface content. 'It sounds like you feel invisible here' hits harder than 'It sounds like you want a promotion.'"
+    },
+
+    {
+      "id": "voss-03",
+      "technique_name": "Late-Night FM DJ Voice",
+      "framework": "voss",
+      "difficulty": "beginner",
+      "category": "tonality",
+      "description": "A calm, slow, downward-inflecting voice that signals control, confidence, and safety. Used to de-escalate tension and establish authority without aggression.",
+      "practice_prompt": "Your client just told you the deal is off unless you cut the price by 30%. They're heated. Use the late-night FM DJ voice to respond: 'I understand this is important to you. Let's make sure we find something that works.' Focus entirely on your TONE — slow, deep, calm, downward inflection.",
+      "success_criteria": [
+        "Noticeably slower pace than normal conversation",
+        "Downward inflection at the end of sentences (not upward/questioning)",
+        "Lower pitch register than their normal speaking voice",
+        "Even, measured cadence — no rushing or stumbling",
+        "Warmth present — not monotone or robotic"
+      ],
+      "common_mistakes": [
+        "Speaking too fast — nervousness pushes pace up",
+        "Upward inflection making statements sound like questions",
+        "Going monotone instead of warm — sounds disinterested",
+        "Overdoing it — sounds fake or condescending",
+        "Breaking character when they imagine the other person pushing back"
+      ],
+      "duration_seconds": 60,
+      "structure": "Deliver the response line in FM DJ voice → pause → deliver a second line using the same tone → reflect on how it felt",
+      "pairs_well_with": ["voss-01", "voss-02", "belfort-01"],
+      "coaching_notes": "This is the most important vocal technique in the entire app. It's the foundation for all other Voss techniques. If users only master one thing, this is it. Voice biomarker analysis should flag: pace (target: 120-140 wpm), pitch variance (target: low), and pause frequency (target: high)."
+    },
+
+    {
+      "id": "voss-04",
+      "technique_name": "Accusation Audit",
+      "framework": "voss",
+      "difficulty": "intermediate",
+      "category": "empathy",
+      "description": "Preemptively listing every negative thing the other person might think about you or your position. Defuses negativity by addressing it before they can use it.",
+      "practice_prompt": "You're about to ask your team to work weekends for the next month to hit a launch deadline. Before making the ask, do an accusation audit. List every negative thing they might think: 'You're probably thinking I don't respect your time... You might feel like leadership failed to plan properly...' Deliver this with genuine empathy.",
+      "success_criteria": [
+        "Lists at least 3 specific negative perceptions",
+        "Uses 'You're probably thinking...' or 'You might feel...' framing",
+        "Addresses the WORST things they'd think, not just mild ones",
+        "Tone is genuine, not sarcastic or dismissive",
+        "Doesn't immediately follow with 'but...' — lets the audit breathe"
+      ],
+      "common_mistakes": [
+        "Being too mild — avoiding the real accusations",
+        "Following immediately with justification ('but here's why...')",
+        "Sounding defensive while listing the accusations",
+        "Making it about themselves ('I feel bad asking...' vs 'You might think...')",
+        "Listing only 1-2 items instead of being thorough"
+      ],
+      "duration_seconds": 60,
+      "structure": "Deliver 3-5 accusation audit items → pause → then make the actual request",
+      "pairs_well_with": ["voss-02", "voss-06"],
+      "coaching_notes": "The accusation audit is counterintuitive — saying the worst things out loud feels dangerous. But it's one of the most powerful de-escalation tools. Coach users to go FURTHER than they're comfortable with. The deeper the audit, the more effective."
+    },
+
+    {
+      "id": "voss-05",
+      "technique_name": "Calibrated Questions",
+      "framework": "voss",
+      "difficulty": "intermediate",
+      "category": "questioning",
+      "description": "Open-ended 'how' and 'what' questions that give the other side the illusion of control while guiding them toward your solution. Never use 'why' (triggers defensiveness).",
+      "practice_prompt": "Your vendor just quoted a price 40% over budget. Instead of saying 'That's too expensive,' use calibrated questions: 'How am I supposed to make that work?' or 'What would you suggest I do with a budget that's 40% below that?' Ask 2-3 calibrated questions.",
+      "success_criteria": [
+        "Questions start with 'how' or 'what' (never 'why')",
+        "Questions are genuinely open-ended, not disguised statements",
+        "Tone is collaborative, not confrontational",
+        "Questions put the problem on the other side to solve",
+        "Avoids 'can,' 'is,' 'do' questions (yes/no closers)"
+      ],
+      "common_mistakes": [
+        "Using 'why' ('Why is it so expensive?' — triggers defensiveness)",
+        "Asking leading questions that are really statements",
+        "Tone that sounds accusatory rather than genuinely curious",
+        "Asking too many questions in rapid succession (feels like interrogation)",
+        "Not pausing after the question to let it land"
+      ],
+      "duration_seconds": 60,
+      "structure": "State the scenario briefly → ask first calibrated question → pause → ask second → pause → optionally a third",
+      "pairs_well_with": ["voss-01", "voss-02", "voss-07"],
+      "coaching_notes": "'How am I supposed to do that?' is the single most important calibrated question. It says 'no' without saying no. Train users to memorize this one phrase and deploy it reflexively."
+    },
+
+    {
+      "id": "voss-06",
+      "technique_name": "\"No\"-Oriented Questions",
+      "framework": "voss",
+      "difficulty": "intermediate",
+      "category": "questioning",
+      "description": "Questions designed to get a 'no' response, which paradoxically creates safety and engagement. People feel more in control when they can say no. 'Would it be ridiculous if...?' 'Have you given up on...?'",
+      "practice_prompt": "You're following up with a prospect who's gone silent after your proposal. Instead of 'Are you still interested?' (which pressures for yes), ask a no-oriented question: 'Have you given up on this project?' Deliver 2-3 no-oriented questions that invite them to re-engage.",
+      "success_criteria": [
+        "Questions are designed so that 'no' is the desired answer",
+        "Uses patterns like 'Have you given up on...?', 'Would it be a bad idea to...?', 'Is it ridiculous to suggest...?'",
+        "Tone is calm and non-pressuring",
+        "Doesn't sound passive-aggressive or guilt-tripping",
+        "Creates genuine space for the other person to say no"
+      ],
+      "common_mistakes": [
+        "Making it sound passive-aggressive ('I guess you don't care about this?')",
+        "Using yes-oriented questions disguised as no-oriented",
+        "Tone that pressures rather than invites",
+        "Not understanding the mechanism — this isn't reverse psychology, it's safety creation",
+        "Following up the 'no' answer with immediate selling"
+      ],
+      "duration_seconds": 60,
+      "structure": "Set the context briefly → deliver 2-3 no-oriented questions with pauses between each",
+      "pairs_well_with": ["voss-05", "camp-01"],
+      "coaching_notes": "This technique shares DNA with Camp's 'nurturing no.' Cross-reference for users who gravitate toward it. The key insight: 'no' makes people feel safe and in control. 'Yes' makes them feel trapped."
+    },
+
+    {
+      "id": "voss-07",
+      "technique_name": "The \"That's Right\" Trigger",
+      "framework": "voss",
+      "difficulty": "intermediate",
+      "category": "empathy",
+      "description": "Summarizing the other person's position so accurately that they say 'That's right' — the two most powerful words in negotiation. Different from 'You're right' (which is dismissive).",
+      "practice_prompt": "Your business partner is resistant to your expansion plan because they're worried about overextending. Summarize their position so well they'd say 'That's right': their concerns about cash flow, their experience with a failed expansion 5 years ago, their responsibility to existing employees. Make them feel completely heard.",
+      "success_criteria": [
+        "Summary captures both facts AND emotions",
+        "Includes the other person's underlying fears or values, not just surface objections",
+        "Uses paraphrasing, not parroting their exact words",
+        "Tone conveys genuine understanding, not strategic manipulation",
+        "Ends with a summary statement that would trigger 'that's right'"
+      ],
+      "common_mistakes": [
+        "Only summarizing facts without emotional content",
+        "Ending the summary with 'right?' (seeking validation, not understanding)",
+        "Making the summary too short — doesn't demonstrate depth of understanding",
+        "Immediately pivoting to their own agenda after the summary",
+        "Confusing 'that's right' with 'you're right' — the latter means they want you to shut up"
+      ],
+      "duration_seconds": 60,
+      "structure": "Deliver a 20-30 second comprehensive summary → pause → note what you'd say next if they responded 'that's right'",
+      "pairs_well_with": ["voss-02", "voss-04", "ury-02"],
+      "coaching_notes": "This is the advanced empathy technique. It requires synthesizing multiple data points into a coherent summary that makes the other person feel understood at a deep level. It's the gateway to influence — people don't move until they feel heard."
+    },
+
+    {
+      "id": "voss-08",
+      "technique_name": "Tactical Silence",
+      "framework": "voss",
+      "difficulty": "beginner",
+      "category": "pacing",
+      "description": "Deliberate use of silence after a statement, question, or mirror. Lets pressure build naturally, encourages the other person to fill the gap with information.",
+      "practice_prompt": "You just told your negotiation counterpart: 'We've reviewed the numbers and that price doesn't work for us.' Now STOP. Hold silence for as long as you can. In this practice, count silently to 10 after your statement. Then note how the silence felt and what you'd expect the other person to say.",
+      "success_criteria": [
+        "Delivers the initial statement with confidence",
+        "Holds genuine silence for at least 5 seconds (ideally 8-10)",
+        "Doesn't fill the silence with qualifiers, apologies, or nervous laughter",
+        "Remains calm during the silence — no audible discomfort",
+        "Reflects on the experience without dismissing it"
+      ],
+      "common_mistakes": [
+        "Breaking silence after 2-3 seconds with 'So...' or 'I mean...'",
+        "Nervous laughter or throat clearing during the pause",
+        "Weakening the original statement by adding caveats in the silence",
+        "Holding silence but with audible tension (heavy breathing, sighing)",
+        "Treating silence as aggressive rather than collaborative"
+      ],
+      "duration_seconds": 60,
+      "structure": "Deliver statement → hold 10 seconds of silence → brief reflection on the experience → deliver a second statement + silence",
+      "pairs_well_with": ["voss-01", "voss-03", "voss-05"],
+      "coaching_notes": "Silence is the most underrated negotiation tool. Voice analysis should measure: silence duration, presence of filler sounds (um, uh, so), breathing pattern stability during silence. This technique pairs with virtually everything."
+    },
+
+    {
+      "id": "voss-09",
+      "technique_name": "Anchoring with Extreme Offer",
+      "framework": "voss",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "Setting an extreme anchor point after doing an accusation audit, so the real offer seems reasonable by comparison. The accusation audit prevents the anchor from destroying rapport.",
+      "practice_prompt": "You're negotiating your consulting rate. The client expects $150/hour. You want $250. First, do a brief accusation audit ('You're going to think this number is crazy...'), then anchor at $350/hour. Deliver this with the FM DJ voice — calm, confident, not apologetic.",
+      "success_criteria": [
+        "Leads with accusation audit before the anchor",
+        "Anchor is extreme but not absurd (within 30-50% beyond target)",
+        "Delivers the number with calm confidence, not apologetically",
+        "Uses FM DJ voice throughout",
+        "Doesn't immediately backpedal or offer concessions"
+      ],
+      "common_mistakes": [
+        "Skipping the accusation audit (anchor destroys rapport)",
+        "Delivering the anchor with an apologetic or uncertain tone",
+        "Setting anchor so extreme it's insulting",
+        "Immediately offering to come down ('But I'm flexible...')",
+        "Rushing through the number instead of letting it land"
+      ],
+      "duration_seconds": 60,
+      "structure": "Accusation audit (15s) → deliver anchor number with confident tone (10s) → hold silence (5s) → brief justification if needed (15s)",
+      "pairs_well_with": ["voss-04", "voss-03", "voss-08"],
+      "coaching_notes": "This technique combines multiple Voss skills. Users should have practiced accusation audit, FM DJ voice, and tactical silence before attempting this. It's a capstone exercise."
+    },
+
+    {
+      "id": "voss-10",
+      "technique_name": "Bending Their Reality (Loss Aversion)",
+      "framework": "voss",
+      "difficulty": "advanced",
+      "category": "framing",
+      "description": "Framing the negotiation in terms of what the other side stands to LOSE rather than gain. Leverages loss aversion — people are more motivated by avoiding losses than achieving gains.",
+      "practice_prompt": "Your company is pitching a cybersecurity service to a mid-size firm. Instead of listing what they'll gain, frame what they'll LOSE by not acting: 'Companies your size experience an average breach cost of $4.2M. Every week without protection is another week of exposure.' Make the cost of inaction vivid.",
+      "success_criteria": [
+        "Frames the conversation around LOSS, not gain",
+        "Uses specific, concrete numbers or consequences",
+        "Tone is concerned, not threatening or fear-mongering",
+        "Creates urgency without desperation",
+        "Lets the other person reach their own conclusion about the risk"
+      ],
+      "common_mistakes": [
+        "Coming across as threatening or manipulative",
+        "Using vague loss framing ('You might miss out') instead of specific",
+        "Pushing too hard — creating resistance rather than urgency",
+        "Mixing gain and loss frames in the same statement (dilutes impact)",
+        "Not giving the other person space to process the loss frame"
+      ],
+      "duration_seconds": 60,
+      "structure": "Set up the loss frame (20s) → let it land with silence (5s) → reinforce with a second loss point (15s) → offer the path forward (15s)",
+      "pairs_well_with": ["voss-04", "voss-05", "belfort-04"],
+      "coaching_notes": "This connects directly to prospect theory (Kahneman & Tversky). Loss aversion is ~2x stronger than equivalent gains. The coaching focus is on making the loss VIVID and SPECIFIC while keeping the tone empathetic, not predatory."
+    },
+
+    {
+      "id": "voss-11",
+      "technique_name": "Black Swan Discovery",
+      "framework": "voss",
+      "difficulty": "advanced",
+      "category": "intelligence",
+      "description": "Seeking the unknown unknowns — the pieces of information that, if discovered, would change everything. Black swans are found through empathy, curiosity, and calibrated questions, not direct inquiry.",
+      "practice_prompt": "You're in a salary negotiation and the hiring manager seems to like you but keeps citing 'budget constraints.' Something doesn't add up. Use a combination of labels and calibrated questions to probe for the black swan: 'It seems like there's something beyond budget driving this...' 'What challenges are you facing in getting this approved?' Dig for the unknown.",
+      "success_criteria": [
+        "Uses labels and calibrated questions, not direct demands",
+        "Probes beneath the surface objection",
+        "Demonstrates genuine curiosity, not interrogation",
+        "Builds on responses rather than following a script",
+        "Creates space for the other person to reveal information voluntarily"
+      ],
+      "common_mistakes": [
+        "Asking direct 'why' questions (triggers defensiveness)",
+        "Accepting the surface objection at face value",
+        "Pushing too hard — making the other person shut down",
+        "Not listening to hints in the other person's language",
+        "Focusing on winning rather than understanding"
+      ],
+      "duration_seconds": 60,
+      "structure": "Label the surface situation (10s) → first calibrated question (10s) → imagine response and follow up (20s) → deeper probe (15s)",
+      "pairs_well_with": ["voss-02", "voss-05", "bustamante-05"],
+      "coaching_notes": "This is the most advanced Voss technique. It requires mastery of labeling, calibrated questions, and silence. It's also the technique most aligned with the app's long-term value — teaching people to find what they didn't know they were looking for."
+    },
+
+    {
+      "id": "voss-12",
+      "technique_name": "Rule of Three (Getting Implementation)",
+      "framework": "voss",
+      "difficulty": "intermediate",
+      "category": "closing",
+      "description": "Getting the other side to agree to the same thing three times in the same conversation using different approaches. If they agree three times, the commitment is real. If they resist the second or third confirmation, they're lying or uncertain.",
+      "practice_prompt": "Your vendor just agreed to deliver by March 15. Get them to confirm three times without being obvious: (1) Direct acknowledgment, (2) Summarize and label — 'It sounds like you're confident March 15 works,' (3) Calibrated question — 'What happens on your end if we get close to March 15 and there's a risk of delay?' Practice all three.",
+      "success_criteria": [
+        "Uses three distinct approaches to confirm the same commitment",
+        "Each confirmation sounds natural, not like a test",
+        "Varies the approach: direct → label → calibrated question",
+        "Listens for tone shifts that might signal false agreement",
+        "Maintains warm tone throughout (not prosecutorial)"
+      ],
+      "common_mistakes": [
+        "Making it obvious they're testing the commitment (sounds paranoid)",
+        "Using the same approach three times (just repeating 'So March 15, right?')",
+        "Being too aggressive with the third confirmation",
+        "Not varying their tone between the three asks",
+        "Ignoring verbal cues that the other person is getting annoyed"
+      ],
+      "duration_seconds": 60,
+      "structure": "First confirmation (10s) → brief transition (5s) → second confirmation via label (15s) → transition (5s) → third via calibrated question (15s)",
+      "pairs_well_with": ["voss-02", "voss-05", "voss-07"],
+      "coaching_notes": "This is a critical implementation technique. Many negotiations 'succeed' but the agreement isn't real — the other side agreed to get out of the room. The rule of three tests commitment depth. Coach users to watch for enthusiasm decrease across the three confirmations."
+    },
+
+    {
+      "id": "camp-01",
+      "technique_name": "Nurturing \"No\"",
+      "framework": "camp",
+      "difficulty": "beginner",
+      "category": "mindset",
+      "description": "Inviting the other party to say 'no' to create safety and genuine decision-making. 'No' is the start of negotiation, not the end. Removes pressure and creates an environment where real decisions can be made.",
+      "practice_prompt": "You're pitching a new project to your leadership team. Instead of seeking their buy-in ('Don't you think this is a good idea?'), invite their 'no': 'I want you to feel completely comfortable saying no to this. Is there anything about this proposal that doesn't work for you?' Practice making 'no' safe.",
+      "success_criteria": [
+        "Explicitly invites 'no' rather than pushing for 'yes'",
+        "Tone conveys genuine permission to disagree",
+        "Doesn't sound passive-aggressive or like reverse psychology",
+        "Creates real decision-making space",
+        "Remains composed and open after receiving a 'no'"
+      ],
+      "common_mistakes": [
+        "Making it sound like reverse psychology ('You don't want to do this, do you?')",
+        "Tone that says 'I want you to say yes but I'm pretending I'm okay with no'",
+        "Immediately arguing against the 'no' when it comes",
+        "Being so focused on getting 'no' that they forget the substance",
+        "Confusing this with being a pushover — it's strategic, not submissive"
+      ],
+      "duration_seconds": 60,
+      "structure": "Set up the proposal briefly (15s) → explicitly invite 'no' (15s) → practice responding to an imagined 'no' with composure (20s)",
+      "pairs_well_with": ["camp-02", "voss-06"],
+      "coaching_notes": "Camp and Voss converge here — both understand that 'no' creates psychological safety. The difference: Voss uses no-oriented questions to get engagement, Camp uses nurturing 'no' to create genuine decision authority. Both are valid paths to the same truth."
+    },
+
+    {
+      "id": "camp-02",
+      "technique_name": "No Neediness",
+      "framework": "camp",
+      "difficulty": "beginner",
+      "category": "mindset",
+      "description": "Eliminating all signals of neediness from your communication. Neediness transfers power to the other side. You want the deal, but you don't NEED it. Your voice, words, and energy must reflect this.",
+      "practice_prompt": "You desperately need this client deal to hit your quarter. But they can never know that. Practice responding to 'We're also talking to your competitor' with zero neediness: confident, relaxed, genuinely okay with whatever they decide. 'That makes sense — you should talk to them. I'm confident in what we offer, and I want you to make the best decision for your team.'",
+      "success_criteria": [
+        "No vocal indicators of desperation (rushed speech, pitch spikes, over-explaining)",
+        "Pace is measured and unhurried",
+        "Acknowledges the competitor without anxiety",
+        "Expresses confidence without arrogance",
+        "Tone communicates 'I'll be fine either way'"
+      ],
+      "common_mistakes": [
+        "Overcompensating — sounding TOO casual, which reads as disinterest",
+        "Speed-talking through the response (anxiety signal)",
+        "Immediately offering concessions or discounts",
+        "Badmouthing the competitor",
+        "Voice cracking or pitch rising on key words (stress indicators)"
+      ],
+      "duration_seconds": 60,
+      "structure": "Hear the competitor mention → respond with composed confidence (20s) → elaborate on your value without desperation (20s) → close with genuine acceptance of their decision process (15s)",
+      "pairs_well_with": ["camp-01", "camp-03", "belfort-05"],
+      "coaching_notes": "Voice biomarkers are especially useful here. Pitch stability, pace consistency, and absence of filler words are measurable indicators of neediness vs. composure. This is one of the best scenarios for demonstrating voice analysis value to users."
+    },
+
+    {
+      "id": "camp-03",
+      "technique_name": "Mission and Purpose",
+      "framework": "camp",
+      "difficulty": "intermediate",
+      "category": "preparation",
+      "description": "Defining a clear mission and purpose for the negotiation that focuses on the OTHER person's world, not yours. Your mission isn't 'close the deal' — it's 'help them solve their problem.'",
+      "practice_prompt": "You're preparing for a negotiation with a potential partner. Instead of 'My mission is to get the best terms,' reframe: state your mission in terms of what you're trying to help THEM achieve. 'My mission is to help [partner] find a distribution solution that protects their margins while expanding their reach.' Speak your mission statement aloud with conviction.",
+      "success_criteria": [
+        "Mission statement is focused on the other party's needs, not their own",
+        "Specific and concrete, not generic ('help them succeed')",
+        "Delivered with genuine conviction — not reading a script",
+        "Can articulate WHY this mission matters beyond the deal",
+        "Tone conveys purpose, not transaction"
+      ],
+      "common_mistakes": [
+        "Making the mission about themselves ('My goal is to close this deal')",
+        "Being too vague ('I want to help them')",
+        "Sounding rehearsed or corporate rather than genuine",
+        "Confusing mission with talking points",
+        "Not being able to connect the mission to the other person's real problems"
+      ],
+      "duration_seconds": 60,
+      "structure": "State the mission (15s) → explain why it matters to the other party (20s) → articulate what success looks like for them (15s)",
+      "pairs_well_with": ["camp-04", "camp-05", "ury-01"],
+      "coaching_notes": "This is Camp's foundation — everything else builds on having a clear, other-focused mission. Users who struggle here often have a neediness problem (camp-02) masquerading as a mission problem."
+    },
+
+    {
+      "id": "camp-04",
+      "technique_name": "Blank Slate",
+      "framework": "camp",
+      "difficulty": "intermediate",
+      "category": "questioning",
+      "description": "Entering a conversation with no assumptions, no script, no expectations. Asking genuinely open questions to understand the other person's world. The blank slate means: you don't know anything until they tell you.",
+      "practice_prompt": "You're meeting a new client for the first time. You've researched their company, but enter with a blank slate. Ask open-ended questions that reveal their real priorities: 'Help me understand what you're dealing with right now.' 'What does a successful outcome look like from your perspective?' Practice asking 3 genuinely curious questions.",
+      "success_criteria": [
+        "Questions are genuinely open-ended, not leading",
+        "No assumptions embedded in the questions",
+        "Tone conveys genuine curiosity, not data-gathering",
+        "Questions are focused on their world, not validating your hypothesis",
+        "Allows natural pauses after each question"
+      ],
+      "common_mistakes": [
+        "Asking leading questions based on pre-research ('So I assume your main challenge is...')",
+        "Firing questions too quickly — feels like an interview",
+        "Not listening to answers — just waiting for their turn to talk",
+        "Questions that are really disguised pitches",
+        "Breaking blank slate by referencing what you already know"
+      ],
+      "duration_seconds": 60,
+      "structure": "Set the scene briefly (10s) → ask first question + pause (15s) → ask second question + pause (15s) → ask third question + pause (15s)",
+      "pairs_well_with": ["camp-03", "bustamante-05", "voss-05"],
+      "coaching_notes": "Blank slate is the hardest Camp technique because it requires suppressing everything you've prepared. It's antithetical to most business training. Coach users that blank slate doesn't mean unprepared — it means prepared to discover, not prepared to convince."
+    },
+
+    {
+      "id": "camp-05",
+      "technique_name": "Budgeting (Time, Energy, Money, Emotion)",
+      "framework": "camp",
+      "difficulty": "intermediate",
+      "category": "preparation",
+      "description": "Before any negotiation, explicitly budgeting what you're willing to spend across four dimensions: time, energy, money, and emotion. Prevents emotional overspend and keeps you disciplined.",
+      "practice_prompt": "You're about to enter a difficult salary negotiation. Before you go in, speak aloud your budget: 'I'm willing to spend [X] time on this... I'm willing to invest [X] emotional energy... My financial floor is [X]... I will not spend more than [X] emotional capital.' Set your limits out loud.",
+      "success_criteria": [
+        "Addresses all four dimensions: time, energy, money, emotion",
+        "Sets specific, concrete limits (not vague 'some')",
+        "Tone is decisive and committed",
+        "Acknowledges the emotional dimension explicitly",
+        "Establishes clear walk-away criteria"
+      ],
+      "common_mistakes": [
+        "Skipping the emotional budget (most important one)",
+        "Setting limits too loose ('I'll spend whatever it takes')",
+        "Not being specific ('Some time' vs 'Two meetings, 90 minutes total')",
+        "Treating it as an academic exercise rather than a commitment",
+        "Forgetting that the budget is as much about what you WON'T spend"
+      ],
+      "duration_seconds": 60,
+      "structure": "Time budget (12s) → energy budget (12s) → money budget (12s) → emotion budget (12s) → summary commitment (10s)",
+      "pairs_well_with": ["camp-03", "camp-06"],
+      "coaching_notes": "The emotion budget is where most people fail in negotiations. They don't set a limit on how much emotional energy they'll invest, and they end up emotionally bankrupt before the negotiation is over. This is directly relevant to voice analysis — vocal stress markers increase as emotional budget depletes."
+    },
+
+    {
+      "id": "camp-06",
+      "technique_name": "Stripping Expectations",
+      "framework": "camp",
+      "difficulty": "advanced",
+      "category": "mindset",
+      "description": "Actively removing all expectations about outcomes before entering a negotiation. Expectations create neediness. The goal is to enter with purpose (mission) but without attachment to a specific result.",
+      "practice_prompt": "You've been working a deal for 3 months. Today is the final meeting. Practice stripping your expectations: 'I have no idea how this will end, and I'm okay with that. My mission is to help them make the best decision. If that decision is no, I will be fine. If they choose a competitor, I will be fine.' Say it until you believe it.",
+      "success_criteria": [
+        "Can articulate the stripped expectation with genuine calm",
+        "Voice doesn't betray hidden attachment to the outcome",
+        "Distinguishes between purpose (clear) and expectation (removed)",
+        "Tone is grounded, not forced or performative",
+        "Can sit with uncertainty without filling it with reassurance"
+      ],
+      "common_mistakes": [
+        "Saying the words but voice betrays anxiety",
+        "Confusing no expectations with no preparation",
+        "Using it as a coping mechanism for fear of failure rather than genuine detachment",
+        "Being unable to maintain stripped expectations once the conversation starts",
+        "Stripping expectations so thoroughly they lose motivation"
+      ],
+      "duration_seconds": 60,
+      "structure": "State what you'd normally expect/hope for (10s) → actively strip each expectation (20s) → restate your mission without expectations (15s) → reflect on how it feels (10s)",
+      "pairs_well_with": ["camp-02", "camp-03", "camp-05"],
+      "coaching_notes": "This is the most psychologically demanding Camp technique. Voice analysis is particularly valuable here — the gap between what they SAY (no expectations) and what their voice REVEALS (high stress, rapid pace, pitch instability) is the diagnostic signal."
+    },
+
+    {
+      "id": "camp-07",
+      "technique_name": "Interrogative-Led System",
+      "framework": "camp",
+      "difficulty": "beginner",
+      "category": "questioning",
+      "description": "Guiding conversations through careful, purposeful questions rather than statements or presentations. Every statement you make should be preceded by a question that sets up the other person to want to hear it.",
+      "practice_prompt": "Instead of telling your team leader 'We need more resources,' practice the interrogative approach: 'What's your biggest concern about hitting the deadline?' → (they answer) → 'What would change if you had two more engineers?' → Let them discover the answer themselves. Practice asking 3-4 questions that lead without pushing.",
+      "success_criteria": [
+        "Leads with questions, not statements",
+        "Questions build on each other logically",
+        "Guides the other person to discover the conclusion themselves",
+        "Tone is genuinely curious, not Socratic in a condescending way",
+        "Resists the urge to present their solution before the questions set it up"
+      ],
+      "common_mistakes": [
+        "Making questions too obvious/leading ('Don't you think we need more resources?')",
+        "Giving up and making statements when the questions feel slow",
+        "Being condescending — treating the other person like they need to be led",
+        "Not having a logical chain — questions that jump around randomly",
+        "Asking questions they already know the answer to in a manipulative way"
+      ],
+      "duration_seconds": 60,
+      "structure": "First question (10s) → imagined response (5s) → second question building on response (10s) → imagined response (5s) → third question (10s) → reflection (10s)",
+      "pairs_well_with": ["camp-04", "voss-05", "bustamante-05"],
+      "coaching_notes": "This overlaps significantly with Voss's calibrated questions but the intent is different. Voss asks 'how' questions to give the illusion of control. Camp asks questions to guide genuine discovery. Both work; users should find which resonates."
+    },
+
+    {
+      "id": "camp-08",
+      "technique_name": "The Camp Opener",
+      "framework": "camp",
+      "difficulty": "beginner",
+      "category": "opening",
+      "description": "Opening a negotiation by explicitly stating the other person's right to say no and removing all pressure. 'I don't know if what I have is right for you. I'm not sure this will work. Let's find out together.'",
+      "practice_prompt": "You're opening a sales conversation with a potential client. Instead of pitching, use the Camp opener: 'I appreciate your time. I honestly don't know if what we do is right for your situation. Maybe it is, maybe it isn't. I'd like to ask you some questions to find out, and if it's not a fit, I'll be the first to tell you.' Practice this opening with warmth and sincerity.",
+      "success_criteria": [
+        "Opens with genuine humility, not false modesty",
+        "Explicitly gives the other person permission to say no",
+        "Removes pressure from the interaction immediately",
+        "Tone is warm, confident, and unhurried",
+        "Doesn't undermine their own credibility — humble but not self-deprecating"
+      ],
+      "common_mistakes": [
+        "Being so humble it undermines confidence ('I'm probably not the right fit...')",
+        "Rushing through the opener to get to the pitch",
+        "Making it sound rehearsed rather than genuine",
+        "Following the opener immediately with a pitch (defeats the purpose)",
+        "Tone that says 'I'm using a technique on you'"
+      ],
+      "duration_seconds": 60,
+      "structure": "Deliver the Camp opener (20s) → transition to first blank slate question (15s) → practice sitting in the conversation without pitching (20s)",
+      "pairs_well_with": ["camp-01", "camp-02", "camp-04"],
+      "coaching_notes": "The Camp opener is the fastest way to differentiate from every other salesperson. Within 30 seconds, you've signaled: I'm different, I'm not desperate, and I respect your autonomy. This is the best beginner Camp technique."
+    },
+
+    {
+      "id": "camp-09",
+      "technique_name": "Fueling Their Vision",
+      "framework": "camp",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "Helping the other person build a vivid mental picture of what their world looks like WITH your solution — and what it looks like WITHOUT it. You never tell them what to think. You ask questions that help them see it themselves.",
+      "practice_prompt": "You're selling an enterprise software migration. Instead of listing features, fuel their vision: 'What does your Monday morning look like when your team is spending 3 hours on manual reporting? ... Now what does it look like when that report generates itself overnight and your team has those 3 hours back?' Help them SEE the future, don't TELL them about it.",
+      "success_criteria": [
+        "Creates vivid, specific mental images — not generic benefits",
+        "Contrasts the 'with' and 'without' scenarios clearly",
+        "Uses sensory language ('What does Monday morning look like...')",
+        "Lets them build the vision through their own answers, not your descriptions",
+        "Tone is collaborative, not prescriptive"
+      ],
+      "common_mistakes": [
+        "Telling instead of asking — describing the vision FOR them",
+        "Being too abstract ('You'll be more efficient' vs specific scenario)",
+        "Not contrasting enough — only painting the positive without the current pain",
+        "Rushing past the negative vision (current state) to get to the positive",
+        "Making it about features rather than their lived experience"
+      ],
+      "duration_seconds": 60,
+      "structure": "Paint the current pain scenario (20s) → ask them to envision the alternative (15s) → deepen the vision with follow-up questions (20s)",
+      "pairs_well_with": ["camp-03", "camp-04", "voss-10"],
+      "coaching_notes": "This is Camp's version of Voss's 'bending reality' — different mechanism, same outcome. Camp uses questions to let them build the vision; Voss uses loss framing to make the cost vivid. Both exploit the same psychological principle."
+    },
+
+    {
+      "id": "camp-10",
+      "technique_name": "Controlling the Agenda",
+      "framework": "camp",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "Setting and maintaining control of the negotiation agenda without being heavy-handed. Agenda control means you decide what gets discussed, in what order, and for how long. Done through questions and structure, not authority.",
+      "practice_prompt": "Your client wants to jump straight to pricing, but you need to understand their requirements first. Practice redirecting: 'I'd love to get to pricing — I know that's important. Before we do, can I ask two questions that'll help me give you the most accurate number? What's your timeline, and what does the current process cost you in staff hours?' Redirect without resistance.",
+      "success_criteria": [
+        "Acknowledges their agenda item before redirecting",
+        "Redirects smoothly — not confrontationally",
+        "Provides clear reasoning for the redirect",
+        "Maintains control through questions, not commands",
+        "Tone conveys collaboration, not power play"
+      ],
+      "common_mistakes": [
+        "Being too blunt ('We're not talking about pricing yet')",
+        "Losing control and following their agenda despite having one",
+        "Making the redirect feel like a power play",
+        "Not providing justification for why the redirect serves THEM",
+        "Asking permission to redirect rather than doing it smoothly"
+      ],
+      "duration_seconds": 60,
+      "structure": "Acknowledge their item (10s) → smooth redirect with reasoning (15s) → ask your agenda question (15s) → practice handling pushback (15s)",
+      "pairs_well_with": ["camp-07", "camp-03", "ury-03"],
+      "coaching_notes": "Agenda control is an advanced skill that combines Camp's interrogative system with conversational leadership. Users need to master blank slate and interrogative-led conversations before attempting this."
+    },
+
+    {
+      "id": "belfort-01",
+      "technique_name": "Tonality: Declarative vs. Questioning",
+      "framework": "belfort",
+      "difficulty": "beginner",
+      "category": "tonality",
+      "description": "Deliberately choosing between declarative tone (downward inflection = certainty) and questioning tone (upward inflection = curiosity/engagement). Belfort identifies ~10 tonal patterns; this exercise focuses on the two foundational ones.",
+      "practice_prompt": "Say the same sentence two ways: 'This is the right solution for your team.' First, with declarative tone — downward inflection, absolute certainty. Then with questioning/curious tone — slight upward inflection, inviting them to explore. Notice how the same words carry completely different meanings. Practice 3 sentences both ways.",
+      "success_criteria": [
+        "Clear distinction between declarative (down) and questioning (up) inflection",
+        "Declarative version sounds confident, not aggressive",
+        "Questioning version sounds curious, not uncertain",
+        "Can switch between them deliberately and consistently",
+        "Understands when each tone is appropriate"
+      ],
+      "common_mistakes": [
+        "No audible difference between the two versions",
+        "Declarative sounds aggressive or pushy",
+        "Questioning sounds uncertain or weak",
+        "Can't maintain the chosen tone for a full sentence",
+        "Defaults to one tone and can't switch"
+      ],
+      "duration_seconds": 60,
+      "structure": "Sentence 1 declarative (8s) + questioning (8s) → Sentence 2 declarative (8s) + questioning (8s) → Sentence 3 declarative (8s) + questioning (8s) → reflection (10s)",
+      "pairs_well_with": ["belfort-02", "voss-03"],
+      "coaching_notes": "This is the Belfort foundation. If they can't hear and control the difference between up and down inflection, nothing else in the Straight Line system works. Voice analysis should measure: final-word pitch direction, pitch range, and consistency across repetitions."
+    },
+
+    {
+      "id": "belfort-02",
+      "technique_name": "Tonality: Scarcity and Urgency",
+      "framework": "belfort",
+      "difficulty": "intermediate",
+      "category": "tonality",
+      "description": "Using vocal tone to create a sense of scarcity or urgency WITHOUT saying anything explicitly about scarcity. The tone does the work — slightly faster pace, mild intensity increase, hushed quality as if sharing something exclusive.",
+      "practice_prompt": "Practice saying: 'We only have a few spots left in this cohort and the next one doesn't start for three months.' First say it flatly. Then say it with Belfort's scarcity tone: slightly faster, hushed confidence, as if you're letting them in on something exclusive. Not desperate — exclusive.",
+      "success_criteria": [
+        "Scarcity tone is noticeably different from neutral delivery",
+        "Creates feeling of exclusivity, not desperation",
+        "Slightly increased pace without sounding rushed",
+        "Hushed, conspiratorial quality — like sharing insider information",
+        "Doesn't cross into high-pressure or manipulative territory"
+      ],
+      "common_mistakes": [
+        "Sounding desperate instead of exclusive",
+        "Going too fast and losing clarity",
+        "Making it sound like a used car pitch",
+        "No tonal difference from normal speech — just saying scarcity words",
+        "Being so subtle the tone change is imperceptible"
+      ],
+      "duration_seconds": 60,
+      "structure": "Flat delivery (12s) → scarcity tone delivery (12s) → practice a different scarcity statement (15s) → reflect on the difference (15s)",
+      "pairs_well_with": ["belfort-01", "belfort-04", "voss-10"],
+      "coaching_notes": "This is ethically tricky territory. Coach users on the difference between creating genuine urgency (real constraint) and manufacturing false scarcity. The technique itself is neutral — the ethics depend on whether the scarcity is real."
+    },
+
+    {
+      "id": "belfort-03",
+      "technique_name": "The Certainty Scale (Three Tens)",
+      "framework": "belfort",
+      "difficulty": "intermediate",
+      "category": "strategy",
+      "description": "Belfort's framework: a person must be at 10/10 certainty on three things to take action: (1) the product/idea, (2) you/trust, (3) the company/context. If any is below 10, they won't act. Practice building certainty on all three.",
+      "practice_prompt": "You're selling a consulting engagement. Practice building certainty across all three dimensions: First, the service itself — why this approach works. Second, yourself — why you're the right person to deliver it. Third, the firm — why your organization stands behind this. Deliver a 15-20 second statement for each dimension with genuine conviction.",
+      "success_criteria": [
+        "Addresses all three certainty dimensions separately",
+        "Each statement sounds authentic and confident",
+        "Builds logical case without being preachy",
+        "Personalizes each dimension rather than being generic",
+        "Crescendo of certainty across all three — momentum builds"
+      ],
+      "common_mistakes": [
+        "Only addressing one or two dimensions",
+        "Sounding like a commercial or infomercial",
+        "No variation between the three — same energy level for all",
+        "Being arrogant rather than confident about personal certainty",
+        "Generic statements that could apply to any company/product"
+      ],
+      "duration_seconds": 60,
+      "structure": "Product certainty (15s) → personal trust (15s) → company/context certainty (15s) → transition to ask (10s)",
+      "pairs_well_with": ["belfort-01", "belfort-04", "belfort-06"],
+      "coaching_notes": "The three tens model maps loosely to VCM gates: product certainty → C1 (believability), personal trust → C1 (social proof), company certainty → C0/C1 (environmental + belief). Users who struggle with one dimension often have a specific gate deficit."
+    },
+
+    {
+      "id": "belfort-04",
+      "technique_name": "Looping",
+      "framework": "belfort",
+      "difficulty": "advanced",
+      "category": "objection_handling",
+      "description": "When meeting an objection, acknowledge it, then loop back to build more certainty on one of the three dimensions rather than directly arguing the objection. Objections are symptoms of insufficient certainty, not problems to solve directly.",
+      "practice_prompt": "Your prospect says: 'I need to think about it.' Instead of pushing or accepting, loop: 'I hear you, and I wouldn't want you to make a rushed decision. Let me ask you — on a scale of 1-10, how do you feel about the approach itself?' [They say 7] 'What would make it a 10?' Practice the loop from objection → certainty probe → rebuild.",
+      "success_criteria": [
+        "Acknowledges the objection without arguing it",
+        "Transitions smoothly to a certainty probe",
+        "Identifies which of the three tens is weak",
+        "Rebuilds certainty on the weak dimension",
+        "Tone stays collaborative, not combative"
+      ],
+      "common_mistakes": [
+        "Arguing the objection directly ('But you should act now because...')",
+        "Giving up at the first objection",
+        "Looping without identifying WHICH certainty dimension is low",
+        "Being too obvious about the technique ('Let me use a scale...')",
+        "Losing the conversational flow — sounds scripted"
+      ],
+      "duration_seconds": 60,
+      "structure": "Receive objection (5s) → acknowledge (10s) → certainty probe (15s) → rebuild the weak dimension (20s) → natural re-close (10s)",
+      "pairs_well_with": ["belfort-03", "belfort-05", "voss-05"],
+      "coaching_notes": "Looping is the most powerful Belfort technique. It reframes objections as diagnostic information rather than barriers. The connection to VCM: every objection maps to a gate failure. 'I need to think about it' = C4 (intention) or C5 (commitment). 'It's too expensive' = C3 (will/cost). Looping is gate diagnosis in real-time."
+    },
+
+    {
+      "id": "belfort-05",
+      "technique_name": "State Management",
+      "framework": "belfort",
+      "difficulty": "beginner",
+      "category": "preparation",
+      "description": "Deliberately controlling your internal emotional state before and during a conversation. If your state is off, your tonality, words, and energy will be off. Belfort's system: physiology → focus → language → state.",
+      "practice_prompt": "You just had a terrible meeting and now you have a sales call in 5 minutes. Practice state management: Stand up, change your physiology. Take 3 deep breaths. Speak aloud your anchor statement — a memory or phrase that puts you in peak state. Then deliver your opening line for the next call with energy and conviction.",
+      "success_criteria": [
+        "Demonstrates audible physiological shift (breathing, posture cues)",
+        "Anchor statement delivered with genuine energy",
+        "Opening line sounds noticeably different from the 'bad state' version",
+        "Transition from negative to positive state is deliberate, not forced",
+        "Can articulate what changed between states"
+      ],
+      "common_mistakes": [
+        "Trying to fake state without actually shifting it",
+        "No audible difference between 'before' and 'after'",
+        "Choosing an anchor that doesn't actually change their state",
+        "Rushing through the state change process",
+        "Not recognizing when their state is off in the first place"
+      ],
+      "duration_seconds": 60,
+      "structure": "Acknowledge current negative state briefly (10s) → breathing/physiology shift (10s) → anchor statement (10s) → deliver opening line in peak state (15s) → reflect on the difference (10s)",
+      "pairs_well_with": ["belfort-01", "belfort-03", "camp-06"],
+      "coaching_notes": "State management is one of the most practically valuable techniques across all frameworks. Voice analysis can measure the before/after difference quantitatively — pitch variance, pace, energy level, vocal quality. Great for demonstrating the app's feedback value."
+    },
+
+    {
+      "id": "belfort-06",
+      "technique_name": "The Straight Line Opener",
+      "framework": "belfort",
+      "difficulty": "beginner",
+      "category": "opening",
+      "description": "Opening a conversation by immediately establishing yourself as sharp, enthusiastic, and an expert in your field — in the first 4 seconds. First impressions set the frame for the entire conversation.",
+      "practice_prompt": "You're calling a prospect for the first time. In the first 4 seconds, you need to establish: (1) you're sharp, (2) you're enthusiastic, (3) you have something worth their time. Practice: 'Hi [name], this is [your name] with [company]. I'm calling because I have something that I think could genuinely help your team, and I'd love 30 seconds to explain why.' Deliver it with conviction — not speed.",
+      "success_criteria": [
+        "Completes the opener in ~10 seconds",
+        "Projects confidence and competence immediately",
+        "Enthusiasm is genuine, not manic",
+        "Clear, crisp delivery — no mumbling or hesitation",
+        "Immediately signals value rather than asking for permission"
+      ],
+      "common_mistakes": [
+        "Being too slow and losing their attention",
+        "Being too fast and sounding desperate",
+        "Monotone delivery that signals boredom",
+        "Asking for permission before establishing value ('Is now a good time?')",
+        "Sounding like every other cold call they've ever received"
+      ],
+      "duration_seconds": 60,
+      "structure": "Deliver opener attempt 1 (10s) → self-assess (5s) → deliver attempt 2 with adjustments (10s) → deliver attempt 3 (10s) → reflection (15s)",
+      "pairs_well_with": ["belfort-01", "belfort-05", "camp-08"],
+      "coaching_notes": "First impressions are formed in 4-7 seconds. This exercise is designed for rapid iteration — deliver, self-assess, deliver again. Voice analysis should compare across attempts: is each one improving in pace, energy, and clarity?"
+    },
+
+    {
+      "id": "belfort-07",
+      "technique_name": "Pattern Interrupts",
+      "framework": "belfort",
+      "difficulty": "intermediate",
+      "category": "engagement",
+      "description": "Breaking the expected pattern of a conversation to recapture attention and reset the dynamic. When the other person is on autopilot (especially saying rehearsed objections), a pattern interrupt forces them to re-engage.",
+      "practice_prompt": "Your prospect just gave you a rehearsed objection: 'We already have a vendor for that.' Instead of responding to the content, interrupt the pattern: 'You know what, that's exactly what I'd expect you to say, and honestly, I'd be worried if you didn't have someone. I'm not here to replace them. I'm curious about something else entirely.' Practice 2-3 different pattern interrupts.",
+      "success_criteria": [
+        "Response is genuinely unexpected — breaks the script the other person expects",
+        "Tone shifts to create energy change in the conversation",
+        "Doesn't dismiss their statement — acknowledges then redirects",
+        "Creates curiosity that re-engages the other person",
+        "Smooth execution — doesn't sound like a gimmick"
+      ],
+      "common_mistakes": [
+        "Being so surprising it's jarring or confusing",
+        "Using humor that falls flat or feels inappropriate",
+        "Interrupting their pattern but not having anywhere to go next",
+        "Being disrespectful of their actual concern",
+        "Making it obvious they're using a technique"
+      ],
+      "duration_seconds": 60,
+      "structure": "Hear the objection (5s) → deliver pattern interrupt 1 (15s) → reset and try a different interrupt (15s) → try a third approach (15s) → reflect (10s)",
+      "pairs_well_with": ["belfort-04", "voss-01", "bustamante-06"],
+      "coaching_notes": "Pattern interrupts require high social calibration. Voice analysis can detect whether the user maintains confidence through the interrupt (pitch stability, pace control) or whether they lose their nerve (pitch spikes, speed increase)."
+    },
+
+    {
+      "id": "belfort-08",
+      "technique_name": "Action Threshold Identification",
+      "framework": "belfort",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "Identifying the exact point at which the other person will take action — the minimum level of certainty, urgency, and emotional engagement required to move them from 'interested' to 'yes.' Varies by person and context.",
+      "practice_prompt": "You're negotiating with a cautious buyer who's interested but won't commit. Practice diagnosing their action threshold: 'Help me understand — what would need to be true for you to feel completely comfortable moving forward? Is it the numbers, the timing, or something else?' Then practice addressing whatever dimension they'd likely identify.",
+      "success_criteria": [
+        "Directly asks what would trigger action",
+        "Listens for which certainty dimension (product, trust, context) is the bottleneck",
+        "Follows up with targeted certainty-building on the identified dimension",
+        "Tone is collaborative — 'let's figure this out together'",
+        "Doesn't push past the threshold — builds TO it"
+      ],
+      "common_mistakes": [
+        "Assuming they know the action threshold without asking",
+        "Pushing harder instead of identifying what's missing",
+        "Addressing the wrong dimension (price when the issue is trust)",
+        "Asking but not actually adjusting their approach based on the answer",
+        "Being too direct ('What's it going to take?' sounds transactional)"
+      ],
+      "duration_seconds": 60,
+      "structure": "Ask the threshold question (15s) → imagine their response (5s) → address the identified dimension (25s) → trial close (10s)",
+      "pairs_well_with": ["belfort-03", "belfort-04", "voss-11"],
+      "coaching_notes": "This maps directly to VCM gate diagnosis in real-time. The user is essentially asking: which gate is failing? Then targeting intervention to that specific gate. Advanced users will recognize the parallel."
+    },
+
+    {
+      "id": "belfort-09",
+      "technique_name": "Embedded Commands",
+      "framework": "belfort",
+      "difficulty": "advanced",
+      "category": "language",
+      "description": "Embedding action directives within larger sentences, marked by slight tonal shifts that the subconscious registers but the conscious mind doesn't flag. Example: 'When you DECIDE TO MOVE FORWARD, the first step is...'",
+      "practice_prompt": "Practice embedding commands in natural conversation. Say: 'As you THINK ABOUT this and you START TO SEE how this could work for your team, you'll notice that MAKING THIS DECISION is actually simpler than you expected.' Practice marking the embedded commands with a slight downward tone shift without being obvious.",
+      "success_criteria": [
+        "Embedded commands are present but not obvious",
+        "Slight tonal shift on command phrases (detectable by voice analysis, not by casual listener)",
+        "Sentences flow naturally — not stilted or awkward",
+        "Commands are action-oriented (decide, move forward, take the next step)",
+        "Overall delivery sounds conversational, not hypnotic"
+      ],
+      "common_mistakes": [
+        "Making the tonal shift too dramatic (sounds like hypnosis)",
+        "Commands that are too long to embed naturally",
+        "Losing sentence coherence while trying to embed commands",
+        "No tonal variation at all — commands not marked",
+        "Using aggressive commands ('BUY NOW') instead of natural ones ('see how this works')"
+      ],
+      "duration_seconds": 60,
+      "structure": "Practice sentence 1 with embedded command (15s) → practice sentence 2 (15s) → practice sentence 3 (15s) → deliver all three in sequence naturally (15s)",
+      "pairs_well_with": ["belfort-01", "belfort-02"],
+      "coaching_notes": "This is the most controversial Belfort technique. The embedded command concept comes from NLP/Ericksonian hypnosis. Evidence is mixed. Coach it as a tonal awareness exercise — the value is in developing precise tonal control, regardless of whether 'embedded commands' work as described."
+    },
+
+    {
+      "id": "belfort-10",
+      "technique_name": "The Straight Line Close",
+      "framework": "belfort",
+      "difficulty": "advanced",
+      "category": "closing",
+      "description": "Bringing a conversation to a decision point after building sufficient certainty across all three dimensions. The close isn't a trick — it's the natural conclusion of a well-run straight line conversation.",
+      "practice_prompt": "You've built certainty across all three dimensions. Now close: 'Based on everything we've discussed, I think this is a strong fit for your situation. The next step would be [specific action]. Does that work for you, or is there something we haven't addressed?' Practice delivering a close that feels like a natural next step, not a pressure moment.",
+      "success_criteria": [
+        "Close feels like a natural progression, not a sudden ask",
+        "References the conversation that preceded it (continuity)",
+        "Proposes a specific next action, not a vague 'so what do you think?'",
+        "Tone is confident but not pressuring",
+        "Leaves room for the other person to raise final concerns"
+      ],
+      "common_mistakes": [
+        "Closing too abruptly without sufficient certainty-building",
+        "Being vague about the next step",
+        "Tone shifts to desperate/needy at the close moment",
+        "Not leaving room for final objections (triggers buyer's remorse)",
+        "Over-selling past the close — continuing to pitch after they've said yes"
+      ],
+      "duration_seconds": 60,
+      "structure": "Brief summary of what was discussed (15s) → the close with specific next step (15s) → handling a 'yes' cleanly (10s) → handling a 'let me think about it' with a loop (15s)",
+      "pairs_well_with": ["belfort-03", "belfort-04", "belfort-08"],
+      "coaching_notes": "The close is where most people's voice betrays them. Pitch rises, pace increases, filler words multiply. Voice analysis should flag: close-moment stress indicators compared to rest of session. This is the ultimate test of state management."
+    },
+
+    {
+      "id": "bustamante-01",
+      "technique_name": "RICE Identification: Reward",
+      "framework": "bustamante",
+      "difficulty": "beginner",
+      "category": "intelligence",
+      "description": "Identifying when someone is primarily motivated by REWARD — money, status, recognition, material benefit. Everyone has a dominant RICE motivator. People motivated by Reward respond to incentives, bonuses, and tangible outcomes.",
+      "practice_prompt": "You're in a conversation with a colleague who's resistant to taking on a new project. Practice identifying Reward as their driver and speaking to it: 'I know the extra work doesn't sound appealing. But here's what's in it for you — this project has executive visibility, and the last three people who led projects like this got promoted within 18 months.' Speak to their reward motivation directly.",
+      "success_criteria": [
+        "Identifies specific, concrete rewards (not vague 'it'll be great for your career')",
+        "Connects the reward to something they actually value",
+        "Tone is informational, not transactional",
+        "Doesn't make it sound like a bribe — presents it as natural consequence",
+        "Calibrates the reward to the person's level (VP doesn't care about a gift card)"
+      ],
+      "common_mistakes": [
+        "Being too transactional ('If you do X, I'll give you Y')",
+        "Offering rewards that don't match the person's actual motivations",
+        "Making it sound manipulative rather than genuinely helpful",
+        "Not being specific enough about the reward",
+        "Misidentifying their RICE — assuming Reward when it's actually Ego or Ideology"
+      ],
+      "duration_seconds": 60,
+      "structure": "Acknowledge the resistance (10s) → identify the reward angle (15s) → present the specific reward (20s) → let it land (10s)",
+      "pairs_well_with": ["bustamante-02", "bustamante-03", "bustamante-04"],
+      "coaching_notes": "RICE is the framework that ties the Bustamante system together. Each of the four RICE exercises should be practiced as a set, then users should practice IDENTIFYING which RICE driver is dominant before choosing their approach."
+    },
+
+    {
+      "id": "bustamante-02",
+      "technique_name": "RICE Identification: Ideology",
+      "framework": "bustamante",
+      "difficulty": "beginner",
+      "category": "intelligence",
+      "description": "Identifying when someone is primarily motivated by IDEOLOGY — beliefs, values, principles, causes. People motivated by Ideology respond to mission alignment, doing the right thing, and being part of something bigger.",
+      "practice_prompt": "Your team member doesn't want to adopt a new sustainability initiative. They see it as extra work. Practice speaking to their Ideology: 'I know this feels like one more thing on your plate. But you've always been the person on this team who cares about doing things the right way. This initiative is about building something we can be proud of. Your voice would carry weight here.'",
+      "success_criteria": [
+        "Connects the request to their stated values or beliefs",
+        "Tone is sincere and respectful of their principles",
+        "References their identity as someone who stands for something",
+        "Doesn't manipulate their beliefs — genuinely aligns with them",
+        "Creates a sense of mission and purpose around the ask"
+      ],
+      "common_mistakes": [
+        "Manufacturing fake ideological alignment",
+        "Being preachy or moralistic",
+        "Misidentifying their actual values",
+        "Making it about guilt ('You should care about this')",
+        "Being too abstract — needs to connect ideology to specific action"
+      ],
+      "duration_seconds": 60,
+      "structure": "Acknowledge their concern (10s) → connect to their values/beliefs (15s) → present the ideological alignment (20s) → invite their participation (10s)",
+      "pairs_well_with": ["bustamante-01", "bustamante-03", "bustamante-04"],
+      "coaching_notes": "Ideology motivation is common in mid-career professionals who've started asking 'Is this meaningful?' Voice signature: genuine energy when values are invoked, vs flat delivery when only rewards are mentioned."
+    },
+
+    {
+      "id": "bustamante-03",
+      "technique_name": "RICE Identification: Coercion",
+      "framework": "bustamante",
+      "difficulty": "intermediate",
+      "category": "intelligence",
+      "description": "Understanding when someone is motivated by COERCION — consequences, deadlines, authority pressure, fear of loss. Not about threatening — about recognizing when someone responds to 'what happens if you don't' rather than 'what happens if you do.'",
+      "practice_prompt": "A team member is missing deadlines. Instead of repeating the reward, try the coercion angle — consequences, not threats: 'I want to be direct with you. If this deadline slips again, it triggers the penalty clause in our client contract, which impacts the team's bonus pool. I don't want that for anyone. What's getting in the way, and how can I help you hit this one?'",
+      "success_criteria": [
+        "Presents real consequences, not manufactured threats",
+        "Tone is direct and caring, not punitive",
+        "Pairs the consequence with genuine offer to help",
+        "Makes the consequence about the situation, not personal punishment",
+        "Doesn't use coercion as a first resort — positions as 'I want to help you avoid this'"
+      ],
+      "common_mistakes": [
+        "Sounding threatening or authoritarian",
+        "Making up consequences that aren't real",
+        "Using coercion when the person is actually motivated by Reward or Ideology",
+        "Not pairing consequences with support",
+        "Tone that creates resentment rather than urgency"
+      ],
+      "duration_seconds": 60,
+      "structure": "Context setting (10s) → present the consequence clearly (15s) → genuine offer to help (15s) → collaborative next step (15s)",
+      "pairs_well_with": ["bustamante-01", "bustamante-02", "bustamante-04"],
+      "coaching_notes": "Coercion is the most misunderstood RICE driver. It's NOT about being mean. It's about recognizing that some people are motivated by consequence avoidance, and speaking that language clearly and humanely. Ethical use requires real consequences, not manufactured ones."
+    },
+
+    {
+      "id": "bustamante-04",
+      "technique_name": "RICE Identification: Ego",
+      "framework": "bustamante",
+      "difficulty": "intermediate",
+      "category": "intelligence",
+      "description": "Identifying when someone is primarily motivated by EGO — self-image, status, being seen as competent, intelligent, or important. People motivated by Ego respond to recognition, being asked for expertise, and being positioned as essential.",
+      "practice_prompt": "Your senior stakeholder is blocking a project you need approved. Try the Ego approach: 'I've been thinking about this problem and I keep coming back to the fact that you're the only person who understands both the technical and the business side well enough to see if this will work. I'd really value your input on the approach before we commit.'",
+      "success_criteria": [
+        "Genuinely acknowledges their unique expertise or position",
+        "Positions them as essential without being sycophantic",
+        "Tone is respectful and genuine, not flattering",
+        "Makes the ask about their input, not just their approval",
+        "Doesn't overdo it — subtle ego acknowledgment, not obvious flattery"
+      ],
+      "common_mistakes": [
+        "Being obviously flattering ('You're so brilliant...')",
+        "Ego stroking without substance — it has to be grounded in real expertise",
+        "Overestimating how much ego-stroking is needed",
+        "Using ego approach with someone who's Ideology-driven (feels manipulative)",
+        "Not following through — if you ask for their input, you need to actually use it"
+      ],
+      "duration_seconds": 60,
+      "structure": "Acknowledge their unique position (10s) → explain why their input matters (15s) → make the specific ask (15s) → reinforce their importance (10s)",
+      "pairs_well_with": ["bustamante-01", "bustamante-02", "bustamante-03"],
+      "coaching_notes": "Ego is the dominant RICE driver in many executives and senior leaders. Voice signature: their vocal energy increases when they feel their expertise is being recognized. Coach users to watch for this signal as confirmation they've identified the right driver."
+    },
+
+    {
+      "id": "bustamante-05",
+      "technique_name": "Elicitation",
+      "framework": "bustamante",
+      "difficulty": "intermediate",
+      "category": "intelligence",
+      "description": "Getting information from someone without them realizing they're giving it. Uses natural conversational techniques: making slightly wrong statements (triggering correction), sharing first (reciprocity), and provocative statements that invite elaboration.",
+      "practice_prompt": "You need to find out your competitor's pricing but can't ask directly. Practice elicitation techniques: (1) Make a slightly wrong statement: 'I heard their enterprise plan runs about $500 per seat...' and let them correct you. (2) Share first: 'We've been pricing around $300 — how does that compare to what you've seen?' Practice both approaches naturally.",
+      "success_criteria": [
+        "Statements sound natural and conversational, not like interrogation",
+        "Wrong statements are close enough to be plausible, wrong enough to trigger correction",
+        "Sharing first creates genuine reciprocity, not obligation",
+        "Tone is casual and flowing — not strategic",
+        "Follows up naturally on the information received"
+      ],
+      "common_mistakes": [
+        "Being too obvious about what they're trying to learn",
+        "Wrong statements that are so far off they seem ignorant",
+        "Tone that signals 'I'm trying to extract information from you'",
+        "Not following up when the other person corrects or shares",
+        "Breaking conversational flow to process the intelligence"
+      ],
+      "duration_seconds": 60,
+      "structure": "Elicitation technique 1: wrong statement (20s) → technique 2: sharing first (20s) → technique 3: provocative statement (15s)",
+      "pairs_well_with": ["bustamante-06", "camp-04", "voss-11"],
+      "coaching_notes": "Elicitation is where CIA tradecraft and business overlap most naturally. Mid-career professionals use these techniques every day without knowing it. The value here is making it deliberate and systematic."
+    },
+
+    {
+      "id": "bustamante-06",
+      "technique_name": "Perception vs. Perspective",
+      "framework": "bustamante",
+      "difficulty": "beginner",
+      "category": "intelligence",
+      "description": "Distinguishing between perception (how things appear from the outside) and perspective (how things actually are from the inside). In influence, managing perception is often more important than managing reality. But understanding perspective is how you find leverage.",
+      "practice_prompt": "Your department is being restructured and people are anxious. Practice separating perception from perspective: 'The PERCEPTION right now is that this restructuring means layoffs. I understand that — it looks that way. The PERSPECTIVE from inside the planning team is that we're actually creating 15 new roles. Let me share what I can about what's actually happening.' Practice naming both clearly.",
+      "success_criteria": [
+        "Clearly distinguishes between what people think is happening (perception) and what's actually happening (perspective)",
+        "Validates the perception before correcting it",
+        "Doesn't dismiss the perception as wrong — acknowledges it as understandable",
+        "Provides specific perspective information, not vague reassurance",
+        "Tone conveys transparency and trustworthiness"
+      ],
+      "common_mistakes": [
+        "Dismissing the perception ('That's not true' — invalidates their experience)",
+        "Not validating perception before offering perspective",
+        "Being vague about the perspective ('Trust me, it's fine')",
+        "Using perception/perspective language in a manipulative way",
+        "Tone that sounds defensive rather than transparent"
+      ],
+      "duration_seconds": 60,
+      "structure": "Name the perception (15s) → validate it (10s) → share the perspective (20s) → bridge between the two (10s)",
+      "pairs_well_with": ["bustamante-07", "ury-02", "voss-02"],
+      "coaching_notes": "This framework is incredibly useful for leadership communication. Most leadership failures are perception management failures. The technique is simple but the execution requires genuine empathy — you have to ACTUALLY understand why their perception makes sense before you can bridge to perspective."
+    },
+
+    {
+      "id": "bustamante-07",
+      "technique_name": "Rapport Building (CIA Method)",
+      "framework": "bustamante",
+      "difficulty": "beginner",
+      "category": "rapport",
+      "description": "Building rapport quickly using CIA principles: find common ground, mirror their energy level, match their communication style, and demonstrate genuine interest in their world. Different from casual rapport — this is systematic and purposeful.",
+      "practice_prompt": "You're meeting a new executive stakeholder for the first time. You have 2 minutes of small talk before the meeting starts. Practice building rapid rapport: Match their energy, find genuine common ground, ask one question about THEIR world that shows you've done your homework. 'I noticed your team presented at [conference] last quarter. How did that go?'",
+      "success_criteria": [
+        "Finds genuine common ground quickly",
+        "Asks about their world, not talks about their own",
+        "Energy level matches the other person's (doesn't overpower or underwhelm)",
+        "Question demonstrates homework/preparation",
+        "Rapport feels natural, not manufactured"
+      ],
+      "common_mistakes": [
+        "Trying too hard — rapport should feel effortless",
+        "Talking about themselves instead of asking about the other person",
+        "Mismatching energy (too enthusiastic with someone reserved, or vice versa)",
+        "Generic small talk that doesn't demonstrate genuine interest",
+        "Being so focused on rapport-building that they can't transition to business"
+      ],
+      "duration_seconds": 60,
+      "structure": "Opening with energy-matching (10s) → common ground identification (15s) → homework question (15s) → natural transition to business (15s)",
+      "pairs_well_with": ["bustamante-06", "bustamante-05", "voss-01"],
+      "coaching_notes": "CIA rapport building is more systematic than casual conversation skills. The key difference: purpose. Every element of the rapport interaction serves an intelligence-gathering or relationship-building objective. Coach users to be purposeful without being calculating."
+    },
+
+    {
+      "id": "bustamante-08",
+      "technique_name": "Reading the Room",
+      "framework": "bustamante",
+      "difficulty": "intermediate",
+      "category": "intelligence",
+      "description": "Systematically assessing the emotional temperature, power dynamics, and unspoken tensions in a room or conversation. CIA officers are trained to read a room in 60 seconds — who has power, who's aligned with whom, and what's not being said.",
+      "practice_prompt": "You walk into a meeting with 4 stakeholders. Practice narrating what you'd observe: 'The VP is seated at the head — she's running this. The project manager is leaning forward, eager — he wants approval. The finance director has crossed arms — she's skeptical. The CTO hasn't looked up from his laptop — he's either bored or opposed.' Practice reading and naming the dynamics aloud.",
+      "success_criteria": [
+        "Identifies power dynamics (who's in charge, who's deferring)",
+        "Reads body language and nonverbal cues accurately",
+        "Identifies alliances and tensions between people",
+        "Notes what's NOT being said as much as what is",
+        "Translates observations into strategic approach"
+      ],
+      "common_mistakes": [
+        "Over-reading — seeing tension that isn't there",
+        "Under-reading — missing obvious dynamics",
+        "Focusing only on the person they're presenting to, ignoring others",
+        "Making assumptions based on stereotypes rather than observation",
+        "Reading the room but not adjusting their approach based on what they see"
+      ],
+      "duration_seconds": 60,
+      "structure": "Describe the room setup (10s) → read each person (30s) → identify the key dynamic (10s) → state how you'd adjust your approach (10s)",
+      "pairs_well_with": ["bustamante-06", "bustamante-07", "voss-11"],
+      "coaching_notes": "This exercise is unusual — it's observational narration rather than dialogue practice. But it develops the analytical muscle that underlies all influence techniques. Voice analysis contribution is limited here, but it's a valuable thinking exercise."
+    },
+
+    {
+      "id": "bustamante-09",
+      "technique_name": "The Strategic Pause (CIA Breathing)",
+      "framework": "bustamante",
+      "difficulty": "beginner",
+      "category": "pacing",
+      "description": "Using deliberate pauses to control conversation pace, signal confidence, and create space for the other person to fill with information. Similar to Voss's tactical silence but with a different intent: intelligence gathering rather than negotiation pressure.",
+      "practice_prompt": "Someone asks you a loaded question in a meeting: 'Why did your team miss the deadline?' Instead of reacting immediately, practice the strategic pause: breathe, hold for 3 seconds, then respond with measured calm. 'That's a fair question. [pause] Here's what happened...' Practice pausing BEFORE responding to 3 different challenging questions.",
+      "success_criteria": [
+        "Pauses for at least 2-3 seconds before responding to each challenge",
+        "Pause feels deliberate and confident, not frozen or confused",
+        "Response after the pause is measured, not reactive",
+        "Breathing during the pause is controlled and audible",
+        "Demonstrates improvement across the 3 attempts"
+      ],
+      "common_mistakes": [
+        "Pause is too short — more of a stutter than a strategic pause",
+        "Filling the pause with 'um' or 'well' or nervous sounds",
+        "Pause followed by a defensive or reactive response (defeats the purpose)",
+        "Looking/sounding caught off guard rather than deliberate",
+        "Not practicing with genuinely challenging questions"
+      ],
+      "duration_seconds": 60,
+      "structure": "Challenging question 1 → strategic pause → measured response (18s) → question 2 → pause → response (18s) → question 3 → pause → response (18s)",
+      "pairs_well_with": ["voss-08", "bustamante-07", "belfort-05"],
+      "coaching_notes": "This overlaps with Voss's tactical silence but the training intent is different. Voss silence creates pressure. CIA pause creates composure. Both are valuable. Voice analysis should measure: pre-response pause duration, breathing pattern during pause, and vocal quality of the post-pause response."
+    },
+
+    {
+      "id": "bustamante-10",
+      "technique_name": "Information Layering",
+      "framework": "bustamante",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "Strategically releasing information in layers — giving enough to build trust and engagement but holding back enough to maintain leverage. Each layer reveals slightly more while creating appetite for the next.",
+      "practice_prompt": "You have a compelling business case but releasing all the data at once would overwhelm. Practice layering: Layer 1: 'We've identified an opportunity that could save $2M annually.' [pause for reaction] Layer 2: 'It involves restructuring how we handle vendor payments — nothing operational changes.' [pause] Layer 3: 'I've already run the numbers with finance — they're supportive.' Build anticipation between layers.",
+      "success_criteria": [
+        "Each layer adds specific new information",
+        "Pauses between layers create space for reaction and questions",
+        "Layers build logically — each one makes the next more compelling",
+        "Holds back the most compelling piece for later in the sequence",
+        "Tone builds subtle momentum without becoming a sales pitch"
+      ],
+      "common_mistakes": [
+        "Dumping all information at once (no layering)",
+        "Layers that don't build logically",
+        "Withholding too much — creates suspicion rather than curiosity",
+        "Not pausing between layers to let each one land",
+        "Making it obvious they're strategically withholding ('I haven't told you the best part yet')"
+      ],
+      "duration_seconds": 60,
+      "structure": "Layer 1 with pause (15s) → Layer 2 with pause (15s) → Layer 3 with pause (15s) → optional Layer 4 or close (10s)",
+      "pairs_well_with": ["bustamante-05", "bustamante-08", "camp-09"],
+      "coaching_notes": "Information layering is one of the most sophisticated influence techniques. It requires understanding what the other person finds compelling and structuring the reveal accordingly. Advanced users can combine this with RICE identification — layering information that speaks to the other person's dominant motivator."
+    },
+
+    {
+      "id": "ury-01",
+      "technique_name": "Going to the Balcony",
+      "framework": "ury",
+      "difficulty": "beginner",
+      "category": "self_management",
+      "description": "Mentally stepping back from the negotiation to observe it from above — like going to a balcony to watch a play. Creates emotional distance that prevents reactive behavior. The foundation of Ury's entire system.",
+      "practice_prompt": "Someone just accused you in a meeting: 'Your team dropped the ball on this project and now we're all paying for it.' You feel your face flush. Practice going to the balcony: take a breath, mentally zoom out, observe the scene as if watching from above. Then respond from the balcony, not the floor: 'I hear your frustration. Let me share what happened and what we're doing about it.'",
+      "success_criteria": [
+        "Demonstrates a clear pause before responding (the 'going to the balcony' moment)",
+        "Response is measured and non-reactive, not defensive",
+        "Acknowledges the other person's emotion without matching it",
+        "Vocal quality reflects composure, not suppressed anger",
+        "Can articulate the shift from reactive to observational mindset"
+      ],
+      "common_mistakes": [
+        "Responding immediately without the balcony pause",
+        "Going to the balcony but then responding defensively anyway",
+        "Suppressing emotion (sounds robotic) instead of managing it",
+        "Taking so long on the balcony they lose the conversational moment",
+        "Using the balcony to plan a counter-attack rather than to find understanding"
+      ],
+      "duration_seconds": 60,
+      "structure": "Hear the provocation (5s) → balcony moment with breath (5s) → composed response (20s) → second provocation → balcony → response (25s)",
+      "pairs_well_with": ["ury-02", "bustamante-09", "belfort-05"],
+      "coaching_notes": "This is Ury's foundation — everything else requires this skill. Voice analysis is very relevant: measure the difference between the first response attempt (reactive) and subsequent attempts (from the balcony). Stress markers should decrease across attempts."
+    },
+
+    {
+      "id": "ury-02",
+      "technique_name": "Stepping to Their Side",
+      "framework": "ury",
+      "difficulty": "intermediate",
+      "category": "empathy",
+      "description": "Actively demonstrating that you understand the other person's perspective — not just intellectually, but emotionally. Different from agreement — you can step to their side without agreeing with them. The goal is to make them feel heard.",
+      "practice_prompt": "Your client is angry about a delayed deliverable: 'This is the third time you've missed a deadline. I'm starting to question whether we should continue this relationship.' Step to their side: 'If I were in your position and a vendor had missed three deadlines, I'd be questioning the relationship too. Your time and budget are on the line, and we haven't delivered what we promised. That's not acceptable.'",
+      "success_criteria": [
+        "Demonstrates genuine understanding of their position",
+        "Uses 'If I were in your position' or equivalent perspective-taking language",
+        "Acknowledges their EMOTION, not just their point",
+        "Doesn't immediately defend or explain — stays on their side first",
+        "Tone conveys genuine empathy, not strategic appeasement"
+      ],
+      "common_mistakes": [
+        "Stepping to their side superficially ('I understand' without demonstrating understanding)",
+        "Immediately pivoting to defense or explanation",
+        "Agreeing with everything (being a pushover) vs understanding (being empathetic)",
+        "Tone that sounds patronizing or clinical",
+        "Using it as a transition to 'but...' rather than genuinely sitting with their perspective"
+      ],
+      "duration_seconds": 60,
+      "structure": "Hear the complaint (5s) → step to their side fully (25s) → transition to what you'll do about it (only after they feel heard) (25s)",
+      "pairs_well_with": ["ury-01", "ury-03", "voss-07"],
+      "coaching_notes": "This is the Ury equivalent of Voss's 'that's right' trigger — both require deep empathetic understanding before any forward movement. The difference: Voss summarizes to trigger 'that's right'; Ury steps to their side to create psychological permission to move forward."
+    },
+
+    {
+      "id": "ury-03",
+      "technique_name": "Reframing",
+      "framework": "ury",
+      "difficulty": "intermediate",
+      "category": "framing",
+      "description": "Changing the frame of the conversation from positional bargaining (your position vs my position) to interest-based negotiation (what we both actually need). Turns attacks into opportunities and positions into underlying interests.",
+      "practice_prompt": "Your landlord says: 'The rent is $5,000. Take it or leave it.' Instead of countering with a lower number (positional), reframe to interests: 'I understand you need to maintain the property value and cash flow. I need a space that works within my budget for at least two years. What if we explored a longer lease term that gives you the stability you want while adjusting the monthly number?'",
+      "success_criteria": [
+        "Identifies the underlying INTERESTS behind the other person's position",
+        "Proposes a frame that serves both parties' interests",
+        "Doesn't counter their position with another position",
+        "Tone is creative and collaborative, not combative",
+        "Opens new possibilities that weren't visible in the original frame"
+      ],
+      "common_mistakes": [
+        "Countering position with position ('No, the rent should be $4,000')",
+        "Reframing in a way that only serves their own interests",
+        "Being so creative with the reframe that it confuses the other person",
+        "Not acknowledging the original position before reframing",
+        "Reframe that sounds manipulative rather than genuinely expanding options"
+      ],
+      "duration_seconds": 60,
+      "structure": "Hear the position (5s) → acknowledge it briefly (10s) → identify interests aloud (15s) → deliver the reframe (20s) → check for receptivity (5s)",
+      "pairs_well_with": ["ury-02", "ury-04", "voss-05"],
+      "coaching_notes": "Reframing is the most intellectually demanding Ury technique. It requires on-the-fly creative thinking. Voice analysis can detect whether the user is thinking creatively (variable pitch, engaged tone) or just rehearsing a scripted response. The key coaching point: reframing requires acknowledging the original frame first — skipping that step makes the reframe feel dismissive."
+    },
+
+    {
+      "id": "ury-04",
+      "technique_name": "Building a Golden Bridge",
+      "framework": "ury",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "Making it easy for the other side to move from their current position to agreement by building a 'golden bridge' they can walk across. Addresses their unmet interests, involves them in crafting the solution, saves face, and makes the process feel like their idea — not a capitulation.",
+      "practice_prompt": "Your co-founder wants to keep the company bootstrapped while you want to raise funding. They see fundraising as 'selling out.' Instead of arguing, build a golden bridge: 'What if we designed a funding approach that keeps us in full control — maybe a revenue-based model or a strategic angel who brings distribution, not just cash? I want to protect what you've built here. Help me design something that works for both of us.'",
+      "success_criteria": [
+        "Incorporates the other person's core interests into the proposed solution",
+        "Makes the agreement feel like a joint creation, not a concession",
+        "Addresses face-saving concerns — they don't feel like they 'lost'",
+        "Tone is invitational and collaborative, not persuasive",
+        "Provides a specific, concrete path forward rather than vague compromise"
+      ],
+      "common_mistakes": [
+        "Presenting a take-it-or-leave-it offer disguised as a bridge",
+        "Not actually incorporating their interests — just repackaging your original position",
+        "Making them feel like they're walking across YOUR bridge, not a shared one",
+        "Forgetting face-saving — people reject good deals when accepting feels like losing",
+        "Being impatient — golden bridges take time to build and cross"
+      ],
+      "duration_seconds": 60,
+      "structure": "Acknowledge their position and underlying interest (15s) → propose the bridge with their interests woven in (20s) → invite them to shape it (15s) → articulate what success looks like for both (10s)",
+      "pairs_well_with": ["ury-02", "ury-03", "ury-05"],
+      "coaching_notes": "The golden bridge is Ury's most elegant concept. The insight: people don't resist good ideas — they resist feeling forced. The bridge must be genuinely co-created or it collapses. Coach users to ask 'What would you add?' or 'How would you modify this?' to make it real. Voice analysis should check for genuine invitation vs. performative collaboration."
+    },
+
+    {
+      "id": "ury-05",
+      "technique_name": "Using Power to Educate (Not Escalate)",
+      "framework": "ury",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "When the other side won't come to the table, use power not to escalate or threaten, but to educate them about the consequences of not agreeing. Reality-testing questions replace threats. 'What do you think will happen if we can't reach agreement?' is education, not intimidation.",
+      "practice_prompt": "Your supplier is refusing to renegotiate a contract that's now 30% above market rate. They think you're locked in. Use power to educate, not threaten: 'I want to keep working together — that's my preference. But I want to make sure we're both looking at the full picture. What happens on your end if we need to go to market for this? I'd rather we solve this between us.'",
+      "success_criteria": [
+        "Frames consequences as shared reality, not personal threats",
+        "Uses reality-testing questions ('What do you think will happen if...')",
+        "States preference for collaboration before mentioning alternatives",
+        "Tone is calm and matter-of-fact, not menacing",
+        "Lets the other person draw their own conclusions about the consequences"
+      ],
+      "common_mistakes": [
+        "Crossing the line from education to threat ('We'll take our business elsewhere')",
+        "Being too subtle — the reality check doesn't land",
+        "Tone that betrays anger or frustration despite careful wording",
+        "Not having a real BATNA behind the education (bluffing)",
+        "Escalating when the education doesn't immediately work"
+      ],
+      "duration_seconds": 60,
+      "structure": "State collaborative preference (10s) → reality-testing question about consequences (15s) → let them process (5s) → restate the golden bridge (15s) → offer specific next step (10s)",
+      "pairs_well_with": ["ury-04", "ury-06", "voss-10"],
+      "coaching_notes": "This is the most delicate Ury technique — the line between educating and threatening is thin. The key vocal marker: threatening tone has downward pitch with increased volume. Educating tone has level pitch with steady volume. Coach users to imagine they're a doctor delivering a diagnosis: factual, empathetic, and solution-oriented."
+    },
+
+    {
+      "id": "ury-06",
+      "technique_name": "BATNA Development",
+      "framework": "ury",
+      "difficulty": "intermediate",
+      "category": "preparation",
+      "description": "Developing your Best Alternative To a Negotiated Agreement — the strongest course of action you'll take if this negotiation fails. A strong BATNA is your source of power. You never negotiate without knowing exactly what you'll do if you walk away.",
+      "practice_prompt": "You're negotiating a job offer. Before you discuss salary, articulate your BATNA aloud: 'If this doesn't work out, my best alternative is [specific option]. I have [competing offer / current job / freelance pipeline]. My walk-away number is [X] because below that, my alternative is better.' Be specific — a vague BATNA is no BATNA at all.",
+      "success_criteria": [
+        "BATNA is specific and concrete, not vague ('I'll figure something out')",
+        "Can articulate exactly what they'll do if this negotiation fails",
+        "Tone conveys genuine confidence in the alternative — they'd actually take it",
+        "Derives a clear reservation point (walk-away number) from the BATNA",
+        "Distinguishes between BATNA (best alternative) and wishful thinking"
+      ],
+      "common_mistakes": [
+        "BATNA is too vague ('I'll find something else')",
+        "Confusing a weak BATNA with no BATNA (everyone has one — it might just be bad)",
+        "Overestimating their BATNA (wishful thinking disguised as preparation)",
+        "Not connecting BATNA to a concrete walk-away threshold",
+        "Tone that reveals their BATNA is actually weak despite confident words"
+      ],
+      "duration_seconds": 60,
+      "structure": "State the negotiation context (10s) → articulate the BATNA specifically (15s) → derive the walk-away number/threshold (15s) → state commitment to the threshold with conviction (15s)",
+      "pairs_well_with": ["ury-05", "camp-05", "camp-06"],
+      "coaching_notes": "BATNA is the single most important concept in negotiation theory. It's also where voice analysis adds the most value — users who SAY they're comfortable walking away but whose voice reveals stress are overestimating their BATNA. The gap between stated confidence and vocal markers is the diagnostic signal."
+    },
+
+    {
+      "id": "ury-07",
+      "technique_name": "The Positive No (Yes-No-Yes)",
+      "framework": "ury",
+      "difficulty": "intermediate",
+      "category": "assertiveness",
+      "description": "Saying no without damaging the relationship, using Ury's Yes-No-Yes structure: Yes to yourself (affirm what matters to you), No to the request (clear boundary), Yes to the relationship (offer an alternative or express continued respect). The structure: 'Because I value X [yes], I can't do Y [no]. What I can do is Z [yes].'",
+      "practice_prompt": "Your boss asks you to take on a third project when you're already at capacity. Practice the positive no: 'I care about delivering quality on the Henderson and Rivera accounts — that's my commitment to you [Yes to self]. I can't take on the Morrison project without one of those suffering [No to request]. What I can do is help you find the right person for Morrison, or take it on in March when Henderson wraps [Yes to relationship].'",
+      "success_criteria": [
+        "Follows the Yes-No-Yes structure clearly",
+        "First 'yes' affirms a genuine value or commitment",
+        "The 'no' is clear and direct — not hedged or apologetic",
+        "Second 'yes' offers a concrete alternative or preserves the relationship",
+        "Tone is respectful and firm, not defensive or aggressive"
+      ],
+      "common_mistakes": [
+        "Skipping the first 'yes' — jumping straight to no without anchoring in values",
+        "Making the 'no' too soft ('I'm not sure I can...' instead of 'I can't')",
+        "Forgetting the second 'yes' — leaving the other person with just a rejection",
+        "Tone that undermines the no (apologetic, pleading, or angry)",
+        "Offering an alternative that's actually the same thing repackaged"
+      ],
+      "duration_seconds": 60,
+      "structure": "Yes to yourself — state what matters (15s) → No to the request — clear and direct (10s) → Yes to the relationship — offer alternative (20s) → reflection on the structure (10s)",
+      "pairs_well_with": ["ury-01", "ury-04", "camp-01"],
+      "coaching_notes": "The Positive No is Ury's most practically useful technique for everyday life. It works in negotiations, workplace conversations, and personal relationships. Voice analysis focus: is the 'no' firm (steady pitch, measured pace) or weakened (rising pitch, rushed delivery)? The quality of the 'no' determines whether it sticks."
+    },
+
+    {
+      "id": "ury-08",
+      "technique_name": "Separating People from the Problem",
+      "framework": "ury",
+      "difficulty": "beginner",
+      "category": "framing",
+      "description": "Treating the other person as a partner tackling a shared problem rather than an adversary to defeat. Attacks the problem, not the person. When emotions rise, redirect energy from 'you vs. me' to 'us vs. the problem.'",
+      "practice_prompt": "Your business partner blames you for a failed product launch: 'If you'd listened to me about the timeline, we wouldn't be in this mess.' Instead of defending yourself, separate the person from the problem: 'We're both frustrated with how the launch went — and we both want the next one to succeed. Instead of debating what went wrong, can we spend this time designing a launch process that addresses the timeline issues?'",
+      "success_criteria": [
+        "Redirects from blame/attack to shared problem-solving",
+        "Uses 'we' language rather than 'you' or 'I'",
+        "Acknowledges the emotion without getting pulled into it",
+        "Proposes a concrete shift to working on the problem together",
+        "Tone is warm and forward-looking, not dismissive of their feelings"
+      ],
+      "common_mistakes": [
+        "Sounding dismissive of their concerns ('Let's just move on')",
+        "Defending themselves before separating the person from the problem",
+        "Using 'we' language but still attacking ('We both know you caused this')",
+        "Being so focused on de-escalation that they don't acknowledge the real issue",
+        "Forcing the shift too quickly — the other person needs to feel heard first"
+      ],
+      "duration_seconds": 60,
+      "structure": "Hear the attack/blame (5s) → acknowledge the shared frustration (10s) → reframe as a shared problem (20s) → propose collaborative next step (15s) → check for buy-in (5s)",
+      "pairs_well_with": ["ury-01", "ury-02", "voss-02"],
+      "coaching_notes": "This is the most fundamental Ury principle and the easiest to learn but hardest to execute under pressure. Voice analysis should measure: does the user's vocal stress decrease when they shift to problem-mode, or does residual defensiveness leak through? The shift from adversarial to collaborative has a measurable vocal signature — lower pitch, slower pace, fewer filler words."
+    },
+
+    {
+      "id": "ury-09",
+      "technique_name": "Inventing Options for Mutual Gain",
+      "framework": "ury",
+      "difficulty": "advanced",
+      "category": "strategy",
+      "description": "Expanding the negotiation pie before dividing it. Instead of fighting over a fixed set of resources, generate creative options that create value for both sides. Requires separating inventing from deciding — brainstorm first, evaluate later.",
+      "practice_prompt": "You and a co-worker both want the corner office. Instead of arguing about who deserves it, invent options: 'What if we thought bigger than the office? What do we each actually need? I need quiet for focus work. You need space for client meetings. What if we redesigned the office layout so we both get what we actually need, even if neither of us gets the corner?' Generate 3 creative alternatives.",
+      "success_criteria": [
+        "Generates at least 3 distinct options beyond the obvious two positions",
+        "Options create new value rather than just splitting the existing value",
+        "Identifies underlying interests rather than surface positions",
+        "Tone is genuinely creative and exploratory — brainstorming energy",
+        "Separates the inventing phase from the judging phase"
+      ],
+      "common_mistakes": [
+        "Generating options that only serve their own interests",
+        "Evaluating options while still brainstorming (kills creativity)",
+        "Only generating variations of splitting the difference (not truly creative)",
+        "Not probing deep enough for underlying interests behind positions",
+        "Proposing options as if presenting a final deal rather than brainstorming"
+      ],
+      "duration_seconds": 60,
+      "structure": "Identify the surface conflict (10s) → probe for underlying interests (15s) → brainstorm 3 creative options aloud (25s) → identify the most promising option (10s)",
+      "pairs_well_with": ["ury-03", "ury-04", "camp-09"],
+      "coaching_notes": "This is the most creative technique in the entire collection. It requires genuine lateral thinking under pressure. Voice analysis value: creative brainstorming has a distinct vocal pattern — variable pitch, exploratory pace, rising inflection. If the user sounds flat or monotone during brainstorming, they're not truly in creative mode. Coach them to think aloud with genuine curiosity."
+    }
+
+  ]
+}

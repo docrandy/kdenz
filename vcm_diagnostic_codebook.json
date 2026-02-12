@@ -1,0 +1,1003 @@
+[
+  {
+    "root_cause_id": "C0-P",
+    "gate": "C0",
+    "gate_name": "Environmental Permeability",
+    "root_cause_name": "Physical/Biological Limitation",
+    "diagnostic_phrases": [
+      "Chronic fatigue reports",
+      "Medical history of relevant conditions",
+      "Consistent inability across all goal domains"
+    ],
+    "semantic_variants": [
+      "I'm exhausted no matter what",
+      "my body won't cooperate",
+      "there's something physically wrong",
+      "I can't do anything right now",
+      "I'm blocked by a health issue"
+    ]
+  },
+  {
+    "root_cause_id": "C0-1",
+    "gate": "C0",
+    "gate_name": "Environmental Permeability",
+    "root_cause_name": "High Activation Cost",
+    "diagnostic_phrases": [
+      "Setup time complaints",
+      "Distance/access barriers cited",
+      "Clutter/disorganization prevents starting"
+    ],
+    "semantic_variants": [
+      "it takes forever to get started",
+      "the gym is too far away",
+      "my space is too messy",
+      "there's too much to set up",
+      "the friction is killing me"
+    ]
+  },
+  {
+    "root_cause_id": "C0-2",
+    "gate": "C0",
+    "gate_name": "Environmental Permeability",
+    "root_cause_name": "Situational Blockage",
+    "diagnostic_phrases": [
+      "Chronic environment excuses (legitimate)",
+      "Resource constraints verified",
+      "Social/legal barriers present"
+    ],
+    "semantic_variants": [
+      "I literally don't have the money",
+      "my family situation won't allow it",
+      "there's a legal barrier",
+      "I don't have access to what I need",
+      "the circumstance makes it impossible"
+    ]
+  },
+  {
+    "root_cause_id": "C1-1",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "Cognitive Biases (Overconfidence/Planning Fallacy)",
+    "diagnostic_phrases": [
+      "History of underestimating timelines",
+      "Surprise at failures",
+      "No contingency planning"
+    ],
+    "semantic_variants": [
+      "I thought it would take two weeks, it took two months",
+      "I didn't see that coming",
+      "I always underestimate how long things take",
+      "it seemed straightforward until it wasn't",
+      "I never plan for things going wrong"
+    ]
+  },
+  {
+    "root_cause_id": "C1-2",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "Fixed Mindset",
+    "diagnostic_phrases": [
+      "I'm just not good at this",
+      "Some people can, I can't",
+      "Avoids challenge"
+    ],
+    "semantic_variants": [
+      "I was born without that ability",
+      "people like me don't do this",
+      "I'm not a math person",
+      "it's just not in my DNA",
+      "I don't have the talent for it"
+    ]
+  },
+  {
+    "root_cause_id": "C1-3",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "No Relatable Models",
+    "diagnostic_phrases": [
+      "Nobody like me has done this",
+      "I don't know anyone who succeeded"
+    ],
+    "semantic_variants": [
+      "I've never seen someone like me do it",
+      "no one in my community has pulled this off",
+      "I don't have anyone to look up to",
+      "I can't picture someone like me succeeding",
+      "everyone who did it was different from me"
+    ]
+  },
+  {
+    "root_cause_id": "C1-4",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "Meta-Cognitive Doubt",
+    "diagnostic_phrases": [
+      "I can't trust my own decisions",
+      "What if I'm wrong about being able to do this?"
+    ],
+    "semantic_variants": [
+      "I don't have good judgment",
+      "how do I know I'm not fooling myself",
+      "I can't trust myself to assess this",
+      "what if my gut feeling is wrong",
+      "I second-guess myself constantly"
+    ]
+  },
+  {
+    "root_cause_id": "C1-5",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "Insufficient Evidence",
+    "diagnostic_phrases": [
+      "I don't know enough to know if I can do this",
+      "Excessive research without action"
+    ],
+    "semantic_variants": [
+      "I need to learn more before I can believe it",
+      "I'm still gathering information",
+      "there's too much I don't understand yet",
+      "I need to know everything before starting",
+      "I'm drowning in research"
+    ]
+  },
+  {
+    "root_cause_id": "C1-6",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "Fragile Confidence",
+    "diagnostic_phrases": [
+      "Confidence drops after minor criticism",
+      "One bad day erases weeks of progress"
+    ],
+    "semantic_variants": [
+      "one negative comment destroys my belief",
+      "a single setback ruins everything",
+      "I was doing great until someone criticized me",
+      "all my confidence evaporates after a failure",
+      "even small feedback sends me spiraling"
+    ]
+  },
+  {
+    "root_cause_id": "C1-7",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "Social Disconfirmation",
+    "diagnostic_phrases": [
+      "Everyone says I can't",
+      "My family doesn't believe in me"
+    ],
+    "semantic_variants": [
+      "the people around me doubt me",
+      "my support system doesn't think I can do it",
+      "everyone's skepticism is getting to me",
+      "I feel like nobody believes in me",
+      "the people I trust think it's impossible"
+    ]
+  },
+  {
+    "root_cause_id": "C1-8",
+    "gate": "C1",
+    "gate_name": "Believability",
+    "root_cause_name": "Attribution Error",
+    "diagnostic_phrases": [
+      "I got lucky",
+      "Someone helped me",
+      "It was easy, doesn't count"
+    ],
+    "semantic_variants": [
+      "it was just a fluke",
+      "that doesn't really count",
+      "anyone could have done that",
+      "I had a lot of help with it",
+      "it doesn't prove I can do it again"
+    ]
+  },
+  {
+    "root_cause_id": "C2-1",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "Value Misalignment",
+    "diagnostic_phrases": [
+      "I should want this but I don't",
+      "Everyone says this is important",
+      "Flat tone discussing goal"
+    ],
+    "semantic_variants": [
+      "it sounds important but I don't actually care",
+      "I'm doing this because I'm supposed to",
+      "it matters to everyone but not to me",
+      "I don't connect with this goal",
+      "this doesn't feel authentically mine"
+    ]
+  },
+  {
+    "root_cause_id": "C2-2",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "Fear-Suppressed Desire",
+    "diagnostic_phrases": [
+      "I want to but what if...",
+      "It could ruin everything",
+      "Visible tension when imagining success"
+    ],
+    "semantic_variants": [
+      "I'm afraid of what might happen",
+      "getting this could make things worse",
+      "I'm terrified of the consequences",
+      "part of me wants it but I'm scared",
+      "if I succeed, everything could fall apart"
+    ]
+  },
+  {
+    "root_cause_id": "C2-3",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "Emotional Avoidance",
+    "diagnostic_phrases": [
+      "Avoidance behavior",
+      "Negative self-talk about goal",
+      "Physical discomfort discussing goal"
+    ],
+    "semantic_variants": [
+      "thinking about it makes me anxious",
+      "I feel ashamed when I consider this",
+      "discussing it makes me uncomfortable",
+      "I hate the way this makes me feel",
+      "I want to avoid the emotional pain"
+    ]
+  },
+  {
+    "root_cause_id": "C2-4",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "Autonomy Threat (Reactance)",
+    "diagnostic_phrases": [
+      "Don't tell me what to do",
+      "The more they push, the less I want to",
+      "External pressure motivation"
+    ],
+    "semantic_variants": [
+      "I don't want to do it just because someone told me to",
+      "when people pressure me, I push back",
+      "I want to choose my own path",
+      "their insistence makes me want the opposite",
+      "I resent being told what to do"
+    ]
+  },
+  {
+    "root_cause_id": "C2-5",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "Approach-Avoidance Conflict",
+    "diagnostic_phrases": [
+      "Part of me wants to, part of me doesn't",
+      "Oscillating commitment",
+      "Decision paralysis about wanting"
+    ],
+    "semantic_variants": [
+      "I'm torn between wanting it and not wanting it",
+      "some days I'm all in, other days I'm out",
+      "I can't decide if I really want this",
+      "I keep flip-flopping",
+      "I'm stuck between two conflicting desires"
+    ]
+  },
+  {
+    "root_cause_id": "C2-6",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "External Motivation",
+    "diagnostic_phrases": [
+      "I'm doing this to impress others",
+      "Without external reward, I lose interest"
+    ],
+    "semantic_variants": [
+      "I only care about this if people notice",
+      "I need someone to praise me to keep going",
+      "without validation, what's the point",
+      "I'm only motivated by what others think",
+      "if nobody's watching, I don't care"
+    ]
+  },
+  {
+    "root_cause_id": "C2-7",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "Purpose Deficit",
+    "diagnostic_phrases": [
+      "What's the point?",
+      "This doesn't matter",
+      "Low pleasure anticipation"
+    ],
+    "semantic_variants": [
+      "I don't see why this matters",
+      "it feels meaningless",
+      "there's no purpose to this",
+      "I can't find any significance in it",
+      "nothing feels worth doing"
+    ]
+  },
+  {
+    "root_cause_id": "C2-8",
+    "gate": "C2",
+    "gate_name": "Desire",
+    "root_cause_name": "Lack of Future Relevance",
+    "diagnostic_phrases": [
+      "I won't care about this in 5 years",
+      "This doesn't matter for my future"
+    ],
+    "semantic_variants": [
+      "this won't affect my long-term life",
+      "it's not going to matter later",
+      "I can't see how this connects to my future",
+      "this doesn't fit into who I want to become",
+      "my future self won't care about this"
+    ]
+  },
+  {
+    "root_cause_id": "C3-1",
+    "gate": "C3",
+    "gate_name": "Will",
+    "root_cause_name": "Energy Depletion",
+    "diagnostic_phrases": [
+      "I'm too tired",
+      "I have nothing left",
+      "Effort avoidance across domains"
+    ],
+    "semantic_variants": [
+      "I'm completely drained",
+      "I don't have the energy for this",
+      "I'm running on empty",
+      "everything feels exhausting right now",
+      "I've used up all my willpower"
+    ]
+  },
+  {
+    "root_cause_id": "C3-2",
+    "gate": "C3",
+    "gate_name": "Will",
+    "root_cause_name": "Delayed Gratification Intolerance",
+    "diagnostic_phrases": [
+      "I need to see results now",
+      "Why bother if payoff is years away"
+    ],
+    "semantic_variants": [
+      "I need immediate payoff",
+      "waiting feels impossible",
+      "I can't commit to something with delayed rewards",
+      "the long timeline kills my motivation",
+      "I need gratification in the moment"
+    ]
+  },
+  {
+    "root_cause_id": "C3-3",
+    "gate": "C3",
+    "gate_name": "Will",
+    "root_cause_name": "Effort Overestimation",
+    "diagnostic_phrases": [
+      "This will be horrible",
+      "I can't handle that much work",
+      "Task rationalization"
+    ],
+    "semantic_variants": [
+      "this is going to be way too hard",
+      "the effort involved is unbearable",
+      "I'm imagining it's harder than it is",
+      "the discomfort will be extreme",
+      "I can't endure what this would require"
+    ]
+  },
+  {
+    "root_cause_id": "C3-4",
+    "gate": "C3",
+    "gate_name": "Will",
+    "root_cause_name": "Insufficient Perceived Reward",
+    "diagnostic_phrases": [
+      "The payoff isn't worth it",
+      "I don't care enough about the result"
+    ],
+    "semantic_variants": [
+      "the reward doesn't justify the effort",
+      "the benefit is too small",
+      "it's not worth what I'd have to put in",
+      "the outcome isn't valuable enough",
+      "I don't want the end result badly enough"
+    ]
+  },
+  {
+    "root_cause_id": "C3-5",
+    "gate": "C3",
+    "gate_name": "Will",
+    "root_cause_name": "Failure Cost Aversion",
+    "diagnostic_phrases": [
+      "What if I fail and everyone sees",
+      "I'd rather not try than fail"
+    ],
+    "semantic_variants": [
+      "if I fail, I'll be humiliated",
+      "failure would destroy my reputation",
+      "the risk of public failure is too high",
+      "it's safer to not try at all",
+      "failing would devastate my identity"
+    ]
+  },
+  {
+    "root_cause_id": "C3-6",
+    "gate": "C3",
+    "gate_name": "Will",
+    "root_cause_name": "Decision Paralysis (Analysis Paralysis)",
+    "diagnostic_phrases": [
+      "I can't decide",
+      "What if I choose wrong",
+      "Endless research without action"
+    ],
+    "semantic_variants": [
+      "there are too many options",
+      "I'm overthinking all the possibilities",
+      "I'm afraid of picking the wrong path",
+      "I'm stuck between too many choices",
+      "the decision feels too important to rush"
+    ]
+  },
+  {
+    "root_cause_id": "C4-1",
+    "gate": "C4",
+    "gate_name": "Intention",
+    "root_cause_name": "Conflicting Plans",
+    "diagnostic_phrases": [
+      "I have too many things going on",
+      "I can't focus on just one"
+    ],
+    "semantic_variants": [
+      "I'm juggling too many commitments",
+      "my attention is spread too thin",
+      "I have conflicting priorities",
+      "everything feels equally urgent",
+      "I can't narrow down my focus"
+    ]
+  },
+  {
+    "root_cause_id": "C4-2",
+    "gate": "C4",
+    "gate_name": "Intention",
+    "root_cause_name": "Chronic Replanning",
+    "diagnostic_phrases": [
+      "I need a better plan first",
+      "Multiple plan iterations without execution",
+      "Generic planning"
+    ],
+    "semantic_variants": [
+      "let me revise my strategy one more time",
+      "I need to optimize my approach first",
+      "I'm still in the planning phase",
+      "once I perfect the plan, I'll start",
+      "I keep redesigning instead of doing"
+    ]
+  },
+  {
+    "root_cause_id": "C4-3",
+    "gate": "C4",
+    "gate_name": "Intention",
+    "root_cause_name": "Plan Selection Failure",
+    "diagnostic_phrases": [
+      "I don't know which approach to take",
+      "They all seem okay but I can't pick"
+    ],
+    "semantic_variants": [
+      "all the options are equally valid",
+      "I can't decide between viable paths",
+      "there's no clear winner",
+      "each approach has pros and cons",
+      "I can't commit to one method"
+    ]
+  },
+  {
+    "root_cause_id": "C4-4",
+    "gate": "C4",
+    "gate_name": "Intention",
+    "root_cause_name": "Cognitive Overload",
+    "diagnostic_phrases": [
+      "This plan is too complicated",
+      "I can't remember all the steps"
+    ],
+    "semantic_variants": [
+      "there are too many moving parts",
+      "I can't hold this in my head",
+      "the complexity is overwhelming",
+      "I'll forget what I'm supposed to do",
+      "this requires too much mental overhead"
+    ]
+  },
+  {
+    "root_cause_id": "C4-5",
+    "gate": "C4",
+    "gate_name": "Intention",
+    "root_cause_name": "Action Ambiguity",
+    "diagnostic_phrases": [
+      "I know I should do something but what?",
+      "Untriggered intention cues"
+    ],
+    "semantic_variants": [
+      "I'm unclear what the first step is",
+      "I don't know exactly what to do",
+      "it's too vague to act on",
+      "I need more specificity",
+      "I can't figure out what the actual action is"
+    ]
+  },
+  {
+    "root_cause_id": "C4-6",
+    "gate": "C4",
+    "gate_name": "Intention",
+    "root_cause_name": "Recursive Justification",
+    "diagnostic_phrases": [
+      "I have a good reason to wait",
+      "Let me think about this more",
+      "New excuses each time"
+    ],
+    "semantic_variants": [
+      "there's another reason to delay",
+      "let me reconsider before I commit",
+      "something doesn't feel right yet",
+      "I want to be more sure first",
+      "I keep finding new reasons to postpone"
+    ]
+  },
+  {
+    "root_cause_id": "C4-7",
+    "gate": "C4",
+    "gate_name": "Intention",
+    "root_cause_name": "Weak Cue-Response Binding",
+    "diagnostic_phrases": [
+      "Forgets to start even when conditions met",
+      "Needs external reminders",
+      "Weak cue-response binding"
+    ],
+    "semantic_variants": [
+      "I forget to do it even when the time comes",
+      "I need someone to remind me",
+      "the trigger doesn't automatically make me act",
+      "I lose track of when to start",
+      "the cue isn't strong enough"
+    ]
+  },
+  {
+    "root_cause_id": "C5-1",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "Competing Commitments",
+    "diagnostic_phrases": [
+      "I have too many obligations",
+      "Something always comes up",
+      "Goal displacement"
+    ],
+    "semantic_variants": [
+      "other priorities keep pushing this aside",
+      "I'm stretched too thin",
+      "new demands constantly derail me",
+      "I can't protect this goal from other demands",
+      "everything else is more urgent"
+    ]
+  },
+  {
+    "root_cause_id": "C5-2",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "Environmental Disruption",
+    "diagnostic_phrases": [
+      "My environment keeps pulling me away",
+      "Too many distractions at home"
+    ],
+    "semantic_variants": [
+      "my surroundings work against my goal",
+      "I'm surrounded by competing stimuli",
+      "my environment is sabotaging me",
+      "everything around me pulls my focus elsewhere",
+      "my space isn't conducive to this"
+    ]
+  },
+  {
+    "root_cause_id": "C5-3",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "No External Monitoring",
+    "diagnostic_phrases": [
+      "Nobody knows if I do it or not",
+      "It's just me"
+    ],
+    "semantic_variants": [
+      "there's no one checking on me",
+      "no one will know if I quit",
+      "there's no accountability",
+      "I'm only answerable to myself",
+      "I can abandon this in secret"
+    ]
+  },
+  {
+    "root_cause_id": "C5-4",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "Insufficient Stakes",
+    "diagnostic_phrases": [
+      "Nothing bad happens if I stop",
+      "Who cares if I don't"
+    ],
+    "semantic_variants": [
+      "there's no real penalty for giving up",
+      "nothing matters if I quit",
+      "I won't face consequences",
+      "there's nothing at stake",
+      "I can walk away with no cost"
+    ]
+  },
+  {
+    "root_cause_id": "C5-5",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "Lack of Urgency",
+    "diagnostic_phrases": [
+      "I have plenty of time",
+      "No rush",
+      "Lack of urgency"
+    ],
+    "semantic_variants": [
+      "there's no deadline pressure",
+      "it can wait",
+      "I'm not in a hurry",
+      "I have forever to do this",
+      "tomorrow is just as good as today"
+    ]
+  },
+  {
+    "root_cause_id": "C5-6",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "Value Contradiction",
+    "diagnostic_phrases": [
+      "This goes against what I believe",
+      "I feel torn",
+      "Emotional interference"
+    ],
+    "semantic_variants": [
+      "this conflicts with my core values",
+      "I'm violating my own principles",
+      "this feels morally wrong",
+      "I'm compromising what matters to me",
+      "this contradicts what I stand for"
+    ]
+  },
+  {
+    "root_cause_id": "C5-7",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "Identity Misalignment",
+    "diagnostic_phrases": [
+      "That's not who I am",
+      "People like me don't do that"
+    ],
+    "semantic_variants": [
+      "this isn't consistent with my identity",
+      "I'm not that kind of person",
+      "my self-image doesn't include this",
+      "this threatens who I see myself as",
+      "this is at odds with how I see myself"
+    ]
+  },
+  {
+    "root_cause_id": "C5-8",
+    "gate": "C5",
+    "gate_name": "Commitment",
+    "root_cause_name": "Identity-Behavior Dissonance",
+    "diagnostic_phrases": [
+      "I keep saying I'll change but never do",
+      "I'm a fraud",
+      "Chronic self-concept conflict"
+    ],
+    "semantic_variants": [
+      "there's always a gap between what I say and what I do",
+      "I'm being inauthentic",
+      "I feel like I'm lying to myself",
+      "my actions don't match my words",
+      "I'm betraying my own stated values"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-1",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "High Activation Cost (Motor Gate)",
+    "diagnostic_phrases": [
+      "I just can't start",
+      "I sit there wanting to begin but can't",
+      "Procrastination despite readiness"
+    ],
+    "semantic_variants": [
+      "there's something blocking me from beginning",
+      "I have inertia I can't overcome",
+      "I know what to do but can't get myself to start",
+      "I'm paralyzed at the starting point",
+      "the activation threshold is too high"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-2",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "Last-Minute Deliberation",
+    "diagnostic_phrases": [
+      "Wait, let me think about this one more time",
+      "Am I sure?"
+    ],
+    "semantic_variants": [
+      "I get cold feet right before",
+      "I keep second-guessing myself",
+      "I pause for one more review",
+      "doubt creeps in at the last second",
+      "I hesitate right when I'm about to begin"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-3",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "Attention Diversion",
+    "diagnostic_phrases": [
+      "I was about to start but then...",
+      "I got sidetracked right when I was going to begin"
+    ],
+    "semantic_variants": [
+      "something distracted me right before I started",
+      "I got pulled away at the crucial moment",
+      "my attention shifted at the last second",
+      "something grabbed my focus when I was ready",
+      "I got derailed right before action"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-4",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "Waiting for Readiness",
+    "diagnostic_phrases": [
+      "I'll start when I feel ready",
+      "The timing isn't right",
+      "I need to be in the mood"
+    ],
+    "semantic_variants": [
+      "I'm waiting for the right moment",
+      "I need to be more prepared",
+      "conditions aren't ideal yet",
+      "I'll do it when I'm in the right headspace",
+      "I need more energy before starting"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-5",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "Over-Simulation",
+    "diagnostic_phrases": [
+      "I've thought about it a million times",
+      "I know exactly what to do but can't start"
+    ],
+    "semantic_variants": [
+      "I've visualized this endlessly",
+      "I've rehearsed it so many times",
+      "I've spent hours planning but no doing",
+      "I know it inside and out but can't begin",
+      "the mental simulation replaces actual action"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-6",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "Self-Sabotage",
+    "diagnostic_phrases": [
+      "Repeated accidents preventing action",
+      "Something always goes wrong",
+      "Freeze/task switching"
+    ],
+    "semantic_variants": [
+      "I keep creating obstacles for myself",
+      "things mysteriously go wrong when I'm about to start",
+      "I find ways to avoid beginning",
+      "I unconsciously sabotage my own efforts",
+      "I seem to derail myself"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-7",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "Momentum Dependency",
+    "diagnostic_phrases": [
+      "Once I start I'm fine, it's just starting",
+      "I need a push to get going"
+    ],
+    "semantic_variants": [
+      "starting is the hardest part",
+      "if I could just begin, I'd be okay",
+      "I need external momentum to launch",
+      "continuation is easy, initiation is hard",
+      "I can keep going once I'm rolling"
+    ]
+  },
+  {
+    "root_cause_id": "C6A-8",
+    "gate": "C6A",
+    "gate_name": "Action Initiation",
+    "root_cause_name": "Trauma-Related Freeze",
+    "diagnostic_phrases": [
+      "Physical immobility",
+      "I shut down",
+      "I can't move or think"
+    ],
+    "semantic_variants": [
+      "my body freezes up",
+      "I go numb when facing it",
+      "I become paralyzed",
+      "I dissociate and can't move",
+      "everything just stops"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-1",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Task Boredom",
+    "diagnostic_phrases": [
+      "This is boring",
+      "I've lost interest",
+      "Dropout mid-task"
+    ],
+    "semantic_variants": [
+      "this has gotten monotonous",
+      "the interest faded",
+      "I can't stay engaged",
+      "this stopped being fun",
+      "the novelty wore off"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-2",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Competing Stimuli (Distraction)",
+    "diagnostic_phrases": [
+      "I keep checking my phone",
+      "I can't focus",
+      "Task switching"
+    ],
+    "semantic_variants": [
+      "I'm drawn away by other things",
+      "there are too many distractions",
+      "something more interesting pulled me away",
+      "I keep getting sidetracked",
+      "my attention keeps drifting"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-3",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Mood-Dependent Execution",
+    "diagnostic_phrases": [
+      "I can only do it when I feel good",
+      "Bad days I can't function"
+    ],
+    "semantic_variants": [
+      "my energy determines whether I continue",
+      "I need to be in the right mood",
+      "my performance depends on how I feel",
+      "when my mood dips, I stop",
+      "I can't push through low moods"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-4",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Single-Error Catastrophizing",
+    "diagnostic_phrases": [
+      "I messed up so why bother",
+      "One mistake ruins everything"
+    ],
+    "semantic_variants": [
+      "if I make any error, I give up",
+      "one failure means the whole thing is ruined",
+      "I quit after the first mistake",
+      "a single slip-up destroys my momentum",
+      "I can't recover from even small errors"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-5",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Perfectionism",
+    "diagnostic_phrases": [
+      "It's not good enough",
+      "I need to redo this",
+      "Endless revision"
+    ],
+    "semantic_variants": [
+      "this isn't up to my standards",
+      "I need to fix this to make it right",
+      "I can't accept anything less than perfect",
+      "I keep redoing it to get it right",
+      "imperfection is intolerable"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-6",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Invisible Progress",
+    "diagnostic_phrases": [
+      "I'm not getting anywhere",
+      "Nothing is changing",
+      "Fatigue-driven avoidance"
+    ],
+    "semantic_variants": [
+      "I can't see the progress I'm making",
+      "there are no visible results",
+      "I don't feel like I'm advancing",
+      "the progress is too slow to notice",
+      "there's no feedback that I'm succeeding"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-7",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "High Restart Cost",
+    "diagnostic_phrases": [
+      "Once I stop I can't get back to it",
+      "Breaks ruin my flow"
+    ],
+    "semantic_variants": [
+      "restarting feels as hard as beginning",
+      "interruptions destroy my momentum",
+      "I can't pick it back up easily",
+      "breaks kill my engagement",
+      "stopping disrupts my ability to continue"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-8",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Moral Self-Punishment",
+    "diagnostic_phrases": [
+      "I feel terrible about missing a day",
+      "I beat myself up",
+      "I withdraw instead of trying again"
+    ],
+    "semantic_variants": [
+      "I punish myself for failure",
+      "guilt makes me stop trying",
+      "I feel too ashamed to continue",
+      "I torture myself instead of pushing forward",
+      "shame paralyzes me after a slip"
+    ]
+  },
+  {
+    "root_cause_id": "C6B-9",
+    "gate": "C6B",
+    "gate_name": "Action Persistence",
+    "root_cause_name": "Competing Comforts",
+    "diagnostic_phrases": [
+      "That activity is more comfortable",
+      "I'd rather do X",
+      "The task feels hard compared to Y"
+    ],
+    "semantic_variants": [
+      "the easier option is more attractive",
+      "comfort is pulling me away",
+      "I'm drawn to what feels good",
+      "staying comfortable is more appealing",
+      "effort feels worse than just relaxing"
+    ]
+  }
+]

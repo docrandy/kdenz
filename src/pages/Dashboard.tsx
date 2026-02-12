@@ -3,14 +3,16 @@
  * Shows profile preview, practice modules, session summaries, and activity heatmap
  */
 
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getProfile } from '../features/profile';
-import type { UserProfile } from '../features/profile';
-import { getAllSessions, type SessionSummary } from '../services/sessionStorage';
-import { ContributionHeatmap } from '../components/ContributionHeatmap';
-import { hasBaseline } from '../services/baselineStorage';
-
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getProfile } from "../features/profile";
+import type { UserProfile } from "../features/profile";
+import {
+  getAllSessions,
+  type SessionSummary,
+} from "../services/sessionStorage";
+import { ContributionHeatmap } from "../components/ContributionHeatmap";
+import { hasBaseline } from "../services/baselineStorage";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -29,10 +31,10 @@ export default function Dashboard() {
   const quickNotes = profile?.miscellaneous?.slice(-3).reverse() || [];
 
   // Check if baseline exists for first-run routing
-  const handlePracticeClick = (mode: 'filler' | 'pace') => {
+  const handlePracticeClick = (mode: "filler" | "pace") => {
     if (!hasBaseline()) {
       // First-time user - redirect to baseline
-      navigate('/baseline');
+      navigate("/baseline");
     } else {
       // Regular user - go to duration picker
       navigate(`/practice/${mode}/setup`);
@@ -46,9 +48,9 @@ export default function Dashboard() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-900">VoiceLab</h1>
           <HamburgerMenu
-            onProfile={() => navigate('/profile')}
-            onSettings={() => navigate('/settings')}
-            onPrivacy={() => navigate('/privacy')}
+            onProfile={() => navigate("/profile")}
+            onSettings={() => navigate("/settings")}
+            onPrivacy={() => navigate("/privacy")}
           />
         </div>
       </header>
@@ -56,24 +58,26 @@ export default function Dashboard() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Profile Preview Card */}
         <section
-          onClick={() => navigate('/profile')}
+          onClick={() => navigate("/profile")}
           className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border cursor-pointer hover:shadow-md transition-shadow"
         >
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold flex-shrink-0">
-              {profile?.demographics?.preferredName?.[0]?.toUpperCase() || '?'}
+              {profile?.demographics?.preferredName?.[0]?.toUpperCase() || "?"}
             </div>
             <div className="flex-1 min-w-0">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate">
-                {profile?.demographics?.preferredName || 'Set up your profile'}
+                {profile?.demographics?.preferredName || "Set up your profile"}
               </h2>
               {profile?.demographics?.jobTitle && (
-                <p className="text-sm sm:text-base text-gray-600 truncate">{profile.demographics.jobTitle}</p>
+                <p className="text-sm sm:text-base text-gray-600 truncate">
+                  {profile.demographics.jobTitle}
+                </p>
               )}
               {profile?.focusAreas?.specificGoal && (
                 <div className="flex flex-wrap gap-1 mt-2">
                   <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 text-xs rounded-full">
-                    {profile.focusAreas.specificGoal.replace(/-/g, ' ')}
+                    {profile.focusAreas.specificGoal.replace(/-/g, " ")}
                   </span>
                 </div>
               )}
@@ -91,7 +95,7 @@ export default function Dashboard() {
               icon="🎤"
               title="Filler Words"
               description="Practice reducing ums, uhs, and likes with real-time feedback"
-              onClick={() => handlePracticeClick('filler')}
+              onClick={() => handlePracticeClick("filler")}
               accent="cyan"
             />
 
@@ -100,40 +104,56 @@ export default function Dashboard() {
               icon="📊"
               title="Speech Pace"
               description="Practice speaking at the right pace with visual feedback"
-              onClick={() => handlePracticeClick('pace')}
+              onClick={() => handlePracticeClick("pace")}
               accent="cyan"
             />
 
+            {/* Scenario Library - 51 techniques across 5 frameworks */}
+            <PracticeCard
+              icon="🎯"
+              title="Technique Library"
+              description="51 negotiation techniques from 5 frameworks — browse, learn, practice"
+              onClick={() => navigate("/library")}
+              accent="cyan"
+            />
           </div>
         </section>
 
         {/* Recent Sessions */}
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">Recent Sessions</h2>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Sessions
+            </h2>
             {allSessions.length > 5 && (
               <button
                 onClick={() => setShowAllSessions(!showAllSessions)}
                 className="text-sm text-cyan-600 hover:text-cyan-700"
               >
-                {showAllSessions ? 'Show less' : `View all (${allSessions.length})`}
+                {showAllSessions
+                  ? "Show less"
+                  : `View all (${allSessions.length})`}
               </button>
             )}
           </div>
 
           {recentSessions.length === 0 ? (
             <div className="bg-white rounded-xl p-6 text-center border">
-              <p className="text-gray-500">No sessions yet. Start practicing!</p>
+              <p className="text-gray-500">
+                No sessions yet. Start practicing!
+              </p>
             </div>
           ) : (
             <div className="space-y-2">
-              {(showAllSessions ? allSessions : recentSessions).map((session) => (
-                <SessionCard
-                  key={session.id}
-                  session={session}
-                  onClick={() => navigate(`/session/${session.id}`)}
-                />
-              ))}
+              {(showAllSessions ? allSessions : recentSessions).map(
+                (session) => (
+                  <SessionCard
+                    key={session.id}
+                    session={session}
+                    onClick={() => navigate(`/session/${session.id}`)}
+                  />
+                ),
+              )}
             </div>
           )}
         </section>
@@ -142,9 +162,11 @@ export default function Dashboard() {
         {quickNotes.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-gray-900">Quick Notes</h2>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Quick Notes
+              </h2>
               <button
-                onClick={() => navigate('/profile')}
+                onClick={() => navigate("/profile")}
                 className="text-sm text-cyan-600 hover:text-cyan-700"
               >
                 View all
@@ -153,11 +175,13 @@ export default function Dashboard() {
             <div className="space-y-2">
               {quickNotes.map((note) => (
                 <div key={note.id} className="bg-white rounded-xl p-4 border">
-                  <p className="text-gray-900 text-sm line-clamp-2">{note.content}</p>
+                  <p className="text-gray-900 text-sm line-clamp-2">
+                    {note.content}
+                  </p>
                   <p className="text-xs text-gray-400 mt-1">
-                    {new Date(note.createdAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
+                    {new Date(note.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
                     })}
                   </p>
                 </div>
@@ -172,16 +196,23 @@ export default function Dashboard() {
         {/* Quick Stats */}
         {allSessions.length > 0 && (
           <section className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Progress</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Your Progress
+            </h2>
             <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
               <div>
-                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">{allSessions.length}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
+                  {allSessions.length}
+                </p>
                 <p className="text-xs sm:text-sm text-gray-500">Sessions</p>
               </div>
               <div>
                 <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
                   {Math.round(
-                    allSessions.reduce((acc, s) => acc + (s.durationSeconds || 0), 0) / 60
+                    allSessions.reduce(
+                      (acc, s) => acc + (s.durationSeconds || 0),
+                      0,
+                    ) / 60,
                   )}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-500">Minutes</p>
@@ -289,10 +320,10 @@ function PracticeCard({
   title: string;
   description: string;
   onClick: () => void;
-  accent: 'cyan';
+  accent: "cyan";
 }) {
   const accentColors = {
-    cyan: 'border-l-cyan-500 hover:bg-cyan-50',
+    cyan: "border-l-cyan-500 hover:bg-cyan-50",
   };
 
   return (
@@ -303,8 +334,12 @@ function PracticeCard({
       <div className="flex items-center gap-3">
         <span className="text-2xl flex-shrink-0">{icon}</span>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">{title}</h3>
-          <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">{description}</p>
+          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">
+            {title}
+          </h3>
+          <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">
+            {description}
+          </p>
         </div>
         <span className="text-gray-400 flex-shrink-0">→</span>
       </div>
@@ -329,7 +364,9 @@ function SessionCard({
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
           <p className="font-medium text-gray-900 text-sm sm:text-base truncate">
-            {session.durationSeconds ? `${Math.round(session.durationSeconds)}s session` : 'Practice session'}
+            {session.durationSeconds
+              ? `${Math.round(session.durationSeconds)}s session`
+              : "Practice session"}
           </p>
           <p className="text-xs sm:text-sm text-gray-500">{timeAgo}</p>
         </div>
@@ -339,7 +376,7 @@ function SessionCard({
               {session.fillerCount}
             </p>
             <p className="text-xs sm:text-sm text-gray-500">
-              {session.wpm ? `${Math.round(session.wpm)} WPM` : 'fillers'}
+              {session.wpm ? `${Math.round(session.wpm)} WPM` : "fillers"}
             </p>
           </div>
           <span className="text-gray-300">→</span>
@@ -358,15 +395,15 @@ function formatTimeAgo(timestamp: number): string {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return 'Just now';
+  if (diffMins < 1) return "Just now";
   if (diffMins < 60) return `${diffMins}m ago`;
   if (diffHours < 24) return `${diffHours}h ago`;
-  if (diffDays === 1) return 'Yesterday';
+  if (diffDays === 1) return "Yesterday";
   if (diffDays < 7) return `${diffDays} days ago`;
 
-  return new Date(timestamp).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
+  return new Date(timestamp).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
   });
 }
 
@@ -382,7 +419,7 @@ function calculateStreak(sessions: SessionSummary[]): number {
       const d = new Date(s.timestamp);
       d.setHours(0, 0, 0, 0);
       return d.getTime();
-    })
+    }),
   );
 
   let streak = 0;

@@ -1,16 +1,21 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAudioCapture, useWebSpeech, useFillerDetector, useSessionTimer } from '../core/audio';
-import MicPermissionError from './MicPermissionError';
-import AudioQualityWarning from './AudioQualityWarning';
-import { SessionOrb } from './SessionOrb';
-import { BottomControlBar } from './BottomControlBar';
-import { WaveformVisualizer } from './WaveformVisualizer';
-import SilenceNudge from './SilenceNudge';
-import SessionProgressBar from './SessionProgressBar';
-import LoadingSpinner from './LoadingSpinner';
-import { saveBaseline } from '../services/baselineStorage';
-import { reconcileFillers } from '../lib/fillerReconciler';
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  useAudioCapture,
+  useWebSpeech,
+  useFillerDetector,
+  useSessionTimer,
+} from "../core/audio";
+import MicPermissionError from "./MicPermissionError";
+import AudioQualityWarning from "./AudioQualityWarning";
+import { SessionOrb } from "./SessionOrb";
+import { BottomControlBar } from "./BottomControlBar";
+import { WaveformVisualizer } from "./WaveformVisualizer";
+import SilenceNudge from "./SilenceNudge";
+import SessionProgressBar from "./SessionProgressBar";
+import LoadingSpinner from "./LoadingSpinner";
+import { saveBaseline } from "../services/baselineStorage";
+import { reconcileFillers } from "../lib/fillerReconciler";
 
 // Helper function to convert Blob to base64 for sessionStorage
 async function blobToBase64(blob: Blob): Promise<string> {
@@ -23,9 +28,21 @@ async function blobToBase64(blob: Blob): Promise<string> {
 }
 
 // Filler phrases to detect in real-time (multi-word phrases checked first)
-const FILLER_PHRASES = ['you know', 'i mean', 'kind of', 'sort of'];
+const FILLER_PHRASES = ["you know", "i mean", "kind of", "sort of"];
 // Single filler words checked with word boundary matching
-const FILLER_WORDS = ['like', 'um', 'uh', 'so', 'basically', 'actually', 'literally', 'honestly', 'essentially', 'obviously', 'right'];
+const FILLER_WORDS = [
+  "like",
+  "um",
+  "uh",
+  "so",
+  "basically",
+  "actually",
+  "literally",
+  "honestly",
+  "essentially",
+  "obviously",
+  "right",
+];
 
 // Count filler words/phrases in text using regex word boundaries
 function countFillerWords(text: string): number {
@@ -35,14 +52,14 @@ function countFillerWords(text: string): number {
 
   // Count multi-word phrases first
   for (const phrase of FILLER_PHRASES) {
-    const regex = new RegExp(`\\b${phrase}\\b`, 'gi');
+    const regex = new RegExp(`\\b${phrase}\\b`, "gi");
     const matches = lower.match(regex);
     if (matches) count += matches.length;
   }
 
   // Count single filler words with word boundaries (prevents "unlikely" matching "like")
   for (const word of FILLER_WORDS) {
-    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const regex = new RegExp(`\\b${word}\\b`, "gi");
     const matches = lower.match(regex);
     if (matches) count += matches.length;
   }
@@ -52,14 +69,14 @@ function countFillerWords(text: string): number {
 
 // Baseline speaking prompts — shown one at a time during recording, rotated on silence
 const BASELINE_PROMPTS = [
-  'Walk me through your typical morning routine.',
-  'Tell me about yourself — what do you do and what are you into?',
-  'Describe the last trip or outing you went on.',
+  "Walk me through your typical morning routine.",
+  "Tell me about yourself — what do you do and what are you into?",
+  "Describe the last trip or outing you went on.",
 ];
 // TODO: Add silence-based auto-rotation (BASELINE_PROMPT_SILENCE_MS = 8000) in a future phase
 
 interface PracticeSessionProps {
-  focusMode: 'filler' | 'pace';
+  focusMode: "filler" | "pace";
 }
 
 export default function PracticeSession({ focusMode }: PracticeSessionProps) {
@@ -69,6 +86,17 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   // Read duration from route state with 120s (2min) fallback
   const durationSeconds = (location.state as any)?.durationSeconds ?? 120;
   const isBaseline = (location.state as any)?.isBaseline ?? false;
+
+  // Technique context (from ScenarioDetail → /practice/technique route)
+  const techniqueId = (location.state as any)?.techniqueId as
+    | string
+    | undefined;
+  const practicePrompt = (location.state as any)?.practicePrompt as
+    | string
+    | undefined;
+  const techniqueName = (location.state as any)?.techniqueName as
+    | string
+    | undefined;
 
   const {
     isCapturing,
@@ -236,12 +264,13 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     }
 
     // Combined silence check: low audio OR speech recognition idle
-    const isSilent = audioLevel < SILENCE_AUDIO_THRESHOLD || speechIdleRef.current;
+    const isSilent =
+      audioLevel < SILENCE_AUDIO_THRESHOLD || speechIdleRef.current;
 
     if (isSilent) {
       if (!silenceTimerRef.current) {
         silenceTimerRef.current = window.setInterval(() => {
-          setSilenceDuration(prev => prev + 100);
+          setSilenceDuration((prev) => prev + 100);
         }, 100);
       }
     } else {
@@ -263,10 +292,22 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         speechIdleTimerRef.current = null;
       }
     };
-  }, [isCapturing, isPaused, audioLevel, wordCount, SILENCE_AUDIO_THRESHOLD, SPEECH_IDLE_CHECK_MS]);
+  }, [
+    isCapturing,
+    isPaused,
+    audioLevel,
+    wordCount,
+    SILENCE_AUDIO_THRESHOLD,
+    SPEECH_IDLE_CHECK_MS,
+  ]);
 
   // Only trigger once per session (suppressed during baseline — prompts handle silence instead)
-  const showSilenceNudge = isCapturing && !isPaused && !nudgeShownRef.current && !isBaseline && silenceDuration >= SILENCE_NUDGE_MS;
+  const showSilenceNudge =
+    isCapturing &&
+    !isPaused &&
+    !nudgeShownRef.current &&
+    !isBaseline &&
+    silenceDuration >= SILENCE_NUDGE_MS;
 
   // Callback when nudge is dismissed
   const handleNudgeDismissed = useCallback(() => {
@@ -278,7 +319,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
   // Real-time filler count from transcript
   const liveFillerCount = useMemo(() => {
-    const allText = finalTranscript + ' ' + interimTranscript;
+    const allText = finalTranscript + " " + interimTranscript;
     return countFillerWords(allText);
   }, [finalTranscript, interimTranscript]);
 
@@ -290,7 +331,10 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   }, [isCapturing, isPaused, audioContext, sourceNode, startFillerDetection]);
 
   // Countdown remaining calculation (1 -> 0) for countdown bar
-  const countdownRemaining = durationSeconds > 0 ? Math.max(0, 1 - (elapsedTime / durationSeconds)) : undefined;
+  const countdownRemaining =
+    durationSeconds > 0
+      ? Math.max(0, 1 - elapsedTime / durationSeconds)
+      : undefined;
 
   const handleStart = useCallback(async () => {
     setIsStarting(true);
@@ -333,16 +377,19 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
     stopAudio();
 
     // Calculate filler count from transcript
-    const transcriptFillerCount = countFillerWords(finalTranscript + ' ' + interimTranscript);
+    const transcriptFillerCount = countFillerWords(
+      finalTranscript + " " + interimTranscript,
+    );
     const elapsedMinutes = elapsedTime / 60;
-    const transcriptFillerRate = elapsedMinutes > 0 ? transcriptFillerCount / elapsedMinutes : 0;
+    const transcriptFillerRate =
+      elapsedMinutes > 0 ? transcriptFillerCount / elapsedMinutes : 0;
 
     // Hybrid filler detection: combine acoustic + transcript
     // fillerEvents is already FillerDetection[] type — no mapping needed
     const reconciledFillers = reconcileFillers(
-      finalTranscript + ' ' + interimTranscript,
-      fillerEvents,  // Already FillerDetection[] from useFillerDetector
-      wordTimings    // Already WordTiming[] from useWebSpeech (captured at line 84)
+      finalTranscript + " " + interimTranscript,
+      fillerEvents, // Already FillerDetection[] from useFillerDetector
+      wordTimings, // Already WordTiming[] from useWebSpeech (captured at line 84)
     );
 
     // Convert audio blob to base64 for storage (show loading during this)
@@ -351,14 +398,15 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       try {
         audioData = await blobToBase64(audioBlob);
       } catch {
-        console.warn('[PracticeSession] Failed to convert audio blob');
+        console.warn("[PracticeSession] Failed to convert audio blob");
       }
     }
 
     // If this is a baseline session, save baseline metrics
     if (isBaseline) {
       // Calculate pause rate from silence duration
-      const pauseRate = silenceDuration > 0 ? (silenceDuration / 1000) / (elapsedTime / 60) : 0;
+      const pauseRate =
+        silenceDuration > 0 ? silenceDuration / 1000 / (elapsedTime / 60) : 0;
 
       saveBaseline({
         wpm,
@@ -381,33 +429,63 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       focusMode,
       is_baseline: isBaseline,
       audioData,
+      // Technique context (if practicing a specific technique)
+      ...(techniqueId && { techniqueId, techniqueName, practicePrompt }),
     };
 
     try {
-      sessionStorage.setItem('voicelab_last_session', JSON.stringify({
-        ...sessionData,
-        transcript: finalTranscript,
-        fillerEvents: [...fillerEvents],
-        wordTimings: [...wordTimings],
-        reconciledFillers: reconciledFillers,
-        averageConfidence: averageConfidence,
-        lowConfidenceSegments: lowConfidenceSegments,
-        qualityWarnings: [...qualityWarnings],
-      }));
+      sessionStorage.setItem(
+        "voicelab_last_session",
+        JSON.stringify({
+          ...sessionData,
+          transcript: finalTranscript,
+          fillerEvents: [...fillerEvents],
+          wordTimings: [...wordTimings],
+          reconciledFillers: reconciledFillers,
+          averageConfidence: averageConfidence,
+          lowConfidenceSegments: lowConfidenceSegments,
+          qualityWarnings: [...qualityWarnings],
+        }),
+      );
     } catch {
       // sessionStorage not available
     }
 
-    // Navigate to baseline results or regular results
+    // Navigate to appropriate results page
     if (isBaseline) {
-      navigate('/baseline/results');
+      navigate("/baseline/results");
+    } else if (techniqueId) {
+      navigate("/practice/technique-results");
     } else {
-      navigate('/practice/results');
+      navigate("/practice/results");
     }
 
     // Reset processing state
     setIsProcessing(false);
-  }, [elapsedTime, wordCount, wpm, fillerEvents, finalTranscript, wordTimings, focusMode, interimTranscript, isBaseline, silenceDuration, audioBlob, qualityWarnings, averageConfidence, lowConfidenceSegments, stopTimer, stopFillerDetection, stopSpeech, stopAudio, navigate]);
+  }, [
+    elapsedTime,
+    wordCount,
+    wpm,
+    fillerEvents,
+    finalTranscript,
+    wordTimings,
+    focusMode,
+    interimTranscript,
+    isBaseline,
+    silenceDuration,
+    audioBlob,
+    qualityWarnings,
+    averageConfidence,
+    lowConfidenceSegments,
+    techniqueId,
+    techniqueName,
+    practicePrompt,
+    stopTimer,
+    stopFillerDetection,
+    stopSpeech,
+    stopAudio,
+    navigate,
+  ]);
 
   // Keep stopSessionRef updated for timer auto-stop callback
   useEffect(() => {
@@ -420,7 +498,10 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe transition-all duration-200">
       {/* Countdown bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
-      <SessionProgressBar remaining={countdownRemaining} visible={isCapturing && !isPaused && durationSeconds > 0} />
+      <SessionProgressBar
+        remaining={countdownRemaining}
+        visible={isCapturing && !isPaused && durationSeconds > 0}
+      />
 
       {/* Processing overlay */}
       {isProcessing && (
@@ -435,10 +516,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       {/* Error display */}
       {error && (
         <div className="mb-6 max-w-md w-full">
-          <MicPermissionError
-            error={error}
-            onRetry={handleStart}
-          />
+          <MicPermissionError error={error} onRetry={handleStart} />
         </div>
       )}
 
@@ -447,6 +525,11 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         {/* PRE-SESSION: Show orb in idle state */}
         {!isCapturing && (
           <div className="flex flex-col items-center gap-4">
+            {techniqueName && (
+              <p className="text-sm font-medium text-gray-700">
+                {techniqueName}
+              </p>
+            )}
             <SessionOrb
               audioLevel={0}
               isRecording={false}
@@ -463,7 +546,10 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
           <>
             {/* Audio quality warnings */}
             {!isPaused && qualityWarnings.length > 0 && (
-              <AudioQualityWarning warnings={qualityWarnings} className="mb-4" />
+              <AudioQualityWarning
+                warnings={qualityWarnings}
+                className="mb-4"
+              />
             )}
 
             <SessionOrb
@@ -473,15 +559,33 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
               disabled={true}
             />
 
-            {/* Focus-specific feedback */}
-            {focusMode === 'filler' && (
-              <div className="text-center">
-                <span className="text-4xl sm:text-5xl font-bold text-gray-900">{liveFillerCount}</span>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">fillers detected</p>
+            {/* Technique practice prompt (when practicing a specific technique) */}
+            {practicePrompt && (
+              <div className="w-full max-w-sm max-h-32 overflow-y-auto px-3 sm:px-4 py-3 bg-gray-50 rounded-lg">
+                {techniqueName && (
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                    {techniqueName}
+                  </p>
+                )}
+                <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
+                  {practicePrompt}
+                </p>
               </div>
             )}
 
-            {focusMode === 'pace' && (
+            {/* Focus-specific feedback */}
+            {focusMode === "filler" && (
+              <div className="text-center">
+                <span className="text-4xl sm:text-5xl font-bold text-gray-900">
+                  {liveFillerCount}
+                </span>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                  fillers detected
+                </p>
+              </div>
+            )}
+
+            {focusMode === "pace" && (
               <>
                 <WaveformVisualizer
                   analyserNode={analyserRef.current}
@@ -489,15 +593,22 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
                   height={100}
                 />
                 <div className="text-center mt-2">
-                  <span className="text-xl sm:text-2xl font-semibold text-gray-900">{wpm} WPM</span>
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Speaking Pace</p>
+                  <span className="text-xl sm:text-2xl font-semibold text-gray-900">
+                    {wpm} WPM
+                  </span>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Speaking Pace
+                  </p>
                 </div>
               </>
             )}
 
             {/* Baseline speaking prompt */}
             {isBaseline && baselinePromptIndex < BASELINE_PROMPTS.length && (
-              <div key={baselinePromptIndex} className="text-center max-w-sm animate-fade-in px-2">
+              <div
+                key={baselinePromptIndex}
+                className="text-center max-w-sm animate-fade-in px-2"
+              >
                 <div className="px-3 sm:px-4 py-3 bg-gray-50 rounded-lg">
                   <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
                     {BASELINE_PROMPTS[baselinePromptIndex]}
@@ -505,7 +616,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
                 </div>
                 {baselinePromptIndex < BASELINE_PROMPTS.length - 1 && (
                   <button
-                    onClick={() => setBaselinePromptIndex(prev => prev + 1)}
+                    onClick={() => setBaselinePromptIndex((prev) => prev + 1)}
                     className="mt-2 text-xs text-gray-400 hover:text-gray-600 transition-colors"
                   >
                     Next topic &rarr;
@@ -522,7 +633,7 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
 
             {/* Bottom control bar */}
             <BottomControlBar
-              sessionState={isPaused ? 'paused' : 'recording'}
+              sessionState={isPaused ? "paused" : "recording"}
               onPause={handlePause}
               onStop={handleStop}
               onContinue={handleContinue}
