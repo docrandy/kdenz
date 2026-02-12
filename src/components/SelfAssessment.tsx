@@ -64,10 +64,10 @@ export default function SelfAssessment({
       <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold text-text mb-4">
+          <h1 className="text-h3 font-bold text-text-heading mb-4">
             Quick Reflection
           </h1>
-          <p className="text-base sm:text-lg text-text-muted">{question}</p>
+          <p className="text-h4 font-display text-text-heading">{question}</p>
         </div>
 
         {/* 5-point scale */}
@@ -83,11 +83,11 @@ export default function SelfAssessment({
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-text font-medium text-sm sm:text-base">
+                <span className="text-text-body font-medium text-body">
                   {labels[rating]}
                 </span>
                 <span
-                  className={`text-xs sm:text-sm ${
+                  className={`text-body-sm ${
                     selectedRating === rating
                       ? "text-accent font-semibold"
                       : "text-text-subtle"
@@ -104,7 +104,7 @@ export default function SelfAssessment({
         <div>
           <label
             htmlFor="self-assess-note"
-            className="block text-sm text-text-muted mb-2"
+            className="block text-body-sm text-text-body mb-2"
           >
             Any thoughts about this session? (optional)
           </label>
@@ -133,7 +133,7 @@ export default function SelfAssessment({
           </button>
           <button
             onClick={onSkip}
-            className="text-text-muted hover:text-text active:text-text text-sm transition-colors min-h-[44px]"
+            className="text-text-muted hover:text-text active:text-text text-body-sm transition-colors min-h-[44px]"
           >
             Skip
           </button>

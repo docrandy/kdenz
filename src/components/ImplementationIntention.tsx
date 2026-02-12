@@ -61,13 +61,13 @@ export default function ImplementationIntention({
       <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold text-text mb-4">
+          <h1 className="text-h3 font-bold text-text-heading mb-4">
             Try This Next Time
           </h1>
-          <p className="text-base sm:text-lg text-text-muted mb-2">
+          <p className="text-h4 font-display text-text-heading mb-2">
             Pick one thing to try in your next conversation
           </p>
-          <p className="text-xs sm:text-sm text-text-muted">
+          <p className="text-body-sm text-text-body">
             Research shows when/then commitments improve transfer to real
             situations
           </p>
@@ -76,14 +76,14 @@ export default function ImplementationIntention({
         {/* When/Then template */}
         <div className="bg-background-surface rounded-lg p-4 sm:p-6 space-y-4">
           <div>
-            <p className="text-sm font-semibold text-text-muted uppercase tracking-wide mb-2">
+            <p className="text-body-sm font-semibold text-text-muted uppercase tracking-wide mb-2">
               When
             </p>
-            <p className="text-lg text-text">{whenClause}</p>
+            <p className="text-body-lg text-text-body">{whenClause}</p>
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-text-muted uppercase tracking-wide mb-2">
+            <p className="text-body-sm font-semibold text-text-muted uppercase tracking-wide mb-2">
               I will
             </p>
 
@@ -93,7 +93,7 @@ export default function ImplementationIntention({
                 <button
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all min-h-[40px] ${
+                  className={`px-3 sm:px-4 py-2 rounded-full text-body-sm font-medium transition-all min-h-[40px] ${
                     selectedSuggestion === suggestion
                       ? "bg-accent text-text-inverse"
                       : "bg-background border-2 border-background-elevated text-text hover:border-accent active:bg-background-elevated"
@@ -123,8 +123,8 @@ export default function ImplementationIntention({
         {/* Preview */}
         {isValid && (
           <div className="bg-accent/10 border-2 border-accent/20 rounded-lg p-4">
-            <p className="text-sm text-text-muted mb-1">Your commitment:</p>
-            <p className="text-text font-medium">
+            <p className="text-body-sm text-text-body mb-1">Your commitment:</p>
+            <p className="text-body text-text-heading font-medium">
               {whenClause}, I will {customText.trim() || selectedSuggestion}
             </p>
           </div>
@@ -145,7 +145,7 @@ export default function ImplementationIntention({
           </button>
           <button
             onClick={onSkip}
-            className="text-text-muted hover:text-text active:text-text text-sm transition-colors min-h-[44px]"
+            className="text-text-muted hover:text-text active:text-text text-body-sm transition-colors min-h-[44px]"
           >
             Skip for now
           </button>
