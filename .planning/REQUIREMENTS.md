@@ -25,13 +25,13 @@
 
 ### SessionOrb Redesign (Wave 3)
 
-- [ ] **ORB-01**: New orb visual with gold radial gradient replacing current green
-- [ ] **ORB-02**: Three concentric animated rings (outer: slow rotation, middle: medium pulse, inner: fast flicker)
-- [ ] **ORB-03**: Orb responds to microphone input (rings brighten with voice volume)
-- [ ] **ORB-04**: Mic icon displayed center of orb in idle state
-- [ ] **ORB-05**: Stop square icon overlays orb when recording active
-- [ ] **ORB-06**: Smooth transitions between idle/recording/analyzing states
-- [ ] **ORB-07**: Mobile responsive at 320px+ screens
+- [x] **ORB-01**: New orb visual with gold radial gradient replacing current green
+- [x] **ORB-02**: Three concentric animated rings (outer: slow rotation, middle: medium pulse, inner: fast flicker)
+- [x] **ORB-03**: Orb responds to microphone input (rings brighten with voice volume)
+- [x] **ORB-04**: Mic icon displayed center of orb in idle state
+- [x] **ORB-05**: Stop square icon overlays orb when recording active
+- [x] **ORB-06**: Smooth transitions between idle/recording/analyzing states
+- [x] **ORB-07**: Mobile responsive at 320px+ screens
 
 ### Typography & Layout (Wave 4)
 
