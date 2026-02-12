@@ -2,8 +2,8 @@
  * CriticismBrainstorm - Phase 1: User brainstorms potential criticisms
  */
 
-import { useState } from 'react';
-import type { AuditScenario } from './types';
+import { useState } from "react";
+import type { AuditScenario } from "./types";
 
 interface CriticismBrainstormProps {
   scenario: AuditScenario;
@@ -20,17 +20,17 @@ export function CriticismBrainstorm({
   onDone,
   onSkip,
 }: CriticismBrainstormProps) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   const handleAdd = () => {
     if (input.trim()) {
       onAdd(input.trim());
-      setInput('');
+      setInput("");
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleAdd();
     }
@@ -41,18 +41,20 @@ export function CriticismBrainstorm({
       {/* Header */}
       <div className="text-center">
         <span className="text-4xl mb-2 block">🧠</span>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-bold text-text mb-2">
           First: What might they be thinking?
         </h2>
-        <p className="text-gray-600">
-          Before you see the full scenario, brainstorm what concerns they might have.
+        <p className="text-text-muted">
+          Before you see the full scenario, brainstorm what concerns they might
+          have.
         </p>
       </div>
 
       {/* Minimal scenario context (just the type, not full details) */}
-      <div className="bg-gray-50 rounded-xl p-4">
-        <p className="text-gray-700 text-sm">
-          <strong>Situation:</strong> {scenario.category.replace(/-/g, ' ')} conversation with your {scenario.counterpartRole.toLowerCase()}
+      <div className="bg-background-elevated rounded-xl p-4">
+        <p className="text-text-muted text-sm">
+          <strong>Situation:</strong> {scenario.category.replace(/-/g, " ")}{" "}
+          conversation with your {scenario.counterpartRole.toLowerCase()}
         </p>
       </div>
 
@@ -64,12 +66,12 @@ export function CriticismBrainstorm({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="They might think I'm..."
-          className="flex-1 p-3 border rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+          className="flex-1 p-3 border border-background-elevated rounded-xl bg-background-elevated text-text focus:ring-2 focus:ring-accent focus:border-transparent"
         />
         <button
           onClick={handleAdd}
           disabled={!input.trim()}
-          className="px-4 py-3 bg-black text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors disabled:bg-gray-300"
+          className="px-4 py-3 bg-accent text-text-inverse font-semibold rounded-xl hover:bg-accent/90 transition-colors disabled:bg-background-elevated disabled:text-text-subtle"
         >
           Add
         </button>
@@ -78,15 +80,17 @@ export function CriticismBrainstorm({
       {/* Brainstormed list */}
       {brainstormed.length > 0 && (
         <div className="space-y-2">
-          <h3 className="font-semibold text-gray-700">Your brainstorm ({brainstormed.length}):</h3>
+          <h3 className="font-semibold text-text-muted">
+            Your brainstorm ({brainstormed.length}):
+          </h3>
           <div className="space-y-2">
             {brainstormed.map((item, index) => (
               <div
                 key={index}
-                className="bg-white border rounded-lg p-3 flex items-center gap-2"
+                className="bg-background-surface border border-background-elevated rounded-lg p-3 flex items-center gap-2"
               >
-                <span className="text-cyan-500">•</span>
-                <span className="text-gray-700">{item}</span>
+                <span className="text-accent">•</span>
+                <span className="text-text-muted">{item}</span>
               </div>
             ))}
           </div>
@@ -94,9 +98,9 @@ export function CriticismBrainstorm({
       )}
 
       {/* Guidance (no hints - that would give away answers) */}
-      <div className="bg-cyan-50 border border-cyan-200 rounded-xl p-4">
-        <h3 className="font-semibold text-cyan-800 mb-2">💡 Think about:</h3>
-        <ul className="text-cyan-700 text-sm space-y-1">
+      <div className="bg-accent/10 border border-accent/30 rounded-xl p-4">
+        <h3 className="font-semibold text-accent mb-2">💡 Think about:</h3>
+        <ul className="text-text-muted text-sm space-y-1">
           <li>• What negative assumptions might they make about you?</li>
           <li>• What criticism would they have of your request?</li>
           <li>• What fears or concerns might your action trigger?</li>
@@ -105,16 +109,15 @@ export function CriticismBrainstorm({
 
       {/* Action buttons */}
       <div className="space-y-3">
-        <button
-          onClick={onDone}
-          className="w-full py-4 bg-black text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors"
-        >
-          {brainstormed.length > 0 ? 'Continue → See Scenario' : 'Skip Brainstorming'}
+        <button onClick={onDone} className="btn-primary w-full">
+          {brainstormed.length > 0
+            ? "Continue → See Scenario"
+            : "Skip Brainstorming"}
         </button>
         {onSkip && brainstormed.length > 0 && (
           <button
             onClick={onSkip}
-            className="w-full py-3 text-gray-600 hover:text-gray-900 text-sm"
+            className="w-full py-3 text-text-muted hover:text-text text-sm"
           >
             Skip and go straight to recording
           </button>
