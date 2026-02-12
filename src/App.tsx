@@ -41,11 +41,11 @@ function FreePracticeFillerRoute() {
   return (
     <div>
       {/* Back button header */}
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-background-surface border-b border-background-elevated sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <button
             onClick={() => navigate("/")}
-            className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+            className="text-text-muted hover:text-text flex items-center gap-2"
           >
             ← Back to Dashboard
           </button>
@@ -62,11 +62,11 @@ function FreePracticePaceRoute() {
   return (
     <div>
       {/* Back button header */}
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-background-surface border-b border-background-elevated sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <button
             onClick={() => navigate("/")}
-            className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+            className="text-text-muted hover:text-text flex items-center gap-2"
           >
             ← Back to Dashboard
           </button>
@@ -82,11 +82,11 @@ function TechniquePracticeRoute() {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-background-surface border-b border-background-elevated sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <button
             onClick={() => navigate("/library")}
-            className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+            className="text-text-muted hover:text-text flex items-center gap-2"
           >
             ← Back to Library
           </button>
@@ -212,7 +212,7 @@ function App() {
   if (!consentAccepted) {
     return (
       <ErrorBoundary>
-        <div className="min-h-screen bg-clinical-bg text-clinical-text">
+        <div className="min-h-screen bg-background text-text">
           <ConsentModal onAccept={handleConsentAccept} />
         </div>
       </ErrorBoundary>
@@ -221,7 +221,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-clinical-bg text-clinical-text">
+      <div className="min-h-screen bg-background text-text">
         <Routes>
           <Route path="/" element={renderHome()} />
           <Route path="/privacy" element={<Privacy />} />
