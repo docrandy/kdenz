@@ -3,8 +3,8 @@
  * Shows 12 weeks of practice session frequency
  */
 
-import { useMemo, useState } from 'react';
-import { getSessionsByDate } from '../services/sessionStorage';
+import { useMemo, useState } from "react";
+import { getSessionsByDate } from "../services/sessionStorage";
 
 interface DayData {
   date: string;
@@ -12,26 +12,31 @@ interface DayData {
   dayOfWeek: number;
 }
 
-const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function getColorClass(count: number): string {
-  if (count === 0) return 'bg-gray-100';
-  if (count === 1) return 'bg-cyan-200';
-  if (count === 2) return 'bg-cyan-400';
-  return 'bg-cyan-600';
+  if (count === 0) return "bg-background-elevated";
+  if (count === 1) return "bg-accent/30";
+  if (count === 2) return "bg-accent/60";
+  return "bg-accent";
 }
 
 function formatDate(dateString: string): string {
-  const date = new Date(dateString + 'T12:00:00');
-  return date.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
+  const date = new Date(dateString + "T12:00:00");
+  return date.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
   });
 }
 
 export function ContributionHeatmap() {
-  const [tooltip, setTooltip] = useState<{ date: string; count: number; x: number; y: number } | null>(null);
+  const [tooltip, setTooltip] = useState<{
+    date: string;
+    count: number;
+    x: number;
+    y: number;
+  } | null>(null);
 
   const { grid, weeks } = useMemo(() => {
     const sessionsByDate = getSessionsByDate();
@@ -42,7 +47,7 @@ export function ContributionHeatmap() {
     for (let i = 83; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
-      const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
       const sessions = sessionsByDate.get(dateString) || [];
 
       data.push({
@@ -59,7 +64,7 @@ export function ContributionHeatmap() {
     // Fill in empty days at the start of the first week
     const firstDayOfWeek = data[0]?.dayOfWeek || 0;
     for (let i = 0; i < firstDayOfWeek; i++) {
-      currentWeek.push({ date: '', count: -1, dayOfWeek: i });
+      currentWeek.push({ date: "", count: -1, dayOfWeek: i });
     }
 
     data.forEach((day) => {
@@ -73,7 +78,11 @@ export function ContributionHeatmap() {
     if (currentWeek.length > 0) {
       // Fill remaining days in the last week
       while (currentWeek.length < 7) {
-        currentWeek.push({ date: '', count: -1, dayOfWeek: currentWeek.length });
+        currentWeek.push({
+          date: "",
+          count: -1,
+          dayOfWeek: currentWeek.length,
+        });
       }
       weeks.push(currentWeek);
     }
@@ -98,8 +107,8 @@ export function ContributionHeatmap() {
   };
 
   return (
-    <div className="bg-white rounded-xl p-4 border border-gray-200">
-      <h3 className="text-sm font-semibold text-gray-900 mb-3">Your Activity</h3>
+    <div className="card-surface">
+      <h3 className="text-sm font-semibold text-text mb-3">Your Activity</h3>
 
       <div className="flex gap-1">
         {/* Day labels */}
@@ -107,10 +116,10 @@ export function ContributionHeatmap() {
           {[0, 2, 4, 6].map((i) => (
             <div
               key={i}
-              className="h-3 text-[10px] text-gray-400 leading-3"
-              style={{ marginTop: i === 0 ? 0 : '4px' }}
+              className="h-3 text-[10px] text-text-subtle leading-3"
+              style={{ marginTop: i === 0 ? 0 : "4px" }}
             >
-              {i % 2 === 0 ? DAY_LABELS[i].charAt(0) : ''}
+              {i % 2 === 0 ? DAY_LABELS[i].charAt(0) : ""}
             </div>
           ))}
         </div>
@@ -123,8 +132,8 @@ export function ContributionHeatmap() {
                 <div
                   key={`${weekIndex}-${dayIndex}`}
                   className={`w-3 h-3 rounded-sm ${
-                    day.count < 0 ? 'bg-transparent' : getColorClass(day.count)
-                  } ${day.date === grid[grid.length - 1]?.date ? 'ring-1 ring-cyan-500' : ''}`}
+                    day.count < 0 ? "bg-transparent" : getColorClass(day.count)
+                  } ${day.date === grid[grid.length - 1]?.date ? "ring-1 ring-accent" : ""}`}
                   onMouseEnter={(e) => handleMouseEnter(day, e)}
                   onMouseLeave={handleMouseLeave}
                 />
@@ -135,22 +144,23 @@ export function ContributionHeatmap() {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-1 mt-3 text-[10px] text-gray-500">
+      <div className="flex items-center gap-1 mt-3 text-[10px] text-text-subtle">
         <span>Less</span>
-        <div className="w-3 h-3 rounded-sm bg-gray-100" />
-        <div className="w-3 h-3 rounded-sm bg-cyan-200" />
-        <div className="w-3 h-3 rounded-sm bg-cyan-400" />
-        <div className="w-3 h-3 rounded-sm bg-cyan-600" />
+        <div className="w-3 h-3 rounded-sm bg-background-elevated" />
+        <div className="w-3 h-3 rounded-sm bg-accent/30" />
+        <div className="w-3 h-3 rounded-sm bg-accent/60" />
+        <div className="w-3 h-3 rounded-sm bg-accent" />
         <span>More</span>
       </div>
 
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 bg-gray-900 text-white text-xs px-2 py-1 rounded pointer-events-none transform -translate-x-1/2 -translate-y-full"
+          className="fixed z-50 bg-background-surface text-text text-xs px-2 py-1 rounded pointer-events-none transform -translate-x-1/2 -translate-y-full border border-background-elevated"
           style={{ left: tooltip.x, top: tooltip.y }}
         >
-          {tooltip.count} session{tooltip.count !== 1 ? 's' : ''} on {formatDate(tooltip.date)}
+          {tooltip.count} session{tooltip.count !== 1 ? "s" : ""} on{" "}
+          {formatDate(tooltip.date)}
         </div>
       )}
     </div>
