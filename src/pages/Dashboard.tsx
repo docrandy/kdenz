@@ -46,7 +46,7 @@ export default function Dashboard() {
       {/* Header with hamburger menu */}
       <header className="bg-background-surface border-b border-background-elevated sticky top-0 z-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-text">VoiceLab</h1>
+          <h1 className="text-h4 font-bold text-text-heading">VoiceLab</h1>
           <HamburgerMenu
             onProfile={() => navigate("/profile")}
             onSettings={() => navigate("/settings")}
@@ -62,21 +62,21 @@ export default function Dashboard() {
           className="bg-background-surface rounded-2xl p-4 sm:p-6 border border-background-elevated cursor-pointer hover:border-accent/20 transition-colors"
         >
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-accent/80 to-accent rounded-full flex items-center justify-center text-text-inverse text-xl sm:text-2xl font-bold flex-shrink-0">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-accent/80 to-accent rounded-full flex items-center justify-center text-text-inverse text-h4 font-bold flex-shrink-0">
               {profile?.demographics?.preferredName?.[0]?.toUpperCase() || "?"}
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-text truncate">
+              <h2 className="text-body-lg font-bold text-text-heading truncate">
                 {profile?.demographics?.preferredName || "Set up your profile"}
               </h2>
               {profile?.demographics?.jobTitle && (
-                <p className="text-sm sm:text-base text-text-muted truncate">
+                <p className="text-body-sm text-text-body truncate">
                   {profile.demographics.jobTitle}
                 </p>
               )}
               {profile?.focusAreas?.specificGoal && (
                 <div className="flex flex-wrap gap-1 mt-2">
-                  <span className="px-2 py-0.5 bg-accent/10 text-accent text-xs rounded-full">
+                  <span className="px-2 py-0.5 bg-accent/10 text-accent text-caption rounded-full">
                     {profile.focusAreas.specificGoal.replace(/-/g, " ")}
                   </span>
                 </div>
@@ -88,7 +88,7 @@ export default function Dashboard() {
 
         {/* Practice Modules */}
         <section>
-          <h2 className="text-lg font-semibold text-text mb-3">Practice</h2>
+          <h2 className="text-h5 font-semibold text-text-heading mb-3">Practice</h2>
           <div className="grid gap-3">
             {/* Filler Words Practice */}
             <PracticeCard
@@ -122,11 +122,11 @@ export default function Dashboard() {
         {/* Recent Sessions */}
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-text">Recent Sessions</h2>
+            <h2 className="text-h5 font-semibold text-text-heading">Recent Sessions</h2>
             {allSessions.length > 5 && (
               <button
                 onClick={() => setShowAllSessions(!showAllSessions)}
-                className="text-sm text-accent hover:text-accent/80"
+                className="text-body-sm text-accent hover:text-accent/80"
               >
                 {showAllSessions
                   ? "Show less"
@@ -200,13 +200,13 @@ export default function Dashboard() {
             </h2>
             <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
               <div>
-                <p className="text-2xl sm:text-3xl font-bold text-accent">
+                <p className="text-h3 font-bold text-accent">
                   {allSessions.length}
                 </p>
-                <p className="text-xs sm:text-sm text-text-muted">Sessions</p>
+                <p className="text-caption text-text-muted">Sessions</p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-bold text-accent">
+                <p className="text-h3 font-bold text-accent">
                   {Math.round(
                     allSessions.reduce(
                       (acc, s) => acc + (s.durationSeconds || 0),
@@ -214,13 +214,13 @@ export default function Dashboard() {
                     ) / 60,
                   )}
                 </p>
-                <p className="text-xs sm:text-sm text-text-muted">Minutes</p>
+                <p className="text-caption text-text-muted">Minutes</p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-bold text-accent">
+                <p className="text-h3 font-bold text-accent">
                   {calculateStreak(allSessions)}
                 </p>
-                <p className="text-xs sm:text-sm text-text-muted">Day Streak</p>
+                <p className="text-caption text-text-muted">Day Streak</p>
               </div>
             </div>
           </section>
@@ -272,7 +272,7 @@ function HamburgerMenu({
                 setIsOpen(false);
                 onProfile();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-sm sm:text-base text-text"
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-body text-text-body"
             >
               <span>👤</span>
               <span>Profile</span>
@@ -282,7 +282,7 @@ function HamburgerMenu({
                 setIsOpen(false);
                 onSettings();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-sm sm:text-base text-text"
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-body text-text-body"
             >
               <span>⚙️</span>
               <span>Settings</span>
@@ -292,13 +292,13 @@ function HamburgerMenu({
                 setIsOpen(false);
                 onPrivacy();
               }}
-              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-sm sm:text-base text-text"
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-body text-text-body"
             >
               <span>🔒</span>
               <span>Privacy</span>
             </button>
             <hr className="my-2 border-background-elevated" />
-            <div className="px-4 py-2 text-xs text-text-subtle">
+            <div className="px-4 py-2 text-caption text-text-subtle">
               Sign in coming soon
             </div>
           </div>
@@ -333,10 +333,10 @@ function PracticeCard({
       <div className="flex items-center gap-3">
         <span className="text-2xl flex-shrink-0">{icon}</span>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-text text-sm sm:text-base">
+          <h3 className="font-semibold text-body text-text-heading">
             {title}
           </h3>
-          <p className="text-xs sm:text-sm text-text-muted line-clamp-2">
+          <p className="text-body-sm text-text-body line-clamp-2">
             {description}
           </p>
         </div>

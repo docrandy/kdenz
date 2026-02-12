@@ -32,12 +32,12 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl sm:text-3xl font-bold text-text text-center mb-2">
+          <h1 className="text-h1 font-display font-bold text-text-heading text-center mb-2">
             Welcome to VoiceLab
           </h1>
 
           {/* Subtitle */}
-          <p className="text-text-muted text-center mb-8">
+          <p className="text-body-lg text-text-body text-center mb-8">
             Discover your speaking habits and improve with practice
           </p>
 
@@ -45,11 +45,11 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           <div className="space-y-4 mb-8">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center">
-                <span className="text-sm font-bold text-accent">1</span>
+                <span className="text-body-sm font-bold text-accent">1</span>
               </div>
               <div>
-                <p className="font-medium text-text">Choose a duration</p>
-                <p className="text-sm text-text-muted">
+                <p className="font-medium text-body text-text-heading">Choose a duration</p>
+                <p className="text-body-sm text-text-body">
                   30 seconds to 2 minutes
                 </p>
               </div>
@@ -57,11 +57,11 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
 
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center">
-                <span className="text-sm font-bold text-accent">2</span>
+                <span className="text-body-sm font-bold text-accent">2</span>
               </div>
               <div>
-                <p className="font-medium text-text">Speak freely</p>
-                <p className="text-sm text-text-muted">
+                <p className="font-medium text-body text-text-heading">Speak freely</p>
+                <p className="text-body-sm text-text-body">
                   Talk about anything - your day, a topic, or practice a
                   presentation
                 </p>
@@ -70,11 +70,11 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
 
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center">
-                <span className="text-sm font-bold text-accent">3</span>
+                <span className="text-body-sm font-bold text-accent">3</span>
               </div>
               <div>
-                <p className="font-medium text-text">Review your results</p>
-                <p className="text-sm text-text-muted">
+                <p className="font-medium text-body text-text-heading">Review your results</p>
+                <p className="text-body-sm text-text-body">
                   See filler words, pace, and play back your recording
                 </p>
               </div>
@@ -83,7 +83,7 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
 
           {/* Mic permission note */}
           <div className="bg-background-elevated rounded-lg p-4 mb-6">
-            <p className="text-sm text-text-muted text-center">
+            <p className="text-body-sm text-text-body text-center">
               <span className="font-medium">Note:</span> You'll be asked to
               allow microphone access. Your audio is processed locally and never
               stored on our servers.
@@ -99,7 +99,7 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           </button>
 
           {/* Beta note */}
-          <p className="text-xs text-text-subtle text-center mt-4">
+          <p className="text-caption text-text-subtle text-center mt-4">
             Beta version - We'd love your feedback!
           </p>
         </div>

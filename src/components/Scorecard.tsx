@@ -25,7 +25,7 @@ function FillerBreakdown({
   if (!breakdown || breakdown.length === 0) return null;
 
   return (
-    <div className="text-sm text-text-muted">
+    <div className="text-body-sm text-text-muted">
       You used:{" "}
       {breakdown.map((item, index) => (
         <span key={item.word}>
@@ -60,7 +60,7 @@ export default function Scorecard({
 
   return (
     <div className="space-y-3 sm:space-y-4">
-      <h3 className="text-base sm:text-lg font-semibold text-text">
+      <h3 className="text-h5 font-semibold text-text-heading">
         Session Scorecard
       </h3>
 
@@ -90,7 +90,7 @@ export default function Scorecard({
       />
 
       {/* Summary stats row */}
-      <div className="flex justify-between text-xs sm:text-sm text-text-muted pt-2 border-t border-background-elevated flex-wrap gap-2">
+      <div className="flex justify-between text-body-sm text-text-muted pt-2 border-t border-background-elevated flex-wrap gap-2">
         <span>{wordCount} words</span>
         <span>{fillerCount} fillers total</span>
         <span>{formatDuration(durationSeconds)}</span>

@@ -116,9 +116,9 @@ export default function AISummary({
     <div className="card-surface">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-text">Coaching Summary</h3>
+        <h3 className="text-h5 font-semibold text-text-heading">Coaching Summary</h3>
         {state === "success" && (
-          <span className="text-xs px-2 py-1 rounded-full bg-background-elevated text-text-muted">
+          <span className="text-caption px-2 py-1 rounded-full bg-background-elevated text-text-muted">
             {isAI ? "✨ AI Generated" : "📊 Local Analysis"}
           </span>
         )}
@@ -136,7 +136,7 @@ export default function AISummary({
             <div className="mt-4">
               <button
                 onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-                className="text-xs text-text-muted hover:text-accent transition-colors"
+                className="text-caption text-text-muted hover:text-accent transition-colors"
               >
                 {showApiKeyInput
                   ? "Cancel"
@@ -150,16 +150,16 @@ export default function AISummary({
                     value={apiKeyInput}
                     onChange={(e) => setApiKeyInput(e.target.value)}
                     placeholder="Paste your Gemini API key"
-                    className="w-full px-3 py-2 text-sm bg-background-surface border border-background-elevated rounded-lg text-text placeholder:text-text-subtle focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-3 py-2 text-body-sm bg-background-surface border border-background-elevated rounded-lg text-text placeholder:text-text-subtle focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                   <button
                     onClick={handleSaveApiKey}
                     disabled={!isValidApiKeyFormat(apiKeyInput)}
-                    className="mt-2 w-full px-4 py-2 text-sm bg-accent text-text-inverse rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                    className="mt-2 w-full px-4 py-2 text-body-sm bg-accent text-text-inverse rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                   >
                     Save Key
                   </button>
-                  <p className="mt-2 text-xs text-text-muted">
+                  <p className="mt-2 text-caption text-text-muted">
                     Get a free key at{" "}
                     <a
                       href="https://aistudio.google.com/apikey"
@@ -182,7 +182,7 @@ export default function AISummary({
         <div className="text-center py-6">
           <div className="inline-flex items-center gap-2">
             <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-            <span className="text-sm text-text-muted">
+            <span className="text-body-sm text-text-muted">
               Analyzing your session...
             </span>
           </div>
@@ -192,7 +192,7 @@ export default function AISummary({
       {/* Success state - show summary */}
       {state === "success" && (
         <div className="py-2">
-          <p className="text-sm text-text leading-relaxed whitespace-pre-line">
+          <p className="text-body text-text-body leading-relaxed whitespace-pre-line">
             {summary}
           </p>
 
@@ -201,7 +201,7 @@ export default function AISummary({
             <div className="mt-4 pt-4 border-t border-background-elevated">
               <button
                 onClick={generateSummary}
-                className="text-xs text-text-muted hover:text-accent transition-colors"
+                className="text-caption text-text-muted hover:text-accent transition-colors"
               >
                 ↻ Regenerate
               </button>
@@ -218,7 +218,7 @@ export default function AISummary({
           </p>
           <button
             onClick={generateSummary}
-            className="text-sm text-accent hover:underline"
+            className="text-body-sm text-accent hover:underline"
           >
             Retry
           </button>

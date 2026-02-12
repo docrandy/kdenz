@@ -44,18 +44,18 @@ export default function MetricCard({
   return (
     <div className="card-surface">
       {/* Header */}
-      <h4 className="text-sm sm:text-base font-semibold text-text mb-3">
+      <h4 className="text-body-lg font-semibold text-text-heading mb-3">
         {label}
       </h4>
 
       {/* Primary value with confidence interval */}
       <div className="mb-2">
-        <span className="text-2xl sm:text-3xl font-bold text-text">
+        <span className="text-h3 font-bold text-accent">
           {value.toFixed(label === "Filler Words" ? 1 : 0)}
         </span>
-        <span className="text-base sm:text-lg text-text ml-2">{unit}</span>
+        <span className="text-body text-text-body ml-2">{unit}</span>
         {confidenceInterval !== undefined && (
-          <span className="text-xs sm:text-sm text-text-muted ml-2">
+          <span className="text-body-sm text-text-muted ml-2">
             (+/-{confidenceInterval.toFixed(label === "Filler Words" ? 1 : 0)}{" "}
             {unit})
           </span>
@@ -64,7 +64,7 @@ export default function MetricCard({
 
       {/* Baseline comparison (if exists) */}
       {baseline !== undefined && (
-        <div className="space-y-1 mb-3 text-sm">
+        <div className="space-y-1 mb-3 text-body-sm">
           <div className="text-text-muted">
             Baseline: {baseline.toFixed(label === "Filler Words" ? 1 : 0)}{" "}
             {unit}
@@ -84,12 +84,12 @@ export default function MetricCard({
       {/* Context note and reflection prompt */}
       <div className="space-y-2 mt-4 pt-3 border-t border-background-elevated">
         {contextNote && (
-          <p className="text-xs text-text-muted italic leading-relaxed">
+          <p className="text-caption text-text-muted italic leading-relaxed">
             {contextNote}
           </p>
         )}
         {reflectionPrompt && (
-          <p className="text-xs text-text-muted italic leading-relaxed">
+          <p className="text-caption text-text-muted italic leading-relaxed">
             {reflectionPrompt}
           </p>
         )}
