@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 /**
  * ImplementationIntention Component
@@ -11,8 +11,8 @@ import { useState } from 'react';
  */
 
 interface ImplementationIntentionProps {
-  focusMode: 'filler' | 'pace';
-  fillerCount?: number;  // For personalization
+  focusMode: "filler" | "pace";
+  fillerCount?: number; // For personalization
   onComplete: (intention: string) => void;
   onSkip: () => void;
 }
@@ -20,32 +20,28 @@ interface ImplementationIntentionProps {
 export default function ImplementationIntention({
   focusMode,
   onComplete,
-  onSkip
+  onSkip,
 }: ImplementationIntentionProps) {
-  const [customText, setCustomText] = useState('');
-  const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(null);
+  const [customText, setCustomText] = useState("");
+  const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(
+    null,
+  );
 
   // Pre-filled template based on focus mode
-  const whenClause = focusMode === 'filler'
-    ? 'When I notice myself about to say a filler word'
-    : 'When I notice I\'m speaking too fast';
+  const whenClause =
+    focusMode === "filler"
+      ? "When I notice myself about to say a filler word"
+      : "When I notice I'm speaking too fast";
 
   // Suggested completions
-  const suggestions = focusMode === 'filler'
-    ? [
-        'pause and take a breath',
-        'slow down',
-        'embrace the silence'
-      ]
-    : [
-        'take a breath',
-        'pause between sentences',
-        'slow my next phrase'
-      ];
+  const suggestions =
+    focusMode === "filler"
+      ? ["pause and take a breath", "slow down", "embrace the silence"]
+      : ["take a breath", "pause between sentences", "slow my next phrase"];
 
   const handleSuggestionClick = (suggestion: string) => {
     setSelectedSuggestion(suggestion);
-    setCustomText('');
+    setCustomText("");
   };
 
   const handleComplete = () => {
@@ -54,41 +50,40 @@ export default function ImplementationIntention({
 
     const fullIntention = `${whenClause}, I will ${intention}`;
     // Store in sessionStorage for potential future recall
-    sessionStorage.setItem('voicelab_last_intention', fullIntention);
+    sessionStorage.setItem("voicelab_last_intention", fullIntention);
     onComplete(fullIntention);
   };
 
-  const isValid = customText.trim() !== '' || selectedSuggestion !== null;
+  const isValid = customText.trim() !== "" || selectedSuggestion !== null;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 sm:px-6 pb-safe">
       <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold text-clinical-text mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-text mb-4">
             Try This Next Time
           </h1>
-          <p className="text-base sm:text-lg text-clinical-muted mb-2">
+          <p className="text-base sm:text-lg text-text-muted mb-2">
             Pick one thing to try in your next conversation
           </p>
-          <p className="text-xs sm:text-sm text-clinical-muted">
-            Research shows when/then commitments improve transfer to real situations
+          <p className="text-xs sm:text-sm text-text-muted">
+            Research shows when/then commitments improve transfer to real
+            situations
           </p>
         </div>
 
         {/* When/Then template */}
-        <div className="bg-gray-50 rounded-lg p-4 sm:p-6 space-y-4">
+        <div className="bg-background-surface rounded-lg p-4 sm:p-6 space-y-4">
           <div>
-            <p className="text-sm font-semibold text-clinical-muted uppercase tracking-wide mb-2">
+            <p className="text-sm font-semibold text-text-muted uppercase tracking-wide mb-2">
               When
             </p>
-            <p className="text-lg text-clinical-text">
-              {whenClause}
-            </p>
+            <p className="text-lg text-text">{whenClause}</p>
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-clinical-muted uppercase tracking-wide mb-2">
+            <p className="text-sm font-semibold text-text-muted uppercase tracking-wide mb-2">
               I will
             </p>
 
@@ -100,8 +95,8 @@ export default function ImplementationIntention({
                   onClick={() => handleSuggestionClick(suggestion)}
                   className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all min-h-[40px] ${
                     selectedSuggestion === suggestion
-                      ? 'bg-clinical-accent text-white'
-                      : 'bg-white border-2 border-gray-200 text-clinical-text hover:border-clinical-accent active:bg-gray-50'
+                      ? "bg-accent text-text-inverse"
+                      : "bg-background border-2 border-background-elevated text-text hover:border-accent active:bg-background-elevated"
                   }`}
                 >
                   {suggestion}
@@ -119,7 +114,7 @@ export default function ImplementationIntention({
                   setSelectedSuggestion(null);
                 }}
                 placeholder="or type your own..."
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-clinical-accent focus:outline-none transition-colors"
+                className="input"
               />
             </div>
           </div>
@@ -127,9 +122,9 @@ export default function ImplementationIntention({
 
         {/* Preview */}
         {isValid && (
-          <div className="bg-clinical-accent/5 border-2 border-clinical-accent/20 rounded-lg p-4">
-            <p className="text-sm text-clinical-muted mb-1">Your commitment:</p>
-            <p className="text-clinical-text font-medium">
+          <div className="bg-accent/10 border-2 border-accent/20 rounded-lg p-4">
+            <p className="text-sm text-text-muted mb-1">Your commitment:</p>
+            <p className="text-text font-medium">
               {whenClause}, I will {customText.trim() || selectedSuggestion}
             </p>
           </div>
@@ -142,15 +137,15 @@ export default function ImplementationIntention({
             disabled={!isValid}
             className={`w-full px-6 py-4 rounded-lg font-semibold transition-all min-h-[56px] ${
               !isValid
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-black text-white hover:opacity-90 active:opacity-80'
+                ? "bg-background-elevated text-text-subtle cursor-not-allowed"
+                : "btn-primary"
             }`}
           >
             Save & Continue
           </button>
           <button
             onClick={onSkip}
-            className="text-clinical-muted hover:text-clinical-text active:text-clinical-text text-sm transition-colors min-h-[44px]"
+            className="text-text-muted hover:text-text active:text-text text-sm transition-colors min-h-[44px]"
           >
             Skip for now
           </button>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 /**
  * SelfAssessment Component
@@ -11,19 +11,25 @@ import { useState } from 'react';
  */
 
 interface SelfAssessmentProps {
-  focusMode: 'filler' | 'pace';
+  focusMode: "filler" | "pace";
   onComplete: (response: SelfAssessmentResponse) => void;
   onSkip: () => void;
 }
 
 export interface SelfAssessmentResponse {
-  rating: 1 | 2 | 3 | 4 | 5;  // 1=low awareness, 5=high awareness
-  note?: string;  // Optional brief note
+  rating: 1 | 2 | 3 | 4 | 5; // 1=low awareness, 5=high awareness
+  note?: string; // Optional brief note
 }
 
-export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAssessmentProps) {
-  const [selectedRating, setSelectedRating] = useState<1 | 2 | 3 | 4 | 5 | null>(null);
-  const [note, setNote] = useState('');
+export default function SelfAssessment({
+  focusMode,
+  onComplete,
+  onSkip,
+}: SelfAssessmentProps) {
+  const [selectedRating, setSelectedRating] = useState<
+    1 | 2 | 3 | 4 | 5 | null
+  >(null);
+  const [note, setNote] = useState("");
 
   const handleComplete = () => {
     if (selectedRating === null) return;
@@ -31,37 +37,37 @@ export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAs
   };
 
   // Question and labels vary by focus mode
-  const question = focusMode === 'filler'
-    ? 'Before we show your results, how aware were you of your filler words?'
-    : 'Before we show your results, how did your speaking pace feel?';
+  const question =
+    focusMode === "filler"
+      ? "Before we show your results, how aware were you of your filler words?"
+      : "Before we show your results, how did your speaking pace feel?";
 
-  const labels: Record<1 | 2 | 3 | 4 | 5, string> = focusMode === 'filler'
-    ? {
-        1: 'Not very aware',
-        2: 'Somewhat aware',
-        3: 'Moderately aware',
-        4: 'Quite aware',
-        5: 'Very aware'
-      }
-    : {
-        1: 'Felt rushed',
-        2: 'A bit fast',
-        3: 'About right',
-        4: 'Comfortable',
-        5: 'Felt controlled'
-      };
+  const labels: Record<1 | 2 | 3 | 4 | 5, string> =
+    focusMode === "filler"
+      ? {
+          1: "Not very aware",
+          2: "Somewhat aware",
+          3: "Moderately aware",
+          4: "Quite aware",
+          5: "Very aware",
+        }
+      : {
+          1: "Felt rushed",
+          2: "A bit fast",
+          3: "About right",
+          4: "Comfortable",
+          5: "Felt controlled",
+        };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6 pb-safe">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4 sm:px-6 pb-safe">
       <div className="max-w-md w-full space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold text-clinical-text mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-text mb-4">
             Quick Reflection
           </h1>
-          <p className="text-base sm:text-lg text-clinical-muted">
-            {question}
-          </p>
+          <p className="text-base sm:text-lg text-text-muted">{question}</p>
         </div>
 
         {/* 5-point scale */}
@@ -72,19 +78,21 @@ export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAs
               onClick={() => setSelectedRating(rating)}
               className={`w-full px-4 sm:px-6 py-4 rounded-lg text-left border-2 transition-all min-h-[56px] ${
                 selectedRating === rating
-                  ? 'border-clinical-accent bg-clinical-accent/5'
-                  : 'border-gray-200 hover:border-gray-300 active:bg-gray-50'
+                  ? "border-accent bg-accent/10"
+                  : "border-background-elevated hover:border-background-elevated active:bg-background-elevated"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-clinical-text font-medium text-sm sm:text-base">
+                <span className="text-text font-medium text-sm sm:text-base">
                   {labels[rating]}
                 </span>
-                <span className={`text-xs sm:text-sm ${
-                  selectedRating === rating
-                    ? 'text-clinical-accent font-semibold'
-                    : 'text-gray-400'
-                }`}>
+                <span
+                  className={`text-xs sm:text-sm ${
+                    selectedRating === rating
+                      ? "text-accent font-semibold"
+                      : "text-text-subtle"
+                  }`}
+                >
                   {rating}
                 </span>
               </div>
@@ -96,7 +104,7 @@ export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAs
         <div>
           <label
             htmlFor="self-assess-note"
-            className="block text-sm text-clinical-muted mb-2"
+            className="block text-sm text-text-muted mb-2"
           >
             Any thoughts about this session? (optional)
           </label>
@@ -106,7 +114,7 @@ export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAs
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="e.g., Felt distracted today"
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-clinical-accent focus:outline-none transition-colors"
+            className="input"
           />
         </div>
 
@@ -117,15 +125,15 @@ export default function SelfAssessment({ focusMode, onComplete, onSkip }: SelfAs
             disabled={selectedRating === null}
             className={`w-full px-6 py-4 rounded-lg font-semibold transition-all min-h-[56px] ${
               selectedRating === null
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-black text-white hover:opacity-90 active:opacity-80'
+                ? "bg-background-elevated text-text-subtle cursor-not-allowed"
+                : "btn-primary"
             }`}
           >
             Show My Results
           </button>
           <button
             onClick={onSkip}
-            className="text-clinical-muted hover:text-clinical-text active:text-clinical-text text-sm transition-colors min-h-[44px]"
+            className="text-text-muted hover:text-text active:text-text text-sm transition-colors min-h-[44px]"
           >
             Skip
           </button>

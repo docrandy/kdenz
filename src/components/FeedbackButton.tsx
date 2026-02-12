@@ -3,8 +3,8 @@
  * Floating button that opens feedback form/email with session context
  */
 
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface FeedbackButtonProps {
   email?: string;
@@ -13,8 +13,8 @@ interface FeedbackButtonProps {
 }
 
 export default function FeedbackButton({
-  email = 'feedback@voicelab.app',
-  subject = 'VoiceLab Beta Feedback',
+  email = "feedback@voicelab.app",
+  subject = "VoiceLab Beta Feedback",
   showPrompt = false,
 }: FeedbackButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -39,20 +39,23 @@ export default function FeedbackButton({
 
   // Pulse animation on first appearance (once per session)
   useEffect(() => {
-    const hasSeenPulse = sessionStorage.getItem('voicelab_feedback_pulse_shown');
+    const hasSeenPulse = sessionStorage.getItem(
+      "voicelab_feedback_pulse_shown",
+    );
     if (!hasSeenPulse) {
-      sessionStorage.setItem('voicelab_feedback_pulse_shown', 'true');
+      sessionStorage.setItem("voicelab_feedback_pulse_shown", "true");
     }
   }, []);
 
   const handleClick = () => {
     // Get current page info
-    const currentPage = location.pathname === '/' ? 'Dashboard' : location.pathname;
+    const currentPage =
+      location.pathname === "/" ? "Dashboard" : location.pathname;
 
     // Try to get recent session info from sessionStorage
-    let sessionContext = '';
+    let sessionContext = "";
     try {
-      const lastSession = sessionStorage.getItem('voicelab_last_session');
+      const lastSession = sessionStorage.getItem("voicelab_last_session");
       if (lastSession) {
         const data = JSON.parse(lastSession);
         const sessionDate = new Date().toLocaleDateString();
@@ -63,7 +66,7 @@ export default function FeedbackButton({
     }
 
     const body = encodeURIComponent(
-      `Hi VoiceLab team,\n\nI wanted to share some feedback about my experience:\n\n[Your feedback here]\n\n---\nPage: ${currentPage}${sessionContext}\nBrowser: ${navigator.userAgent}\nTime: ${new Date().toISOString()}`
+      `Hi VoiceLab team,\n\nI wanted to share some feedback about my experience:\n\n[Your feedback here]\n\n---\nPage: ${currentPage}${sessionContext}\nBrowser: ${navigator.userAgent}\nTime: ${new Date().toISOString()}`,
     );
     const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${body}`;
     window.location.href = mailtoUrl;
@@ -73,28 +76,38 @@ export default function FeedbackButton({
     setIsExpanded(false);
   };
 
-  const shouldPulse = !sessionStorage.getItem('voicelab_feedback_pulse_shown');
+  const shouldPulse = !sessionStorage.getItem("voicelab_feedback_pulse_shown");
 
   return (
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
       {/* Expanded prompt (shown after session) */}
       {isExpanded && (
-        <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs animate-fade-in">
+        <div className="bg-background-surface border border-background-elevated rounded-lg shadow-lg p-3 max-w-xs animate-fade-in">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-sm text-gray-700">How was your session?</p>
+            <p className="text-sm text-text">How was your session?</p>
             <button
               onClick={handleDismiss}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-text-subtle hover:text-text-muted transition-colors"
               aria-label="Dismiss"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
           <button
             onClick={handleClick}
-            className="mt-2 w-full text-sm text-clinical-accent hover:underline text-left"
+            className="mt-2 w-full text-sm text-accent hover:underline text-left"
           >
             Send feedback →
           </button>
@@ -106,8 +119,8 @@ export default function FeedbackButton({
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`flex items-center gap-2 bg-clinical-text text-white px-4 py-2 rounded-full shadow-lg hover:bg-gray-800 transition-all ${
-          shouldPulse ? 'animate-pulse-subtle' : ''
+        className={`flex items-center gap-2 bg-text text-text-inverse px-4 py-2 rounded-full shadow-lg hover:opacity-90 transition-all ${
+          shouldPulse ? "animate-pulse-subtle" : ""
         }`}
         aria-label="Send feedback"
       >
@@ -129,7 +142,7 @@ export default function FeedbackButton({
         {/* Label - shown on hover */}
         <span
           className={`text-sm font-medium overflow-hidden transition-all duration-200 ${
-            isHovered ? 'max-w-32 opacity-100' : 'max-w-0 opacity-0'
+            isHovered ? "max-w-32 opacity-100" : "max-w-0 opacity-0"
           }`}
         >
           Feedback

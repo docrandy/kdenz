@@ -8,73 +8,78 @@ interface MicPermissionErrorProps {
   onRetry: () => void;
 }
 
-function getErrorType(error: string): 'denied' | 'unavailable' | 'in-use' | 'unknown' {
+function getErrorType(
+  error: string,
+): "denied" | "unavailable" | "in-use" | "unknown" {
   const lowerError = error.toLowerCase();
-  if (lowerError.includes('denied') || lowerError.includes('permission')) {
-    return 'denied';
+  if (lowerError.includes("denied") || lowerError.includes("permission")) {
+    return "denied";
   }
-  if (lowerError.includes('not found') || lowerError.includes('no device')) {
-    return 'unavailable';
+  if (lowerError.includes("not found") || lowerError.includes("no device")) {
+    return "unavailable";
   }
-  if (lowerError.includes('in use') || lowerError.includes('busy')) {
-    return 'in-use';
+  if (lowerError.includes("in use") || lowerError.includes("busy")) {
+    return "in-use";
   }
-  return 'unknown';
+  return "unknown";
 }
 
 const errorContent = {
   denied: {
-    title: 'Microphone Access Denied',
-    description: 'VoiceLab needs microphone access to analyze your speech.',
+    title: "Microphone Access Denied",
+    description: "VoiceLab needs microphone access to analyze your speech.",
     steps: [
-      'Click the lock/camera icon in your browser address bar',
+      "Click the lock/camera icon in your browser address bar",
       'Find "Microphone" in the permissions list',
       'Change it from "Block" to "Allow"',
-      'Refresh the page and try again',
+      "Refresh the page and try again",
     ],
   },
   unavailable: {
-    title: 'No Microphone Found',
-    description: 'We couldn\'t detect a microphone connected to your device.',
+    title: "No Microphone Found",
+    description: "We couldn't detect a microphone connected to your device.",
     steps: [
-      'Check that your microphone is properly connected',
-      'Make sure it\'s not muted at the hardware level',
-      'Try using a different microphone or headset',
-      'Restart your browser and try again',
+      "Check that your microphone is properly connected",
+      "Make sure it's not muted at the hardware level",
+      "Try using a different microphone or headset",
+      "Restart your browser and try again",
     ],
   },
-  'in-use': {
-    title: 'Microphone In Use',
-    description: 'Your microphone is being used by another application.',
+  "in-use": {
+    title: "Microphone In Use",
+    description: "Your microphone is being used by another application.",
     steps: [
-      'Close other apps that might be using your microphone',
-      'Check for video calls, voice recorders, or other audio apps',
-      'Restart your browser if the issue persists',
+      "Close other apps that might be using your microphone",
+      "Check for video calls, voice recorders, or other audio apps",
+      "Restart your browser if the issue persists",
     ],
   },
   unknown: {
-    title: 'Microphone Error',
-    description: 'Something went wrong while accessing your microphone.',
+    title: "Microphone Error",
+    description: "Something went wrong while accessing your microphone.",
     steps: [
-      'Refresh the page and try again',
-      'Check your browser\'s microphone settings',
-      'Try using a different browser (Chrome recommended)',
-      'Restart your device if the issue persists',
+      "Refresh the page and try again",
+      "Check your browser's microphone settings",
+      "Try using a different browser (Chrome recommended)",
+      "Restart your device if the issue persists",
     ],
   },
 };
 
-export default function MicPermissionError({ error, onRetry }: MicPermissionErrorProps) {
+export default function MicPermissionError({
+  error,
+  onRetry,
+}: MicPermissionErrorProps) {
   const errorType = getErrorType(error);
   const content = errorContent[errorType];
 
   return (
-    <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+    <div className="bg-status-error/10 border border-status-error/30 rounded-lg p-6">
       {/* Icon */}
       <div className="flex justify-center mb-4">
-        <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+        <div className="w-12 h-12 bg-status-error/15 rounded-full flex items-center justify-center">
           <svg
-            className="w-6 h-6 text-red-600"
+            className="w-6 h-6 text-status-error"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -90,22 +95,22 @@ export default function MicPermissionError({ error, onRetry }: MicPermissionErro
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-semibold text-red-800 text-center mb-2">
+      <h3 className="text-lg font-semibold text-status-error text-center mb-2">
         {content.title}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-red-700 text-center mb-4">
+      <p className="text-sm text-status-error text-center mb-4">
         {content.description}
       </p>
 
       {/* Steps */}
-      <div className="bg-white rounded-lg p-4 mb-4">
-        <p className="text-xs font-medium text-gray-600 mb-2">How to fix:</p>
-        <ol className="text-sm text-gray-700 space-y-2">
+      <div className="bg-background-surface rounded-lg p-4 mb-4">
+        <p className="text-xs font-medium text-text-muted mb-2">How to fix:</p>
+        <ol className="text-sm text-text space-y-2">
           {content.steps.map((step, index) => (
             <li key={index} className="flex gap-2">
-              <span className="flex-shrink-0 w-5 h-5 bg-gray-100 rounded-full text-xs flex items-center justify-center text-gray-500">
+              <span className="flex-shrink-0 w-5 h-5 bg-background-elevated rounded-full text-xs flex items-center justify-center text-text-subtle">
                 {index + 1}
               </span>
               <span>{step}</span>
@@ -115,15 +120,12 @@ export default function MicPermissionError({ error, onRetry }: MicPermissionErro
       </div>
 
       {/* Retry button */}
-      <button
-        onClick={onRetry}
-        className="w-full py-2 px-4 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
-      >
+      <button onClick={onRetry} className="btn-primary w-full">
         Try Again
       </button>
 
       {/* Technical error */}
-      <p className="text-xs text-red-400 text-center mt-3">
+      <p className="text-xs text-text-subtle text-center mt-3">
         Error: {error}
       </p>
     </div>
