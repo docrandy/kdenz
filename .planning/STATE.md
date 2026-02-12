@@ -13,9 +13,9 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 **Version:** v2.0 (Phases 11-16, 44 requirements)
 **Previous:** v1.0 shipped 2026-02-05, v1.0 + Wave 1+2 technique lib at commit 90c53cd
 **Deployed:** https://kdenz.vercel.app (v1.0 active, v2.0 in development)
-**Last Action:** 2026-02-12 - Completed Phase 14 (Typography & Layout) — 4/4 plans, 9/9 must-haves verified
+**Last Action:** 2026-02-12 - Completed Phase 15 Plan 02 (Welcome + Profile Setup) — 2/2 tasks, immersive hero + inline onboarding
 
-**Progress:** ████████████████████░░░░░░░░░░░░ v2.0 in progress (Phase 11 ✅, Phase 12 ✅, Phase 13 ✅, Phase 14 ✅, 2 phases remaining)
+**Progress:** █████████████████████░░░░░░░░░░░ v2.0 in progress (Phase 11 ✅, Phase 12 ✅, Phase 13 ✅, Phase 14 ✅, Phase 15: 2/5 plans, 2 phases remaining)
 
 ## Milestone Summary
 
@@ -66,8 +66,8 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-12
-**Stopped at:** Completed Phase 14 — Typography & Layout (4/4 plans, 9/9 verified)
-**Resume with:** Phase 15 (New Screens — Core Flow) — /gsd:discuss-phase 15
+**Stopped at:** Completed Phase 15 Plan 02 — Welcome + Profile Setup (2/2 tasks)
+**Resume with:** Phase 15 Plan 03 (Pre-Session Screen) — /gsd:execute-phase 15
 
 ## User Feedback from Phase 13 Verification (for Phase 14+)
 
@@ -90,4 +90,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-12 - Phase 14 complete (4/4 plans, 9/9 verified, Calm/Headspace typography + layout across ~50 files)*
+*Last updated: 2026-02-12 - Phase 15 Plan 02 complete (Welcome hero + inline profile setup, 2/2 tasks, 2 commits)*
