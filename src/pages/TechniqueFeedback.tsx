@@ -191,7 +191,7 @@ export default function TechniqueFeedback() {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? "border-black text-text"
+                  ? "border-accent text-text"
                   : "border-transparent text-text-muted hover:text-text-muted"
               }`}
             >
@@ -264,7 +264,7 @@ function CoachingTab({
         <div className="flex items-center justify-center mb-3">
           <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-text-inverse"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -276,9 +276,7 @@ function CoachingTab({
             </svg>
           </div>
         </div>
-        <h2 className="text-xl font-bold text-text mb-1">
-          Session Complete
-        </h2>
+        <h2 className="text-xl font-bold text-text mb-1">Session Complete</h2>
         <p className="text-sm text-text-muted">
           {sessionData.wordCount} words · {sessionData.wpm} WPM ·{" "}
           {sessionData.fillerCount} filler
@@ -461,7 +459,10 @@ function TranscriptTab({ sessionData }: { sessionData: SessionData }) {
           );
           if (isFillerWord) {
             return (
-              <span key={i} className="bg-status-error/10 text-status-error px-0.5 rounded">
+              <span
+                key={i}
+                className="bg-status-error/10 text-status-error px-0.5 rounded"
+              >
                 {part}
               </span>
             );

@@ -131,7 +131,7 @@ export default function ScenarioDetail() {
               onClick={() => setActiveTab("briefing")}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === "briefing"
-                  ? "border-black text-text"
+                  ? "border-accent text-text"
                   : "border-transparent text-text-muted hover:text-text-muted"
               }`}
             >
@@ -141,7 +141,7 @@ export default function ScenarioDetail() {
               onClick={() => setActiveTab("learn")}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === "learn"
-                  ? "border-black text-text"
+                  ? "border-accent text-text"
                   : "border-transparent text-text-muted hover:text-text-muted"
               }`}
             >
@@ -173,7 +173,9 @@ export default function ScenarioDetail() {
               <path d="M6 4L16 10L6 16V4Z" fill="currentColor" />
             </svg>
             Start Practice
-            <span className="text-white/60 font-normal">[{durationLabel}]</span>
+            <span className="text-text-inverse/60 font-normal">
+              [{durationLabel}]
+            </span>
           </button>
         </div>
       </div>
