@@ -96,7 +96,7 @@
   .btn-secondary {
     @apply btn bg-background-surface text-text
            border border-background-elevated
-           hover:bg-background-elevated hover:border-accent/20;
+           hover:bg-background-elevated hover:border-accent;
   }
 
   .btn-ghost {
@@ -116,7 +116,7 @@
     @apply bg-background-elevated rounded-xl
            border border-background-subtle
            p-6 shadow-md transition-all duration-200
-           hover:border-accent/20;
+           hover:border-accent;
   }
 
   /* ===== INPUT ===== */
@@ -135,25 +135,25 @@
   .badge-success {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full
            text-caption font-medium
-           bg-status-success/15 text-status-success;
+           bg-background-subtle text-status-success;
   }
 
   .badge-warning {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full
            text-caption font-medium
-           bg-status-warning/15 text-status-warning;
+           bg-background-subtle text-status-warning;
   }
 
   .badge-info {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full
            text-caption font-medium
-           bg-status-info/15 text-status-info;
+           bg-background-subtle text-status-info;
   }
 
   .badge-error {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full
            text-caption font-medium
-           bg-status-error/15 text-status-error;
+           bg-background-subtle text-status-error;
   }
 
   /* ===== INTERACTIVE EFFECTS ===== */

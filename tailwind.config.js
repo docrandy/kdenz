@@ -27,21 +27,6 @@ export default {
           warning: "var(--color-status-warning)",
           error: "var(--color-status-error)",
         },
-
-        // ===== OLD PALETTE (keep for Phase 12 migration) =====
-        clinical: {
-          bg: "#FFFFFF",
-          text: "#000000",
-          accent: "#00D4FF",
-          "accent-hover": "#00B8E6",
-          muted: "#6B7280",
-          border: "#E5E7EB",
-          "deep-navy": "#1A1A2E",
-          "electric-blue": "#0066FF",
-          "signal-green": "#00C851",
-          "warm-amber": "#FFB300",
-          "soft-gray": "#F5F5F7",
-        },
       },
 
       fontSize: {
