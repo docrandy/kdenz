@@ -20,7 +20,7 @@ const TEAM_SIZE_OPTIONS = [
   { value: "large", label: "Large team (15+)" },
 ];
 
-export function Settings() {
+export default function Settings() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [saved, setSaved] = useState(false);

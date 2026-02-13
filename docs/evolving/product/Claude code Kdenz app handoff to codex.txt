@@ -1,0 +1,371 @@
+Kdenz / VoiceLab Codebase Audit
+A) Product Taxonomy and Navigation
+1. Top-Level Destinations
+The app has 16 active routes defined in App.tsx:
+
+Route	Component	Product Role
+/	Dashboard	Home hub — practice cards, recent sessions, activity heatmap
+/baseline	BaselineSession	First-time calibration intro
+/practice/baseline	PracticeSession	3-min baseline recording
+/baseline/results	BaselineResults	Baseline metrics display
+/practice/filler/setup	PreSessionScreen	Filler practice config (duration, prompt)
+/practice/filler	PracticeSession	Live filler-focused recording
+/practice/pace/setup	PreSessionScreen	Pace practice config
+/practice/pace	PracticeSession	Live pace-focused recording
+/practice/results	PostSessionResults	Free practice results (4-phase)
+/practice/evaluation	EvaluationPage	Deep transcript viewer
+/library	ScenarioLibrary	Browsable 51-technique catalog
+/technique/:techniqueId	ScenarioDetail	Technique briefing + learn tabs
+/practice/technique/setup	PreSessionScreen	Technique practice config
+/practice/technique	PracticeSession	Technique-focused recording
+/practice/technique-results	TechniqueFeedback	Technique-specific 3-tab results
+/session/:sessionId	SessionDetail	Historical session detail
+/profile	ProfilePage	4-step onboarding wizard
+/settings	Settings	User settings, baseline re-record
+/privacy	Privacy	Data privacy policy
+Data: Routes are statically defined in App.tsx. No dynamic route generation.
+
+2. Navigation Structure
+There is no sidebar. Navigation is header-based via AppHeader.tsx.
+
+What the user sees:
+
+
+┌──────────────────────────────────────┐
+│  [☰ Menu]     VoiceLab      [👤]    │
+└──────────────────────────────────────┘
+Hamburger menu items (defined in AppHeader.tsx:102-155):
+
+Profile → /profile
+Settings → /settings
+Privacy → /privacy
+Library → /library
+"Sign in coming soon" (placeholder)
+Sub-flow screens show a back arrow instead of the hamburger. Recording screens hide the header entirely (hideHeader={true}).
+
+Data: Menu items are hardcoded JSX in the component. Not data-driven.
+
+3. Where "VoiceLab" Lives
+"VoiceLab" is the app brand label, not a feature, page, or module. It appears as:
+
+The centered title in AppHeader on every screen (AppHeader.tsx:88)
+The heading on Dashboard (Dashboard.tsx:50-51)
+A naming convention prefix in localStorage keys (voicelab_*)
+It is the app's namespace — analogous to "Gmail" appearing on every Gmail page.
+
+4. Where "Skills" Lives
+Skills do not exist as a user-facing feature in v1. The PRD defers it to v1.2: "Skill detection (mirroring, labeling)".
+
+No /skills route
+No skills UI or component
+Two unrouted feature folders exist as proofs-of-concept:
+src/features/labeling/ — fully implemented but not wired into main nav
+src/features/accusation-audit/ — fully implemented but not wired into main nav
+The Technique Library (/library) functions as the closest proxy — 51 techniques browsable by framework/difficulty/category
+5. Where "Simulation" Lives
+Simulation does not exist. Deferred to v1.3 per PRD: "Scenario simulations with AI opponent".
+
+The closest feature is Technique Practice, which is monologue-based (user records, gets post-session feedback). It is NOT a dialogue simulation — there's no AI opponent, no turn-taking, no real-time interaction.
+
+B) Practice vs Simulation Decision Flow
+6. When User Clicks "Practice"
+The Dashboard (Dashboard.tsx:94-151) shows 3 practice cards:
+
+Card	Route	Next Screen
+"Filler Words"	/practice/filler/setup	PreSessionScreen (duration + optional prompt picker)
+"Speech Pace"	/practice/pace/setup	PreSessionScreen (same layout, different title)
+"Technique Library"	/library	ScenarioLibrary (browse 51 techniques)
+First-time users are redirected to /baseline instead (gated by hasBaseline() check at Dashboard.tsx:35-43).
+
+7. When User Clicks "Simulation"
+No simulation button exists. The "Technique Library" card leads to the browse/practice flow for 51 techniques, but this is monologue practice, not simulation.
+
+8. Selection Step Before Session Starts
+The selection step is PreSessionScreen.tsx, which renders differently by mode:
+
+Free Practice mode (filler/pace):
+
+Speaking prompt — optional, collapsible selector with 5 hardcoded prompts from speakingPrompts.ts (Elevator Pitch, Explain Like I'm Five, Project Status Update, Memorable Experience, Respectful Disagreement)
+Duration — 4 buttons: 1 min, 2 min, 3 min, Unlimited. Default from localStorage.voicelab_last_duration
+Start Session button → navigates with {durationSeconds, speakingPrompt} in route state
+Technique Practice mode:
+
+Technique briefing card — shows name, framework badge, difficulty, practice_prompt, success criteria checklist
+AI Persona label — e.g., "AI Coach — Chris Voss style, beginner difficulty"
+Duration — pre-set to technique.duration_seconds (not saved to localStorage)
+Start Practice button → navigates with {techniqueId, durationSeconds, practicePrompt, techniqueName} in route state
+9. Does Selection Differ Between Practice and Simulation?
+Yes, significantly (though "Simulation" doesn't exist — the comparison is Free Practice vs Technique Practice):
+
+Aspect	Free Practice	Technique Practice
+Prompt source	Optional (5 generic prompts)	Locked to technique.practice_prompt
+Duration	User-selected, saved to localStorage	Pre-set by technique data, not saved
+Briefing	Minimal title	Full technique card with success criteria
+Results destination	/practice/results (PostSessionResults)	/practice/technique-results (TechniqueFeedback)
+Post-session coaching	Generic AI coaching	Success criteria checklist + technique-aligned coaching
+VCM analysis	Not run	Run (storeVcmAnalysis called)
+C) Content Model: Skills, Techniques, Scenarios
+10. Skills in Codebase
+Zero skills exist as deployed features. The term appears only in:
+
+PRD.json v1.2 roadmap: "Skill detection (mirroring, labeling)"
+Research citations in SelfAssessment.tsx and ImplementationIntention.tsx
+The Profile's focusAreas (self-reported challenges like "filler words", "speaking too fast") — these are user context, not skills
+11. Scenarios in Codebase
+24 total scenarios across 2 feature modules:
+
+Accusation Audit (10) — src/features/accusation-audit/scenarios.ts
+
+Categories: salary-negotiation, saying-no, difficult-conversation, workplace
+Each has: context, relationship, stakes, counterpartRole, commonCriticisms array, hiddenConcern
+Labeling (14) — src/features/labeling/scenarioBank.ts
+
+Same categories. Each has: context, statement (what AI says), surfaceEmotion, underlyingDriver, expertLabel
+Both are hardcoded const arrays — not data-driven.
+
+12. Skill vs Technique in Code
+They are distinct concepts at different abstraction levels:
+
+Technique	Skill
+Definition	Discrete, teachable tactic	Ability measured across sessions
+Status	51 implemented (v1.0)	0 implemented (v1.2)
+Example	"Mirroring: repeat last 1-3 words"	"User has mastered mirroring across 5+ attempts"
+Data model	Technique interface in src/data/techniques.ts	No interface defined
+Evaluation	Success criteria checklist (single session)	Pattern detection across time (TBD)
+13. Technique Library Source of Truth
+Source: Kdenzphase2.json (1,486 lines, 51 techniques)
+Access layer: src/data/techniques.ts
+
+Schema:
+
+
+interface Technique {
+  id: string;                    // "voss-01"
+  technique_name: string;        // "Mirroring"
+  framework: FrameworkId;        // 'voss' | 'camp' | 'belfort' | 'bustamante' | 'ury'
+  difficulty: Difficulty;        // 'beginner' | 'intermediate' | 'advanced'
+  category: TechniqueCategory;   // 17 categories (rapport, empathy, tonality, etc.)
+  description: string;
+  practice_prompt: string;       // Locked instruction during practice
+  success_criteria: string[];    // 3-5 criteria
+  common_mistakes: string[];     // 3-5 pitfalls
+  duration_seconds: number;      // Typically 60
+  structure: string;             // Session flow narrative
+  pairs_well_with: string[];    // Related technique IDs
+  coaching_notes: string;        // Expert guidance
+}
+Distribution: 12 Voss, 10 Camp, 10 Belfort, 10 Bustamante, 9 Ury. 18 beginner, 20 intermediate, 13 advanced.
+
+14. Data-Driven vs Hardcoded
+Content Type	Count	Source	Scalable?
+Techniques	51	Kdenzphase2.json → src/data/techniques.ts	Yes — edit JSON, no code change
+Accusation Audit scenarios	10	Hardcoded in scenarios.ts	No — requires code commit
+Labeling scenarios	14	Hardcoded in scenarioBank.ts	No — requires code commit
+Speaking prompts	5	Hardcoded in speakingPrompts.ts	No — requires code commit
+Diagnostic questions	~4	Hardcoded in diagnosticQuestions.ts	No — requires code commit
+D) Session Engine and Behavior Differences
+15. Session Modes
+Three modes + baseline, all converging on the same runtime engine:
+
+Mode	Config Flag	Duration	Purpose
+Filler	focusMode: "filler"	User-selectable	Filler word awareness
+Pace	focusMode: "pace"	User-selectable	WPM monitoring
+Technique	focusMode: "filler" + techniqueContext.techniqueId	Technique-defined	Guided technique practice
+Baseline	focusMode: "filler" + isBaseline: true	Fixed 180s	Initial calibration
+Selection happens via route path + location state. Mode is not a separate field — it's inferred from the combination of focusMode, isBaseline, and techniqueContext.
+
+16. Do Different Skills/Scenarios Change Engine Behavior?
+No. The core engine is mode-agnostic. What changes is only UI copy and routing:
+
+Engine Component	Same Across All Modes?
+Audio capture pipeline	Yes
+Speech-to-text (Web Speech API)	Yes
+Filler detection (word list)	Yes
+Filler reconciliation (acoustic + transcript)	Yes
+WPM calculation	Yes
+Audio level tracking	Yes
+Silence tracking	Yes (nudge disabled for baseline only)
+Timer	Duration varies by config
+Live display priority	Filler primary (filler mode) vs WPM primary (pace mode)
+Post-session copy	Mode-specific templates
+Results destination	Three different pages (see Q18)
+Coaching tab	Generic (free) vs technique-specific (technique)
+17. Start Session Runtime Wiring
+Entry point: PracticeSession.tsx:22-47
+
+Flow:
+
+Route handler in App.tsx renders <PracticeSession focusMode="filler|pace" />
+PracticeSession extracts durationSeconds, isBaseline, techniqueId, practicePrompt, techniqueName from location.state
+Composes PracticeRuntimeConfig object (defined in src/practice/runtime/types.ts)
+Passes to usePracticeRuntime(config) (src/practice/runtime/usePracticeRuntime.ts)
+Runtime initializes 6 sub-engines: useAudioAdapter, useSpeechAdapter, useFillerDetector, useTimerEngine, useMetricsEngine, useSessionLifecycle
+On stop: handleStop() in useSessionLifecycle.ts → calculates metrics → reconciles fillers → calls persistPracticeSession() → calls navigation.goToResults()
+18. Post-Session Destination by Mode
+Routing logic in useNavigationEngine.ts:
+
+
+if (isBaseline)              → /baseline/results    → BaselineResults (3 metrics + "Start Practicing" CTA)
+if (techniqueContext.id)     → /technique-results   → TechniqueFeedback (3-tab, no self-assess)
+else                         → /practice/results    → PostSessionResults (4-phase: self-assess → 3-tab results → implementation intention → complete)
+E) Persistence and Session History
+19. What Is Persisted
+Three-tier storage architecture:
+
+Tier 1 — Session Summaries (localStorage voicelab_sessions, 30-day auto-prune):
+
+id, timestamp, date, durationSeconds, wordCount, wpm, fillerCount, fillerRate, focusMode, is_baseline, pauseRate
+Saved in sessionStorage.ts via saveSession()
+Tier 2 — Full Session Details (sessionStorage voicelab_last_session, tab-lifetime only):
+
+All Tier 1 fields PLUS: audioData (base64), transcript, fillerEvents[], wordTimings[], reconciledFillers[], averageConfidence, lowConfidenceSegments, qualityWarnings[], techniqueId/Name/Prompt
+Saved in practiceSessionStore.ts
+Tier 3 — Baseline (localStorage voicelab_baseline, persistent, single record):
+
+wpm, fillerRate, fillerCount, pauseRate, wordCount, durationSeconds, timestamp
+Saved in baselineStorage.ts
+Audio is NOT persisted permanently. It exists only in sessionStorage (cleared on browser close).
+
+20. Session History Rendering
+Dashboard (Dashboard.tsx:153-190):
+
+Queries getAllSessions() from localStorage
+Shows last 5 sessions by default, expandable to all via "View all (N)" button
+Each SessionCard shows duration, time ago, filler count, WPM
+Click → /session/:sessionId
+Activity Heatmap (ContributionHeatmap.tsx):
+
+GitHub-style 12-week grid embedded in Dashboard
+Queries getSessionsByDate(), shows session count per day
+Session Detail (SessionDetail.tsx):
+
+Route /session/:sessionId, queries localStorage by ID
+Shows metrics only (no audio, no transcript — those are in sessionStorage which is gone)
+Displays: "Audio playback is only available immediately after a session"
+21. Separate Session History Page
+No dedicated /history page exists. History is inline on Dashboard only.
+
+Cleanest addition: New route /history → new SessionHistory.tsx page in src/pages/. Would reuse existing SessionCard component and getAllSessions() from localStorage. Add a link in the hamburger menu. Estimated footprint: ~250 lines new component + 2 lines route + 1 menu link.
+
+F) Coaching / Insights
+22. AI Summary
+Component: AISummary.tsx
+Service: geminiService.ts
+
+Trigger: Auto-fires when the Coaching tab is first viewed in PostSessionResults (PostSessionResults.tsx:109-120). Conditions: phase="results", tab="coaching", not baseline.
+
+API: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent with API key as query param.
+
+Key storage: localStorage voicelab_gemini_key. User enters key manually via password input in AISummary component. Format validated: 30+ chars, alphanumeric.
+
+Prompt: Evaluates delivery, clarity, structure, engagement. Returns 3-part format: "What worked well", "Area to improve", "Quick tip".
+
+Fallback: If no key or API error → formatLocalSummary() from localStatsFormatter.ts generates templated summary from metrics. Badge changes from "AI Generated" to "Local Analysis".
+
+23. Post-Session Insights
+PostSessionResults (PostSessionResults.tsx) runs a 4-phase sequential flow:
+
+Self-Assessment — Pre-metrics reflection ("How aware were you?"), 5-point scale. Skipped for baseline.
+Results — 3-tab interface:
+Coaching — AI summary (CardCarousel with numbered coaching points)
+Voice Analytics — MetricCards (WPM, filler rate with baseline delta), WeeklyTrendChart (7-day line chart), transcript confidence indicator
+Transcript — Audio playback with filler markers + full transcript with highlight toggle (fillers or pace)
+Implementation Intention — When/then commitment format ("When I [trigger], I will [action]"). Skipped for baseline.
+Complete — Summary stat + "Practice Again" / "Back to Dashboard" CTAs
+TechniqueFeedback (TechniqueFeedback.tsx) skips self-assessment and intention phases. Shows 3 tabs with technique-specific success criteria checklist and common mistakes in the Coaching tab.
+
+24. Audio Playback
+Yes, playback is supported — but only immediately after a session.
+
+Capture: useAudioCapture() records via MediaRecorder → Blob → converted to base64 data URL via FileReader.readAsDataURL() in practiceSessionStore.ts:4-13.
+
+Storage: sessionStorage voicelab_last_session.audioData (tab-lifetime only).
+
+UI: AudioPlayback.tsx renders in the Transcript tab of PostSessionResults when sessionData.audioData exists:
+
+Play/pause button (accent teal circle)
+Scrub bar with yellow filler markers at detected timestamps (clickable to seek)
+Speed controls: 0.75x, 1x, 1.25x
+Duration/progress display
+Limitation: Audio is NOT available in historical session detail (/session/:id) because it's stored in sessionStorage, not localStorage.
+
+G) Skills Card Request (Mirroring / Labeling / Tactical Empathy)
+25. Where They Should Live
+Follow the existing pattern at src/features/labeling/:
+
+
+src/features/mirroring/          (NEW, v1.2)
+├── MirroringPractice.tsx
+├── types.ts
+├── mirroringAnalyzer.ts
+├── mirroringStorage.ts
+├── useMirroringSession.ts
+├── ScenarioPresenter.tsx
+├── MirroringFeedback.tsx
+├── PatternSummary.tsx
+└── scenarioBank.ts
+
+src/features/tactical-empathy/   (NEW, v1.3)
+├── (same structure)
+Routes would follow existing pattern: /practice/mirroring/setup, /practice/mirroring, etc.
+
+26. Already Implemented Under Different Names?
+Term	Found?	Where
+Labeling	YES — fully implemented	src/features/labeling/ — 9 files, 14 scenarios, affect-based scoring
+Emotions	YES — within Labeling	src/features/labeling/types.ts:9-43 — AffectLevel type with 4 levels (guarded → acknowledged → understood → deeply_connected)
+Mirroring	No	Only CSS parser noise in node_modules
+Tactical Empathy	No	Not found
+Accusation Audit	YES — fully implemented	src/features/accusation-audit/ — 10 scenarios, coverage-based scoring
+The Labeling module has a sophisticated emotion feedback system (AffectLevel + LABEL_AFFECT_FEEDBACK) that teaches emotional impact detection — this IS the "Labeling Emotions" feature, just not surfaced in main navigation.
+
+27. Skills Card on Dashboard
+Where to add: Replace the hardcoded cards section in Dashboard.tsx:94-151.
+
+Best approach: Create a src/data/skillModules.ts registry that defines all skill modules (available, locked, coming-soon) with properties like id, title, icon, route, difficulty, version, prerequisites, status. Dashboard reads from this registry and renders SkillCard components dynamically.
+
+Route linking: Each skill's setupPath maps to its setup screen (e.g., /practice/labeling/setup).
+
+Generation: Data-driven from the registry file. Adding a new skill = adding an entry to the array. No UI code changes needed.
+
+H) Enterprise-Ready "Single User Now" Decisions
+28. Top 3 Modularity Priorities
+1. Authentication Boundary
+
+Currently: No user concept. All localStorage keys are global (voicelab_sessions).
+Keep modular: Create src/services/auth/userContext.ts with getUserStorageKey(baseKey) that returns the key as-is for v1.0 and prefixes with user_{id}_ for v2.0. All storage services call through this.
+2. Persistence Boundary
+
+Currently: ~15 files call localStorage.setItem/getItem directly.
+Keep modular: Create src/core/persistence/ with a PersistenceProvider interface (save, load, query, delete). v1.0 uses LocalStorageProvider. v2.0 swaps to APIProvider via env var REACT_APP_PERSISTENCE_MODE. Zero UI changes.
+3. Analytics Boundary
+
+Currently: No event tracking, only Gemini API calls.
+Keep modular: Create src/services/analytics/ with AnalyticsProvider interface. v1.0 uses ConsoleAnalytics (dev) or NoOpAnalytics. v2.0 swaps to Segment/API provider. Wire into session completion, feature views, skill unlocks.
+29. Cleanest localStorage → Backend Migration
+Insert point: Create the PersistenceProvider interface described above. Then mechanically refactor each service file:
+
+Files to touch (6 total):
+
+src/services/sessionStorage.ts
+src/services/baselineStorage.ts
+src/features/profile/profileStorage.ts
+src/features/labeling/labelingStorage.ts
+src/features/accusation-audit/auditStorage.ts
+src/services/settingsStorage.ts
+Pattern: Change localStorage.getItem(key) → await persistence.load(collection, id). Functions become async. React hooks wrap calls in useEffect with async loader.
+
+Migration path: local → dual-write (write to both, read from API) → api (API only). Controlled by a single env var. Zero UI component changes.
+
+30. Chrome-Only Dependencies
+Only one true Chrome dependency:
+
+API	Chrome	Safari	Firefox	File	Isolated?
+Web Speech API (webkitSpeechRecognition)	Yes	No	No	src/core/audio/useWebSpeech.ts	No — direct window access
+MediaRecorder	Yes	Yes	Yes	src/core/audio/useAudioCapture.ts	Standard (minor codec diffs)
+getUserMedia	Yes	Yes	Yes	Same	Standard
+AudioContext	Yes	Yes	Yes	Same	Standard
+Browser detection already exists: src/utils/browserDetection.ts + BrowserWarning.tsx shows warning for non-Chrome users.
+
+Partial adapter exists: src/practice/adapters/speechAdapter.ts wraps useWebSpeech() but is a thin passthrough, not a true adapter.
+
+To isolate: Create src/core/audio/adapters/speechRecognitionAdapter.ts with a factory that returns ChromeSpeechAdapter (uses webkitSpeechRecognition) or FallbackSpeechAdapter (returns error message). Update useSpeechAdapter to use the factory based on isChrome(). This lets a future Whisper/Deepgram backend swap in without touching any UI code.
