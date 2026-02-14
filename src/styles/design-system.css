@@ -5,24 +5,16 @@
  * =========================================================
  */
 
-/* 1. Tailwind base reset and primitives */
-@tailwind base;
-
-/* 2. Design tokens (colors, typography, spacing, shadows, motion) */
+/* 1. CSS imports MUST come first (before @tailwind) */
 @import './variables.css';
-
-/* 3. Global element styles (body, headings, links, forms, resets) */
 @import './globals.css';
-
-/* 4. Layout primitives (shells, grids, containers, sidebars) */
 @import './layout.css';
-
-/* 5. Component overrides (cards, buttons, tables, sidebars, modals) */
 @import './components.css';
-
-/* 6. Utility extensions (spacing, display, typography helpers) */
 @import './utilities.css';
 
-/* 7. Tailwind components and utilities */
+/* 2. Tailwind base reset and primitives */
+@tailwind base;
+
+/* 3. Tailwind components and utilities */
 @tailwind components;
 @tailwind utilities;
