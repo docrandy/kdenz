@@ -40,15 +40,15 @@
   - [x] 14-02-PLAN.md — Card carousel component + PostSessionResults carousel integration
   - [x] 14-03-PLAN.md — Layout spacing, immersive recording, Dashboard mobile carousel, warning/nudge fixes
   - [x] 14-04-PLAN.md — Visual verification checkpoint (browser testing of all typography & layout changes)
-- [ ] Phase 15: New Screens — Core Flow (Wave 5: Welcome, Pre-Session, Recording, Post-Session) — 3-4 days
-  **Plans:** 6 plans
+- [x] Phase 15: New Screens — Core Flow (Wave 5: Welcome, Pre-Session, Recording, Post-Session) — 2026-02-14
+  **Plans:** 6/6 complete
   Plans:
-  - [ ] 15-01-PLAN.md — Navigation framework: AppHeader (hamburger/back/profile), SlideTransition, layout shell
-  - [ ] 15-02-PLAN.md — Welcome screen: immersive hero with animated SessionOrb + inline profile setup
-  - [ ] 15-03-PLAN.md — Pre-Session screen: technique briefing card + free practice mode
-  - [ ] 15-04-PLAN.md — Recording screen: 3-sec countdown, stop-only controls, metrics strip
-  - [ ] 15-05-PLAN.md — Post-Session screen: 3-tab segmented control (Coaching, Analytics, Transcript)
-  - [ ] 15-06-PLAN.md — Visual verification checkpoint (browser testing of all core flow screens)
+  - [x] 15-01-PLAN.md — Navigation framework: AppHeader (hamburger/back/profile), SlideTransition, layout shell
+  - [x] 15-02-PLAN.md — Welcome screen: immersive hero with animated SessionOrb + inline profile setup
+  - [x] 15-03-PLAN.md — Pre-Session screen: technique briefing card + free practice mode
+  - [x] 15-04-PLAN.md — Recording screen: 3-sec countdown, stop-only controls, metrics strip
+  - [x] 15-05-PLAN.md — Post-Session screen: 3-tab segmented control (Coaching, Analytics, Transcript)
+  - [x] 15-06-PLAN.md — Visual verification checkpoint (browser testing of all core flow screens)
 - [ ] Phase 16: New Screens — Advanced (Wave 6: Analysis Loader, Voice Profile, Bridge, Breathing, Before/After) — 3-4 days
 
 **Total:** 6 phases, 44 requirements
@@ -87,7 +87,7 @@
 | 12 | Color Migration | CM-01 to CM-06 | Complete (7/7 plans) | 2026-02-12 |
 | 13 | SessionOrb Redesign | ORB-01 to ORB-07 | Complete (2/2 plans) | 2026-02-12 |
 | 14 | Typography & Layout | TYP-01 to TYP-06, LAY-01 to LAY-03 | Complete (4/4 plans) | 2026-02-12 |
-| 15 | New Screens — Core Flow | SCR-01 to SCR-06 | Planned (6 plans, 3 waves) | 3-4 days |
+| 15 | New Screens — Core Flow | SCR-01 to SCR-06 | Complete (6/6 plans) | 2026-02-14 |
 | 16 | New Screens — Advanced | SCR-07 to SCR-12 | Pending | 3-4 days |
 
 **Coverage:**
@@ -114,4 +114,4 @@
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-12 - Phase 15 planned (6 plans in 3 waves)*
+*Last updated: 2026-02-14 - Phase 15 complete (all 6 plans executed, user-approved verification)*

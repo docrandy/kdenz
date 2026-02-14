@@ -47,12 +47,12 @@
 
 ### New Screens — Core Flow (Wave 5)
 
-- [ ] **SCR-01**: Welcome screen redesigned with premium hero section + 3-step intro
-- [ ] **SCR-02**: Pre-session screen shows technique briefing, success criteria, ai persona preview
-- [ ] **SCR-03**: Recording screen displays new SessionOrb, shows practice prompt, has start/stop controls
-- [ ] **SCR-04**: Recording screen shows real-time metrics (minimal: WPM + filler count at bottom)
-- [ ] **SCR-05**: Post-session screen (3 tabs): Coaching, Voice Analytics, Transcript
-- [ ] **SCR-06**: Navigation between screens smooth with consistent header/footer placement
+- [x] **SCR-01**: Welcome screen redesigned with premium hero section + 3-step intro
+- [x] **SCR-02**: Pre-session screen shows technique briefing, success criteria, ai persona preview
+- [x] **SCR-03**: Recording screen displays new SessionOrb, shows practice prompt, has start/stop controls
+- [x] **SCR-04**: Recording screen shows real-time metrics (minimal: WPM + filler count at bottom)
+- [x] **SCR-05**: Post-session screen (3 tabs): Coaching, Voice Analytics, Transcript
+- [x] **SCR-06**: Navigation between screens smooth with consistent header/footer placement
 
 ### New Screens — Advanced Features (Wave 6)
 
@@ -123,12 +123,12 @@
 | LAY-01 | Phase 14 | Complete |
 | LAY-02 | Phase 14 | Complete |
 | LAY-03 | Phase 14 | Complete |
-| SCR-01 | Phase 15 | Pending |
-| SCR-02 | Phase 15 | Pending |
-| SCR-03 | Phase 15 | Pending |
-| SCR-04 | Phase 15 | Pending |
-| SCR-05 | Phase 15 | Pending |
-| SCR-06 | Phase 15 | Pending |
+| SCR-01 | Phase 15 | Complete |
+| SCR-02 | Phase 15 | Complete |
+| SCR-03 | Phase 15 | Complete |
+| SCR-04 | Phase 15 | Complete |
+| SCR-05 | Phase 15 | Complete |
+| SCR-06 | Phase 15 | Complete |
 | SCR-07 | Phase 16 | Pending |
 | SCR-08 | Phase 16 | Pending |
 | SCR-09 | Phase 16 | Pending |
@@ -149,4 +149,4 @@
 
 ---
 *Requirements defined: 2026-02-12*
-*Last updated: 2026-02-12 - Phase 14 requirements (TYP-01 to TYP-06, LAY-01 to LAY-03) marked Complete*
+*Last updated: 2026-02-14 - Phase 15 requirements (SCR-01 to SCR-06) marked Complete*
