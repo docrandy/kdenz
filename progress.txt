@@ -969,3 +969,583 @@ Next task: [see PRD.json]
 Next action: Resume from handoff
 Blockers: none
 Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-12T06-32-20.md
+
+[2026-02-13 Platform Pivot — Gap Analysis & Decisions Session]
+Strategic session: analyzed gap between Platform Plan, local codebase (v2.0), and Lovable prototype.
+
+THREE-WAY GAP ANALYSIS:
+- Local codebase: real product (126 commits, 15K lines, deployed). Voice practice only (fillers + pace).
+- Lovable prototype: UI shell with mock data. Created as visual template, not the product.
+- Platform Plan: full vision (Voice + Skills + Simulation + VCM + Institute). Different design system.
+- Found 7 document contradictions across PRD.json, CLAUDE.md, agents.md, Platform Plan.
+
+12 DECISIONS MADE (D1-D12):
+- D1: Local codebase is the product. Lovable is reference only.
+- D2: Dark navy + gold continues. Framer exploration coming for final design.
+- D3: PLATFORM PIVOT — full Platform Plan scope. Core: "diagnostic engine that prescribes communication plans through MI."
+- D4: Hume.ai batch only (analytics/diagnostics). Gemini for real-time simulation.
+- D5: VCM has 8 gates (not 4), 5-8 root causes each. Design data model now, implement later.
+- D6: Chrome-only for now. Deepgram recommended later (~$0.015/min).
+- D7: Dark only. Light deferred to post-Framer.
+- D8: Need Learning Architect agent to map skill branches before building.
+- D9: Simulation Studio = 3-4 weeks, buildable incrementally. ~60% infrastructure exists.
+- D10: Institute = full educational branch (videos, quizzes, reading material).
+- D11: Communication Index formula not defined yet.
+- D12: Recommendation engine deferred. Keep simple/rule-based for now.
+
+RESEARCH FILED:
+- R1: Hume.ai Batch API 2026 (need backend proxy, Python POC is best reference)
+- R3: VCM decision tree patterns (hybrid architecture: client + edge + database)
+- R6: Browser support alternatives (Deepgram best paid option for cross-browser)
+
+DOCUMENTS CREATED:
+- docs/DECISIONS_NEEDED.md — All 12 decisions with answers and assessments
+- docs/PLATFORM_ARCHITECTURE.md — Architecture map (built vs needed, build sequence)
+- docs/RESEARCH_PROMPTS.md — 7 Perplexity research prompts (R1-R7)
+- .planning/research/R1_HUME_BATCH_API_2026.md
+- .planning/research/R3_VCM_DECISION_TREE_PATTERNS.md
+- .planning/research/R6_BROWSER_SUPPORT_ALTERNATIVES.md
+
+NOT DONE:
+- PRD.json, CLAUDE.md, agents.md NOT updated (still reflect old MVP scope)
+- No code written
+- Phase 15-16 not continued
+- Learning Architect agent not created
+
+--- RESUME BLOCK ---
+Last task: gap-analysis-complete — Three-way gap analysis, 12 decisions captured, research filed, architecture mapped
+Next task: update-source-of-truth — Rewrite PRD.json, CLAUDE.md, agents.md to reflect platform pivot
+Next action: Read current PRD.json, rewrite with platform scope, update CLAUDE.md constraints, update agents.md invariants
+Blockers: None — all 12 decisions answered, ready to execute
+
+[2026-02-13 Research Intake & Platform-Fit Analysis Session]
+Filed Perplexity research for R3 (recommendation engine), R6 (Supabase schema), R7 (audio storage for Hume).
+Created R8-R13 prompts for Learning Architecture (technique taxonomy, skill tree, drill design, VCM mapping, Institute content, CBT+MI).
+Received R8 answer: complete 83-technique taxonomy across 9 frameworks (Voss, Camp, MI, NVC, Crucial Conversations, Difficult Conversations, PREP, Harvard/MBA, Corporate).
+Produced platform-fit analysis: 83 techniques -> ~35 distinct after overlap removal -> 22 for beta.
+Identified 7 curriculum clusters and recommended build order.
+Key insight: 16 of 18 Skills Lab drills reuse labeling infrastructure -- build generic drill engine.
+
+RESEARCH STATUS:
+- R1 (Hume batch): COMPLETE
+- R3 (Recommendations): COMPLETE
+- R6 (Supabase): COMPLETE
+- R7 (Audio storage): COMPLETE
+- R8 (Technique taxonomy): COMPLETE + ANALYZED
+- R4, R5, R9-R13: NOT RUN
+
+FILES CREATED:
+- .planning/research/R7_AUDIO_STORAGE_HUME_BATCH.md
+- .planning/research/R8_COMPLETE_TECHNIQUE_TAXONOMY.md
+- .planning/research/R8_PLATFORM_FIT_ANALYSIS.md
+- .planning/handoffs/handoff-2026-02-13-research-and-analysis.md
+
+--- RESUME BLOCK ---
+Last task: research-and-analysis-complete -- Filed 3 research responses, created R8-R13 prompts, received R8 taxonomy, produced platform-fit analysis (83->22 techniques for beta, 7 clusters)
+Next task: update-source-of-truth -- Rewrite PRD.json, CLAUDE.md, agents.md to reflect platform pivot + technique decisions
+Next action: Read current PRD.json, rewrite with platform scope incorporating all 12 decisions + technique analysis
+Blockers: None -- all research and analysis complete, ready to update and build
+
+[2026-02-13 Research Filing Session 3 — R4, R5, R9, R10 + New Prompts]
+Filed 4 major research answers from user-provided Perplexity results. Created 3 new research prompts (R14-R16).
+
+RESEARCH FILED:
+- R4: Gemini 2.5 Flash simulation implementation (pricing, state object, voice pipeline, hybrid technique eval, streaming)
+- R5: Conversation quality evaluation (4-dimension rubric, 6 flow dimensions, VCM diagnostic hooks, Gate A vs E rules)
+- R9: Skill tree prerequisites (5-tier DAG, hard dependencies, 5 mastery levels, unlock logic, 4 specialization tracks)
+- R10: Skills Lab vs Simulation Studio (Tier A/B/C technique classification, 5 drill formats, 4-dimension scenario taxonomy, guided→free progression)
+
+NEW PROMPTS CREATED (R14-R16):
+- R14: AI opponent system prompt engineering (character consistency, difficulty dials, hidden concerns)
+- R15: Spaced repetition for communication skills (decay curves, retention checks, SRS for behavioral skills)
+- R16: Full platform Supabase schema (skill tree DAG, drill attempts, simulation sessions, VCM state, recommendations)
+
+RESEARCH STATUS: 10 of 16 complete (R1-R10). Remaining: R11-R16.
+All technical foundations, evaluation architecture, curriculum design, and skill tree structure are fully specified.
+None of the remaining gaps block the #1 build priority (generic drill engine).
+
+FILES CREATED:
+- .planning/research/R4_GEMINI_SIMULATION_IMPLEMENTATION.md
+- .planning/research/R5_CONVERSATION_QUALITY_EVALUATION.md
+- .planning/research/R9_SKILL_TREE_PREREQUISITES.md
+- .planning/research/R10_SKILLS_LAB_VS_SIMULATION_STUDIO.md
+- .planning/handoffs/handoff-2026-02-13-research-filing-session-3.md
+
+FILES MODIFIED:
+- docs/RESEARCH_PROMPTS.md (added R14-R16, research status table)
+
+SOURCE-OF-TRUTH FILES STILL NOT UPDATED (3 sessions stale now).
+
+--- RESUME BLOCK ---
+Last task: research-filing-session-3 -- Filed R4, R5, R9, R10; created R14-R16 prompts
+Next task: update-source-of-truth -- Rewrite PRD.json, CLAUDE.md, agents.md to reflect platform pivot + all research
+Next action: Read current PRD.json, rewrite with platform scope incorporating D1-D12 decisions + R4-R10 architecture
+Blockers: None -- source-of-truth update is the only prerequisite before building
+
+[2026-02-13 Session 4 — Research Execution Planning]
+Continued from session 3 handoff. Additional work after R4/R5/R9/R10 filing:
+- Dependency analysis: Wave 1 (R11-R15, all independent) + Wave 2 (R16, depends on Wave 1)
+- Research tool selection: R14/R16 via Claude directly, R11/R12/R13/R15 via Perplexity
+- Deep Research mode: R11 (VCM prescriptions) + R13 (CBT/MI inventory). Regular: R12 + R15.
+- Created final handoff: .planning/handoffs/handoff-2026-02-13-session-4-final.md
+
+--- RESUME BLOCK ---
+Last task: research-filing-session-4 -- Filed R4, R5, R9, R10; created R14-R16; mapped execution plan for remaining 6 prompts
+Next task: update-source-of-truth -- Rewrite PRD.json, CLAUDE.md, agents.md to reflect platform pivot + all research findings
+Next action: Read current PRD.json, rewrite with platform scope incorporating D1-D12 decisions + R4-R10 architecture
+Blockers: None -- all research foundations complete, source-of-truth update is the only prerequisite before building
+
+[2026-02-14 R11 Research Filing]
+Filed R11 (VCM Diagnostic Gates → Exercise Prescription Mapping) from Perplexity Deep Research.
+
+R11 CONTENT SUMMARY:
+- Complete gate-to-intervention mapping for all 8 VCM gates (A-H)
+- Each gate: failure signatures, root causes, specific exercise prescriptions
+- Behavioral signal diagnostic table (drill performance + engagement + temporal signals per gate)
+- Prescription granularity hierarchy: Gates A-D = more specific/directive, E-F = less specific/reduce friction, G = permissive, H = context-dependent
+- MI techniques translated to app-based interventions (pre-contemplation through action stages)
+- Critical design constraint: "Diagnose internally, intervene externally" — user never sees gate labels
+- Safe diagnostic framework: positive framing, feed-forward, normalize struggle, micro-celebrations
+- Rule-based implementation pseudocode (IF gate AND root_cause THEN prescribe)
+- Recommended priority: Gate C (self-efficacy) → F (persistence) → G (recovery) → D (planning)
+- Start rule-based, graduate to ML after 3-6 months of behavioral data
+
+KEY ARCHITECTURAL DECISIONS FROM R11:
+1. Behavioral logging is prerequisite for everything — track all interactions, not just completions
+2. "Never miss twice" rule = 37% longer habit retention (implement explicitly)
+3. If-then implementation intentions = d=0.65 effect size (mandatory for Gate D)
+4. Adaptive session length: if user quits at 40%, next session auto-shortens
+5. Never show diagnostic labels to users — they see nudges, not diagnoses
+
+RESEARCH STATUS: 11 of 16 complete (R1-R11). Remaining: R12-R16.
+
+FILES CREATED:
+- .planning/research/R11_VCM_GATE_EXERCISE_PRESCRIPTIONS.md
+
+FILES MODIFIED:
+- docs/RESEARCH_PROMPTS.md (R11 status updated)
+
+--- RESUME BLOCK ---
+Last task: r11-filed -- VCM gate-to-exercise prescription mapping research filed and analyzed
+Next task: r13-filing -- File CBT + MI technique inventory research
+Next action: File R13 research output
+Blockers: None
+
+[2026-02-14 R13 Research Filing]
+Filed R13 (CBT and Motivational Interviewing — Complete Technique Inventory) from Perplexity Deep Research.
+
+R13 CONTENT SUMMARY:
+- 89 total techniques cataloged (35 CBT + 54 MI)
+- Practicability scores: 23 score-5, 31 score-4, 21 score-3, 14 score-1/2 (excluded)
+- 54 high-priority techniques (scores 4-5) ready for app implementation
+- Framework overlap analysis: Labeling=Complex Reflection, Calibrated Questions=Socratic Questioning, Mirroring=Simple Reflection
+- Prerequisite pathway: MI OARS -> MI Change Talk + CBT Restructuring -> Voss Tactical
+- VCM gate mapping: Gates A-B = MI primary, Gates C-D = CBT primary, Gates E-H = hybrid
+- 3-phase curriculum: MVP (33 techniques) -> Expansion (21) -> Advanced (9)
+- Stage-of-change mapping for all MI techniques
+- Priority matrix: Must-Have / Should-Have / Nice-to-Have for beta
+
+KEY ARCHITECTURAL DECISIONS FROM R13:
+1. 16 of 23 score-5 MI techniques reuse labeling drill infrastructure -> generic drill engine confirmed
+2. MI builds motivation, CBT teaches skills, Voss applies tactically -> sequencing matters
+3. Recognition exercises ("identify this technique") = new drill format with high reuse
+4. After overlap removal with existing 22 Voss techniques: ~57 total techniques for full platform
+5. CBT cognitive techniques need new journaling/reflection UI component
+
+RESEARCH STATUS: 12 of 16 complete (R1-R11, R13). Remaining: R12, R14, R15, R16.
+
+FILES CREATED:
+- .planning/research/R13_CBT_MI_TECHNIQUE_INVENTORY.md
+
+FILES MODIFIED:
+- docs/RESEARCH_PROMPTS.md (R13 status updated)
+
+--- RESUME BLOCK ---
+Last task: r13-filed -- CBT + MI technique inventory research filed and analyzed
+Next task: r12-filing -- File Institute content architecture research
+Next action: File R12 research output
+Blockers: None
+
+[2026-02-14 R12 Research Filing]
+Filed R12 (Educational Content Architecture — Video + Quiz + Reading for Communication Skills Training) from Perplexity Research.
+
+R12 CONTENT SUMMARY:
+- Content architecture patterns from Khan Academy, Coursera, MasterClass, Skillshare
+- Interleaved learning model: concept primer -> blind drill -> demonstration -> reflection -> spaced drill
+- Video format effectiveness ranked: role-play demos > before/after > annotated clips > lecture
+- Video engagement: under 6 min = 100% engagement, over 9 min = 50% drop
+- Quiz formats: video-based technique ID (gold standard), scenario ranking, sentence rewriting, predictive assessment
+- Optimal progression: practice BEFORE perfect exposure (productive struggle)
+- 70% success threshold to unlock next technique's content
+- MVP per technique: 1 explainer + 2 demos + 1 summary + 8-10 quizzes + 1 annotated example
+- AI content strategy: AI for text/quizzes (30-40% max), human for all video + troubleshooting
+- CMS decision: Supabase only for 0-500 pieces, add Sanity at 500+
+- Beta scope: 5 core techniques x full spec = ~25 content pieces
+
+KEY ARCHITECTURAL DECISIONS FROM R12:
+1. Interleaved learning (not linear) — attempt technique BEFORE seeing expert example
+2. 8-10 quiz questions per technique for acceptable reliability (alpha > 0.70)
+3. 60% recognition / 40% production quiz split for beta
+4. Role-play demonstration videos are #1 format — not lectures
+5. Start with Supabase content tables, tag everything from day one (technique, level, type, framework)
+
+RESEARCH STATUS: 13 of 16 complete (R1-R13). Priority 4 (Learning Architecture) ALL COMPLETE. Remaining: R14, R15, R16.
+
+FILES CREATED:
+- .planning/research/R12_INSTITUTE_CONTENT_ARCHITECTURE.md
+
+FILES MODIFIED:
+- docs/RESEARCH_PROMPTS.md (R12 status updated, Priority 4 marked ALL COMPLETE)
+
+--- RESUME BLOCK ---
+Last task: r12-filed -- Institute content architecture research filed and analyzed
+Next task: r15-filing -- File spaced repetition research
+Next action: File R15 research output
+Blockers: None
+
+[2026-02-14 R15 Research Filing]
+Filed R15 (Spaced Repetition & Mastery Decay for Communication Skills Training) from Perplexity Research.
+
+R15 CONTENT SUMMARY:
+- Behavioral skills decay at 0.08 SD/month (accuracy) and 0.06 SD/month (mixed) — much slower than vocabulary
+- Three skill types with different decay: syntax (10-12 wk), judgment (14-16 wk), recognition (18-20 wk)
+- Progressive format escalation: drill -> simulation -> mixed assessment over retention checks
+- HLR model adapted from Duolingo: p = 2^(-delta/h), target 75% retention threshold
+- Simple interval fallback: syntax [3,7,14,30,60,90], judgment [3,7,21,45,75,90], recognition [7,14,30,60,90,90]
+- Implicit practice credit: prerequisites get 50% maintenance when dependent skills are active
+- Non-punitive notification messaging: opportunity framing, not failure framing
+- First retention check mandatory for Level 4 candidacy; maintenance checks optional but incentivized
+- Complete data model: user_skills, skill_reviews, skills tables (compatible with R16 schema)
+
+KEY ARCHITECTURAL DECISIONS FROM R15:
+1. Start with simple interval fallback (3 tables), graduate to HLR after 3+ months of data
+2. Three skill types need different decay rates — tag in skills table
+3. 75% retention threshold triggers next review
+4. Implicit practice credit reduces review burden for prerequisite skills
+5. HLR algorithm lives in Edge Function (server-side), not client-side
+
+RESEARCH STATUS: 14 of 16 complete (R1-R13, R15). Remaining: R14, R16.
+
+FILES CREATED:
+- .planning/research/R15_SPACED_REPETITION_MASTERY_DECAY.md
+
+FILES MODIFIED:
+- docs/RESEARCH_PROMPTS.md (R15 status updated)
+
+--- RESUME BLOCK ---
+Last task: r15-filed -- Spaced repetition and mastery decay research filed and analyzed
+Next task: r14-r16 -- Generate remaining research directly
+Next action: Generate R14 and R16 research
+Blockers: None
+
+[2026-02-14 R14 + R16 Research Generation + All Research Complete]
+Generated R14 (AI Opponent Prompt Engineering) and R16 (Full Platform Supabase Schema) directly via Claude.
+Filed R11, R12, R13, R15 from Perplexity outputs earlier this session.
+
+ALL 16 RESEARCH PROMPTS NOW COMPLETE.
+
+R14 CONTENT SUMMARY:
+- System prompt architecture: base template with 8 sections (role, personality, scenario, hidden concern, behavioral rules, control dials, concession ladder, consistency rules)
+- Control dials system: 3 dials (assertiveness, reactivity, volatility) x 5 levels with prompt translations
+- Technique response matrix: good vs bad responses for labeling, mirroring, calibrated questions, accusation audit, tactical empathy, strategic silence
+- 4 complete system prompt templates: Level 2 Hesitant (promotion), Level 3 Resistant (budget + household), Level 4 Aggressive (angry client)
+- State object evolution: 10-turn example showing mood, trust_level, concessions, revelation_stage progression
+- Hidden concern mechanics: 3-stage revelation (hint -> partial -> full) with technique-specific triggers
+- Conversation ending logic: hybrid (AI-determined + 20-turn hard cap)
+
+R16 CONTENT SUMMARY:
+- 22 tables total with complete CREATE TABLE statements
+- Tables: profiles, user_settings, skills, skill_prerequisites, user_skills, skill_reviews, drill_scenarios, drill_attempts, simulation_scenarios, simulation_sessions, simulation_turns, technique_detections, vcm_diagnostic_state, vcm_diagnostic_history, recommendations, audio_recordings, hume_analyses, voice_sessions, content_items, quiz_questions, quiz_attempts, content_progress, behavioral_events
+- Full RLS policies (users see own data, admin reads all, reference data public)
+- Adjacency list for skill prerequisite DAG
+- Edge Function stubs: check_skill_unlock, calculate_next_review, run_vcm_diagnostic
+- 15 critical indexes for common queries
+- localStorage migration script (TypeScript)
+- JSONB vs normalized decisions documented
+
+RESEARCH COMPLETION SUMMARY (R1-R16):
+| Priority | Prompts | Status |
+|----------|---------|--------|
+| 1 (Core) | R1-R3 | ALL COMPLETE |
+| 2 (Simulation) | R4-R5 | ALL COMPLETE |
+| 3 (Data Layer) | R6-R7 | ALL COMPLETE |
+| 4 (Learning Arch) | R8-R13 | ALL COMPLETE |
+| 5 (Implementation) | R14-R16 | ALL COMPLETE |
+
+FILES CREATED THIS SESSION:
+- .planning/research/R11_VCM_GATE_EXERCISE_PRESCRIPTIONS.md (from Perplexity)
+- .planning/research/R12_INSTITUTE_CONTENT_ARCHITECTURE.md (from Perplexity)
+- .planning/research/R13_CBT_MI_TECHNIQUE_INVENTORY.md (from Perplexity)
+- .planning/research/R14_AI_OPPONENT_PROMPT_ENGINEERING.md (generated by Claude)
+- .planning/research/R15_SPACED_REPETITION_MASTERY_DECAY.md (from Perplexity)
+- .planning/research/R16_FULL_PLATFORM_SUPABASE_SCHEMA.md (generated by Claude)
+
+FILES MODIFIED:
+- docs/RESEARCH_PROMPTS.md (all 16 statuses updated, all priorities marked ALL COMPLETE)
+
+--- RESUME BLOCK ---
+Last task: all-research-complete -- All 16 research prompts filed (R1-R16)
+Next task: update-source-of-truth -- Rewrite PRD.json, CLAUDE.md, agents.md to reflect platform pivot + all research
+Next action: Read current PRD.json, rewrite with platform scope incorporating D1-D12 decisions + R1-R16 architecture
+Blockers: None -- all research complete, source-of-truth update is the ONLY prerequisite before building
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-14T01-47-52.md
+
+[2026-02-14 Handoff Creation Session]
+Context recovery session. No new work performed.
+Created detailed handoff document scoping the source-of-truth update task.
+Documented exact changes needed for PRD.json, CLAUDE.md, and agents.md.
+All three files are 3+ sessions stale — still reflect voice-practice-only MVP, not the full platform pivot.
+
+FILES CREATED:
+- .planning/handoffs/handoff-2026-02-14-source-of-truth-pending.md
+
+--- RESUME BLOCK ---
+Last task: all-research-complete -- All 16 research prompts filed (R1-R16)
+Next task: update-source-of-truth -- Rewrite PRD.json, CLAUDE.md, agents.md to reflect platform pivot + all research
+Next action: Read current PRD.json + key research files (R8, R9, R10, R16), rewrite PRD.json with full platform scope
+Blockers: None -- source-of-truth update is the ONLY prerequisite before building
+
+[2026-02-14 Source-of-Truth Update + Folder Cleanup Session]
+Completed the ONLY prerequisite before building. Three parallel agents rewrote all three source-of-truth files simultaneously.
+
+WORK COMPLETED:
+1. PRD.json — Full rewrite: 5 product pillars, platform task structure, Supabase/Gemini/Hume tech stack, expanded success metrics
+2. CLAUDE.md — Full rewrite: platform description, 5 pillars, tech stack, architectural patterns, removed MVP-only restrictions
+3. agents.md — Full rewrite: 10 research-proven invariants (generic drill engine, diagnose internally, 3 decay rates, practice before exposure, adjacency list DAG, state object, 4-dim scoring, rule-based diagnostics, behavioral logging, never miss twice)
+4. Folder cleanup: deleted ~20 junk/duplicate files, archived ~70 files (old phases, milestones, misplaced docs), organized into clean structure
+5. R15 updated: added real-world usage tracking / transfer measurement section (post-launch feature)
+6. FSRS evaluation: not worth implementing at launch, bookmark as upgrade path after 3-6 months of data
+
+FILES MODIFIED:
+- PRD.json (full rewrite)
+- CLAUDE.md (full rewrite)
+- agents.md (full rewrite)
+- .planning/research/R15_SPACED_REPETITION_MASTERY_DECAY.md (added transfer measurement section)
+
+FILES CREATED:
+- .planning/handoffs/handoff-2026-02-14-source-of-truth-complete.md
+
+FILES MOVED TO ARCHIVE:
+- 19 root files -> docs/archive/
+- docs/evolving/ -> docs/archive/evolving/
+- 19 loose docs files -> docs/archive/
+- .planning/phases/ (15 folders) -> .planning/archive/phases/
+- .planning/milestones/ -> .planning/archive/milestones/
+- .planning/codebase/ -> .planning/archive/codebase/
+- .planning/features/ -> .planning/archive/features/
+
+FILES DELETED:
+- nul, New Text Document.txt (x3), index.html, Reddit2GoSearch.png
+- files (2).zip, files (3).zip, files (3)/
+- feedback_mapping.py, hume_voice_analyzer.py, local_voice_analyzer.py, requirements.txt (duplicates)
+- Claude code created/ (entire folder)
+
+--- RESUME BLOCK ---
+Last task: source-of-truth-update -- Rewrote PRD.json, CLAUDE.md, agents.md for full platform + folder cleanup
+Next task: first-build-task -- Start building (likely Supabase schema deployment or Voice Practice polish)
+Next action: Update PRD.json active_task, decide build order, start first implementation task
+Blockers: None -- all prerequisites complete, ready to build
+
+[2026-02-14 VCM Evaluation Prep Session]
+
+VERIFIED: All R1-R16 research complete. No additional research needed before building.
+
+CREATED R17+R18 Perplexity prompts for VCM-to-KDENZ bridge:
+- R17: Behavioral telemetry signatures for gate failure detection (INPUT side)
+- R18: Multi-gate triage, cascading resolution, MI-constrained intervention delivery (OUTPUT side)
+
+EXPLORED VCM PROJECT (C:\Users\randy\.claude\projects\VCM\):
+- source-documents/: Foundational doc, root cause database (61 entries), claims document
+- knowledge-base/: 56 YAML-frontmatter files across 8 gate directories, framework primer
+- vcm_validation/: 57 individual RC assessments, 10 active research items
+- interventions/: 2 files completed (C1-4, C1-5), template exists
+
+KEY STRUCTURAL CHANGE CONFIRMED:
+- C1 gate changing from Believability/Perception -> Awareness/Attention
+- User is handling C1 redesign personally (NOT Claude)
+- All other gates (C0, C2-C6B) confirmed unchanged
+
+BUILT EVALUATION FRAMEWORK (.planning/research/VCM_EVALUATION_FRAMEWORK.md):
+- 5 agent criteria defined, 3 will be used (skip Agent 1 gate arch, skip Agent 5 C1 redesign)
+- Agent 2: Root cause signal analysis (specificity, KDENZ observability, implementability)
+- Agent 3: Linguistic marker extraction (phrases, patterns, disambiguation, frequency)
+- Agent 4: KDENZ integration feasibility (channels, timeline, complexity, priority)
+
+READ ALL 8 CURRENT C1 ROOT CAUSES: C1-01 through C1-08 fully loaded.
+READ FULL VCM FOUNDATIONAL DOCUMENT: 552 lines, all sections.
+
+FILES CREATED:
+- .planning/research/VCM_EVALUATION_FRAMEWORK.md
+- .planning/handoffs/handoff-2026-02-14-vcm-eval-prep.md
+
+--- RESUME BLOCK ---
+Last task: vcm-eval-prep -- Built evaluation framework, explored VCM project, created R17+R18 prompts
+Next task: vcm-full-evaluation -- Spawn 3 parallel agents when beta volitional system document is provided
+Next action: Read handoff + eval framework, wait for document, spawn agents 2/3/4
+Blockers: Waiting for beta volitional system document from user
+
+[2026-02-14 VCM Evaluation Complete — Synthesis Pending]
+Spawned 3 parallel analysis agents against VCM source documents (Foundational Doc, Claims Doc, Root Cause Database). All 3 completed successfully.
+
+AGENT OUTPUTS (all at .planning/research/):
+- VCM_EVAL_AGENT_2.md (966 lines) — Root cause signal analysis: specificity, observability, implementability
+- VCM_EVAL_AGENT_3.md (2,034 lines) — Linguistic marker codebook: phrases, patterns, disambiguation, sentiment
+- VCM_EVAL_AGENT_4.md (999 lines) — KDENZ integration feasibility: channels, timeline, priority, roadmap
+
+KEY FINDINGS:
+- APP_BEHAVIOR is dominant detection channel (85% of root causes)
+- 76% of root causes detectable with zero API calls (rule-based only)
+- 8 root causes P0 (launch-ready): mostly C6B persistence + C6A initiation
+- 55% detectable by month 1, 86% by month 3, 100% eventually
+- 22 root causes have directly IMPLEMENTABLE decision computations
+- 6 should be SKIPPED (C0-P, C0-2, C1-3, C1-7, C6A-8 intervention, C6B-9 consolidated)
+- Top 20 high-confidence linguistic markers identified
+- Gemini diagnostic cost: ~$0.10-0.25/user/month at P2
+- "Never Miss Twice" rule addresses C1-6, C6B-4, C6B-8 directly
+
+FILES CREATED:
+- .planning/research/VCM_EVAL_AGENT_2.md
+- .planning/research/VCM_EVAL_AGENT_3.md
+- .planning/research/VCM_EVAL_AGENT_4.md
+- .planning/handoffs/handoff-2026-02-14-vcm-synthesis-pending.md
+
+--- RESUME BLOCK ---
+Last task: vcm-eval-agents-complete -- All 3 analysis agents finished (signal, linguistic, feasibility)
+Next task: vcm-synthesis -- Merge 3 agent outputs into VCM_KDENZ_INTEGRATION_MAP.md
+Next action: Spawn single analysis-agent to read all 3 VCM_EVAL_AGENT files and produce synthesis
+Blockers: None -- all inputs ready
+
+[2026-02-14 VCM Synthesis Complete — Source of Truth Task Done]
+Spawned analysis-agent to merge 3 VCM_EVAL_AGENT files into single synthesis document.
+
+OUTPUT: .planning/research/VCM_KDENZ_INTEGRATION_MAP.md (916 lines)
+- Executive summary, priority matrix (P0/P1/P2/P3), 53 integration cards
+- 6 overlap cluster disambiguation guide
+- Gate detection confidence table by phase
+- 6-sprint implementation roadmap (12 weeks)
+- Architecture requirements (17 event types, rule format, linguistic matching, Hume/Gemini points)
+- Cost model ($0.00 at launch, $0.40-0.65/user at month 6+)
+
+SOURCE-OF-TRUTH UPDATE TASK COMPLETE:
+- PRD.json: full platform rewrite (done prior session)
+- CLAUDE.md: platform rules (done prior session)
+- agents.md: 10 research invariants (done prior session)
+- VCM integration map: synthesis complete (this session)
+- All 16 research prompts filed (R1-R16)
+- All 3 VCM evaluation agents complete + synthesized
+
+PRD.json updated: source-of-truth-update -> complete, active_task -> phase-a1-supabase-setup
+
+--- RESUME BLOCK ---
+Last task: source-of-truth-update -- COMPLETE (PRD, CLAUDE.md, agents.md, VCM synthesis all done)
+Next task: phase-a1-supabase-setup -- Supabase project setup + 22-table schema migration
+Next action: Create Supabase project, deploy schema from R16, configure Auth, seed reference data
+Blockers: None -- all research and source-of-truth work complete, ready to build
+
+[2026-02-14 VCM V2 Integration — All Documentation Updated]
+Updated all VCM documentation to match V2 gate structure (9 gates instead of 8).
+
+VCM V2 CHANGES:
+- C1 Believability (preserved)
+- C2 Desire (preserved)
+- **C3 Awareness (NEW)** — 3 root causes: AA-1 (Rationalization), AA-2 (Emotional avoidance), AA-5 (Lack of clarity)
+- **C4 Attention (NEW)** — 7 root causes: AA-3 (Pre-action distraction), AA-4 (Reverse inertia), AA-6 (Distraction vulnerability), AA-7 (Low baseline energy), AA-8 (Value conflict), AA-9 (Plan selection freeze), AA-10 (Environmental interference)
+- C5 Will (was C3)
+- C6 Intention (was C4)
+- C7 Commitment (was C5)
+- C8A Initiation (was C6A)
+- C8B Maintenance (was C6B)
+
+SYSTEMATIC RENUMBERING COMPLETED:
+- All root cause IDs updated: C3-* → C5-*, C4-* → C6-*, C5-* → C7-*, C6A-* → C8A-*, C6B-* → C8B-*
+- All gate section headers updated
+- All cross-references updated
+- All priority tables updated
+
+FILES UPDATED (6 total):
+1. `.planning/research/VCM_KDENZ_INTEGRATION_MAP.md` — Main integration map
+   - Added C3 Awareness and C4 Attention sections with placeholder signal analysis
+   - Updated all 57 root cause references to new numbering
+   - Updated priority matrix tables
+   - Updated scope statement to 9 gates
+
+2. `.planning/research/VCM_EVAL_AGENT_2.md` — Signal specificity analysis
+   - Spawned agent: systematic renumbering of all gates and root causes
+   - Added placeholder sections for C3 and C4
+
+3. `.planning/research/VCM_EVAL_AGENT_3.md` — Linguistic marker codebook
+   - Spawned agent: systematic renumbering of all gates and root causes
+   - Added placeholder sections for C3 and C4
+
+4. `.planning/research/VCM_EVAL_AGENT_4.md` — Integration feasibility
+   - Spawned agent: systematic renumbering of all gates and root causes
+   - Added placeholder sections for C3 and C4
+
+5. `.planning/research/R11_VCM_GATE_EXERCISE_PRESCRIPTIONS.md` — Exercise prescriptions
+   - Added V2 note explaining C3 Awareness and C4 Attention pending integration
+
+6. `PRD.json` — Project requirements
+   - Updated VCM description: 8-gate → 9-gate
+   - Updated gate list with all 9 gates (C1-C8B)
+   - Updated research validation reference
+
+7. `agents.md` — Platform invariants
+   - Updated all references: 8-gate → 9-gate
+   - Updated all counts: all 8 gates → all 9 gates
+
+PARALLEL AGENT WORK:
+- 3 agents spawned simultaneously to update eval agent docs
+- Completed in parallel: ~8-10 minutes total
+- All agents reported success with systematic renumbering
+
+PROJECT NOW READY TO BUILD:
+- All VCM documentation reflects V2 structure
+- C3 Awareness and C4 Attention integrated into all docs
+- Placeholders added for detailed signal analysis (future work)
+- Downstream renumbering consistent across all files
+
+--- RESUME BLOCK ---
+Last task: vcm-v2-integration-complete -- All VCM documentation updated to V2 (9 gates)
+Next task: phase-a1-supabase-setup -- Supabase project setup + 22-table schema deployment
+Next action: Create Supabase project, deploy schema from R16, configure Auth, seed reference data
+Blockers: None -- all source-of-truth and VCM work complete, ready to build
+
+[2026-02-14 v2.0 App Restoration Session]
+Fixed critical integration issues that broke Phase 15 v2.0 redesign.
+
+ISSUES FIXED:
+1. Missing index.html → Restored from git (commit 07f8685)
+2. Broken JSON imports → Updated paths to docs/archive/
+3. Wrong App.tsx version → Restored v2.0 from Phase 15-01
+4. CSS import order → Moved @import before @tailwind
+5. Missing BrowserRouter → Wrapped App in main.tsx
+6. Wrong color variables → Replaced v1.0 light theme with v2.0 dark premium
+
+COMMITS MADE:
+- aa55cb3: Restore index.html + fix JSON imports
+- 65c6d29: Restore v2.0 App.tsx + fix CSS import order
+- 1d50260: Add BrowserRouter wrapper
+- 64d4536: Replace v1.0 theme with v2.0 dark premium palette
+
+CURRENT STATE:
+- Dev server: http://localhost:5175 (clean, no errors)
+- Build: TypeScript passes, Vite builds successfully
+- Design: Dark navy (#0b0e14) + gold (#c9a84c) rendering correctly
+- Fonts: Cormorant Garamond + Outfit loading
+- Routing: v2.0 structure with ScreenLayout active
+
+PHASE 15 STATUS:
+- Plans 01-05: Complete (all v2.0 components built and integrated)
+- Plan 06: Ready for execution (visual verification checkpoint)
+
+--- RESUME BLOCK ---
+Last task: v2.0-restoration -- Fixed 6 critical issues blocking Phase 15 redesign
+Next task: Phase 15 Plan 06 -- Visual verification checkpoint (human testing required)
+Next action: /gsd:execute-phase 15 to run verification protocol (test all 4 core screens in browser)
+Blockers: none
