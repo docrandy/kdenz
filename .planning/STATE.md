@@ -13,7 +13,7 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 **Version:** v2.0 (Phases 11-16, 44 requirements)
 **Previous:** v1.0 shipped 2026-02-05, v1.0 + Wave 1+2 technique lib at commit 90c53cd
 **Deployed:** https://kdenz.vercel.app (v1.0 active, v2.0 in development)
-**Last Action:** 2026-02-14 - Completed Phase 15 Plan 06 (Visual Verification) — user-approved all 4 core screens, applied 5 UX improvements to recording screen
+**Last Action:** 2026-02-14 - Completed Phase 15 Plan 07 (Gap Closure) — fixed 3 critical regressions in free practice mode (SessionOrb gold gradient, speaking prompt rendering, route state handling)
 
 **Progress:** ██████████████████████░░░░░░░░░░ v2.0 in progress (Phase 11 ✅, Phase 12 ✅, Phase 13 ✅, Phase 14 ✅, Phase 15 ✅ COMPLETE, 1 phase remaining)
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 - Phase 12: Color Migration ✅ COMPLETE (12-01 through 12-07, ~57 files migrated)
 - Phase 13: SessionOrb Redesign ✅ COMPLETE (13-01: gold gradient, 3 animated rings, volume-responsive)
 - Phase 14: Typography & Layout ✅ COMPLETE (14-01 through 14-04, 9/9 must-haves verified)
-- Phase 15: New Screens — Core Flow ✅ COMPLETE (15-01 through 15-06, all 4 core screens redesigned and verified)
+- Phase 15: New Screens — Core Flow ✅ COMPLETE (15-01 through 15-07, all 4 core screens redesigned, verified, and gap closure applied)
 - Phase 16: New Screens — Advanced (Analysis Loader, Voice Profile, Practice Bridge, etc.)
 
 **Design Direction:**
@@ -49,7 +49,7 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 2. Phase 12 ✅ COMPLETE - All ~57 files migrated to dark premium palette
 3. Phase 13 ✅ COMPLETE - SessionOrb redesigned with premium animations
 4. Phase 14 ✅ COMPLETE - Typography & Layout (Cormorant Garamond + Outfit fonts, mobile-first layout refinements)
-5. Phase 15 ✅ COMPLETE - New Screens Core Flow (Welcome, Pre-Session, Recording, Post-Session all redesigned and verified)
+5. Phase 15 ✅ COMPLETE - New Screens Core Flow (Welcome, Pre-Session, Recording, Post-Session all redesigned, verified, and gap closure applied)
 6. Phase 16: New Screens — Advanced (Analysis Loader, Voice Profile, Practice Bridge, etc.)
 
 **Next:** Phase 16 - New Screens — Advanced (Analysis Loader, Voice Profile, Practice Bridge, etc.)
@@ -66,7 +66,7 @@ None currently.
 ## Session Continuity
 
 **Last session:** 2026-02-14
-**Stopped at:** Completed Phase 15 Plan 06 — Visual Verification (user-approved, 5 UX improvements applied, commit ae0c006)
+**Stopped at:** Completed Phase 15 Plan 07 — Gap Closure (fixed 3 critical regressions in free practice mode, commit 236a78a)
 **Resume with:** Phase 16 - New Screens Advanced — /gsd:execute-phase 16
 
 ## User Feedback from Phase 13 Verification (for Phase 14+)
@@ -90,4 +90,4 @@ None currently.
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-14 - Phase 15 COMPLETE (all 6 plans: navigation framework, welcome/profile, pre-session, recording, post-session, verification — user-approved dark premium core flow with 5 UX refinements, commit ae0c006)*
+*Last updated: 2026-02-14 - Phase 15 COMPLETE (all 7 plans: navigation framework, welcome/profile, pre-session, recording, post-session, verification, gap closure — user-approved dark premium core flow with all 3 recording modes working correctly, commit 236a78a)*
