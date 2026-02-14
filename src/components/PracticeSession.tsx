@@ -7,6 +7,7 @@ import SilenceNudge from "./SilenceNudge";
 import SessionProgressBar from "./SessionProgressBar";
 import LoadingSpinner from "./LoadingSpinner";
 import CountdownOverlay from "./CountdownOverlay";
+import { SpeakingPrompt } from "../data/speakingPrompts";
 // Unused imports (for future recording screen redesign in Phase 15)
 // import BottomControlBar from "./BottomControlBar";
 // import WaveformVisualizer from "./WaveformVisualizer";
@@ -40,6 +41,14 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const techniqueName = (location.state as any)?.techniqueName as
     | string
     | undefined;
+
+  // Free practice speaking prompt (from PreSessionScreen -> /practice/{mode} route)
+  const speakingPrompt = (location.state as any)?.speakingPrompt as
+    | SpeakingPrompt
+    | undefined;
+
+  // Resolve display prompt: technique practicePrompt (string) OR speakingPrompt.prompt (from object)
+  const displayPrompt = practicePrompt || speakingPrompt?.prompt;
 
   const runtime = usePracticeRuntime({
     focusMode,
@@ -122,15 +131,15 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
             <SessionOrb
               audioLevel={metrics.audioLevel}
               isRecording={!lifecycle.isPaused}
-              onClick={() => {}}
-              disabled
+              onClick={lifecycle.handleStop}
+              disabled={false}
             />
 
-            {/* Practice prompt - positioned right under SessionOrb */}
-            {practicePrompt && (
+            {/* Practice/speaking prompt - positioned right under SessionOrb */}
+            {displayPrompt && (
               <div className="max-w-lg mx-auto px-4">
                 <p className="text-body-lg text-text-muted text-center">
-                  {practicePrompt}
+                  {displayPrompt}
                 </p>
               </div>
             )}
