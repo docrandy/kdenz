@@ -26,8 +26,8 @@ export default function BaselineSession() {
         {/* Main instructional copy */}
         <div className="bg-background-surface border border-background-elevated rounded-lg p-6 space-y-4">
           <p className="text-body-lg text-text-muted leading-relaxed">
-            For the next 3 minutes, we'll measure your typical pace, pauses, and
-            filler word usage. Just speak naturally — there are no wrong
+            We'll measure your typical pace, pauses, and filler word usage for
+            the next 3 minutes. Just speak naturally — there are no wrong
             answers.
           </p>
 

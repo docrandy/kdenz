@@ -31,9 +31,15 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
   const isBaseline = (location.state as any)?.isBaseline ?? false;
 
   // Technique context (from ScenarioDetail -> /practice/technique route)
-  const techniqueId = (location.state as any)?.techniqueId as string | undefined;
-  const practicePrompt = (location.state as any)?.practicePrompt as string | undefined;
-  const techniqueName = (location.state as any)?.techniqueName as string | undefined;
+  const techniqueId = (location.state as any)?.techniqueId as
+    | string
+    | undefined;
+  const practicePrompt = (location.state as any)?.practicePrompt as
+    | string
+    | undefined;
+  const techniqueName = (location.state as any)?.techniqueName as
+    | string
+    | undefined;
 
   const runtime = usePracticeRuntime({
     focusMode,
@@ -73,7 +79,9 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       {/* Progress bar at top (hidden in Unlimited mode when durationSeconds === 0) */}
       <SessionProgressBar
         remaining={metrics.countdownRemaining}
-        visible={audio.isCapturing && !lifecycle.isPaused && durationSeconds > 0}
+        visible={
+          audio.isCapturing && !lifecycle.isPaused && durationSeconds > 0
+        }
       />
 
       {/* Processing overlay */}
@@ -81,7 +89,9 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
         <div className="fixed inset-0 bg-background bg-opacity-90 flex items-center justify-center z-50">
           <div className="flex flex-col items-center gap-3">
             <LoadingSpinner size="lg" />
-            <p className="text-body-sm text-text-muted">Processing your session...</p>
+            <p className="text-body-sm text-text-muted">
+              Processing your session...
+            </p>
           </div>
         </div>
       )}
@@ -96,48 +106,54 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
       {/* RECORDING SCREEN LAYOUT */}
       {audio.isCapturing && (
         <div className="flex flex-col h-screen">
-          {/* Top section: Practice prompt (dimmed, persistent) */}
+          {/* Top section: Audio quality warnings only */}
           <div className="px-4 pt-4 pb-2">
             {/* Audio quality warnings */}
             {!lifecycle.isPaused && qualityWarnings.length > 0 && (
-              <AudioQualityWarning warnings={qualityWarnings} className="mb-2" />
-            )}
-
-            {/* Practice prompt - dimmed at top, glanceable */}
-            {practicePrompt && (
-              <div className="max-w-lg mx-auto px-3 py-2 rounded-lg">
-                <p className="text-body-sm text-text-subtle text-center line-clamp-2">{practicePrompt}</p>
-              </div>
-            )}
-
-            {/* Baseline speaking prompt */}
-            {isBaseline && baselinePromptIndex < BASELINE_PROMPTS.length && (
-              <div key={baselinePromptIndex} className="max-w-lg mx-auto animate-fade-in">
-                <div className="px-3 py-2 rounded-lg">
-                  <p className="text-body-sm text-text-subtle text-center line-clamp-2">
-                    {BASELINE_PROMPTS[baselinePromptIndex]}
-                  </p>
-                </div>
-                {baselinePromptIndex < BASELINE_PROMPTS.length - 1 && (
-                  <button
-                    onClick={() => setBaselinePromptIndex((prev) => prev + 1)}
-                    className="mt-1 text-caption text-text-subtle hover:text-text-muted transition-colors block mx-auto"
-                  >
-                    Next topic &rarr;
-                  </button>
-                )}
-              </div>
+              <AudioQualityWarning
+                warnings={qualityWarnings}
+                className="mb-2"
+              />
             )}
           </div>
 
-          {/* Center section: SessionOrb dominates */}
-          <div className="flex-1 flex items-center justify-center">
+          {/* Center section: SessionOrb dominates with prompt below */}
+          <div className="flex-1 flex flex-col items-center justify-center gap-6">
             <SessionOrb
               audioLevel={metrics.audioLevel}
               isRecording={!lifecycle.isPaused}
               onClick={() => {}}
               disabled
             />
+
+            {/* Practice prompt - positioned right under SessionOrb */}
+            {practicePrompt && (
+              <div className="max-w-lg mx-auto px-4">
+                <p className="text-body-lg text-text-muted text-center">
+                  {practicePrompt}
+                </p>
+              </div>
+            )}
+
+            {/* Baseline speaking prompt - positioned right under SessionOrb */}
+            {isBaseline && baselinePromptIndex < BASELINE_PROMPTS.length && (
+              <div
+                key={baselinePromptIndex}
+                className="max-w-lg mx-auto px-4 animate-fade-in"
+              >
+                <p className="text-body-lg text-text-muted text-center">
+                  {BASELINE_PROMPTS[baselinePromptIndex]}
+                </p>
+                {baselinePromptIndex < BASELINE_PROMPTS.length - 1 && (
+                  <button
+                    onClick={() => setBaselinePromptIndex((prev) => prev + 1)}
+                    className="mt-2 text-body-sm text-text-muted hover:text-text transition-colors block mx-auto"
+                  >
+                    Next topic &rarr;
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Silence nudge overlay */}
@@ -152,8 +168,12 @@ export default function PracticeSession({ focusMode }: PracticeSessionProps) {
           <div className="border-t border-background-elevated">
             {/* Metrics strip - thin, minimal */}
             <div className="flex justify-between items-center px-6 py-2 max-w-md mx-auto">
-              <div className="text-body-sm text-text-muted">{metrics.liveFillerCount} fillers</div>
-              <div className="text-body-sm text-text-muted">{metrics.wpm} WPM</div>
+              <div className="text-body-sm text-text-muted">
+                {metrics.liveFillerCount} fillers
+              </div>
+              <div className="text-body-sm text-text-muted">
+                {metrics.wpm} WPM
+              </div>
             </div>
 
             {/* Stop button */}
