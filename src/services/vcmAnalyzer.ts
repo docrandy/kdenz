@@ -12,7 +12,7 @@ import type {
   VcmGate,
 } from "../types/vcm";
 import { GATE_NAMES } from "../types/vcm";
-import codebook from "../../vcm_diagnostic_codebook.json";
+import codebook from "../../docs/archive/vcm_diagnostic_codebook.json";
 
 const entries = codebook as CodebookEntry[];
 

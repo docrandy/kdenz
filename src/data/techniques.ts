@@ -3,7 +3,7 @@
  * Imports Kdenzphase2.json and provides typed access + helper functions.
  */
 
-import techniquesDb from "../../Kdenzphase2.json";
+import techniquesDb from "../../docs/archive/Kdenzphase2.json";
 import type {
   Technique,
   Framework,
