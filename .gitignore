@@ -29,3 +29,6 @@ dist-ssr
 .env.production
 .vercel
 .env*.local
+
+# Shared VCM source documents (junction)
+docs/vcm-source/

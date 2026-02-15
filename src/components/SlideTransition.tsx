@@ -22,6 +22,8 @@ const ROUTE_DEPTHS: Record<string, number> = {
   "/": 0,
   "/library": 1,
   "/profile": 1,
+  "/voice-profile": 1,
+  "/breathing": 1,
   "/settings": 1,
   "/privacy": 1,
   "/baseline": 1,
@@ -32,7 +34,9 @@ const ROUTE_DEPTHS: Record<string, number> = {
   "/practice/filler": 3,
   "/practice/pace": 3,
   "/practice/technique": 3,
+  "/practice/analysis": 3,
   "/practice/results": 3,
+  "/practice/bridge": 3,
   "/practice/technique-results": 3,
   "/practice/evaluation": 4,
 };

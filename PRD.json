@@ -1,290 +1,575 @@
 {
-  "project_name": "Kdenz Voice Practice MVP",
-  "project_description": "Private beta voice coaching app that helps users discover unconscious speaking habits through real-time feedback, with light diagnostics to differentiate from competitors",
-  "core_hypothesis": "The holy shit moment - Users discover unconscious speaking habits (filler words, pace) they weren't aware of. Value = immediate awareness + root-cause insight (why you struggle), not just skill coaching.",
-  "target_users": "Friends/family willing to give honest feedback (5-10 testers)",
+  "project_name": "KDENZ Communication Training Platform",
+  "project_description": "Adaptive communication training platform that diagnoses WHY users struggle — not just WHAT they get wrong — and prescribes targeted exercises through five integrated practice surfaces: Voice Practice, Skills Lab, Simulation Studio, Institute, and VCM Diagnostics",
+  "core_hypothesis": "A diagnostic engine that prescribes communication plans through motivational interviewing. Users don't just practice techniques in isolation — the platform identifies their behavioral bottleneck (via the Volitional Chain Model) and routes them to the right exercise at the right difficulty. The 'holy shit moment' expands from filler-word awareness to discovering WHY you avoid difficult conversations, freeze under pressure, or revert to old patterns.",
+  "target_users": "Professionals who want to communicate more effectively in high-stakes situations — negotiations, difficult conversations, feedback delivery, conflict resolution. Initial beta: 5-50 testers. Target: anyone who would take a communication skills course but wants practice, not just theory.",
   "success_metrics": [
-    "Completion Rate: Do testers finish at least 3 sessions?",
-    "Discovery Moment: Do testers report surprise at their filler count or pace?",
-    "Return Rate: Do testers come back within 48 hours?",
-    "Qualitative: What's the one thing they wish was different?"
+    "Skill Progression: Do users advance through the 5-tier skill tree? (Tier 0 → Tier 2+ within 30 days)",
+    "Drill Completion Rate: Do users complete drills, not just start them? (target: >70%)",
+    "Simulation Engagement: Do users return to Simulation Studio after first session? (target: >50% within 7 days)",
+    "Retention: Do users maintain streaks and respond to spaced repetition prompts? (target: >40% 7-day retention check completion)",
+    "Mastery Decay: Do Proficient users maintain mastery at 14-day retention checks? (target: >80%)",
+    "Discovery Moment: Do users report surprise at diagnostic insights? (qualitative)",
+    "Technique Transfer: Do drill-trained users successfully apply techniques in simulation? (target: >60% transfer rate)"
   ],
-  "current_epic": "Private Beta MVP - 2.5 Week Sprint",
-  "active_task": "none-mvp-complete",
+  "current_epic": "Platform Foundation — Source of Truth Update + Architecture Setup",
+  "active_task": "phase-a1-supabase-setup",
+  "product_pillars": {
+    "voice_practice": {
+      "name": "Voice Practice (Vocal Performance Lab)",
+      "description": "Real-time voice analysis for filler words, pace, and vocal tonality. Users discover unconscious speaking habits through immediate feedback and playback.",
+      "status": "mostly_built",
+      "key_features": [
+        "Free practice mode with real-time filler gauge",
+        "WPM tracking and pace analysis",
+        "Hybrid filler detection (acoustic real-time + transcript reconciliation)",
+        "Audio playback with filler highlighting and timeline markers",
+        "Post-session transcript with toggle highlights (pace OR fillers)",
+        "Scorecard with metrics and AI summary (Gemini)",
+        "Hume.ai batch analysis for prosody, stress, freeze detection (needs backend proxy)"
+      ]
+    },
+    "skills_lab": {
+      "name": "Skills Lab (Applied Skills)",
+      "description": "Isolated drill engine for 57+ communication techniques across Voss, MI, CBT, NVC, and corporate frameworks. Generic drill engine supports 5 formats. Users build syntax mastery and automaticity before moving to simulation.",
+      "status": "partially_built",
+      "key_features": [
+        "Generic drill engine supporting 5 formats: Prompt-Response, Audio-Spoken, Multiple-Choice, Rewrite, Spot-the-Technique",
+        "10 Tier A techniques (drills-first): mirroring, labeling, open-ended questions, 'I' statements, vocal tonality, FM DJ voice, 'No'-oriented questions, NVC observation, NVC feeling, contrasting",
+        "10 Tier C techniques (both drill + simulation): calibrated questions, tactical empathy, active listening, accusation audit, affirmations, paraphrasing, NVC need, NVC request, de-escalation, perspective-taking",
+        "Per-technique mastery tracking with drill-to-simulation threshold (e.g., 10 correct mirrors → unlock simulation)",
+        "4-dimension quality scoring: form + accuracy + impact + timing (R5 rubric)",
+        "Immediate feedback per drill attempt"
+      ],
+      "existing_code": [
+        "src/features/labeling/ (built, removed from routes)",
+        "src/features/accusation-audit/ (built, removed from routes)"
+      ]
+    },
+    "simulation_studio": {
+      "name": "Simulation Studio",
+      "description": "Multi-turn AI roleplay powered by Gemini 2.5 Flash. Users practice techniques against AI opponents with graduated difficulty (cooperative → deceptive). State object pattern tracks AI mood, trust, concessions per turn.",
+      "status": "not_built",
+      "key_features": [
+        "Gemini 2.5 Flash AI opponents (~$0.01-0.02 per 15-min session)",
+        "5 difficulty levels: Cooperative, Hesitant, Resistant, Aggressive, Deceptive",
+        "3 simulation modes: Guided (technique prompted), Scaffolded (suggested), Free-form (post-detection only)",
+        "State object pattern: { mood, trust_level, concessions, revelation_stage } per turn",
+        "3 control dials per scenario: assertiveness, reactivity, emotional_volatility (1-5 each)",
+        "4-dimension scenario taxonomy: domain x difficulty x technique_focus x goal_type",
+        "Post-session technique detection and quality analysis",
+        "45 base scenarios for beta (x3 focus variations = 135 distinct experiences)",
+        "Hidden concerns with graduated revelation based on technique quality"
+      ]
+    },
+    "institute": {
+      "name": "KDENZ Institute",
+      "description": "Educational content architecture with interleaved learning. Practice before exposure — users attempt techniques blind, THEN see expert demos. Videos, quizzes, articles, annotated examples.",
+      "status": "not_built",
+      "key_features": [
+        "5 content types: video explainer, video demonstration, video before/after, article, annotated example",
+        "6 quiz formats: technique identification, scenario ranking, sentence rewrite, predictive, comparative, multiple choice",
+        "Interleaved learning (practice-before-exposure pattern from R12)",
+        "Content tied to skill tree — each technique has associated educational materials",
+        "Progress tracking per content module",
+        "AI-generated content initially, replaced with professional content over time"
+      ]
+    },
+    "vcm_diagnostics": {
+      "name": "VCM Diagnostics (Diagnostic Engine)",
+      "description": "9-gate behavioral model based on the Volitional Chain Model V2. Identifies WHY users fail to change behavior — believability, desire, awareness, attention, will, intention, commitment, initiation, maintenance. Diagnoses internally, intervenes externally (users never see gate labels).",
+      "status": "not_built",
+      "key_features": [
+        "9 sequential gates: C1 (Believability), C2 (Desire), C3 (Awareness), C4 (Attention), C5 (Will), C6 (Intention), C7 (Commitment), C8A (Initiation), C8B (Maintenance)",
+        "5-8 root causes per gate",
+        "Rule-based diagnostics first, graduate to ML after 3-6 months of data",
+        "Behavioral event logging — track all interactions, not just completions",
+        "Provisional vs confirmed diagnoses (need N>=2 sessions showing same pattern)",
+        "Meta flags: avoidance_flag, shutdown_flag, scripted_behavior_flag",
+        "Prescriptions map failing gates to specific exercises/nudges",
+        "Diagnose internally, intervene externally — users see positive framing, not gate labels"
+      ]
+    }
+  },
+  "skill_tree": {
+    "total_techniques": 57,
+    "beta_techniques": "28-30 across Tiers 0-3 + partial Tier 4",
+    "mastery_levels": {
+      "0": "Not Started (locked/never attempted)",
+      "1": "Attempted (tried, scored <70%)",
+      "2": "Familiar (scored 70-99% in drill OR used correctly 1-2 times in roleplay)",
+      "3": "Proficient (scored 100% in drill OR used correctly 3+ times across multiple roleplays)",
+      "4": "Mastered (Proficient + demonstrated in mixed-skill assessment + retention check 7-14 days later)"
+    },
+    "tiers": {
+      "tier_0": {
+        "name": "Foundations",
+        "skills": ["Emotional Self-Awareness", "Emotional Regulation", "Active Listening"],
+        "unlock": "Onboarding complete",
+        "gate": "All 3 Proficient before Tier 1"
+      },
+      "tier_1": {
+        "name": "Core Techniques",
+        "skills": ["Vocal Tonality Control", "Open-Ended Questions", "I Statements", "Minimal Encouragers", "Assertiveness Basics", "De-escalation Basics"],
+        "unlock": "Tier 0 100% Proficient",
+        "gate": ">=75% Proficient to unlock Tier 2A"
+      },
+      "tier_2a": {
+        "name": "Reflective Listening Cluster",
+        "skills": ["Mirroring", "Labeling", "Paraphrasing/Summarizing", "Affirmations (MI)", "Reflections (MI)"],
+        "unlock": "Tier 1 >=75% Proficient",
+        "gate": ">=75% Proficient to unlock Tier 2B"
+      },
+      "tier_2b": {
+        "name": "Strategic Communication",
+        "skills": ["Tactical Empathy", "Calibrated Questions", "No-Oriented Questions", "Strategic Silence", "Late-Night FM DJ Voice", "Perspective-Taking", "Contrasting"],
+        "unlock": "Tier 2A >=75% Proficient",
+        "gate": ">=75% Proficient to unlock Tier 3"
+      },
+      "tier_3": {
+        "name": "Advanced Integration",
+        "skills": ["Accusation Audit", "That's Right", "Change Talk Elicitation", "Rolling with Resistance", "NVC Observation", "NVC Feeling", "NVC Need", "NVC Request", "STATE Method", "Bending Reality/Loss Aversion"],
+        "unlock": "Tier 2B >=75% Proficient",
+        "gate": ">=80% Proficient to unlock Tier 4"
+      },
+      "tier_4": {
+        "name": "Expert / High-Stakes",
+        "skills": ["Black Swan Discovery", "Ackerman Bargaining Model", "Three Conversations Model", "Jim Camp Start with No", "Vision-Building Questions"],
+        "unlock": "Tier 3 >=80% Proficient",
+        "gate": "All Mastered for Expert Communicator badge"
+      }
+    },
+    "specialization_tracks": [
+      "Negotiation (Voss + Camp techniques)",
+      "Difficult Conversations (Crucial Conversations + Difficult Conversations + NVC)",
+      "Motivational Interviewing (MI for coaching/healthcare/leadership)",
+      "Leadership Communication (STATE + Feedback + Stakeholder framing)"
+    ],
+    "skill_types_and_decay": {
+      "syntax_driven": { "decay_rate": 0.08, "half_life_days": 14, "examples": "mirroring, labeling, I statements" },
+      "judgment_based": { "decay_rate": 0.06, "half_life_days": 21, "examples": "tactical empathy, perspective-taking" },
+      "recognition": { "decay_rate": 0.04, "half_life_days": 30, "examples": "change talk identification, technique spotting" }
+    }
+  },
   "research_validated": {
-    "filler_awareness_behavior_change": "VALIDATED - 80%+ reduction with awareness training alone. Immediate feedback reduces fillers 50%+. Feedback REDUCES anxiety.",
-    "visual_feedback_retention": "VALIDATED - 3.5x retention with visual gauges/charts (Duolingo case study). Real-time gauge + weekly trend = top priorities.",
-    "safari_web_speech_api": "PROBLEMATIC - 90% accuracy drop, critical bugs. Decision: Chrome-only for beta.",
-    "filler_detection_accuracy": "ASR-based (transcript) = 95%+ F1. Acoustic-only = 75-85% F1. Decision: Hybrid approach."
+    "R1_hume_batch_api": "VALIDATED — Hume batch API via backend proxy. Audio upload as blob, process post-session, 24h auto-delete. Prosody, stress, confidence, freeze detection all proven in POC.",
+    "R3_adaptive_recommendations": "VALIDATED — Hybrid architecture: 2:1 to 3:1 user-aligned to system-diagnosed ratio. Rule-based first, multi-armed bandit later. Ignored recommendations never repeated.",
+    "R4_gemini_simulation": "VALIDATED — Gemini 2.5 Flash for AI opponents. ~$0.01-0.02 per 15-min session. State object pattern ensures character consistency. Streaming responses for conversational pacing.",
+    "R5_conversation_quality": "VALIDATED — 4-dimension rubric: form (0-3) + accuracy (0-3) + impact (0-3) + timing (0-2). Composite = 0.25*form + 0.35*accuracy + 0.3*impact + 0.1*timing. Per-turn and session-end evaluation.",
+    "R6_persistence_strategy": "VALIDATED — Supabase for persistence (Postgres + Auth + Storage + Edge Functions). Migration path from localStorage. 22-table schema designed (R16).",
+    "R7_audio_storage": "VALIDATED — Temporary blob storage in Supabase Storage. WebM format, 24h auto-delete after Hume processing. No long-term audio retention (privacy).",
+    "R8_technique_taxonomy": "VALIDATED — 83 total techniques identified across Voss, MI, CBT, NVC, corporate frameworks. 22 scored 5/5 for app practicability. 54 scored 3+/5. 16 of 23 score-5 techniques reuse labeling infrastructure (generic drill engine confirmed).",
+    "R9_skill_tree_prerequisites": "VALIDATED — 5-tier DAG with max depth 5. Adjacency list in Postgres. Hard prerequisites enforced via edge function. 5-level mastery system (0-4). Fundamentals track mandatory.",
+    "R10_skills_lab_vs_simulation": "VALIDATED — Tier A (10 drills-first), Tier B (10 simulation-preferred), Tier C (10 both). 5 drill formats. 3 simulation modes (guided → scaffolded → free-form). Drill mastery predicts 60-70% of simulation performance.",
+    "R11_vcm_gate_prescriptions": "VALIDATED — V2 structure with 9 gates (C3 Awareness and C4 Attention added). Behavioral signal detection via rule-based prescription engine. Diagnose internally, intervene externally. Never miss twice rule (37% longer habit retention).",
+    "R12_institute_content": "VALIDATED — Interleaved learning: practice-before-exposure. 5 content types, 6 quiz formats. AI-generated initially, professional content later. Content management in Supabase, not CMS.",
+    "R13_cbt_mi_inventory": "VALIDATED — 89 total CBT+MI techniques cataloged. 54 rated 3+/5 for app practice. Overlap with Voss identified (labeling ≈ complex reflection). Integration points mapped.",
+    "R14_ai_opponent_prompts": "VALIDATED — 4 system prompt templates across difficulty levels and domains. 3 control dials (assertiveness, reactivity, emotional_volatility). State object passed each turn. Hidden concern revelation stages.",
+    "R15_spaced_repetition": "VALIDATED — 3 decay rates by skill type: syntax (0.08/mo, 14d half-life), judgment (0.06/mo, 21d half-life), recognition (0.04/mo, 30d half-life). Simple interval fallback: [3, 7, 14, 30, 60, 90] days. Implicit practice credits for prerequisite skills.",
+    "R16_supabase_schema": "VALIDATED — 22 tables, RLS policies, critical indexes, edge function stubs. Migration strategy from localStorage. Adjacency list for skill DAG. Behavioral events table for VCM signal detection.",
+    "filler_awareness_behavior_change": "VALIDATED — 80%+ reduction with awareness training alone. Immediate feedback reduces fillers 50%+. Feedback REDUCES anxiety.",
+    "visual_feedback_retention": "VALIDATED — 3.5x retention with visual gauges/charts (Duolingo case study). Real-time gauge + weekly trend = top priorities.",
+    "safari_web_speech_api": "PROBLEMATIC — 90% accuracy drop, critical bugs. Chrome-only for beta. Deepgram path for cross-browser later (~$0.015/min).",
+    "filler_detection_accuracy": "ASR-based (transcript) = 95%+ F1. Acoustic-only = 75-85% F1. Hybrid approach correct — transcript reconciliation catches acoustic misses."
   },
   "tasks": [
     {
-      "id": "week1-day1",
-      "title": "Project Setup & Scaffolding (Day 1-2)",
-      "status": "done",
+      "id": "source-of-truth-update",
+      "title": "Update Source of Truth Files (PRD.json, CLAUDE.md, agents.md)",
+      "status": "complete",
+      "phase": "foundation",
+      "completed_at": "2026-02-14",
       "acceptance_criteria": [
-        "New project folder created (or Black Swan forked)",
-        "Unused components stripped from Dashboard",
-        "Tailwind config updated with High-Performance Clinical theme",
-        "PracticeSession.tsx component shell exists",
-        "Chrome browser detection + warning for non-Chrome browsers",
-        "Vercel project created with placeholder deployed"
-      ],
-      "files": [
-        "tailwind.config.js",
-        "src/components/Dashboard.tsx",
-        "src/components/PracticeSession.tsx",
-        "src/components/BrowserWarning.tsx",
-        "vercel.json"
+        "PRD.json rewritten with full platform scope (5 pillars, skill tree, research validation)",
+        "CLAUDE.md updated with platform development rules (remove MVP-only restrictions)",
+        "agents.md updated with 10 platform invariants from research"
       ]
     },
     {
-      "id": "week1-day3",
-      "title": "Audio Pipeline + Visual Gauge (Day 3-4)",
-      "status": "done",
+      "id": "phase-a1-supabase-setup",
+      "title": "Supabase Project Setup + Schema Migration",
+      "status": "pending",
+      "phase": "foundation",
       "acceptance_criteria": [
-        "AudioEngine connected to PracticeSession",
-        "WPM calculation implemented from transcript",
-        "FillerDetector integrated (acoustic real-time)",
-        "Real-time filler count GAUGE component (not just numbers)",
-        "Weekly trend chart component shell",
-        "Silence detection with 10s nudge",
-        "Mic capture to metrics display loop working"
-      ],
-      "files": [
-        "src/core/audio/AudioEngine.ts",
-        "src/components/WPMIndicator.tsx",
-        "src/components/FillerGauge.tsx",
-        "src/components/WeeklyTrendChart.tsx",
-        "src/components/SilenceNudge.tsx",
-        "src/hooks/usePracticeSession.ts"
+        "Supabase project created with Auth configured",
+        "22-table schema deployed from R16 migration file",
+        "RLS policies active on all user-data tables",
+        "Reference data tables (skills, skill_prerequisites) seeded",
+        "Critical indexes created",
+        "Supabase client integrated into codebase"
       ]
     },
     {
-      "id": "week1-day5",
-      "title": "Duration Controls & Timer (Day 5-6)",
-      "status": "done",
+      "id": "phase-a2-localstorage-migration",
+      "title": "Migrate localStorage Data to Supabase",
+      "status": "pending",
+      "phase": "foundation",
       "acceptance_criteria": [
-        "Duration selection UI (30s/60s/90s+) working",
-        "Countdown timer displays correctly",
-        "Session auto-stops at duration end",
-        "Manual stop button works",
-        "Session state transitions handled",
-        "Audio recording captured for playback"
-      ],
-      "files": [
-        "src/components/DurationSelector.tsx",
-        "src/components/SessionTimer.tsx",
-        "src/components/PracticeSession.tsx",
-        "src/hooks/useAudioRecorder.ts"
+        "Migration script reads all localStorage data",
+        "User profile, settings, sessions migrated to Supabase tables",
+        "Drill attempts (labeling, accusation audit) migrated",
+        "Migration verification confirms data integrity",
+        "localStorage fallback maintained during transition"
       ]
     },
     {
-      "id": "week1-day7",
-      "title": "Playback with Filler Highlighting (Day 7-8)",
-      "status": "done",
-      "note": "Research-validated: Two-phase awareness (playback + real-time) = most sustained behavior change",
+      "id": "phase-a3-auth-flow",
+      "title": "Authentication Flow (Supabase Auth)",
+      "status": "pending",
+      "phase": "foundation",
       "acceptance_criteria": [
-        "Audio playback controls (play/pause/seek)",
-        "Filler timestamps synced to audio timeline",
-        "Visual markers on playback timeline showing filler locations",
-        "Tap filler marker to jump to that moment",
-        "Playback speed controls (0.75x, 1x, 1.25x)"
-      ],
-      "files": [
-        "src/components/AudioPlayback.tsx",
-        "src/components/PlaybackTimeline.tsx",
-        "src/components/FillerMarkers.tsx",
-        "src/hooks/usePlaybackSync.ts"
+        "Sign up / sign in / sign out flows working",
+        "Auth state persisted across sessions",
+        "Protected routes redirect to login",
+        "Profile creation on first sign-up",
+        "Existing unauthenticated data migration prompt"
       ]
     },
     {
-      "id": "week2-day9",
-      "title": "Transcript with Highlights (Day 9-10)",
-      "status": "done",
+      "id": "phase-a4-platform-navigation",
+      "title": "Platform Navigation Structure",
+      "status": "pending",
+      "phase": "foundation",
       "acceptance_criteria": [
-        "Transcript captured via Web Speech API (Chrome)",
-        "Hybrid filler detection: acoustic + transcript reconciliation at session end",
-        "Transcript segments stored with timestamps",
-        "Toggle between pace OR filler highlight views (not simultaneous)",
-        "Transcript display styled"
-      ],
-      "files": [
-        "src/hooks/useTranscript.ts",
-        "src/components/TranscriptView.tsx",
-        "src/components/HighlightToggle.tsx",
-        "src/lib/transcriptHighlighter.ts",
-        "src/lib/fillerReconciler.ts"
+        "Sidebar or tab structure for 5 sections: Voice Lab, Skills Lab, Simulation Studio, Institute, Dashboard",
+        "Routing configured for all platform sections",
+        "Skills Lab and Simulation Studio show 'coming soon' or empty states",
+        "Existing voice practice modules accessible through new navigation"
       ]
     },
     {
-      "id": "week2-day11",
-      "title": "Scorecard & AI Summary (Day 11-12)",
-      "status": "done",
+      "id": "phase-a5-skills-reintegration",
+      "title": "Re-integrate Labeling + Accusation Audit Modules",
+      "status": "pending",
+      "phase": "foundation",
       "acceptance_criteria": [
-        "Post-session Scorecard component created",
-        "Metrics summary displays (WPM avg, filler count, filler rate, duration)",
-        "Weekly trend chart populated with session data",
-        "Generate AI Summary button works",
-        "Gemini integration for summary generation",
-        "Any API error = show local stats only (graceful degradation)"
-      ],
-      "files": [
-        "src/components/Scorecard.tsx",
-        "src/services/geminiService.ts",
-        "src/components/AISummary.tsx",
-        "src/lib/localStatsFormatter.ts"
+        "Labeling drills accessible from Skills Lab navigation",
+        "Accusation Audit drills accessible from Skills Lab navigation",
+        "Both modules write drill_attempts to Supabase (not localStorage)",
+        "Mastery tracking via user_skills table",
+        "Quality scoring uses R5 4-dimension rubric"
       ]
     },
     {
-      "id": "week2-day13",
-      "title": "Polish & Error Handling (Day 13-14)",
-      "status": "done",
+      "id": "phase-b1-generic-drill-engine",
+      "title": "Build Generic Drill Engine",
+      "status": "pending",
+      "phase": "skills_lab",
       "acceptance_criteria": [
-        "Mic permission error handling works",
-        "Full session flow tested end-to-end",
-        "UI transitions and loading states polished",
-        "Mobile layout usable (Chrome mobile)",
-        "In-app feedback button (opens email/form)"
-      ],
-      "files": [
-        "src/components/ErrorBoundary.tsx",
-        "src/components/MicPermissionError.tsx",
-        "src/components/FeedbackButton.tsx"
+        "Single drill engine component supports all 5 formats: prompt-response, audio-spoken, multiple-choice, rewrite, spot-the-technique",
+        "Drill engine is format-agnostic — technique configuration drives format selection",
+        "Per-attempt scoring with 4-dimension rubric (form, accuracy, impact, timing)",
+        "Immediate feedback display after each attempt",
+        "Mastery tracking updates user_skills after each attempt",
+        "Drill-to-simulation threshold enforced per technique"
       ]
     },
     {
-      "id": "week3-day15",
-      "title": "Deployment & Beta Prep (Day 15-17)",
-      "status": "done",
+      "id": "phase-b2-tier-a-drills",
+      "title": "Build Tier A Drills (10 Drill-First Techniques)",
+      "status": "pending",
+      "phase": "skills_lab",
       "acceptance_criteria": [
-        "Final Vercel deploy successful",
-        "Tested on Chrome desktop + Chrome mobile",
-        "Non-Chrome browser warning displays correctly",
-        "Simple onboarding/instructions created",
-        "Sent to 5-10 testers"
-      ],
-      "files": []
-    },
-    {
-      "id": "parallel-diagnostics",
-      "title": "[PARALLEL] Light Diagnostics Onboarding",
-      "status": "done",
-      "note": "Content track - does not block dev sprint",
-      "acceptance_criteria": [
-        "3-5 questions selected from Volitional Diagnostic framework",
-        "Onboarding diagnostic UI component created",
-        "Diagnostic results stored and influence AI summary context",
-        "Periodic re-diagnostic trigger logic defined (interval TBD)"
-      ],
-      "files": [
-        "src/components/DiagnosticOnboarding.tsx",
-        "src/lib/diagnosticQuestions.ts",
-        "src/hooks/useDiagnosticState.ts"
+        "Drill scenarios created for: mirroring, open-ended questions, I statements, vocal tonality, FM DJ voice, No-oriented questions, NVC observation, NVC feeling, contrasting",
+        "5-10 drill scenarios per technique across beginner/intermediate/advanced",
+        "Scoring rubrics configured per technique",
+        "Example responses provided for each scenario",
+        "All Tier A drills accessible from Skills Lab"
       ]
     },
     {
-      "id": "parallel-privacy",
-      "title": "[PARALLEL] Privacy Transparency Page",
-      "status": "done",
-      "note": "Content track - does not block dev sprint",
+      "id": "phase-b3-skill-tree-ui",
+      "title": "Skill Tree Visualization + Unlock Logic",
+      "status": "pending",
+      "phase": "skills_lab",
       "acceptance_criteria": [
-        "Dedicated /privacy page created",
-        "Explains: no emotion detection, audio processed locally, what Gemini sees",
-        "Clear data usage policy (NOT re-used for training)",
-        "Addresses competitor weakness (Yoodli privacy backlash)"
-      ],
-      "files": [
-        "src/pages/Privacy.tsx"
+        "Visual skill tree showing all tiers with mastery levels (color-coded 0-4)",
+        "Locked/unlocked state visible per skill node",
+        "Edge function enforces hard prerequisites before drill/simulation start",
+        "Tier gating logic: >=75% Proficient for next tier (>=80% for Tier 3→4)",
+        "NVC sequential hard lock (Observation → Feeling → Need → Request)",
+        "Progress summary shows tier completion percentages"
       ]
     },
     {
-      "id": "parallel-scenarios",
-      "title": "[PARALLEL] Optional Speaking Prompts",
-      "status": "done",
-      "note": "Content track - does not block dev sprint",
+      "id": "phase-c1-simulation-mvp",
+      "title": "Simulation Studio MVP (Text-Only)",
+      "status": "pending",
+      "phase": "simulation_studio",
       "acceptance_criteria": [
-        "1-2 scenarios adapted from Black Swan as optional prompts",
-        "UI to select prompt or skip to free practice",
-        "Prompts displayed during session if selected"
-      ],
-      "files": [
-        "src/components/PromptSelector.tsx",
-        "src/data/speakingPrompts.ts"
+        "Scenario selection UI with initial scenarios (3-5 scenarios across 2 domains)",
+        "Gemini 2.5 Flash multi-turn conversation API integrated",
+        "State object pattern: { mood, trust_level, concessions, revelation_stage } per turn",
+        "Text input/output conversation loop working",
+        "Streaming responses for natural pacing",
+        "Basic post-session summary generated"
+      ]
+    },
+    {
+      "id": "phase-c2-simulation-voice",
+      "title": "Simulation Studio Voice Integration",
+      "status": "pending",
+      "phase": "simulation_studio",
+      "acceptance_criteria": [
+        "Web Speech API transcript used as user input to simulation",
+        "Audio recorded during simulation for Hume batch analysis",
+        "User can switch between text and voice input modes",
+        "Conversation UI shows both user and AI messages"
+      ]
+    },
+    {
+      "id": "phase-c3-technique-detection",
+      "title": "Post-Session Technique Detection + Quality Analysis",
+      "status": "pending",
+      "phase": "simulation_studio",
+      "acceptance_criteria": [
+        "Gemini evaluates technique usage at session end",
+        "Techniques detected with confidence scores and evidence spans",
+        "4-dimension quality scoring per detected technique",
+        "Post-session report shows: techniques used, missed opportunities, key moments",
+        "Technique detections written to technique_detections table",
+        "User_skills mastery updated based on simulation performance"
+      ]
+    },
+    {
+      "id": "phase-c4-difficulty-levels",
+      "title": "AI Opponent Difficulty Levels + Scenario Library",
+      "status": "pending",
+      "phase": "simulation_studio",
+      "acceptance_criteria": [
+        "5 difficulty levels implemented via system prompt + control dials",
+        "3 control dials per scenario (assertiveness, reactivity, emotional_volatility)",
+        "15+ scenarios across 3+ domains and multiple difficulty levels",
+        "3 simulation modes: guided, scaffolded, free-form (based on user tier)",
+        "Hidden concern mechanism with graduated revelation",
+        "Character consistency maintained across 15-20 turns"
+      ]
+    },
+    {
+      "id": "phase-d1-hume-backend",
+      "title": "Hume.ai Backend Proxy + Integration",
+      "status": "pending",
+      "phase": "diagnostics",
+      "acceptance_criteria": [
+        "Vercel serverless function proxies Hume batch API calls",
+        "Audio blob upload from browser to proxy",
+        "Hume response parsed: prosody, stress, confidence, freeze detection",
+        "Results stored in hume_analyses table",
+        "Audio auto-deleted from storage after 24h",
+        "Feedback templates ported from Python POC to TypeScript"
+      ]
+    },
+    {
+      "id": "phase-d2-vcm-data-model",
+      "title": "VCM Diagnostic Data Model + Stub",
+      "status": "pending",
+      "phase": "diagnostics",
+      "acceptance_criteria": [
+        "TypeScript types for 8 gates, root causes, diagnosis results",
+        "vcm_diagnostic_state and vcm_diagnostic_history tables populated by stub",
+        "Behavioral events logging active across all practice surfaces",
+        "Stub diagnostic returns plausible results for UI development",
+        "Architecture supports both rule-based and AI-driven diagnosis approaches"
+      ]
+    },
+    {
+      "id": "phase-d3-vcm-rules",
+      "title": "VCM Rule-Based Diagnostic Implementation",
+      "status": "pending",
+      "phase": "diagnostics",
+      "depends_on": "VCM model finalized by user",
+      "acceptance_criteria": [
+        "Rule-based diagnostic engine processes behavioral events from last 7 days",
+        "Gate signals computed from behavioral patterns (difficulty avoidance, quit-after-failure, streak breaks, etc.)",
+        "Prescriptions generated for highest-confidence failing gate",
+        "Recommendations written to recommendations table with positive framing",
+        "Diagnostic runs automatically after each session",
+        "Never miss twice rule implemented (37% retention improvement)"
+      ]
+    },
+    {
+      "id": "phase-d4-spaced-repetition",
+      "title": "Spaced Repetition + Mastery Decay System",
+      "status": "pending",
+      "phase": "diagnostics",
+      "acceptance_criteria": [
+        "Review scheduling with decay-rate-aware intervals by skill type",
+        "Retention check prompts at 7/14 day intervals after reaching Proficient",
+        "Mastery decay calculation based on time since last practice",
+        "Implicit practice credits for prerequisite skills used in dependent drills",
+        "Review notifications (positive framing: 'Quick refresher to lock in your labeling skill')",
+        "Edge function: calculate_next_review implements interval schedule"
+      ]
+    },
+    {
+      "id": "phase-e1-institute-content",
+      "title": "KDENZ Institute Content Architecture",
+      "status": "pending",
+      "phase": "institute",
+      "acceptance_criteria": [
+        "Content items table seeded with initial content per technique",
+        "Content display for 5 types (video, article, annotated example)",
+        "Quiz engine supporting 6 question formats",
+        "Progress tracking per content module",
+        "Practice-before-exposure flow: attempt technique → then see educational content"
+      ]
+    },
+    {
+      "id": "phase-e2-recommendation-engine",
+      "title": "Adaptive Recommendation Engine",
+      "status": "pending",
+      "phase": "institute",
+      "acceptance_criteria": [
+        "Recommendation data model: type, target, source gate, user response",
+        "Simple rule-based recommendations initially (not adaptive ratio)",
+        "Recommendations surfaced in dashboard and post-session views",
+        "Ignored recommendations never repeated",
+        "Status tracking: shown → accepted/ignored → completed/dismissed"
+      ]
+    },
+    {
+      "id": "phase-f1-analytics-dashboard",
+      "title": "Analytics Dashboard + Performance Trends",
+      "status": "pending",
+      "phase": "polish",
+      "acceptance_criteria": [
+        "Dashboard shows: overall progress, skill tree summary, recent sessions, recommendations",
+        "Session history browsable with filtering",
+        "Trend charts for voice metrics, drill performance, simulation outcomes",
+        "Skill mastery overview with decay indicators",
+        "Communication Index display (once formula is defined — D11)"
+      ]
+    },
+    {
+      "id": "phase-f2-cross-browser",
+      "title": "Cross-Browser Support (Deepgram Integration)",
+      "status": "pending",
+      "phase": "polish",
+      "acceptance_criteria": [
+        "Deepgram WebSocket API replaces Web Speech API for non-Chrome browsers",
+        "Safari and Firefox users can use voice features",
+        "Fallback logic: use Web Speech API on Chrome, Deepgram elsewhere",
+        "Browser detection and appropriate provider selection"
       ]
     }
   ],
   "feature_scope": {
-    "in_beta": [
-      "Free practice (speak freely)",
-      "Real-time filler count gauge (visual, not just numbers)",
-      "Weekly trend chart (even with 1-2 sessions)",
-      "WPM tracking",
-      "Filler word detection (hybrid: acoustic real-time + transcript reconciliation)",
-      "Audio playback with filler highlighting (research-validated for behavior change)",
-      "Post-session transcript with toggle-able highlights (pace OR fillers)",
-      "Session durations (30s/60s/90s and beyond)",
-      "Light diagnostics (3-5 questions from Volitional framework, onboarding + periodic)",
-      "1-2 optional speaking prompts (adapted from Black Swan scenarios)",
-      "Privacy transparency page (/privacy)",
-      "In-app feedback button (email/form)",
-      "Scorecard with metrics",
-      "AI coaching summary (button to generate, post-session only)",
-      "Gemini error handling (any API error = show local stats only)",
-      "Silence nudge after 10 seconds",
-      "Chrome-only with browser detection warning",
-      "Vercel deployment"
+    "platform_beta": [
+      "Voice Practice: free practice, prompted practice, real-time filler gauge, playback with markers, scorecard, AI summary",
+      "Skills Lab: generic drill engine (5 formats), 20+ Tier A/C technique drills, mastery tracking (0-4 levels)",
+      "Simulation Studio: text + voice input, Gemini AI opponents, 5 difficulty levels, 45 base scenarios, post-session technique detection",
+      "Institute: educational content per technique (videos, articles, quizzes), practice-before-exposure flow",
+      "VCM Diagnostics: 8-gate model, rule-based prescriptions, behavioral event logging, positive-framed recommendations",
+      "Skill Tree: 5-tier DAG (28-30 techniques for beta), hard prerequisite enforcement, spaced repetition, mastery decay",
+      "Supabase: 22-table schema, RLS, auth, storage, edge functions",
+      "Hume.ai: batch prosody/stress/freeze analysis via backend proxy",
+      "Chrome-only with browser detection warning (Deepgram path designed but deferred)"
     ],
     "deferred": {
-      "v1.1": ["Session history", "Streak counter", "Badges/achievements"],
-      "v1.2": ["Skill detection (mirroring, labeling)", "Real-time AI coaching during session", "Celebration animations"],
-      "v1.3": ["NegotiateAI full diagnostic integration", "Scenario simulations with AI opponent"],
-      "phase2_cost_optimization": ["Acoustic-only filler detection (reduce Whisper API dependency)", "Native iOS app (address Safari gap)"]
+      "post_beta": [
+        "Cross-browser via Deepgram (~$0.015/min)",
+        "Communication Index formula (D11 — needs data first)",
+        "Adaptive recommendation ratios (2:1 to 3:1, style testing)",
+        "ML-based VCM diagnostics (graduate from rule-based after 3-6 months of data)"
+      ],
+      "expansion": [
+        "Full technique coverage (57 → 83+ techniques)",
+        "110 simulation scenarios (comprehensive matrix)",
+        "Professional video content (replace AI-generated)",
+        "Native iOS/Android app",
+        "Team/enterprise features",
+        "Human coaching integration",
+        "Light mode theme (deferred to post-Framer design finalization)"
+      ]
     }
   },
   "technical_decisions": {
-    "browser_support": "Chrome-only for beta (Safari Web Speech API has 90% accuracy drop + critical bugs)",
-    "filler_detection": "Hybrid: acoustic detection real-time + transcript reconciliation at session end",
-    "gemini_fallback": "Any API error triggers fallback to local stats only",
-    "silence_handling": "Nudge after 10 seconds of no speech detected",
-    "transcript_source": "Web Speech API (Chrome) - interim results for real-time, final results for accuracy",
-    "audio_recording": "MediaRecorder API for playback feature",
-    "real_time_ai": "Post-session only (v2/v3 for real-time coaching during session)"
+    "codebase": "Local codebase (v2.0, Vercel-deployed). Lovable is reference only. (D1)",
+    "design_system": "Dark navy + gold (temporary). Will evolve via Framer exploration. Design tokens structured for easy swap. (D2)",
+    "browser_support": "Chrome-only for beta. Web Speech API for transcript. Deepgram path designed for cross-browser later (~$0.015/min). (D6)",
+    "theme": "Dark mode only. Light mode deferred to post-Framer design finalization. (D7)",
+    "persistence": "Supabase (Postgres + Auth + Storage + Edge Functions). 22-table schema. Migration from localStorage. (R6, R16)",
+    "ai_simulation": "Gemini 2.5 Flash for AI opponents. State object pattern per turn. ~$0.01-0.02 per 15-min session. (R4, R14)",
+    "ai_evaluation": "Gemini for technique detection and quality scoring. 4-dimension rubric. Per-turn and session-end. (R5)",
+    "ai_summary": "Gemini for post-session summaries and coaching feedback. Graceful degradation on API error (show local stats only).",
+    "hume_integration": "Batch only (not streaming). Backend proxy via Vercel serverless. Audio auto-delete after 24h. (R1, R7)",
+    "filler_detection": "Hybrid: acoustic detection real-time + transcript reconciliation at session end.",
+    "skill_dag": "Adjacency list in Postgres (skill_prerequisites table). Edge function checks prerequisites on-demand. Max depth 5, ~57 nodes. (R9, R16)",
+    "spaced_repetition": "Simple interval fallback: [3, 7, 14, 30, 60, 90] days. 3 decay rates by skill type. Implicit practice credits. (R15)",
+    "drill_engine": "Generic engine supporting 5 formats. Same infrastructure serves all tiers — only evaluation rubric and mastery thresholds change per technique. (R10)",
+    "vcm_diagnostics": "Rule-based first. 8 gates, behavioral event logging. Graduate to ML after sufficient data. Diagnose internally, intervene externally. (R11)",
+    "content_management": "Content stored in Supabase (content_items, quiz_questions tables). Not a headless CMS. (R12)",
+    "audio_recording": "MediaRecorder API for capture. WebM format. Temporary storage in Supabase Storage for Hume batch. (R7)"
   },
+  "architecture_invariants": [
+    "Generic drill engine — 16 of 23 score-5 techniques reuse labeling infrastructure (R8, R10, R13)",
+    "Diagnose internally, intervene externally — users never see gate labels (R11)",
+    "Three skill types with different decay rates — syntax (0.08/mo), judgment (0.06/mo), recognition (slowest) (R15)",
+    "Practice before exposure — attempt technique blind, THEN show expert demo (R12)",
+    "Adjacency list for skill DAG — 57 techniques, max depth 5 (R9, R16)",
+    "State object pattern — { mood, trust_level, concessions, revelation_stage } passed each turn (R4, R14)",
+    "4-dimension quality scoring — form + accuracy + impact + timing (R5)",
+    "Rule-based diagnostics first — graduate to ML after 3-6 months of data (R11)",
+    "Behavioral event logging — track all interactions, not just completions (R11, R16)",
+    "Never miss twice — 37% longer habit retention, implement explicitly (R11, R15)"
+  ],
   "design_system": {
-    "name": "High-Performance Clinical",
-    "mode": "light",
+    "name": "Dark Premium (working title — evolving via Framer)",
+    "mode": "dark",
     "colors": {
-      "background": "#FFFFFF",
-      "buttons": "#000000",
-      "accent": "#00D4FF"
+      "background": "#0b0e14",
+      "accent": "#c9a84c",
+      "note": "Temporary. Final palette from Framer exploration. Design tokens structured for easy swap."
     },
-    "vibe": "Peloton energy + Apple Health precision",
     "visual_feedback": {
       "filler_gauge": "Real-time circular or bar gauge showing live filler count",
       "weekly_trend": "Line chart showing filler count/rate across sessions",
-      "playback_timeline": "Audio waveform with filler markers"
-    },
-    "references": "To explore together: Peloton app, Apple Health app for specific component patterns"
+      "playback_timeline": "Audio waveform with filler markers",
+      "skill_tree": "Node-and-edge graph with color-coded mastery levels (gray/red/yellow/green/gold)",
+      "session_orb": "Animated, volume-responsive orb (existing)"
+    }
   },
   "business_model": {
+    "positioning": "Communication training platform — diagnostic engine that prescribes communication plans through motivational interviewing. Not just voice coaching, not just negotiation training. Full behavioral change platform.",
     "tiers": [
-      "Freemium (limited sessions/features)",
-      "Session-based tier (expanded access)",
-      "Goal plan tier (additional features TBD)"
+      "Free tier: limited drills, voice practice, basic analytics",
+      "Pro tier: full skill tree, simulation studio, spaced repetition, VCM diagnostics",
+      "Team/Enterprise: team analytics, custom scenarios, admin dashboard (future)"
     ],
-    "timeline": "90 days from beta to first paying customers",
-    "human_coaching": "v2.0 consideration (post-PMF validation)",
-    "positioning": "TBD by beta signal - could be voice coaching platform (white-label for negotiation, difficult conversations, saying no) or niche-specific product"
+    "unit_economics": {
+      "simulation_cost": "~$0.01-0.02 per 15-min session (Gemini 2.5 Flash)",
+      "hume_cost": "Per batch analysis (varies by audio length)",
+      "deepgram_cost": "~$0.015/min (when cross-browser added)",
+      "infrastructure": "Supabase free tier covers beta, $25/mo Pro for growth"
+    },
+    "timeline": "Platform foundation first, then iterative pillar builds. No fixed deadline — quality over speed.",
+    "competitive_advantage": "Diagnostic WHY, not just practice WHAT. VCM-based prescriptions. 57+ techniques across multiple frameworks. Spaced repetition for behavioral skills. AI opponents with graduated difficulty."
   },
   "version_roadmap": {
-    "v1_beta": "Voice awareness + light diagnostics + playback (current)",
-    "v1.1": "Session history, streak counter, badges",
-    "v2": "Skill detection (mirroring, labeling), real-time AI coaching",
-    "v3": "Full simulation with AI opponent, NegotiateAI integration"
+    "current": "Platform Foundation — Supabase + Auth + Navigation + Skills Re-integration",
+    "phase_1": "Skills Lab — Generic drill engine + Tier A drills + Skill tree UI",
+    "phase_2": "Simulation Studio — Gemini AI opponents + Scenarios + Technique detection",
+    "phase_3": "Diagnostics — Hume batch integration + VCM data model + Spaced repetition",
+    "phase_4": "Institute — Educational content + Quizzes + Recommendations",
+    "phase_5": "Polish — Analytics dashboard + Cross-browser + Performance optimization",
+    "ongoing": "Content expansion, VCM model refinement, scenario library growth, design evolution"
+  },
+  "decisions_log": {
+    "D1": "Local codebase is the product. Lovable is reference only.",
+    "D2": "Dark navy + gold for now. Design evolves via Framer exploration.",
+    "D3": "Full platform scope. Build the diagnostic engine. MVP roadmap obsolete.",
+    "D4": "Hume batch for analytics/diagnostics. Gemini for real-time simulation speech.",
+    "D5": "Design VCM data model now, implement logic when model finalized. 8 gates not 4.",
+    "D6": "Chrome-only for beta. Deepgram for cross-browser later.",
+    "D7": "Dark mode only. Light deferred to post-Framer.",
+    "D8": "Full learning architecture needed. Use research R8-R10 + R13 for skill mapping.",
+    "D9": "Simulation Studio is critical to platform identity. Build in phases.",
+    "D10": "KDENZ Institute is full educational branch — videos, quizzes, reading material.",
+    "D11": "Communication Index formula not defined yet. Needs data first.",
+    "D12": "Recommendation engine simple/rule-based initially. Adaptive logic deferred."
   },
   "created_at": "2026-01-25",
-  "last_updated": "2026-01-25T19:30:00Z",
-  "interview_session": "2026-01-25 - Comprehensive PRD review with research validation",
-  "session_end": "2026-01-25 - Phase 02 in progress, Plans 02-01 and 02-02 complete"
+  "platform_pivot_date": "2026-02-13",
+  "last_updated": "2026-02-14T03:00:00Z",
+  "history": "Originally created 2026-01-25 as 'Kdenz Voice Practice MVP' (2.5-week sprint, Chrome-only filler detection app). All MVP tasks completed. Pivoted 2026-02-13 to full Communication Training Platform based on decisions D1-D12 and research R1-R16. PRD fully rewritten 2026-02-14 to reflect platform scope."
 }

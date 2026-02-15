@@ -12,17 +12,24 @@ export function useNavigationEngine() {
 
   const goToResults = useCallback(
     ({ isBaseline, techniqueContext }: GoToResultsOptions) => {
+      // Baseline sessions skip the loader and go directly to results
       if (isBaseline) {
         navigate("/baseline/results");
         return;
       }
 
+      // For technique sessions, route through analysis loader
       if (techniqueContext?.techniqueId) {
-        navigate("/practice/technique-results");
+        navigate("/practice/analysis", {
+          state: { destination: "/practice/technique-results" },
+        });
         return;
       }
 
-      navigate("/practice/results");
+      // For regular practice sessions, route through analysis loader
+      navigate("/practice/analysis", {
+        state: { destination: "/practice/results" },
+      });
     },
     [navigate],
   );

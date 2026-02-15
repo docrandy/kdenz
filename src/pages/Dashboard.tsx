@@ -272,6 +272,7 @@ function HamburgerMenu({
   onSettings: () => void;
   onPrivacy: () => void;
 }) {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -307,6 +308,26 @@ function HamburgerMenu({
             >
               <span>👤</span>
               <span>Profile</span>
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/voice-profile");
+              }}
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-body text-text-body"
+            >
+              <span>🎙️</span>
+              <span>Voice Profile</span>
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/breathing");
+              }}
+              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-body text-text-body"
+            >
+              <span>🧘</span>
+              <span>Breathing</span>
             </button>
             <button
               onClick={() => {

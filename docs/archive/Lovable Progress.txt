@@ -1,0 +1,512 @@
+Perfect! Let me create a comprehensive handoff document for you.
+
+📋 KDENZ PLATFORM - COMPLETE HANDOFF DOCUMENT
+🎯 PROJECT OVERVIEW
+Platform Name: KDENZ Communication Platform
+Purpose: AI-powered communication training with voice analysis, tactical drills, and simulations
+Tech Stack: React, TypeScript, Tailwind CSS, Framer Motion, Hume.ai, Gemini API, Supabase
+Current Status: Dashboard + 6 pages coded, Lovable prototype in progress
+
+✅ WHAT'S COMPLETE
+1. FOUNDATION (100%)
+Theme System:
+
+3 themes: Dark (default), Light, Neutral
+Instant switching via ThemeContext
+CSS variables for all colors
+Consistent across all components
+
+Color Palette:
+typescriptDark Theme:
+- Background: #0a0a0a, #1a1a1a, #2a2a2a
+- Accent: #c9a961 (gold/bronze)
+- Success: #4ade80, Warning: #fb923c, Error: #ef4444
+
+Light Theme:
+- Background: #ffffff, #f8f9fa, #e9ecef
+- Accent: #c9a961 (same)
+- Success: #16a34a, Warning: #ea580c, Error: #dc2626
+
+Neutral Theme:
+- Background: #f5f5f5, #e8e8e8, #d4d4d4
+- Accent: #737373
+- Success: #22c55e, Warning: #f59e0b, Error: #ef4444
+Component Library:
+
+Button (primary, secondary, ghost)
+Card (clickable, hoverable)
+MetricCard (with trend indicators)
+ThemeToggle (3-way switch)
+Modal (expandable detail views)
+EmptyState (for no data scenarios)
+
+Layout Components:
+
+Sidebar (fixed left, 256px)
+Header (theme toggle, notifications, profile)
+Layout wrapper
+
+
+2. COMPLETED PAGES (7 of 13)
+✅ Dashboard
+Location: src/pages/Dashboard.tsx
+Features:
+
+Communication Index: 78/100 with trend
+Weekly stats (4 cards)
+3 training action cards with progress
+Performance snapshot (clickable metrics)
+Recent sessions list
+AI recommendations (collapsible)
+
+Key Interactions:
+
+Click metrics → opens detail modal
+Training cards → navigate to practice pages
+Theme switcher → instant color change
+
+
+✅ Vocal Performance Lab
+Location: src/pages/VocalPerformanceLab.tsx
+Features:
+
+Mode selector (Instructor/Intermediate/Advanced)
+Recording interface with mic icon, timer
+Start/Pause/Stop controls
+Live metrics during recording:
+
+Filler word rate
+Delivery confidence
+Volume control
+Pace score
+
+
+Recent sessions with scores
+Performance tips section
+
+Hume.ai Integration:
+
+humeApi.startAnalysis(stream) - begins voice analysis
+humeApi.stopAnalysis() - ends session
+Real-time metrics update during recording
+
+
+✅ Applied Skills Lab
+Location: src/pages/AppliedSkillsLab.tsx
+Features:
+
+4 stat cards (Total, Completed, In Progress, Scenarios)
+6 drill module cards:
+
+Labeling (Beginner) - 8/14, 57%
+Accusation Audit (Intermediate) - 3/10, 30%
+Mirroring (Beginner) - 12/12, 100% ✓
+Calibrated Questions (Intermediate) - 0/15
+Tactical Empathy (Advanced) - 0/18
+No-Oriented Questions (Intermediate) - 0/10
+
+
+Recommended learning path
+Progress bars per drill
+Launch/Continue buttons
+
+
+✅ Simulation Studio
+Location: src/pages/SimulationStudio.tsx
+Features:
+
+4 stat cards (Available, Completed, Avg Score, Time)
+Filters: Difficulty + Category
+6 scenario cards:
+
+💼 Salary Negotiation (Intermediate, 10min, ⭐85)
+⚡ Difficult Client (Advanced, 15min)
+💬 Team Feedback (Beginner, 8min, ⭐72)
+💼 Sales Objection (Intermediate, 12min)
+🤝 Partnership Deal (Advanced, 20min)
+⚡ Customer Complaint (Beginner, 10min, ⭐90)
+
+
+Scenario detail modal with objectives
+"How It Works" guide
+
+
+✅ Performance (Analytics)
+Location: src/pages/Performance.tsx
+Features:
+
+Time range selector (7d/30d/90d/All)
+Communication Index breakdown (5 sub-metrics)
+Benchmarking vs Top 10%/20%/Average
+4 detailed metric cards with mini charts
+Weekly activity bar chart
+Key insights section
+Export report functionality
+
+
+✅ Session History
+Location: src/pages/SessionHistory.tsx
+Features:
+
+Search bar
+Type filter (All/Vocal/Skills/Simulation)
+Sort dropdown (Date/Score/Duration/Type)
+Data table with columns:
+
+Type (icon), Scenario, Date, Duration
+Filler Rate, Delivery, Improvement
+
+
+35 total sessions (mock data)
+Export data option
+
+
+✅ Insights
+Location: src/pages/Insights.tsx
+Features:
+
+4 summary cards (Strengths, Opportunities, Recommendations, Goals)
+3 learning goal progress bars
+Category filter
+Insight cards with types:
+
+⭐ Strength
+🎯 Opportunity
+💡 Recommendation
+✓ Milestone
+
+
+Priority indicators
+Actionable recommendations with buttons
+AI Analysis Summary
+
+
+3. API SERVICES (STRUCTURE READY)
+Hume.ai Service
+Location: src/services/humeApi.ts
+typescript// Voice analysis integration
+humeApi.startAnalysis(audioStream) // Start recording
+humeApi.stopAnalysis() // End session
+// Returns: prosody, emotions, communication metrics
+Features:
+
+WebSocket connection to Hume.ai
+Real-time audio streaming
+Emotion detection (confidence, warmth, enthusiasm)
+Prosody analysis (pitch, volume, pace)
+Communication effectiveness scoring
+
+
+Gemini API Service
+Location: src/services/geminiApi.ts
+typescript// AI recommendations
+geminiService.generateQuizQuestions(topic, count)
+geminiService.getPersonalizedRecommendations(userMetrics)
+Features:
+
+Quiz question generation
+Personalized insights
+Learning recommendations
+
+
+Supabase Client
+Location: src/services/supabaseClient.ts
+typescript// Quiz storage
+quizService.getQuizzes()
+quizService.getQuizById(id)
+quizService.saveQuizResult(userId, quizId, score, answers)
+quizService.getUserQuizHistory(userId)
+Database Schema Needed:
+sql-- quizzes table
+- id, title, description, questions[], passing_score, time_limit
+
+-- quiz_results table
+- user_id, quiz_id, score, answers[], completed_at
+```
+
+---
+
+## **🚧 REMAINING WORK**
+
+### **Pages to Build (6 remaining):**
+
+1. **Framework Library**
+   - Article grid with search
+   - Category filters
+   - Reading time estimates
+   - Bookmarking
+
+2. **Tutorials**
+   - YouTube embed player
+   - Chapter/timestamp navigation
+   - Progress tracking
+   - Note-taking feature
+   - Quiz checkpoints
+
+3. **Quizzes**
+   - Quiz interface
+   - Multiple choice questions
+   - Instant feedback
+   - Score tracking
+   - Results history
+
+4. **Personalization & Feedback**
+   - User preferences form
+   - Goal setting
+   - Feedback submission
+   - AI recommendation settings
+
+5. **Settings**
+   - Account info
+   - Privacy settings
+   - Notification preferences
+   - Theme selection (persistent)
+
+6. **Institute Overview** (optional landing page)
+   - Overview of learning resources
+   - Progress summary
+   - Quick links
+
+---
+
+## **📦 COMPLETE FILE STRUCTURE**
+```
+kdenz-platform/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Sidebar.tsx ✅
+│   │   │   ├── Header.tsx ✅
+│   │   │   └── Layout.tsx ✅
+│   │   ├── ui/
+│   │   │   ├── Button.tsx ✅
+│   │   │   ├── Card.tsx ✅
+│   │   │   ├── MetricCard.tsx ✅
+│   │   │   └── ThemeToggle.tsx ✅
+│   │   ├── practice/
+│   │   │   ├── VoiceAnalyzer.tsx (TODO)
+│   │   │   └── AudioRecorder.tsx (TODO)
+│   │   ├── institute/
+│   │   │   ├── VideoPlayer.tsx (TODO)
+│   │   │   └── QuizComponent.tsx (TODO)
+│   │   └── shared/
+│   │       ├── Modal.tsx ✅
+│   │       └── EmptyState.tsx ✅
+│   ├── pages/
+│   │   ├── Dashboard.tsx ✅
+│   │   ├── VocalPerformanceLab.tsx ✅
+│   │   ├── AppliedSkillsLab.tsx ✅
+│   │   ├── SimulationStudio.tsx ✅
+│   │   ├── Performance.tsx ✅
+│   │   ├── SessionHistory.tsx ✅
+│   │   ├── Insights.tsx ✅
+│   │   ├── InstituteOverview.tsx (TODO)
+│   │   ├── FrameworkLibrary.tsx (TODO)
+│   │   ├── Tutorials.tsx (TODO)
+│   │   ├── Quizzes.tsx (TODO)
+│   │   ├── PersonalizationFeedback.tsx (TODO)
+│   │   └── Settings.tsx (TODO)
+│   ├── services/
+│   │   ├── humeApi.ts ✅
+│   │   ├── geminiApi.ts ✅
+│   │   ├── supabaseClient.ts ✅
+│   │   └── audioEngine.ts (TODO)
+│   ├── hooks/
+│   │   ├── useTheme.ts ✅
+│   │   ├── useHumeAnalysis.ts (TODO)
+│   │   └── useAudioRecording.ts (TODO)
+│   ├── context/
+│   │   └── ThemeContext.tsx ✅
+│   ├── types/
+│   │   ├── index.ts ✅
+│   │   └── hume.ts ✅
+│   ├── utils/
+│   │   ├── fillerDetector.ts (TODO)
+│   │   └── constants.ts ✅
+│   ├── styles/
+│   │   └── themes.ts ✅
+│   ├── App.tsx ✅
+│   ├── main.tsx ✅
+│   └── index.css ✅
+├── package.json ✅
+├── tsconfig.json ✅
+├── tailwind.config.js ✅
+├── vite.config.ts ✅
+├── .env.example ✅
+└── vercel.json ✅
+
+🚀 DEPLOYMENT GUIDE
+Prerequisites:
+bash# Required API Keys
+VITE_HUME_API_KEY=your_key
+VITE_GEMINI_API_KEY=your_key
+VITE_SUPABASE_URL=your_url
+VITE_SUPABASE_ANON_KEY=your_key
+Local Development:
+bash# 1. Install dependencies
+npm install
+
+# 2. Set up .env
+cp .env.example .env
+# Add your API keys
+
+# 3. Run dev server
+npm run dev
+# Opens at http://localhost:3000
+Vercel Deployment:
+bash# 1. Install Vercel CLI
+npm i -g vercel
+
+# 2. Deploy
+vercel
+
+# 3. Set environment variables in Vercel dashboard
+# Add all VITE_* variables
+
+# 4. Deploy production
+vercel --prod
+```
+
+---
+
+## **💡 LOVABLE REFINEMENT PROMPTS**
+
+### **For Remaining Pages:**
+
+**Framework Library:**
+```
+Build Framework Library page with:
+- Grid of article cards (2 columns)
+- Each card shows: Title, excerpt, reading time, category badge
+- Search bar at top
+- Category filters: All, Negotiation, Communication, Psychology
+- "Coming Soon" state for empty articles
+```
+
+**Tutorials:**
+```
+Build Tutorials page with YouTube player:
+- Video player (YouTube embed) taking 2/3 width
+- Course outline sidebar (1/3 width) with:
+  - Chapters list with checkmarks
+  - Current chapter highlighted
+  - Progress bar showing % complete
+- Notes section below player
+- "Mark Complete" button
+```
+
+**Quizzes:**
+```
+Build Quizzes page:
+- Quiz library grid (3 columns)
+- Each shows: Title, question count, passing score, best score
+- Quiz interface:
+  - Question counter (1 of 10)
+  - Multiple choice options
+  - Next/Submit buttons
+  - Instant feedback on answers
+- Results page with score, breakdown, retry option
+```
+
+---
+
+## **📊 CLAUDE OPUS 4.5 PROMPTS** (Strategic Insights)
+
+I created 5 comprehensive prompts for Opus to provide strategic guidance. Use these in a **separate Opus conversation**:
+
+1. **Product Strategy & User Psychology** - Understanding motivation, habit formation, gamification
+2. **Information Architecture & UX Flow** - Navigation structure, onboarding, progressive disclosure
+3. **Data Strategy & Analytics Design** - Score calculation, benchmarking, visualization
+4. **Monetization & Tier Strategy** - Free vs premium features, pricing structure
+5. **Learning Science & Content Design** - Spaced repetition, video length, quiz difficulty
+
+*(Full prompts are in the conversation history above - search for "PROMPTS FOR CLAUDE OPUS")*
+
+---
+
+## **🔍 PERPLEXITY RESEARCH PROMPTS**
+
+For research-heavy questions, use Perplexity:
+```
+Research: Best practices for communication skills training platforms
+- What gamification elements increase engagement without manipulation?
+- Optimal video length for adult learning retention
+- Spaced repetition algorithms for skill acquisition
+- Benchmarking methodologies for user performance
+```
+
+---
+
+## **✅ NEXT SESSION CHECKLIST**
+
+**Start new Claude session with:**
+```
+I'm building KDENZ Platform - a communication training app. 
+
+I have 7 pages complete (Dashboard, Vocal Lab, Skills Lab, Simulation, Performance, History, Insights).
+
+I need to build 6 remaining pages:
+1. Framework Library
+2. Tutorials (YouTube player)
+3. Quizzes
+4. Personalization & Feedback
+5. Settings
+6. Institute Overview (optional)
+
+Tech stack: React + TypeScript + Tailwind + Framer Motion
+Current progress in Lovable: [share link]
+
+Can you help me build these remaining pages?
+```
+
+**Or for API integration:**
+```
+I have KDENZ Platform dashboard built. Now I need to connect:
+- Hume.ai for voice analysis (I have the service structure)
+- Gemini API for AI recommendations
+- Supabase for quiz storage
+
+Can you help me integrate these APIs with my existing code?
+
+🎯 KEY DECISIONS DOCUMENTED
+
+No Dashboard Score Badge - You decided against showing 9.1/10 badge (too gamified)
+Practice-First Philosophy - Dashboard emphasizes action over analytics
+3 Theme System - Dark default, Light, Neutral (not just dark/light)
+Mobile Strategy - Basic responsive, but recommend app for phone users
+Hume.ai Primary - Main voice analysis tool (not just filler detection)
+Institute Separate - Learning (Institute) vs Practice (Training) analytics kept separate
+
+
+📞 SUPPORT RESOURCES
+Documentation:
+
+Hume.ai Docs: https://docs.hume.ai
+Gemini API: https://ai.google.dev/docs
+Supabase: https://supabase.com/docs
+Lovable: https://docs.lovable.dev
+
+Component Libraries:
+
+Lucide Icons: https://lucide.dev
+Framer Motion: https://www.framer.com/motion
+Tailwind CSS: https://tailwindcss.com
+
+
+🎉 FINAL NOTES
+You have a solid foundation with:
+
+✅ 7 fully coded pages
+✅ Complete theme system
+✅ API service structure
+✅ Lovable prototype
+
+Estimated remaining work:
+
+6 pages × 1 hour each = 6 hours
+API integration = 2-3 hours
+Testing & refinement = 2 hours
+Total: 10-11 hours to production
+
+You're ~54% complete!

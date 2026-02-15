@@ -30,10 +30,12 @@ export default function PreSessionScreen() {
       saveLastDuration(selectedDuration);
     }
 
+    // Navigate to breathing screen first (pre-session warm-up)
     if (technique) {
       // Technique practice mode
-      navigate("/practice/technique", {
+      navigate("/breathing?context=pre-session", {
         state: {
+          mode: "technique",
           techniqueId: technique.id,
           durationSeconds: selectedDuration,
           practicePrompt: technique.practice_prompt,
@@ -42,8 +44,9 @@ export default function PreSessionScreen() {
       });
     } else {
       // Free practice mode
-      navigate(`/practice/${mode}`, {
+      navigate("/breathing?context=pre-session", {
         state: {
+          mode: mode,
           durationSeconds: selectedDuration,
           speakingPrompt: selectedPrompt,
         },

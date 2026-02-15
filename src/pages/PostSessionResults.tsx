@@ -492,6 +492,26 @@ export default function PostSessionResults() {
                   />
                 </div>
 
+                {/* Link to Voice Profile */}
+                <div className="card-surface bg-background-surface border-accent/20">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-body-lg font-semibold text-text-heading mb-1">
+                        View Your Progress
+                      </h4>
+                      <p className="text-body-sm text-text-muted">
+                        Compare this session with your practice history
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => navigate("/voice-profile#before-after")}
+                      className="btn btn-secondary"
+                    >
+                      Compare
+                    </button>
+                  </div>
+                </div>
+
                 {/* Duration stat */}
                 <div className="card-surface">
                   <h4 className="text-body-lg font-semibold text-text-heading mb-3">
@@ -657,21 +677,31 @@ export default function PostSessionResults() {
             </div>
           </div>
 
-          {/* Primary CTA: Practice Again (gold button) */}
+          {/* Primary CTA: What's next? (Practice Bridge) */}
           <button
-            onClick={handlePracticeAgain}
+            onClick={() => {
+              navigate("/practice/bridge", {
+                state: { sessionData },
+              });
+            }}
             className="btn-primary w-full min-h-[56px]"
           >
-            Practice Again
+            What's next?
           </button>
 
-          {/* Secondary link: Dashboard */}
-          <div className="text-center">
+          {/* Secondary actions */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={handlePracticeAgain}
+              className="btn-secondary flex-1"
+            >
+              Practice Again
+            </button>
             <button
               onClick={handleDashboard}
-              className="text-body text-text-muted hover:text-accent transition-colors"
+              className="btn-secondary flex-1"
             >
-              Back to Dashboard
+              Dashboard
             </button>
           </div>
         </div>

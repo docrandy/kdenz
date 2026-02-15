@@ -1,0 +1,68 @@
+/**
+ * AnalysisLoader CSS - Keyframe animations for analysis loader
+ * 
+ * Animations:
+ * - orbit-ring-1: slow rotation (20s full cycle)
+ * - orbit-ring-2: medium rotation (15s, reverse)
+ * - orbit-ring-3: fast rotation (10s)
+ * - pulse-glow: opacity pulse for center dot (2s cycle)
+ */
+
+@keyframes orbit-ring-1 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-ring-2 {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes orbit-ring-3 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.analysis-ring-1 {
+  animation: orbit-ring-1 20s linear infinite;
+  transform-origin: 60px 60px;
+}
+
+.analysis-ring-2 {
+  animation: orbit-ring-2 15s linear infinite;
+  transform-origin: 60px 60px;
+}
+
+.analysis-ring-3 {
+  animation: orbit-ring-3 10s linear infinite;
+  transform-origin: 60px 60px;
+}
+
+.analysis-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+  transform-origin: 60px 60px;
+}

@@ -26,6 +26,10 @@ import BaselineResults from "./pages/BaselineResults";
 import ScenarioLibrary from "./pages/ScenarioLibrary";
 import ScenarioDetail from "./pages/ScenarioDetail";
 import TechniqueFeedback from "./pages/TechniqueFeedback";
+import AnalysisLoader from "./pages/AnalysisLoader";
+import VoiceProfile from "./pages/VoiceProfile";
+import PracticeBridge from "./pages/PracticeBridge";
+import BreathingScreen from "./pages/BreathingScreen";
 import { AppHeader } from "./components/AppHeader";
 import { SlideTransition } from "./components/SlideTransition";
 
@@ -270,9 +274,13 @@ function App() {
             element={<FreePracticeFillerRoute />}
           />
           <Route path="/practice/pace" element={<FreePracticePaceRoute />} />
+          <Route path="/practice/analysis" element={<AnalysisLoader />} />
           <Route path="/practice/results" element={<PostSessionResults />} />
+          <Route path="/practice/bridge" element={<PracticeBridge />} />
           <Route path="/practice/evaluation" element={<EvaluationPage />} />
           <Route path="/profile" element={<ProfileRoute />} />
+          <Route path="/voice-profile" element={<VoiceProfile />} />
+          <Route path="/breathing" element={<BreathingScreen />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/session/:sessionId" element={<SessionDetail />} />
           <Route path="/library" element={<ScenarioLibrary />} />

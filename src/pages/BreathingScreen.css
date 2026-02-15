@@ -1,0 +1,60 @@
+/**
+ * BreathingScreen CSS - Keyframe animations for box breathing circle
+ * 
+ * Box breathing pattern: 4-4-4-4 (inhale 4s, hold 4s, exhale 4s, hold 4s)
+ * Circle expands on inhale, holds, contracts on exhale, holds
+ */
+
+@keyframes breathe-inhale {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+@keyframes breathe-hold {
+  0%,
+  100% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+@keyframes breathe-exhale {
+  0% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+@keyframes breathe-hold2 {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+.breathing-inhale {
+  animation: breathe-inhale 4s ease-in-out;
+}
+
+.breathing-hold {
+  animation: breathe-hold 4s ease-in-out;
+}
+
+.breathing-exhale {
+  animation: breathe-exhale 4s ease-in-out;
+}
+
+.breathing-hold2 {
+  animation: breathe-hold2 4s ease-in-out;
+}

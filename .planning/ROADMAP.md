@@ -48,11 +48,20 @@
   - [x] 15-03-PLAN.md — Pre-Session screen: technique briefing card + free practice mode
   - [x] 15-04-PLAN.md — Recording screen: 3-sec countdown, stop-only controls, metrics strip
   - [x] 15-05-PLAN.md — Post-Session screen: 3-tab segmented control (Coaching, Analytics, Transcript)
-  - [x] 15-06-PLAN.md — Visual verification checkpoint (browser testing of all core flow screens)
-  - [x] 15-07-PLAN.md — Gap closure: free practice gold orb + speaking prompt rendering fixes
-- [ ] Phase 16: New Screens — Advanced (Wave 6: Analysis Loader, Voice Profile, Bridge, Breathing, Before/After) — 3-4 days
+- [x] Phase 16: New Screens — Advanced (Wave 6: Analysis Loader, Voice Profile, Practice Bridge, Breathing) — 2026-02-14
+  **Plans:** 5/5 complete
+  Plans:
+  - [x] 16-01-PLAN.md — Analysis Loader: animated concentric rings, step indicators, 3-second minimum
+  - [x] 16-02-PLAN.md — Voice Profile: stat cards with trends, Before/After comparison component
+  - [x] 16-03-PLAN.md — Practice Bridge: performance-aware suggestions, skippable interstitial
+  - [x] 16-04-PLAN.md — Breathing Screen: box breathing (4-4-4-4), animated circle, pie chart (60/40)
+  - [x] 16-05-PLAN.md — Integration: menu updates, route registration, SlideTransition depths, cross-screen links
+- [x] Phase 17: v2.0 Final Verification — 2026-02-14
+  **Plans:** 1/1 complete
+  Plans:
+  - [x] 17-01-PLAN.md — Comprehensive verification: build, routes, design system, navigation flows, screens, regression check
 
-**Total:** 6 phases, 44 requirements
+**Total:** 7 phases (6 implementation + 1 verification), 44 requirements
 **Estimated duration:** 15-20 days
 **Deferred:** Phase 17 (Dashboard redesign — v2.1 with UX specialist)
 
