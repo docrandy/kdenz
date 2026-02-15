@@ -12,8 +12,8 @@ See: .planning/PROJECT.md (updated 2026-02-12)
 **Status:** v2.0 - Dark Premium Transformation (COMPLETE)
 **Version:** v2.0 (Phases 11-16, 44 requirements)
 **Previous:** v1.0 shipped 2026-02-05, v1.0 + Wave 1+2 technique lib at commit 90c53cd
-**Deployed:** https://kdenz.vercel.app (v1.0 active, v2.0 in development)
-**Last Action:** 2026-02-14 - Completed Phase 17 Plan 01 (v2.0 Final Verification) — all phases verified, v2.0 marked as COMPLETE
+**Deployed:** https://kdenz.vercel.app (v2.0 active)
+**Last Action:** 2026-02-14 - Deployed v2.0 Dark Premium Transformation to production (commit ade874e)
 
 **Progress:** ████████████████████████████████ v2.0 COMPLETE (Phase 11 ✅, Phase 12 ✅, Phase 13 ✅, Phase 14 ✅, Phase 15 ✅, Phase 16 ✅ COMPLETE)
 
