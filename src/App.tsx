@@ -31,15 +31,21 @@ import VoiceProfile from "./pages/VoiceProfile";
 import PracticeBridge from "./pages/PracticeBridge";
 import BreathingScreen from "./pages/BreathingScreen";
 import { LabelingPractice } from "./features/labeling";
+import { AccusationAuditPractice } from "./features/accusation-audit";
 import { AppHeader } from "./components/AppHeader";
 import { SlideTransition } from "./components/SlideTransition";
+import { TabLayout } from "./components/TabLayout";
+import VoiceLabPage from "./pages/VoiceLabPage";
+import SkillsPage from "./pages/SkillsPage";
+import SimulationPage from "./pages/SimulationPage";
+import InstitutePage from "./pages/InstitutePage";
 
 const CONSENT_ACCEPTED_KEY = "voicelab_consent_accepted";
 const WELCOME_SEEN_KEY = "voicelab_welcome_seen";
 const PROFILE_SETUP_SEEN_KEY = "voicelab_profile_setup_seen";
 const DIAGNOSTIC_SKIPPED_KEY = "voicelab_diagnostic_skipped";
 
-// ScreenLayout wrapper - AppHeader + children (for Phase 15 redesigned screens)
+// ScreenLayout wrapper - AppHeader + children (for standalone screens)
 interface ScreenLayoutProps {
   children: React.ReactNode;
   showBack?: boolean;
@@ -73,28 +79,34 @@ function ProfileRoute() {
   return <ProfilePage onBack={() => navigate("/")} />;
 }
 
-// Wrapper for Free Practice with navigation - Filler mode
+// Wrapper for Free Practice - Filler mode
 function FreePracticeFillerRoute() {
   return <PracticeSession focusMode="filler" />;
 }
 
-// Wrapper for Free Practice with navigation - Pace mode
+// Wrapper for Free Practice - Pace mode
 function FreePracticePaceRoute() {
   return <PracticeSession focusMode="pace" />;
 }
 
-// Wrapper for Technique Practice with navigation back to library
+// Wrapper for Technique Practice
 function TechniquePracticeRoute() {
   return <PracticeSession focusMode="filler" />;
 }
 
-// Wrapper for Labeling Practice with navigation
+// Wrapper for Labeling Practice
 function LabelingPracticeRoute() {
   const navigate = useNavigate();
-  return <LabelingPractice onBack={() => navigate("/")} />;
+  return <LabelingPractice onBack={() => navigate("/skills-lab")} />;
 }
 
-// Wrapper for Baseline Practice with filler mode
+// Wrapper for Accusation Audit Practice
+function AuditPracticeRoute() {
+  const navigate = useNavigate();
+  return <AccusationAuditPractice onBack={() => navigate("/skills-lab")} />;
+}
+
+// Wrapper for Baseline Practice
 function BaselinePracticeRoute() {
   return <PracticeSession focusMode="filler" />;
 }
@@ -110,15 +122,13 @@ function App() {
   // Check onboarding state
   useEffect(() => {
     try {
-      // Check consent first
       const consent = localStorage.getItem(CONSENT_ACCEPTED_KEY);
       if (!consent) {
         setConsentAccepted(false);
-        return; // Don't check other onboarding until consent is given
+        return;
       }
       setConsentAccepted(true);
 
-      // Then check welcome, profile setup, and diagnostic
       const welcomeSeen = localStorage.getItem(WELCOME_SEEN_KEY);
       const profileSetupSeen = localStorage.getItem(PROFILE_SETUP_SEEN_KEY);
       const diagnosticSkipped = localStorage.getItem(DIAGNOSTIC_SKIPPED_KEY);
@@ -127,7 +137,6 @@ function App() {
       if (!welcomeSeen) {
         setShowWelcome(true);
       } else if (!profileSetupSeen) {
-        // Check if profile has a name - if not, show profile setup
         const profile = getProfile();
         if (!profile.demographics.preferredName) {
           setShowProfileSetup(true);
@@ -150,7 +159,6 @@ function App() {
       // Storage not available
     }
     setConsentAccepted(true);
-    // Check if welcome should be shown
     try {
       const welcomeSeen = localStorage.getItem(WELCOME_SEEN_KEY);
       if (!welcomeSeen) {
@@ -168,7 +176,6 @@ function App() {
       // Storage not available
     }
     setShowWelcome(false);
-    // Check if profile setup needed
     const profile = getProfile();
     if (!profile.demographics.preferredName) {
       setShowProfileSetup(true);
@@ -184,7 +191,6 @@ function App() {
       // Storage not available
     }
     setShowProfileSetup(false);
-    // Show diagnostic after profile setup if not completed
     if (!hasDiagnosticResults()) {
       setShowDiagnostic(true);
     }
@@ -197,7 +203,6 @@ function App() {
       // Storage not available
     }
     setShowProfileSetup(false);
-    // Continue to diagnostic check
     if (!hasDiagnosticResults()) {
       setShowDiagnostic(true);
     }
@@ -252,7 +257,7 @@ function App() {
     return <Dashboard />;
   };
 
-  // Top-level consent gate - blocks ALL routes until consent is given
+  // Top-level consent gate
   if (!consentAccepted) {
     return (
       <ErrorBoundary>
@@ -267,8 +272,26 @@ function App() {
     <ErrorBoundary>
       <div className="min-h-screen bg-background text-text">
         <Routes>
-          <Route path="/" element={renderHome()} />
-          <Route path="/privacy" element={<Privacy />} />
+          {/* ===== Tabbed layout routes — BottomTabBar visible ===== */}
+          <Route element={<TabLayout />}>
+            <Route path="/" element={renderHome()} />
+            <Route path="/voice-lab" element={<VoiceLabPage />} />
+            <Route path="/skills-lab" element={<SkillsPage />} />
+            <Route path="/simulation" element={<SimulationPage />} />
+            <Route path="/institute" element={<InstitutePage />} />
+            <Route path="/library" element={<ScenarioLibrary />} />
+            <Route path="/profile" element={<ProfileRoute />} />
+            <Route path="/voice-profile" element={<VoiceProfile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/session/:sessionId" element={<SessionDetail />} />
+            <Route
+              path="/technique/:techniqueId"
+              element={<ScenarioDetail />}
+            />
+          </Route>
+
+          {/* ===== Immersive routes — NO tab bar ===== */}
           <Route path="/baseline" element={<BaselineSession />} />
           <Route
             path="/practice/baseline"
@@ -285,17 +308,11 @@ function App() {
           <Route path="/practice/results" element={<PostSessionResults />} />
           <Route path="/practice/bridge" element={<PracticeBridge />} />
           <Route path="/practice/evaluation" element={<EvaluationPage />} />
-          <Route path="/profile" element={<ProfileRoute />} />
-          <Route path="/voice-profile" element={<VoiceProfile />} />
-          <Route path="/breathing" element={<BreathingScreen />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/session/:sessionId" element={<SessionDetail />} />
-          <Route path="/library" element={<ScenarioLibrary />} />
-          <Route path="/technique/:techniqueId" element={<ScenarioDetail />} />
           <Route
             path="/practice/labeling"
             element={<LabelingPracticeRoute />}
           />
+          <Route path="/practice/audit" element={<AuditPracticeRoute />} />
           <Route
             path="/practice/technique"
             element={<TechniquePracticeRoute />}
@@ -304,6 +321,7 @@ function App() {
             path="/practice/technique-results"
             element={<TechniqueFeedback />}
           />
+          <Route path="/breathing" element={<BreathingScreen />} />
         </Routes>
         <FeedbackButton />
         <DevFeedbackBoxesWrapper />

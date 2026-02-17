@@ -160,16 +160,6 @@ export function AppHeader({
               <span>🔒</span>
               <span>Privacy</span>
             </button>
-            <button
-              onClick={() => {
-                setMenuOpen(false);
-                navigate("/library");
-              }}
-              className="w-full px-4 py-3 text-left hover:bg-background-elevated active:bg-background-elevated flex items-center gap-3 text-body text-text-body"
-            >
-              <span>📚</span>
-              <span>Library</span>
-            </button>
           </div>
         </>
       )}

@@ -194,4 +194,9 @@
     font-weight: 600;
     text-transform: uppercase;
   }
+
+  /* Safe area bottom padding for mobile notch/home indicator */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }

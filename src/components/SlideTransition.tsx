@@ -20,6 +20,10 @@ interface SlideTransitionProps {
 // Route depth map for direction detection
 const ROUTE_DEPTHS: Record<string, number> = {
   "/": 0,
+  "/voice-lab": 0,
+  "/skills-lab": 0,
+  "/simulation": 0,
+  "/institute": 0,
   "/library": 1,
   "/profile": 1,
   "/voice-profile": 1,

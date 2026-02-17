@@ -79,7 +79,7 @@ export default function FeedbackButton({
   const shouldPulse = !sessionStorage.getItem("voicelab_feedback_pulse_shown");
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-24 right-4 z-50 flex flex-col items-end gap-2">
       {/* Expanded prompt (shown after session) */}
       {isExpanded && (
         <div className="bg-background-surface border border-background-elevated rounded-lg shadow-lg p-3 max-w-xs animate-fade-in">
