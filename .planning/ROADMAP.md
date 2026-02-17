@@ -1,17 +1,96 @@
 # Roadmap: VoiceLab (Kdenz)
 
-**Current:** v2.0 - Dark Premium Transformation
-**Previous:** v1.0 Private Beta (shipped 2026-02-05)
+**Current:** v3.0 - Generic Drill Engine
+**Previous:** v2.0 Dark Premium Transformation (COMPLETE), v1.0 Private Beta (SHIPPED)
 
 ## Milestones
 
-- **v2.0 Dark Premium** — Phases 11-16 (6 phases, 7 waves, 44 requirements)
+- **v3.0 Generic Drill Engine** — Phases 19-22 (4 phases, 20 requirements)
+- **v2.0 Dark Premium** — Phases 11-18 (7 phases, 44 requirements, complete)
 - **v1.0 Private Beta** — Phases 01-10 (shipped 2026-02-05, archived)
 
 ## Phases
 
 <details open>
-<summary>v2.0 Dark Premium Transformation (Phases 11-16) — IN PROGRESS</summary>
+<summary>v3.0 Generic Drill Engine (Phases 19-22) — IN PROGRESS</summary>
+
+- [ ] Phase 19: Technique Data Foundation — 8 Tier A techniques + scenarios seeded as structured data
+- [ ] Phase 20: Drill Engine + Scoring — Prompt-Response loop with rules + LLM evaluation and feedback
+- [ ] Phase 21: Mastery Tracking — Attempt history, mastery levels, and review scheduling
+- [ ] Phase 22: Skills Lab Integration — Browsable technique list, detail view, drill launch, existing drills preserved
+
+**Total:** 4 phases, 20 requirements
+**Depth:** Balanced (standard grouping, natural delivery boundaries)
+
+---
+
+### Phase 19: Technique Data Foundation
+
+**Goal:** All 8 Tier A techniques and their drill scenarios exist as structured data that the engine can consume.
+
+**Dependencies:** None (foundation for all subsequent phases)
+
+**Requirements:** TDM-01, TDM-02, TDM-03
+
+**Success Criteria:**
+1. Developer can import a techniques array and find all 8 named techniques (Mirroring, Labeling, Open-Ended Questions, I-Statements, No-Oriented Questions, NVC Observation, NVC Feeling, Contrasting) with their full metadata.
+2. Each technique has at least 5 drill scenarios, each with a prompt, correct syntax pattern, and a model answer that a reviewer could evaluate against.
+3. Each technique record carries supported_formats and primary_format fields, so the engine can route to the correct drill UI without knowing technique specifics.
+
+---
+
+### Phase 20: Drill Engine + Scoring
+
+**Goal:** Users can complete a full Prompt-Response drill cycle — read a scenario, type a response, submit, and receive immediate scored feedback with per-dimension breakdown.
+
+**Dependencies:** Phase 19 (technique + scenario data must exist)
+
+**Requirements:** ENG-01, ENG-02, ENG-03, ENG-04, ENG-05, SCR-01, SCR-02, SCR-03, SCR-04
+
+**Success Criteria:**
+1. User can open any of the 8 techniques and start a drill — a scenario prompt appears and a text input accepts a response.
+2. The drill UI is identical for all 8 techniques (no hardcoded technique-specific layouts); only the content differs.
+3. Each drill round shows a randomly selected scenario from the technique's pool, so repeated practice within a session yields different prompts.
+4. After submitting a response, user sees a feedback card with scores for Form, Accuracy, and Impact (as numbers and labels) plus a text explanation of what worked and what to improve.
+5. When LLM is unavailable, user still sees a Form score and a clear message that Accuracy/Impact scoring is pending — the session is not blocked.
+6. User can advance from the feedback card to a new scenario without leaving the drill context.
+
+---
+
+### Phase 21: Mastery Tracking
+
+**Goal:** Users can see how well they know each technique and the system surfaces which techniques need practice soonest.
+
+**Dependencies:** Phase 20 (attempts must be generated and stored to track mastery)
+
+**Requirements:** MAS-01, MAS-02, MAS-03, MAS-04
+
+**Success Criteria:**
+1. After completing drill attempts, the mastery level badge for that technique updates — user can watch it move from Not Started through Attempted, Familiar, Proficient to Mastered as scores accumulate.
+2. Each technique shows a total attempt count and current consecutive-correct streak, visible to the user.
+3. After practice, the technique shows a "next review" date derived from its skill_type interval table (syntax, judgment, or recognition cadence).
+4. The Skills Lab surface highlights techniques whose review date has passed, so the user sees a distinct visual cue on overdue techniques without any manual tracking.
+
+---
+
+### Phase 22: Skills Lab Integration
+
+**Goal:** Users can browse all 8 techniques, inspect their progress on each, launch drills directly, and still access the existing labeling and accusation audit drills.
+
+**Dependencies:** Phases 19-21 (data, drill engine, and mastery must all exist before the UI layer is meaningful)
+
+**Requirements:** INT-01, INT-02, INT-03, INT-04
+
+**Success Criteria:**
+1. The Skills Lab page shows all 8 seeded techniques in a list or grid, each displaying its mastery level indicator and how many times the user has practiced it.
+2. Tapping any technique opens a detail view showing the technique's description, its syntax template, current mastery stats, and recent attempt history.
+3. From the technique detail view, user can tap a button to launch a Prompt-Response drill for that technique — the drill engine opens with the correct technique loaded.
+4. The existing Labeling and Accusation Audit drills remain reachable from Skills Lab alongside the engine-driven techniques — no regression in existing drill access.
+
+</details>
+
+<details>
+<summary>v2.0 Dark Premium Transformation (Phases 11-18) — COMPLETE</summary>
 
 - [x] Phase 11: Design System Foundation (Wave 1: Design tokens, Tailwind, CSS variables) — 2026-02-12
   **Plans:** 2/2 complete
@@ -62,8 +141,8 @@
   - [x] 17-01-PLAN.md — Comprehensive verification: build, routes, design system, navigation flows, screens, regression check
 
 **Total:** 7 phases (6 implementation + 1 verification), 44 requirements
-**Estimated duration:** 15-20 days
-**Deferred:** Phase 17 (Dashboard redesign — v2.1 with UX specialist)
+**Completed:** 2026-02-14
+**Deferred:** Dashboard redesign — v2.1 with UX specialist
 
 </details>
 
@@ -89,21 +168,33 @@
 
 ## Progress
 
-### v2.0 Dark Premium Transformation
+### v3.0 Generic Drill Engine
 
-| Phase | Title | Requirements | Status | Target |
-|-------|-------|--------------|--------|--------|
+| Phase | Title | Requirements | Status |
+|-------|-------|--------------|--------|
+| 19 | Technique Data Foundation | TDM-01, TDM-02, TDM-03 | Pending |
+| 20 | Drill Engine + Scoring | ENG-01 to ENG-05, SCR-01 to SCR-04 | Pending |
+| 21 | Mastery Tracking | MAS-01 to MAS-04 | Pending |
+| 22 | Skills Lab Integration | INT-01 to INT-04 | Pending |
+
+**Coverage:**
+- v3.0 requirements: 20 total
+- Mapped to phases: 20/20
+- Unmapped: 0
+
+---
+
+### v2.0 Dark Premium Transformation (COMPLETE)
+
+| Phase | Title | Requirements | Status | Completed |
+|-------|-------|--------------|--------|-----------|
 | 11 | Design System Foundation | DS-01 to DS-06 | Complete (2/2 plans) | 2026-02-12 |
 | 12 | Color Migration | CM-01 to CM-06 | Complete (7/7 plans) | 2026-02-12 |
 | 13 | SessionOrb Redesign | ORB-01 to ORB-07 | Complete (2/2 plans) | 2026-02-12 |
 | 14 | Typography & Layout | TYP-01 to TYP-06, LAY-01 to LAY-03 | Complete (4/4 plans) | 2026-02-12 |
 | 15 | New Screens — Core Flow | SCR-01 to SCR-06 | Complete (7/7 plans, gaps closed) | 2026-02-14 |
-| 16 | New Screens — Advanced | SCR-07 to SCR-12 | Pending | 3-4 days |
-
-**Coverage:**
-- v2.0 requirements: 44 total
-- Mapped to phases: 44
-- Estimated total duration: 15-20 days
+| 16 | New Screens — Advanced | SCR-07 to SCR-12 | Complete (5/5 plans) | 2026-02-14 |
+| 17 | v2.0 Final Verification | — | Complete (1/1 plan) | 2026-02-14 |
 
 ---
 
@@ -124,4 +215,4 @@
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-02-14 - Phase 15 gap closure complete (7/7 plans, 3 free practice regressions fixed)*
+*Last updated: 2026-02-17 - v3.0 Generic Drill Engine roadmap added (Phases 19-22, 20 requirements)*

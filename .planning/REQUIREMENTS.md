@@ -81,31 +81,31 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ENG-01 | — | Pending |
-| ENG-02 | — | Pending |
-| ENG-03 | — | Pending |
-| ENG-04 | — | Pending |
-| ENG-05 | — | Pending |
-| TDM-01 | — | Pending |
-| TDM-02 | — | Pending |
-| TDM-03 | — | Pending |
-| SCR-01 | — | Pending |
-| SCR-02 | — | Pending |
-| SCR-03 | — | Pending |
-| SCR-04 | — | Pending |
-| MAS-01 | — | Pending |
-| MAS-02 | — | Pending |
-| MAS-03 | — | Pending |
-| MAS-04 | — | Pending |
-| INT-01 | — | Pending |
-| INT-02 | — | Pending |
-| INT-03 | — | Pending |
-| INT-04 | — | Pending |
+| TDM-01 | Phase 19 | Pending |
+| TDM-02 | Phase 19 | Pending |
+| TDM-03 | Phase 19 | Pending |
+| ENG-01 | Phase 20 | Pending |
+| ENG-02 | Phase 20 | Pending |
+| ENG-03 | Phase 20 | Pending |
+| ENG-04 | Phase 20 | Pending |
+| ENG-05 | Phase 20 | Pending |
+| SCR-01 | Phase 20 | Pending |
+| SCR-02 | Phase 20 | Pending |
+| SCR-03 | Phase 20 | Pending |
+| SCR-04 | Phase 20 | Pending |
+| MAS-01 | Phase 21 | Pending |
+| MAS-02 | Phase 21 | Pending |
+| MAS-03 | Phase 21 | Pending |
+| MAS-04 | Phase 21 | Pending |
+| INT-01 | Phase 22 | Pending |
+| INT-02 | Phase 22 | Pending |
+| INT-03 | Phase 22 | Pending |
+| INT-04 | Phase 22 | Pending |
 
 **Coverage:**
 - v3.0 requirements: 20 total
-- Mapped to phases: 0 (pending roadmap creation)
-- Unmapped: 20
+- Mapped to phases: 20/20
+- Unmapped: 0
 
 ---
 
@@ -142,4 +142,4 @@
 
 ---
 *Requirements defined: 2026-02-12 (v2.0), 2026-02-17 (v3.0)*
-*Last updated: 2026-02-17 — v3.0 Generic Drill Engine requirements defined*
+*Last updated: 2026-02-17 — v3.0 traceability updated (20/20 requirements mapped to phases 19-22)*
