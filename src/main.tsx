@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { initDrillData } from "./utils/drill-storage";
 
 // Fonts
 import "@fontsource/outfit/400.css";
@@ -15,6 +16,8 @@ import "@fontsource/cormorant-garamond/700.css";
 
 // Styles - Single entry point (design-system.css orchestrates cascade order)
 import "./styles/design-system.css";
+
+initDrillData();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
