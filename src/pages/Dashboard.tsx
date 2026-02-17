@@ -14,6 +14,7 @@ import {
 import { ContributionHeatmap } from "../components/ContributionHeatmap";
 import { hasBaseline } from "../services/baselineStorage";
 import { CardCarousel } from "../components/CardCarousel";
+import StatCard from "../components/StatCard";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -60,11 +61,11 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-8 space-y-10">
+      <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-8 space-y-8">
         {/* Profile Preview Card */}
         <section
           onClick={() => navigate("/profile")}
-          className="bg-background-surface rounded-2xl p-4 sm:p-6 border border-background-elevated cursor-pointer hover:border-accent/20 transition-colors"
+          className="card-surface cursor-pointer hover:border-accent/20 transition-colors"
         >
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-accent/80 to-accent rounded-full flex items-center justify-center text-text-inverse text-h4 font-bold flex-shrink-0">
@@ -91,14 +92,12 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Practice Modules */}
+        {/* Practice Modules - Always use carousel for focused view */}
         <section>
-          <h2 className="text-h5 font-semibold text-text-heading mb-4">
+          <h2 className="text-h5 font-display font-semibold text-text-heading mb-6">
             Practice
           </h2>
-
-          {/* Desktop: grid layout */}
-          <div className="hidden md:grid md:grid-cols-3 gap-4">
+          <CardCarousel>
             <PracticeCard
               icon="🎤"
               title="Filler Words"
@@ -114,118 +113,121 @@ export default function Dashboard() {
               accent="cyan"
             />
             <PracticeCard
+              icon="🏷️"
+              title="Labeling Practice"
+              description="Practice Chris Voss labeling — name emotions and underlying drivers"
+              onClick={() => navigate("/practice/labeling")}
+              accent="cyan"
+            />
+            <PracticeCard
               icon="🎯"
               title="Technique Library"
               description="51 negotiation techniques from 5 frameworks — browse, learn, practice"
               onClick={() => navigate("/library")}
               accent="cyan"
             />
-          </div>
-
-          {/* Mobile: carousel */}
-          <div className="md:hidden">
-            <CardCarousel>
-              <PracticeCard
-                icon="🎤"
-                title="Filler Words"
-                description="Practice reducing ums, uhs, and likes with real-time feedback"
-                onClick={() => handlePracticeClick("filler")}
-                accent="cyan"
-              />
-              <PracticeCard
-                icon="📊"
-                title="Speech Pace"
-                description="Practice speaking at the right pace with visual feedback"
-                onClick={() => handlePracticeClick("pace")}
-                accent="cyan"
-              />
-              <PracticeCard
-                icon="🎯"
-                title="Technique Library"
-                description="51 negotiation techniques from 5 frameworks — browse, learn, practice"
-                onClick={() => navigate("/library")}
-                accent="cyan"
-              />
-            </CardCarousel>
-          </div>
+          </CardCarousel>
         </section>
 
-        {/* Recent Sessions */}
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h5 font-semibold text-text-heading">
-              Recent Sessions
-            </h2>
-            {allSessions.length > 5 && (
-              <button
-                onClick={() => setShowAllSessions(!showAllSessions)}
-                className="text-body-sm text-accent hover:text-accent/80"
-              >
-                {showAllSessions
-                  ? "Show less"
-                  : `View all (${allSessions.length})`}
-              </button>
-            )}
-          </div>
-
-          {recentSessions.length === 0 ? (
-            <div className="bg-background-surface rounded-xl p-6 text-center border border-background-elevated">
-              <p className="text-text-subtle">
-                No sessions yet. Start practicing!
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
-              {(showAllSessions ? allSessions : recentSessions).map(
-                (session) => (
-                  <SessionCard
-                    key={session.id}
-                    session={session}
-                    onClick={() => navigate(`/session/${session.id}`)}
-                  />
-                ),
-              )}
-            </div>
-          )}
-        </section>
-
-        {/* Quick Notes */}
-        {quickNotes.length > 0 && (
+        {/* Progress Tracking - New section */}
+        {allSessions.length > 0 && (
           <section>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-text">Quick Notes</h2>
-              <button
-                onClick={() => navigate("/profile")}
-                className="text-sm text-accent hover:text-accent/80"
-              >
-                View all
-              </button>
-            </div>
-            <div className="space-y-2">
-              {quickNotes.map((note) => (
-                <div
-                  key={note.id}
-                  className="bg-background-surface rounded-xl p-4 border border-background-elevated"
-                >
-                  <p className="text-text text-sm line-clamp-2">
-                    {note.content}
-                  </p>
-                  <p className="text-xs text-text-subtle mt-1">
-                    {new Date(note.createdAt).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </p>
-                </div>
-              ))}
+            <h2 className="text-h5 font-display font-semibold text-text-heading mb-6">
+              Your Progress
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {(() => {
+                // Calculate trends for progress tracking
+                const recentSessions = allSessions.slice(0, 5);
+                const olderSessions = allSessions.slice(5, 10);
+
+                const recentAvgFiller =
+                  recentSessions.length > 0
+                    ? recentSessions.reduce(
+                        (sum, s) => sum + (s.fillerRate || 0),
+                        0,
+                      ) / recentSessions.length
+                    : 0;
+                const olderAvgFiller =
+                  olderSessions.length > 0
+                    ? olderSessions.reduce(
+                        (sum, s) => sum + (s.fillerRate || 0),
+                        0,
+                      ) / olderSessions.length
+                    : 0;
+
+                const recentAvgWpm =
+                  recentSessions.length > 0
+                    ? recentSessions.reduce((sum, s) => sum + (s.wpm || 0), 0) /
+                      recentSessions.length
+                    : 0;
+                const olderAvgWpm =
+                  olderSessions.length > 0
+                    ? olderSessions.reduce((sum, s) => sum + (s.wpm || 0), 0) /
+                      olderSessions.length
+                    : 0;
+
+                const fillerTrend =
+                  olderAvgFiller > 0 && recentAvgFiller > 0
+                    ? {
+                        direction:
+                          recentAvgFiller < olderAvgFiller
+                            ? ("down" as const)
+                            : recentAvgFiller > olderAvgFiller
+                              ? ("up" as const)
+                              : ("stable" as const),
+                        percentage:
+                          ((recentAvgFiller - olderAvgFiller) /
+                            olderAvgFiller) *
+                          100,
+                        period: "vs last 5 sessions",
+                      }
+                    : undefined;
+
+                const wpmTrend =
+                  olderAvgWpm > 0 && recentAvgWpm > 0
+                    ? {
+                        direction:
+                          recentAvgWpm > olderAvgWpm
+                            ? ("up" as const)
+                            : recentAvgWpm < olderAvgWpm
+                              ? ("down" as const)
+                              : ("stable" as const),
+                        percentage:
+                          ((recentAvgWpm - olderAvgWpm) / olderAvgWpm) * 100,
+                        period: "vs last 5 sessions",
+                      }
+                    : undefined;
+
+                return (
+                  <>
+                    <StatCard
+                      label="Filler Rate"
+                      value={
+                        recentAvgFiller > 0 ? recentAvgFiller.toFixed(1) : "—"
+                      }
+                      unit="per min"
+                      trend={fillerTrend}
+                      empty={recentSessions.length === 0}
+                    />
+                    <StatCard
+                      label="Speech Pace"
+                      value={recentAvgWpm > 0 ? Math.round(recentAvgWpm) : "—"}
+                      unit="WPM"
+                      trend={wpmTrend}
+                      empty={recentSessions.length === 0}
+                    />
+                  </>
+                );
+              })()}
             </div>
           </section>
         )}
 
-        {/* Activity + Stats (unified card) */}
+        {/* Activity & Stats - Unified card with heatmap */}
         {allSessions.length > 0 && (
-          <section className="bg-background-surface rounded-2xl p-4 sm:p-6 border border-background-elevated space-y-6">
-            <h2 className="text-h5 font-semibold text-text-heading">
+          <section className="card-surface space-y-6">
+            <h2 className="text-h5 font-display font-semibold text-text-heading">
               Your Activity
             </h2>
             <div className="grid grid-cols-3 gap-6 text-center">
@@ -254,6 +256,79 @@ export default function Dashboard() {
               </div>
             </div>
             <ContributionHeatmap />
+          </section>
+        )}
+
+        {/* Recent Sessions - Use carousel for focused view */}
+        {allSessions.length > 0 && (
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-h5 font-display font-semibold text-text-heading">
+                Recent Sessions
+              </h2>
+              {allSessions.length > 5 && (
+                <button
+                  onClick={() => setShowAllSessions(!showAllSessions)}
+                  className="text-body-sm text-accent hover:text-accent/80 transition-colors"
+                >
+                  {showAllSessions
+                    ? "Show less"
+                    : `View all (${allSessions.length})`}
+                </button>
+              )}
+            </div>
+
+            {recentSessions.length === 0 ? (
+              <div className="card-surface text-center py-12">
+                <p className="text-body text-text-muted">
+                  No sessions yet. Start practicing!
+                </p>
+              </div>
+            ) : (
+              <CardCarousel>
+                {(showAllSessions ? allSessions : recentSessions).map(
+                  (session) => (
+                    <SessionCard
+                      key={session.id}
+                      session={session}
+                      onClick={() => navigate(`/session/${session.id}`)}
+                    />
+                  ),
+                )}
+              </CardCarousel>
+            )}
+          </section>
+        )}
+
+        {/* Quick Notes - Optional, only show if exists */}
+        {quickNotes.length > 0 && (
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-h5 font-display font-semibold text-text-heading">
+                Quick Notes
+              </h2>
+              <button
+                onClick={() => navigate("/profile")}
+                className="text-body-sm text-accent hover:text-accent/80 transition-colors"
+              >
+                View all
+              </button>
+            </div>
+            <CardCarousel>
+              {quickNotes.map((note) => (
+                <div key={note.id} className="card-surface">
+                  <p className="text-body text-text-body mb-3">
+                    {note.content}
+                  </p>
+                  <p className="text-caption text-text-muted">
+                    {new Date(note.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+              ))}
+            </CardCarousel>
           </section>
         )}
       </main>
@@ -380,17 +455,17 @@ function PracticeCard({
   return (
     <button
       onClick={onClick}
-      className={`w-full bg-background-surface rounded-xl p-4 sm:p-5 border border-background-elevated border-l-4 ${accentColors[accent]} text-left transition-colors min-h-[60px] active:bg-accent/10`}
+      className={`w-full card-surface border-l-4 ${accentColors[accent]} text-left transition-colors min-h-[120px] active:bg-accent/10`}
     >
-      <div className="flex items-center gap-3">
-        <span className="text-2xl flex-shrink-0">{icon}</span>
+      <div className="flex items-start gap-4">
+        <span className="text-3xl flex-shrink-0">{icon}</span>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-body text-text-heading">{title}</h3>
-          <p className="text-body-sm text-text-body line-clamp-2">
-            {description}
-          </p>
+          <h3 className="font-display font-semibold text-h5 text-text-heading mb-2">
+            {title}
+          </h3>
+          <p className="text-body text-text-body">{description}</p>
         </div>
-        <span className="text-text-subtle flex-shrink-0">→</span>
+        <span className="text-text-subtle flex-shrink-0 mt-1">→</span>
       </div>
     </button>
   );
@@ -408,23 +483,23 @@ function SessionCard({
   return (
     <button
       onClick={onClick}
-      className="w-full bg-background-surface rounded-xl p-4 border border-background-elevated text-left hover:bg-background-elevated active:bg-background-elevated transition-colors min-h-[72px]"
+      className="w-full card-surface text-left hover:border-accent/20 active:bg-accent/5 transition-colors min-h-[100px]"
     >
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-text text-sm sm:text-base truncate">
+          <p className="font-display font-semibold text-body-lg text-text-heading mb-1">
             {session.durationSeconds
               ? `${Math.round(session.durationSeconds)}s session`
               : "Practice session"}
           </p>
-          <p className="text-xs sm:text-sm text-text-muted">{timeAgo}</p>
+          <p className="text-body-sm text-text-muted">{timeAgo}</p>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <div className="flex items-center gap-3 flex-shrink-0">
           <div className="text-right">
-            <p className="text-base sm:text-lg font-semibold text-text">
+            <p className="text-h4 font-bold text-accent">
               {session.fillerCount}
             </p>
-            <p className="text-xs sm:text-sm text-text-muted">
+            <p className="text-caption text-text-muted">
               {session.wpm ? `${Math.round(session.wpm)} WPM` : "fillers"}
             </p>
           </div>

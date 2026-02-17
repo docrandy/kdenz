@@ -7,6 +7,7 @@
 
 import type {
   LabelingScenario,
+  LabelTypeTag,
   SyntaxScore,
   DepthScore,
   LabelAnalysis,
@@ -14,99 +15,99 @@ import type {
   SpecificityLevel,
   AffectLevel,
   AffectResult,
-} from './types';
-import { LABEL_AFFECT_FEEDBACK } from './types';
+} from "./types";
+import { LABEL_AFFECT_FEEDBACK } from "./types";
 
 // ===== SYNTAX DETECTION CONSTANTS =====
 
 const VALID_OPENERS = [
-  'it seems like',
-  'it sounds like',
-  'it looks like',
-  'seems like',
-  'sounds like',
-  'looks like',
+  "it seems like",
+  "it sounds like",
+  "it looks like",
+  "seems like",
+  "sounds like",
+  "looks like",
 ];
 
 // These make it about YOU, not them
 const INVALID_I_FRAMES = [
   "i'm hearing",
-  'i hear that',
-  'i hear you',
-  'i think you',
-  'i feel like you',
-  'i sense that',
-  'i understand you',
-  'i can tell',
-  'i notice',
-  'i get the sense',
+  "i hear that",
+  "i hear you",
+  "i think you",
+  "i feel like you",
+  "i sense that",
+  "i understand you",
+  "i can tell",
+  "i notice",
+  "i get the sense",
 ];
 
 // These are direct and can trigger defensiveness
 const INVALID_YOU_FRAMES = [
-  'you seem',
-  'you sound',
-  'you look',
+  "you seem",
+  "you sound",
+  "you look",
   "you're ",
-  'you are ',
-  'you feel',
+  "you are ",
+  "you feel",
 ];
 
 // ===== EMOTION/DRIVER CONSTANTS =====
 
 // Surface emotions (weak labels)
 const SURFACE_EMOTIONS = [
-  'frustrated',
-  'angry',
-  'upset',
-  'annoyed',
-  'stressed',
-  'worried',
-  'nervous',
-  'anxious',
-  'sad',
-  'disappointed',
-  'confused',
-  'uncertain',
-  'hesitant',
-  'uncomfortable',
-  'concerned',
-  'unhappy',
-  'irritated',
-  'overwhelmed',
+  "frustrated",
+  "angry",
+  "upset",
+  "annoyed",
+  "stressed",
+  "worried",
+  "nervous",
+  "anxious",
+  "sad",
+  "disappointed",
+  "confused",
+  "uncertain",
+  "hesitant",
+  "uncomfortable",
+  "concerned",
+  "unhappy",
+  "irritated",
+  "overwhelmed",
 ];
 
 // Underlying drivers (strong labels)
 const UNDERLYING_DRIVERS = [
-  'control',
-  'precedent',
-  'authority',
-  'recognition',
-  'fairness',
-  'respect',
-  'autonomy',
-  'security',
-  'pressure',
-  'position',
-  'reputation',
-  'trust',
-  'credibility',
-  'competence',
-  'belonging',
-  'value',
-  'appreciated',
-  'acknowledged',
-  'heard',
-  'understood',
-  'supported',
-  'safe',
-  'risk',
-  'justify',
-  'budget',
-  'leadership',
-  'team',
-  'deadline',
-  'expectations',
+  "control",
+  "precedent",
+  "authority",
+  "recognition",
+  "fairness",
+  "respect",
+  "autonomy",
+  "security",
+  "pressure",
+  "position",
+  "reputation",
+  "trust",
+  "credibility",
+  "competence",
+  "belonging",
+  "value",
+  "appreciated",
+  "acknowledged",
+  "heard",
+  "understood",
+  "supported",
+  "safe",
+  "risk",
+  "justify",
+  "budget",
+  "leadership",
+  "team",
+  "deadline",
+  "expectations",
 ];
 
 // ===== SYNTAX FEEDBACK MESSAGES =====
@@ -119,7 +120,7 @@ const SYNTAX_FEEDBACK = {
   youFraming:
     'Avoid "You seem..." — use "It seems like..." to lower their defensiveness.',
   questionMark:
-    'Make it a statement, not a question. Questions trigger cognitive defense.',
+    "Make it a statement, not a question. Questions trigger cognitive defense.",
   rightQuestion:
     'Drop "...right?" — this seeks validation and weakens the label.',
 };
@@ -128,13 +129,12 @@ const SYNTAX_FEEDBACK = {
 
 const DEPTH_FEEDBACK = {
   surfaceOnly:
-    'You labeled the surface emotion. Dig deeper — what\'s driving that feeling?',
+    "You labeled the surface emotion. Dig deeper — what's driving that feeling?",
   generic:
-    'Good start. Can you be more specific about what\'s at stake for them?',
-  specific:
-    'You\'re getting closer. Think about the underlying fear or need.',
+    "Good start. Can you be more specific about what's at stake for them?",
+  specific: "You're getting closer. Think about the underlying fear or need.",
   expert:
-    'Excellent — you identified the underlying driver, not just the emotion.',
+    "Excellent — you identified the underlying driver, not just the emotion.",
 };
 
 // ===== AFFECT CALCULATION =====
@@ -146,7 +146,7 @@ const DEPTH_FEEDBACK = {
 function calculateAffect(
   syntax: SyntaxScore,
   depth: DepthScore,
-  _scenario: LabelingScenario
+  _scenario: LabelingScenario,
 ): AffectResult {
   const score = syntax.syntaxPoints + depth.depthPoints;
 
@@ -154,35 +154,40 @@ function calculateAffect(
   let level: AffectLevel;
   let patternToExplore: string | undefined;
 
-  if (depth.specificity === 'highly-specific' && syntax.syntaxPoints >= 35) {
+  if (depth.specificity === "highly-specific" && syntax.syntaxPoints >= 35) {
     // Identity-level label with clean syntax
-    level = 'deeply_connected';
+    level = "deeply_connected";
     patternToExplore = undefined;
   } else if (depth.targetsUnderlyingDriver && syntax.hasCorrectOpener) {
     // Underlying driver identified with correct opener
-    level = 'understood';
+    level = "understood";
     if (!syntax.avoidsIFraming) {
-      patternToExplore = "Remove 'I' from your label - make it about them, not you";
+      patternToExplore =
+        "Remove 'I' from your label - make it about them, not you";
     } else if (!syntax.isStatement) {
-      patternToExplore = "Make it a statement, not a question - questions trigger defense";
+      patternToExplore =
+        "Make it a statement, not a question - questions trigger defense";
     }
   } else if (depth.targetsSurfaceEmotion && syntax.hasCorrectOpener) {
     // Surface emotion with correct opener
-    level = 'acknowledged';
-    patternToExplore = "You named the emotion. Now go deeper - what's driving that feeling?";
+    level = "acknowledged";
+    patternToExplore =
+      "You named the emotion. Now go deeper - what's driving that feeling?";
   } else if (score >= 25) {
     // Some attempt made
-    level = 'acknowledged';
+    level = "acknowledged";
     if (!syntax.hasCorrectOpener) {
       patternToExplore = "Start with 'It seems like...' or 'It sounds like...'";
     } else {
-      patternToExplore = "Name a specific emotion or driver, not a general observation";
+      patternToExplore =
+        "Name a specific emotion or driver, not a general observation";
     }
   } else {
     // Label didn't land
-    level = 'guarded';
+    level = "guarded";
     if (!syntax.hasCorrectOpener) {
-      patternToExplore = "Start with 'It seems like...' to create emotional distance";
+      patternToExplore =
+        "Start with 'It seems like...' to create emotional distance";
     } else if (!syntax.avoidsYouFraming) {
       patternToExplore = "Avoid 'You seem...' - it can feel accusatory";
     } else {
@@ -200,12 +205,61 @@ function calculateAffect(
   };
 }
 
+// ===== LABEL-TYPE-SPECIFIC SYNTAX PATTERNS =====
+
+const BEHAVIOR_PROBE_PATTERNS = [
+  "reason for",
+  "a reason for",
+  "your reason for",
+  "reasons for",
+];
+
+const OPENING_PATTERNS = [
+  "place you want to start",
+  "something on your mind",
+  "something you want to get to",
+  "where to start",
+  "a sense of what this is about",
+  "been thinking about",
+  "ready to",
+];
+
+const VALUE_FRAMING_PATTERNS = [
+  "value",
+  "worth",
+  "investment",
+  "justify",
+  "differentiate",
+  "make the case",
+];
+
+const VALUE_PRICE_PATTERNS = [
+  "price",
+  "cost",
+  "money",
+  "expensive",
+  "cheap",
+  "afford",
+];
+
+const IMPASSE_PATTERNS = [
+  "nothing i can say",
+  "nothing i can do",
+  "nothing we can do",
+  "nothing i could say",
+  "nothing that would",
+];
+
 // ===== ANALYSIS FUNCTIONS =====
 
 /**
  * Analyze the syntax of a labeling attempt
+ * Accepts optional labelType for type-specific bonus scoring
  */
-export function analyzeSyntax(transcript: string): SyntaxScore {
+export function analyzeSyntax(
+  transcript: string,
+  labelType?: LabelTypeTag,
+): SyntaxScore {
   const lower = transcript.toLowerCase().trim();
   const feedback: string[] = [];
 
@@ -230,8 +284,9 @@ export function analyzeSyntax(transcript: string): SyntaxScore {
   }
 
   // Check if ends with question
-  const hasQuestionMark = lower.endsWith('?');
-  const hasRightQuestion = lower.includes('right?') || lower.includes(', right');
+  const hasQuestionMark = lower.endsWith("?");
+  const hasRightQuestion =
+    lower.includes("right?") || lower.includes(", right");
   const isStatement = !hasQuestionMark && !hasRightQuestion;
 
   if (hasQuestionMark) {
@@ -241,12 +296,36 @@ export function analyzeSyntax(transcript: string): SyntaxScore {
     feedback.push(SYNTAX_FEEDBACK.rightQuestion);
   }
 
-  // Calculate syntax points (max 40)
+  // Calculate syntax points (max 40 base)
   let syntaxPoints = 0;
   if (hasCorrectOpener) syntaxPoints += 15;
   if (avoidsIFraming) syntaxPoints += 10;
   if (avoidsYouFraming) syntaxPoints += 5;
   if (isStatement) syntaxPoints += 10;
+
+  // Label-type-specific syntax bonuses (+5 each)
+  if (labelType === "behavior-probe") {
+    if (BEHAVIOR_PROBE_PATTERNS.some((p) => lower.includes(p))) {
+      syntaxPoints += 5;
+    }
+  } else if (labelType === "opening") {
+    if (OPENING_PATTERNS.some((p) => lower.includes(p))) {
+      syntaxPoints += 5;
+    }
+  } else if (labelType === "value") {
+    const hasValueFraming = VALUE_FRAMING_PATTERNS.some((p) =>
+      lower.includes(p),
+    );
+    const hasPriceFraming = VALUE_PRICE_PATTERNS.some((p) => lower.includes(p));
+    if (hasValueFraming && !hasPriceFraming) {
+      syntaxPoints += 5;
+    }
+  } else if (labelType === "impasse") {
+    if (IMPASSE_PATTERNS.some((p) => lower.includes(p))) {
+      syntaxPoints += 5;
+    }
+  }
+  // mis-label: no additional syntax requirement
 
   return {
     hasCorrectOpener,
@@ -261,13 +340,15 @@ export function analyzeSyntax(transcript: string): SyntaxScore {
 
 /**
  * Analyze the emotional depth of a labeling attempt
+ * Applies label-type-specific depth adjustments
  */
 export function analyzeDepth(
   transcript: string,
-  _scenario: LabelingScenario
+  scenario: LabelingScenario,
 ): DepthScore {
   const lower = transcript.toLowerCase();
   const feedback: string[] = [];
+  const labelType = scenario.labelType;
 
   // Extract what emotions/drivers were labeled
   const surfaceMatches = SURFACE_EMOTIONS.filter((e) => lower.includes(e));
@@ -285,30 +366,58 @@ export function analyzeDepth(
   }
 
   // Determine specificity level
-  let specificity: SpecificityLevel = 'generic';
+  let specificity: SpecificityLevel = "generic";
   let depthPoints = 0;
 
   if (hasDriver && !hasSurface) {
     // Pure driver focus = highly specific
-    specificity = 'highly-specific';
+    specificity = "highly-specific";
     depthPoints = 60;
     feedback.push(DEPTH_FEEDBACK.expert);
   } else if (hasDriver && hasSurface) {
     // Both = specific
-    specificity = 'specific';
+    specificity = "specific";
     depthPoints = 45;
     feedback.push(DEPTH_FEEDBACK.specific);
   } else if (hasSurface) {
     // Only surface = generic
-    specificity = 'generic';
+    specificity = "generic";
     depthPoints = 25;
     feedback.push(DEPTH_FEEDBACK.surfaceOnly);
   } else {
     // Nothing detected
-    specificity = 'generic';
+    specificity = "generic";
     depthPoints = 10;
     feedback.push(DEPTH_FEEDBACK.generic);
   }
+
+  // Label-type-specific depth adjustments
+  if (labelType === "behavior-probe") {
+    // Behavior specificity: generic "that" without naming the action = -10
+    const hasGenericRef =
+      /reason for that\b/.test(lower) &&
+      !BEHAVIOR_PROBE_PATTERNS.some(
+        (p) => p !== "reason for" && lower.includes(p),
+      );
+    if (hasGenericRef) {
+      depthPoints = Math.max(0, depthPoints - 10);
+      feedback.push(
+        'Name the SPECIFIC behavior, not just "that." What exactly did they do?',
+      );
+    }
+  } else if (labelType === "value") {
+    // Value framing: price-focused = -15
+    const hasPriceFraming = VALUE_PRICE_PATTERNS.some((p) => lower.includes(p));
+    if (hasPriceFraming) {
+      depthPoints = Math.max(0, depthPoints - 15);
+      feedback.push(
+        "Focus on VALUE, not price. What outcome would justify the investment?",
+      );
+    }
+  }
+  // impasse: depth is fixed by formula, no adjustment
+  // opening: readiness recognition handled by existing depth logic
+  // mis-label: plausibility scoring deferred to future AI evaluation
 
   return {
     targetsSurfaceEmotion: hasSurface && !hasDriver,
@@ -324,10 +433,10 @@ export function analyzeDepth(
  * Calculate overall grade based on score (internal use)
  */
 function calculateGrade(score: number): LabelGrade {
-  if (score >= 85) return 'expert';
-  if (score >= 65) return 'proficient';
-  if (score >= 40) return 'developing';
-  return 'novice';
+  if (score >= 85) return "expert";
+  if (score >= 65) return "proficient";
+  if (score >= 40) return "developing";
+  return "novice";
 }
 
 /**
@@ -335,9 +444,9 @@ function calculateGrade(score: number): LabelGrade {
  */
 export function analyzeLabel(
   transcript: string,
-  scenario: LabelingScenario
+  scenario: LabelingScenario,
 ): LabelAnalysis {
-  const syntax = analyzeSyntax(transcript);
+  const syntax = analyzeSyntax(transcript, scenario.labelType);
   const depth = analyzeDepth(transcript, scenario);
 
   const overallScore = syntax.syntaxPoints + depth.depthPoints;
@@ -366,7 +475,7 @@ export function analyzeLabel(
  */
 export function calculateTTR(texts: string[]): number {
   const allWords = texts
-    .join(' ')
+    .join(" ")
     .toLowerCase()
     .split(/\s+/)
     .filter((w) => w.length > 2);
@@ -381,13 +490,13 @@ export function calculateTTR(texts: string[]): number {
  * Detect repetitive templates in label attempts
  */
 export function detectRepetitiveTemplates(
-  transcripts: string[]
+  transcripts: string[],
 ): { template: string; count: number }[] {
   // Normalize and extract label patterns
   const patterns = transcripts.map((t) => {
     return t
       .toLowerCase()
-      .replace(/[.,!?]/g, '')
+      .replace(/[.,!?]/g, "")
       .trim();
   });
 
@@ -395,7 +504,7 @@ export function detectRepetitiveTemplates(
   const counts = new Map<string, number>();
   for (const pattern of patterns) {
     // Get first 5 words as template signature
-    const words = pattern.split(/\s+/).slice(0, 5).join(' ');
+    const words = pattern.split(/\s+/).slice(0, 5).join(" ");
     counts.set(words, (counts.get(words) || 0) + 1);
   }
 
@@ -410,7 +519,7 @@ export function detectRepetitiveTemplates(
  * Extract unique emotion/driver vocabulary from transcripts
  */
 export function extractEmotionVocabulary(transcripts: string[]): string[] {
-  const allText = transcripts.join(' ').toLowerCase();
+  const allText = transcripts.join(" ").toLowerCase();
   const vocabulary = new Set<string>();
 
   for (const emotion of SURFACE_EMOTIONS) {

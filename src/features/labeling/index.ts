@@ -4,31 +4,32 @@
  */
 
 // Main component
-export { LabelingPractice } from './LabelingPractice';
+export { LabelingPractice } from "./LabelingPractice";
 
 // Sub-components
-export { ScenarioPresenter } from './ScenarioPresenter';
-export { LabelFeedback } from './LabelFeedback';
-export { PatternSummary } from './PatternSummary';
+export { ScenarioPresenter } from "./ScenarioPresenter";
+export { LabelFeedback } from "./LabelFeedback";
+export { PatternSummary } from "./PatternSummary";
 
 // Hooks
-export { useLabelingSession } from './useLabelingSession';
+export { useLabelingSession } from "./useLabelingSession";
 
 // Services
-export { analyzeLabel, analyzeSyntax, analyzeDepth } from './labelAnalyzer';
+export { analyzeLabel, analyzeSyntax, analyzeDepth } from "./labelAnalyzer";
 export {
   saveLabelAttempt,
   getLabelAttempts,
   getLabelingPatterns,
   clearLabelingData,
-} from './labelingStorage';
+} from "./labelingStorage";
 export {
   LABELING_SCENARIOS,
   getScenariosByCategory,
   getScenariosByDifficulty,
+  getScenariosByLabelType,
   getRandomScenario,
   getScenarioById,
-} from './scenarioBank';
+} from "./scenarioBank";
 
 // Types
 export type {
@@ -44,4 +45,4 @@ export type {
   LabelingPatterns,
   LabelingSessionState,
   LabelingSessionData,
-} from './types';
+} from "./types";

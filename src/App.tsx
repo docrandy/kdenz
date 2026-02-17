@@ -30,6 +30,7 @@ import AnalysisLoader from "./pages/AnalysisLoader";
 import VoiceProfile from "./pages/VoiceProfile";
 import PracticeBridge from "./pages/PracticeBridge";
 import BreathingScreen from "./pages/BreathingScreen";
+import { LabelingPractice } from "./features/labeling";
 import { AppHeader } from "./components/AppHeader";
 import { SlideTransition } from "./components/SlideTransition";
 
@@ -85,6 +86,12 @@ function FreePracticePaceRoute() {
 // Wrapper for Technique Practice with navigation back to library
 function TechniquePracticeRoute() {
   return <PracticeSession focusMode="filler" />;
+}
+
+// Wrapper for Labeling Practice with navigation
+function LabelingPracticeRoute() {
+  const navigate = useNavigate();
+  return <LabelingPractice onBack={() => navigate("/")} />;
 }
 
 // Wrapper for Baseline Practice with filler mode
@@ -285,6 +292,10 @@ function App() {
           <Route path="/session/:sessionId" element={<SessionDetail />} />
           <Route path="/library" element={<ScenarioLibrary />} />
           <Route path="/technique/:techniqueId" element={<ScenarioDetail />} />
+          <Route
+            path="/practice/labeling"
+            element={<LabelingPracticeRoute />}
+          />
           <Route
             path="/practice/technique"
             element={<TechniquePracticeRoute />}
