@@ -81,9 +81,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TDM-01 | Phase 19 | Pending |
-| TDM-02 | Phase 19 | Pending |
-| TDM-03 | Phase 19 | Pending |
+| TDM-01 | Phase 19 | Complete |
+| TDM-02 | Phase 19 | Complete |
+| TDM-03 | Phase 19 | Complete |
 | ENG-01 | Phase 20 | Pending |
 | ENG-02 | Phase 20 | Pending |
 | ENG-03 | Phase 20 | Pending |

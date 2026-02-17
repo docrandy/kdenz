@@ -14,7 +14,7 @@
 <details open>
 <summary>v3.0 Generic Drill Engine (Phases 19-22) — IN PROGRESS</summary>
 
-- [ ] Phase 19: Technique Data Foundation — 8 Tier A techniques + scenarios seeded as structured data
+- [x] Phase 19: Technique Data Foundation — 8 Tier A techniques + scenarios seeded as structured data (2026-02-17)
 - [ ] Phase 20: Drill Engine + Scoring — Prompt-Response loop with rules + LLM evaluation and feedback
 - [ ] Phase 21: Mastery Tracking — Attempt history, mastery levels, and review scheduling
 - [ ] Phase 22: Skills Lab Integration — Browsable technique list, detail view, drill launch, existing drills preserved
