@@ -1,152 +1,145 @@
-# Requirements: v2.0 - Dark Premium Transformation
+# Requirements
 
-**Defined:** 2026-02-12
-**Core Value:** Users practice negotiation and difficult conversation techniques in a premium, professional interface that signals expertise and quality.
+**Project:** VoiceLab (Kdenz)
 
-## v2.0 Requirements
+## v3.0 — Generic Drill Engine
 
-### Design System Foundation (Wave 1)
+**Defined:** 2026-02-17
+**Core Value:** Users practice negotiation and communication techniques through data-driven drills with immediate, structured feedback and mastery progression.
+**Scope:** Prompt-Response format, 8 Tier A techniques, Rules + LLM evaluation, localStorage persistence.
 
-- [x] **DS-01**: Tailwind config updated with dark premium color palette (navy bg, gold accent, cream text)
-- [x] **DS-02**: CSS custom properties defined for all semantic tokens (background, surface, text, accent, status colors)
-- [x] **DS-03**: Typography scale defined (Cormorant Garamond for headings, Outfit for body, 8px baseline grid)
-- [x] **DS-04**: Spacing system established (4px/8px/12px/16px/24px increments)
-- [x] **DS-05**: Component variants for dark mode (buttons, inputs, cards follow new palette)
-- [x] **DS-06**: index.css updated with base styles for dark premium theme
+### Drill Engine Core
 
-### Color Migration (Wave 2)
+- [ ] **ENG-01**: User can practice any seeded technique via Prompt-Response drill (see scenario, type response, submit)
+- [ ] **ENG-02**: Engine renders drills from technique/scenario data — no hardcoded UI per technique
+- [ ] **ENG-03**: User receives a random scenario from the technique's scenario pool each drill round
+- [ ] **ENG-04**: User sees immediate feedback after each attempt with per-dimension score breakdown and text explanation
+- [ ] **ENG-05**: User can do multiple drill rounds in a session (next scenario after feedback review)
 
-- [x] **CM-01**: All accent colors changed from teal (#00D4FF) to gold (#c9a84c) (~51 files)
-- [x] **CM-02**: Background colors migrated from white to dark navy (#0b0e14)
-- [x] **CM-03**: Surface colors (cards, panels) updated to #131720
-- [x] **CM-04**: Text colors changed to warm cream (#e8e2d6)
-- [x] **CM-05**: Semantic colors established (status: green/rose/blue on dark background)
-- [x] **CM-06**: Build verified with no visual regressions
+### Technique Data
 
-### SessionOrb Redesign (Wave 3)
+- [ ] **TDM-01**: 8 Tier A techniques seeded with full metadata (name, framework, skill_type, syntax_template, drill_tier, evaluation_method)
+- [ ] **TDM-02**: Each technique has 5+ drill scenarios with prompt text, correct syntax pattern, and model answer
+- [ ] **TDM-03**: Technique records include supported_formats and primary_format fields (extensible for future formats)
 
-- [x] **ORB-01**: New orb visual with gold radial gradient replacing current green
-- [x] **ORB-02**: Three concentric animated rings (outer: slow rotation, middle: medium pulse, inner: fast flicker)
-- [x] **ORB-03**: Orb responds to microphone input (rings brighten with voice volume)
-- [x] **ORB-04**: Mic icon displayed center of orb in idle state
-- [x] **ORB-05**: Stop square icon overlays orb when recording active
-- [x] **ORB-06**: Smooth transitions between idle/recording/analyzing states
-- [x] **ORB-07**: Mobile responsive at 320px+ screens
+### Scoring & Evaluation
 
-### Typography & Layout (Wave 4)
+- [ ] **SCR-01**: Form dimension scored via rules-based evaluation (regex/pattern matching against syntax template)
+- [ ] **SCR-02**: Accuracy and Impact dimensions scored via Gemini LLM with structured rubric per technique
+- [ ] **SCR-03**: Each attempt records 4-dimension scores (Form 0.25, Accuracy 0.35, Impact 0.30, Timing 0.10) plus weighted composite
+- [ ] **SCR-04**: Evaluation gracefully degrades if LLM unavailable (Form score shown, Accuracy/Impact marked as pending)
 
-- [x] **TYP-01**: Cormorant Garamond imported and applied to all headings (h1-h6)
-- [x] **TYP-02**: Outfit sans-serif imported and applied to body text, labels, buttons
-- [x] **TYP-03**: Heading sizes follow typographic scale (h1: 48px, h2: 36px, h3: 28px on desktop)
-- [x] **TYP-04**: Mobile-first layout: 420px minimum width baseline
-- [x] **TYP-05**: Line heights optimized for readability (1.5 for body, 1.2 for headings)
-- [x] **TYP-06**: Letter spacing adjusted for premium feel (headings: +1px, body: normal)
-- [x] **LAY-01**: Full page layout uses dark premium spacing (24px gutters desktop, 16px mobile)
-- [x] **LAY-02**: Card-based sections with subtle borders (#1f2937) on dark backgrounds
-- [x] **LAY-03**: Maximum content width 1200px, centered on desktop
+### Mastery Tracking
 
-### New Screens — Core Flow (Wave 5)
+- [ ] **MAS-01**: User sees mastery level (0-4: Not Started, Attempted, Familiar, Proficient, Mastered) per technique
+- [ ] **MAS-02**: System tracks consecutive correct attempts and total attempts per technique
+- [ ] **MAS-03**: Simple interval scheduling shows when each technique is due for review (3 interval tables by skill_type)
+- [ ] **MAS-04**: Skills Lab shows review queue — techniques due for practice highlighted
 
-- [x] **SCR-01**: Welcome screen redesigned with premium hero section + 3-step intro
-- [x] **SCR-02**: Pre-session screen shows technique briefing, success criteria, ai persona preview
-- [x] **SCR-03**: Recording screen displays new SessionOrb, shows practice prompt, has start/stop controls
-- [x] **SCR-04**: Recording screen shows real-time metrics (minimal: WPM + filler count at bottom)
-- [x] **SCR-05**: Post-session screen (3 tabs): Coaching, Voice Analytics, Transcript
-- [x] **SCR-06**: Navigation between screens smooth with consistent header/footer placement
+### Skills Lab Integration
 
-### New Screens — Advanced Features (Wave 6)
+- [ ] **INT-01**: Skills Lab page lists all 8 seeded techniques with mastery level indicators and practice count
+- [ ] **INT-02**: User taps technique to see detail view (description, syntax template, mastery stats, attempt history)
+- [ ] **INT-03**: User launches Prompt-Response drill from technique detail view
+- [ ] **INT-04**: Existing labeling and accusation audit drills remain accessible alongside engine-driven drills
 
-- [ ] **SCR-07**: Analysis Loader screen shows visual loading indicator while VCM analyzes
-- [ ] **SCR-08**: Voice Profile screen displays user's vocal signature, patterns, strengths
-- [ ] **SCR-09**: Practice Bridge screen recommends next technique based on performance
-- [ ] **SCR-10**: Breathing screen shows guided breathing animation before practice (optional)
-- [ ] **SCR-11**: Before/After comparison screen shows progress across sessions
-- [ ] **SCR-12**: All new screens follow dark premium design system
+## Future Requirements (v3.1+)
 
-### Visual Consistency
+### Additional Formats
+- Multiple-Choice recognition drills (Format 3)
+- Rewrite exercises (Format 4)
+- Spot-the-Technique transcript analysis (Format 5)
+- Audio-Spoken response drills (Format 2, requires Hume integration)
 
-- [ ] **VIS-01**: Entire app uses gold (#c9a84c) as primary interactive element (buttons, links, accents)
-- [ ] **VIS-02**: All backgrounds are dark navy (#0b0e14) or surface gray (#131720)
-- [ ] **VIS-03**: All text is cream (#e8e2d6) for readability on dark
-- [ ] **VIS-04**: Status indicators use semantic colors (green for good, rose for needs work, blue for info)
-- [ ] **VIS-05**: Component spacing and padding consistent across all screens
-- [ ] **VIS-06**: Hover states for interactive elements show gold glow or opacity change
+### Expanded Technique Pool
+- Remaining Tier A techniques (Vocal Tonality, FM DJ Voice — require Hume)
+- Tier C techniques (Calibrated Questions, Tactical Empathy, etc.)
+- Tier B recognition-only drills
 
-## v2.1 Requirements (Deferred)
+### Advanced Mastery
+- HLR algorithm upgrade (replace simple intervals when sufficient data)
+- Progressive format escalation for retention checks
+- Implicit practice credit for prerequisite skills
+- Simulation unlock thresholds (rep count gates)
 
-### Dashboard Redesign (Wave 7)
-
-- **DSH-01**: Dashboard complete redesign with premium aesthetic (deferred — UX specialist required)
-- **DSH-02**: Activity heatmap showing practice frequency
-- **DSH-03**: Progress tracking across techniques and frameworks
-- **DSH-04**: Personalized recommendations based on practice history
+### Migration
+- Migrate labeling drill to engine format
+- Migrate accusation audit drill to engine format
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Real-time VCM labels | VCM analysis runs post-session only, labels never surfaced to user |
-| Session replay with video | No video recording in current phase |
-| Multiplayer/team features | Single-user focus for MVP |
-| Mobile app (native) | Web app only, mobile-responsive |
-| Authentication system | localStorage persistence sufficient for MVP |
+| Supabase persistence | Separate Phase A item — localStorage for now |
+| Simulation Studio integration | Phase C — build after drill engine is proven |
+| Hume audio analysis | Phase D — Format 2 drills blocked on backend proxy |
+| VCM diagnostic integration | Phase D — behavioral event logging deferred |
+| Skill prerequisites / DAG | v3.1 — only 8 techniques, no prerequisite complexity needed yet |
+| Tier gating / progression | v3.1 — all 8 are same tier (A), gating not meaningful yet |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DS-01 | Phase 11 | Complete |
-| DS-02 | Phase 11 | Complete |
-| DS-03 | Phase 11 | Complete |
-| DS-04 | Phase 11 | Complete |
-| DS-05 | Phase 11 | Complete |
-| DS-06 | Phase 11 | Complete |
-| CM-01 | Phase 12 | Complete |
-| CM-02 | Phase 12 | Complete |
-| CM-03 | Phase 12 | Complete |
-| CM-04 | Phase 12 | Complete |
-| CM-05 | Phase 12 | Complete |
-| CM-06 | Phase 12 | Complete |
-| ORB-01 | Phase 13 | Complete |
-| ORB-02 | Phase 13 | Complete |
-| ORB-03 | Phase 13 | Complete |
-| ORB-04 | Phase 13 | Complete |
-| ORB-05 | Phase 13 | Complete |
-| ORB-06 | Phase 13 | Complete |
-| ORB-07 | Phase 13 | Complete |
-| TYP-01 | Phase 14 | Complete |
-| TYP-02 | Phase 14 | Complete |
-| TYP-03 | Phase 14 | Complete |
-| TYP-04 | Phase 14 | Complete |
-| TYP-05 | Phase 14 | Complete |
-| TYP-06 | Phase 14 | Complete |
-| LAY-01 | Phase 14 | Complete |
-| LAY-02 | Phase 14 | Complete |
-| LAY-03 | Phase 14 | Complete |
-| SCR-01 | Phase 15 | Complete |
-| SCR-02 | Phase 15 | Complete |
-| SCR-03 | Phase 15 | Complete |
-| SCR-04 | Phase 15 | Complete |
-| SCR-05 | Phase 15 | Complete |
-| SCR-06 | Phase 15 | Complete |
-| SCR-07 | Phase 16 | Pending |
-| SCR-08 | Phase 16 | Pending |
-| SCR-09 | Phase 16 | Pending |
-| SCR-10 | Phase 16 | Pending |
-| SCR-11 | Phase 16 | Pending |
-| SCR-12 | Phase 16 | Pending |
-| VIS-01 | Phase 11-16 | Pending |
-| VIS-02 | Phase 11-16 | Pending |
-| VIS-03 | Phase 11-16 | Pending |
-| VIS-04 | Phase 11-16 | Pending |
-| VIS-05 | Phase 11-16 | Pending |
-| VIS-06 | Phase 11-16 | Pending |
+| ENG-01 | — | Pending |
+| ENG-02 | — | Pending |
+| ENG-03 | — | Pending |
+| ENG-04 | — | Pending |
+| ENG-05 | — | Pending |
+| TDM-01 | — | Pending |
+| TDM-02 | — | Pending |
+| TDM-03 | — | Pending |
+| SCR-01 | — | Pending |
+| SCR-02 | — | Pending |
+| SCR-03 | — | Pending |
+| SCR-04 | — | Pending |
+| MAS-01 | — | Pending |
+| MAS-02 | — | Pending |
+| MAS-03 | — | Pending |
+| MAS-04 | — | Pending |
+| INT-01 | — | Pending |
+| INT-02 | — | Pending |
+| INT-03 | — | Pending |
+| INT-04 | — | Pending |
 
 **Coverage:**
-- v2.0 requirements: 44 total
-- Mapped to phases: 44
-- Unmapped: 0 ✓
+- v3.0 requirements: 20 total
+- Mapped to phases: 0 (pending roadmap creation)
+- Unmapped: 20
 
 ---
-*Requirements defined: 2026-02-12*
-*Last updated: 2026-02-14 - Phase 15 requirements (SCR-01 to SCR-06) marked Complete*
+
+## v2.0 — Dark Premium Transformation (COMPLETE)
+
+<details>
+<summary>44 requirements — all complete</summary>
+
+### Design System Foundation (Wave 1)
+- [x] **DS-01**: Tailwind config updated with dark premium color palette
+- [x] **DS-02**: CSS custom properties defined for all semantic tokens
+- [x] **DS-03**: Typography scale defined (Cormorant Garamond + Outfit)
+- [x] **DS-04**: Spacing system established (4px/8px/12px/16px/24px)
+- [x] **DS-05**: Component variants for dark mode
+- [x] **DS-06**: index.css updated with base styles
+
+### Color Migration (Wave 2)
+- [x] **CM-01** through **CM-06**: All colors migrated, build verified
+
+### SessionOrb Redesign (Wave 3)
+- [x] **ORB-01** through **ORB-07**: Gold gradient, animated rings, volume-responsive, mobile-ready
+
+### Typography & Layout (Wave 4)
+- [x] **TYP-01** through **TYP-06**, **LAY-01** through **LAY-03**: Fonts, scale, spacing, layout complete
+
+### New Screens (Waves 5-6)
+- [x] **SCR-01** through **SCR-06**: Core flow screens complete
+- [x] **SCR-07** through **SCR-12**: Advanced screens complete
+
+### Visual Consistency
+- [x] **VIS-01** through **VIS-06**: Gold accent, dark backgrounds, cream text, status colors, consistent spacing
+
+</details>
+
+---
+*Requirements defined: 2026-02-12 (v2.0), 2026-02-17 (v3.0)*
+*Last updated: 2026-02-17 — v3.0 Generic Drill Engine requirements defined*
