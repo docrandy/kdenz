@@ -17,26 +17,19 @@ The core value is the "holy shit moment": users see their actual filler count an
 **Codebase:** 15,049 lines TypeScript/TSX
 **Tech Stack:** React 19, Vite, Tailwind CSS, Web Speech API, Gemini API
 
-## Current Milestone: v2.0 - Dark Premium Transformation
+## Current Milestone: v3.0 - Generic Drill Engine
 
-**Goal:** Complete visual and UX redesign to match dark premium prototype (kdenz-session-flow-prototype.html), transforming from light clinical to dark luxury aesthetic with 51-technique practice library as primary feature.
+**Goal:** Build a configurable drill engine that replaces hardcoded drills (labeling, accusation audit) with a data-driven system supporting 5 formats across 57+ techniques, with mastery tracking and spaced repetition.
 
-**Target Vision:** $49/mo SaaS positioning with professional negotiation and difficult conversation practice as core offering. Leverages wave 1+2 technique library (51 techniques) and VCM diagnostics (already built, in background).
+**Target features:**
+- Generic drill engine supporting 5 formats (Prompt-Response, Audio-Spoken, Multiple-Choice, Rewrite, Spot-the-Technique)
+- Technique data seeding (57+ techniques from Voss, MI, CBT, NVC, corporate frameworks)
+- 4-dimension quality scoring (form, accuracy, impact, timing)
+- Mastery tracking with HLR-based spaced repetition (3 decay rates by skill type)
+- Skills Lab integration (replace hardcoded labeling/audit with engine-driven drills)
+- Tier-gated skill progression (A/B/C technique classification)
 
-**Scope:** 7 waves of design and UX work
-- Wave 1: Design System Foundation (tokens, Tailwind, CSS variables)
-- Wave 2: Systematic Color Migration (~51 files)
-- Wave 3: SessionOrb Redesign (gold radial gradient + animated rings)
-- Wave 4: Typography + Layout (Cormorant Garamond + Outfit, mobile-first 420px)
-- Wave 5: New Screens Phase 1 (Welcome, Pre-Session, Recording)
-- Wave 6: New Screens Phase 2 (Analysis Loader, Voice Profile, Practice Bridge, Breathing, Before/After)
-- Wave 7: Dashboard (DEFERRED — requires UX specialist collaboration)
-
-**Design Direction:**
-- Primary palette: dark navy (#0b0e14) + gold accent (#c9a84c)
-- Typography: Cormorant Garamond (headings) + Outfit (body)
-- Inspiration: premium SaaS aesthetic (Notion, Linear, Superhuman)
-- Reference: kdenz-session-flow-prototype.html (277KB, 10-screen flow)
+**Previous milestone:** v2.0 Dark Premium Transformation (COMPLETE — Phases 11-18, 44 requirements)
 
 ## Requirements
 
@@ -63,7 +56,11 @@ The core value is the "holy shit moment": users see their actual filler count an
 
 ### Active
 
-(None — v1.0 complete, awaiting beta feedback for v1.1 priorities)
+- Generic drill engine (5 formats, data-driven configuration) — v3.0
+- Technique data model (57+ techniques, tiers, prerequisites) — v3.0
+- Quality scoring (4-dimension: form, accuracy, impact, timing) — v3.0
+- Mastery tracking with spaced repetition (HLR model) — v3.0
+- Skills Lab integration with engine-driven drills — v3.0
 
 ### Out of Scope
 
@@ -125,4 +122,4 @@ The core value is the "holy shit moment": users see their actual filler count an
 | Technique library focus | Shift from "awareness" MVP to "practice" platform with VCM diagnostics | — Pending — Wave 1-6 in progress |
 
 ---
-*Last updated: 2026-02-12 after starting v2.0 milestone planning*
+*Last updated: 2026-02-17 after starting v3.0 milestone (Generic Drill Engine)*

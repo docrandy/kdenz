@@ -2,57 +2,54 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-12)
+See: .planning/PROJECT.md (updated 2026-02-17)
 
-**Core value:** Users practice negotiation and difficult conversation techniques in a premium, professional interface
-**Current focus:** v2.0 Dark Premium Transformation — design system + 6-phase visual redesign
+**Core value:** Users practice negotiation and difficult conversation techniques through data-driven drills and real-time feedback
+**Current focus:** v3.0 Generic Drill Engine — configurable drill engine for 57+ techniques
 
 ## Current State
 
-**Status:** v2.0 - Dark Premium Transformation (COMPLETE)
-**Version:** v2.0 (Phases 11-16, 44 requirements)
-**Previous:** v1.0 shipped 2026-02-05, v1.0 + Wave 1+2 technique lib at commit 90c53cd
-**Deployed:** https://kdenz.vercel.app (v2.0 active)
-**Last Action:** 2026-02-14 - Deployed v2.0 Dark Premium Transformation to production (commit ade874e)
+**Status:** Defining requirements for v3.0
+**Version:** v3.0 Generic Drill Engine
+**Previous:** v2.0 Dark Premium Transformation (COMPLETE), v1.0 shipped 2026-02-05
+**Deployed:** https://kdenz.vercel.app (v2.0 + 5-pillar navigation active)
+**Last Action:** 2026-02-17 - Started v3.0 milestone, defining requirements
 
-**Progress:** ████████████████████████████████ v2.0 COMPLETE (Phase 11 ✅, Phase 12 ✅, Phase 13 ✅, Phase 14 ✅, Phase 15 ✅, Phase 16 ✅ COMPLETE)
+**Progress:** Defining requirements
 
 ## Milestone Summary
 
-**v2.0 Dark Premium Transformation — ✅ COMPLETE**
+**v3.0 Generic Drill Engine — DEFINING**
 
-**Scope:** 6 phases, 7 design waves, 44 requirements
-- Phase 11: Design System Foundation ✅ COMPLETE (11-01, 11-02)
-- Phase 12: Color Migration ✅ COMPLETE (12-01 through 12-07, ~57 files migrated)
-- Phase 13: SessionOrb Redesign ✅ COMPLETE (13-01: gold gradient, 3 animated rings, volume-responsive)
-- Phase 14: Typography & Layout ✅ COMPLETE (14-01 through 14-04, 9/9 must-haves verified)
-- Phase 15: New Screens — Core Flow ✅ COMPLETE (15-01 through 15-07, all 4 core screens redesigned, verified, and gap closure applied)
-- Phase 16: New Screens — Advanced ✅ COMPLETE (16-01 through 16-05, Analysis Loader, Voice Profile, Practice Bridge, Breathing Screen, all integrated)
+**Scope:** Build configurable drill engine (5 formats), seed 57+ techniques, mastery tracking + spaced repetition
 
-**Design Direction:**
-- Primary palette: dark navy (#0b0e14) + gold accent (#c9a84c)
-- Typography: Cormorant Garamond (headings) + Outfit (body)
-- Inspiration: premium SaaS aesthetic
-- Reference: kdenz-session-flow-prototype.html (277KB, 10-screen flow)
+**Previous milestones:**
+- v2.0 Dark Premium Transformation ✅ COMPLETE (Phases 11-18, 44 requirements)
+- v1.0 Private Beta ✅ SHIPPED (Phases 01-10, 30 requirements)
 
-**Deferred:** Phase 17 (Dashboard redesign — v2.1 with UX specialist)
+## Current Position
 
-**Previous Milestone (v1.0):**
-- 126 commits, 15,049 lines TypeScript/TSX
-- 11 days from init to ship (Jan 25 → Feb 5, 2026)
-- 30/30 requirements satisfied
-- Archive: .planning/milestones/v1.0-ROADMAP.md
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-02-17 — Milestone v3.0 started
 
-## Next Steps
+## Accumulated Context
 
-1. Phase 11 ✅ COMPLETE - Design system foundation ready
-2. Phase 12 ✅ COMPLETE - All ~57 files migrated to dark premium palette
-3. Phase 13 ✅ COMPLETE - SessionOrb redesigned with premium animations
-4. Phase 14 ✅ COMPLETE - Typography & Layout (Cormorant Garamond + Outfit fonts, mobile-first layout refinements)
-5. Phase 15 ✅ COMPLETE - New Screens Core Flow (Welcome, Pre-Session, Recording, Post-Session all redesigned, verified, and gap closure applied)
-6. Phase 16: New Screens — Advanced (Analysis Loader, Voice Profile, Practice Bridge, etc.)
+### Key Decisions
+- Generic drill engine over technique-specific UIs (CLAUDE.md D8)
+- 5 drill formats: Prompt-Response, Audio-Spoken, Multiple-Choice, Rewrite, Spot-the-Technique (R10)
+- 4-dimension quality scoring: form 0.25, accuracy 0.35, impact 0.30, timing 0.10 (R5)
+- HLR spaced repetition with 3 decay rates by skill type (R15)
+- Tier A/B/C technique classification for drill vs simulation routing (R10)
+- localStorage persistence (no Supabase yet for this milestone)
 
-**Next:** v2.0 COMPLETE — Ready for deployment or Phase 17 (Dashboard redesign — v2.1 with UX specialist)
+### Research Available
+- R8: Complete technique taxonomy (83 techniques, 22 scored 5/5 for beta)
+- R10: Skills Lab vs Simulation Studio classification (tier A/B/C, 5 drill formats)
+- R13: CBT/MI technique inventory (89 techniques, 54 app-suitable)
+- R15: Spaced repetition mastery decay (HLR model, 3 decay rates)
+- R5: Conversation quality evaluation (4-dimension rubric)
 
 ## Blockers
 
@@ -61,33 +58,8 @@ None currently.
 ## Pending Todos
 
 1 pending todo in .planning/todos/pending/:
-- Gamification system (streaks, badges, progress enhancements) — v1.1 candidate
-
-## Session Continuity
-
-**Last session:** 2026-02-14
-**Stopped at:** Completed Phase 16 Plan 05 — Integration (all Phase 16 screens integrated, routes registered, navigation working)
-**Resume with:** v2.0 COMPLETE — Ready for deployment or Phase 17 (Dashboard redesign)
-
-## User Feedback from Phase 13 Verification (for Phase 14+)
-
-1. Font sizes too small — increase by 2-3 sizes
-2. Font brightness — headings should be bright, explanations dimmer
-3. Background Noise warning triggers on normal speech (too sensitive)
-4. Too many warning messages — reduce noise
-5. Cards stacked — show cards individually, not all at once
-6. No scrolling — isolated focused view per card
-7. "Take a breath" button surround too bright when lit (text unreadable)
-8. Dashboard cards need better distribution/layout
-9. Information density — good info but feels overwhelming, needs layout to be conducive to learning
-10. Possibly need a designer for layout work
-
-## User Feedback from Phase 14 Verification (for Phase 15/16)
-
-1. Profile setup should be part of signup flow, not a standalone dashboard card. Once filled, profile info in header area.
-2. Navigation: hamburger menu (☰) + circular profile image button (same size) in top bar.
-3. Move "My Activity/Progress" and "Recent Sessions" off dashboard into a dedicated Activity page.
+- Gamification system (streaks, badges, progress enhancements) — future candidate
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-14 - Phase 15 COMPLETE (all 7 plans: navigation framework, welcome/profile, pre-session, recording, post-session, verification, gap closure — user-approved dark premium core flow with all 3 recording modes working correctly, commit 236a78a)*
+*Last updated: 2026-02-17 - Started v3.0 milestone (Generic Drill Engine)*
