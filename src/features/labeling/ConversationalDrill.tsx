@@ -231,6 +231,21 @@ export function ConversationalDrill({
   const silenceTimerRef = useRef<number | null>(null);
   const recordStartRef = useRef<number>(0);
 
+  // Refs that mirror state — needed for stale-closure-safe silence timer callbacks
+  const liveTranscriptRef = useRef("");
+  const isRecordingRef = useRef(false);
+
+  // Silence detection threshold: ms of quiet before auto-submit (0 = manual only)
+  const THRESHOLD_OPTIONS = [0, 1000, 1500, 2000, 3000] as const;
+  const THRESHOLD_LABELS: Record<number, string> = {
+    0: "Manual",
+    1000: "1s",
+    1500: "1.5s",
+    2000: "2s",
+    3000: "3s",
+  };
+  const [silenceThresholdMs, setSilenceThresholdMs] = useState<number>(1500);
+
   // -- Criteria state --------------------------------------------------------
   const [latestCriteria, setLatestCriteria] = useState<{
     syntax: { hit: boolean; details?: string };
@@ -280,6 +295,18 @@ export function ConversationalDrill({
     patternConfidence: 0,
   });
 
+  // Ref that always points to latest submitLabel — used by silence timer to avoid stale closure
+  const submitLabelRef = useRef<
+    (text: string, silenceDuration?: number) => void
+  >(() => {});
+
+  // Sync silence threshold to recognition object whenever it changes
+  useEffect(() => {
+    if (recognitionRef.current) {
+      (recognitionRef.current as any).__silenceThreshold = silenceThresholdMs;
+    }
+  }, [silenceThresholdMs]);
+
   // -- Scroll ----------------------------------------------------------------
   const chatEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -312,14 +339,47 @@ export function ConversationalDrill({
             interim += result[0].transcript;
           }
         }
-        setLiveTranscript(final + interim);
+        const text = final + interim;
+        liveTranscriptRef.current = text;
+        setLiveTranscript(text);
+
+        // Reset silence timer on every speech event
+        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+        const threshold =
+          (recognitionRef.current as any).__silenceThreshold ?? 1500;
+        if (threshold > 0 && isRecordingRef.current) {
+          silenceTimerRef.current = window.setTimeout(() => {
+            if (!isRecordingRef.current) return;
+            const transcript = liveTranscriptRef.current.trim();
+            if (!transcript) return;
+            // Auto-stop and submit
+            try {
+              recognitionRef.current?.stop();
+            } catch {
+              /* already stopped */
+            }
+            isRecordingRef.current = false;
+            setIsRecording(false);
+            const elapsed = (Date.now() - recordStartRef.current) / 1000;
+            submitLabelRef.current(
+              transcript,
+              elapsed > 3 ? elapsed : undefined,
+            );
+            liveTranscriptRef.current = "";
+            setLiveTranscript("");
+          }, threshold);
+        }
       };
 
       recognition.onerror = () => {
+        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+        isRecordingRef.current = false;
         setIsRecording(false);
       };
 
       recognition.onend = () => {
+        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+        isRecordingRef.current = false;
         setIsRecording(false);
       };
 
@@ -335,10 +395,12 @@ export function ConversationalDrill({
   // -- Start recording -------------------------------------------------------
   const startRecording = useCallback(() => {
     if (!recognitionRef.current) return;
+    liveTranscriptRef.current = "";
     setLiveTranscript("");
     recordStartRef.current = Date.now();
     try {
       recognitionRef.current.start();
+      isRecordingRef.current = true;
       setIsRecording(true);
     } catch {
       // already started
@@ -348,19 +410,24 @@ export function ConversationalDrill({
   // -- Stop recording and submit ---------------------------------------------
   const stopRecording = useCallback(() => {
     if (!recognitionRef.current) return;
+    // Cancel any pending silence timer — we're stopping manually
+    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    isRecordingRef.current = false;
     try {
       recognitionRef.current.stop();
     } catch {
       // already stopped
     }
     setIsRecording(false);
-    const text = liveTranscript.trim();
+    // Use ref (not state) to avoid stale closure
+    const text = liveTranscriptRef.current.trim();
+    liveTranscriptRef.current = "";
+    setLiveTranscript("");
     if (text) {
-      // Estimate silence duration: time between last speech and stop
       const elapsed = (Date.now() - recordStartRef.current) / 1000;
-      submitLabel(text, elapsed > 3 ? elapsed : undefined);
+      submitLabelRef.current(text, elapsed > 3 ? elapsed : undefined);
     }
-  }, [liveTranscript]);
+  }, []);
 
   // -- Submit label (text or audio) ------------------------------------------
   const submitLabel = useCallback(
@@ -509,6 +576,9 @@ export function ConversationalDrill({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [scenario, messages],
   );
+
+  // Keep ref in sync so silence timer always calls the latest version
+  submitLabelRef.current = submitLabel;
 
   // -- Handle text submit ----------------------------------------------------
   const handleTextSubmit = useCallback(() => {
@@ -777,6 +847,25 @@ export function ConversationalDrill({
               </svg>
             </button>
           )}
+        </div>
+
+        {/* Silence threshold selector */}
+        <div className="flex items-center gap-1.5 mt-2 px-1">
+          <span className="text-xs text-text-subtle/50">Auto-submit:</span>
+          {THRESHOLD_OPTIONS.map((opt) => (
+            <button
+              key={opt}
+              onClick={() => setSilenceThresholdMs(opt)}
+              className={[
+                "px-2 py-0.5 rounded text-xs transition-colors",
+                silenceThresholdMs === opt
+                  ? "bg-accent/20 text-accent border border-accent/30"
+                  : "text-text-subtle/50 hover:text-text-subtle",
+              ].join(" ")}
+            >
+              {THRESHOLD_LABELS[opt]}
+            </button>
+          ))}
         </div>
       </div>
     </div>
