@@ -9,11 +9,11 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 
 ## Current State
 
-**Status:** Phase 20 in progress — 20-01 complete
+**Status:** Phase 20 in progress — 20-01 and 20-02 complete
 **Version:** v3.0 Generic Drill Engine
 **Previous:** v2.0 Dark Premium Transformation (COMPLETE), v1.0 shipped 2026-02-05
 **Deployed:** https://kdenz.vercel.app (v2.0 + 5-pillar navigation active)
-**Last Action:** 2026-02-18 - Completed 20-01 (scoring engine + attempt persistence — 2 files)
+**Last Action:** 2026-02-18 - Completed 20-02 (useDrillSession hook — state machine, scenario pool, scoring pipeline)
 
 **Progress:** [█--------------------] 25% (1/4 phases complete, 1/4 plans in Phase 20)
 
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 
 **Phase structure:**
 - Phase 19: Technique Data Foundation — COMPLETE
-- Phase 20: Drill Engine + Scoring — IN PROGRESS (20-01 COMPLETE)
+- Phase 20: Drill Engine + Scoring — IN PROGRESS (20-01 COMPLETE, 20-02 COMPLETE)
 - Phase 21: Mastery Tracking (MAS-01 to MAS-04)
 - Phase 22: Skills Lab Integration (INT-01 to INT-04)
 
@@ -36,9 +36,9 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 ## Current Position
 
 Phase: 20 — Drill Engine + Scoring
-Plan: 01 of 4 — COMPLETE
+Plan: 02 of 04 — COMPLETE
 Status: In progress
-Last activity: 2026-02-18 — Completed 20-01-PLAN.md (2 tasks, scoring engine + attempt persistence)
+Last activity: 2026-02-18 — Completed 20-02-PLAN.md (useDrillSession hook — state machine + scenario pool + scoring pipeline)
 
 ## Accumulated Context
 
@@ -60,6 +60,9 @@ Last activity: 2026-02-18 — Completed 20-01-PLAN.md (2 tasks, scoring engine +
 - compositeScore = formScore when Gemini unavailable (never null — always has a value)
 - Streak: formScore>=80 AND accuracyScore>=75 when Gemini available; formScore>=80 alone when unavailable
 - Gemini JSON extraction handles both raw JSON and ```json code block wrapping
+- appendTranscript replaces (not appends) transcript — Web Speech API fires cumulative final results
+- Scenario pool auto-resets after full cycle (no session 'complete' state trigger yet)
+- Hook-as-state-machine pattern: all drill business logic in useDrillSession, zero in DrillScreen
 
 ### Data Layer Ready (Phase 19 + 20-01)
 - `src/types/drill.ts` — Technique, Scenario, SyntaxRule, DrillDataStore types
@@ -68,6 +71,7 @@ Last activity: 2026-02-18 — Completed 20-01-PLAN.md (2 tasks, scoring engine +
 - `src/utils/drill-storage.ts` — initDrillData(), getDrillData(), getTechnique(), getScenariosForTechnique(), getScenarioById()
 - `src/services/drillEvaluationService.ts` — DrillEvaluationResult, scoreForm(), scoreWithGemini(), evaluateDrillResponse()
 - `src/utils/drillAttemptStorage.ts` — DrillAttempt, DrillSession, saveDrillAttempt(), getDrillAttempts(), getSessionStreak(), generateAttemptId(), clearDrillAttempts()
+- `src/features/drill-engine/useDrillSession.ts` — DrillState, useDrillSession() hook (state machine, scenario pool, scoring pipeline, streak tracking)
 - `src/main.tsx` — initDrillData() called before ReactDOM.createRoot().render()
 - localStorage keys: 'kdenz:drill-data' (seed data), 'kdenz:drill-attempts' (user attempt records)
 
@@ -93,10 +97,10 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-18T02:11:00Z
-Stopped at: Completed 20-01-PLAN.md (2 tasks, type-check + build clean)
+Last session: 2026-02-18T00:45:00Z
+Stopped at: Completed 20-02-PLAN.md (useDrillSession hook, 1 task, type-check + build clean)
 Resume file: None
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-18 - Phase 20, Plan 01 complete*
+*Last updated: 2026-02-18 - Phase 20, Plans 01 and 02 complete*
