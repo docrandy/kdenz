@@ -8,12 +8,33 @@
  *   4. CriteriaBar updates inline
  *   5. Character reacts based on label quality
  *   6. Up to 10 exchanges per session
+ *
+ * Phase 20.1 additions:
+ *   - ExtendedStateObject tracks mood, trust, openness, revelations across session
+ *   - Gemini Call 2 fires per exchange for pattern detection (sending channel)
+ *   - Panel B ("What you signaled") shows real behavioral observations
+ *   - Regex signals appear immediately; Gemini signals appear after ~1s
+ *   - SessionPatternData passed to onComplete for debrief consumption
  */
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { CriteriaBar } from "./CriteriaBar";
 import { analyzeLabel } from "./labelAnalyzer";
 import type { LabelingScenario, DrillStats, LabelAnalysis } from "./types";
+import type {
+  ExtendedStateObject,
+  SessionPatternData,
+  PatternSignal,
+} from "../../types/simulation";
+import {
+  createInitialStateObject,
+  COMMUNICATOR_PATTERNS,
+} from "../../types/simulation";
+import {
+  detectPatternSignals,
+  updateSessionPatterns,
+} from "../../services/patternDetectionService";
+import { getStoredApiKey } from "../../services/geminiService";
 
 // ---------------------------------------------------------------------------
 // Props
@@ -89,6 +110,91 @@ function qualityFromAnalysis(
 }
 
 // ---------------------------------------------------------------------------
+// Panel B: "What you signaled" — sending channel biofeedback
+// ---------------------------------------------------------------------------
+
+interface PanelBProps {
+  currentSignal: PatternSignal | null;
+  patternData: SessionPatternData;
+  isWaiting: boolean;
+}
+
+function PanelB({ currentSignal, patternData, isWaiting }: PanelBProps) {
+  // Determine what to show
+  const hasSignal = currentSignal !== null;
+  const hasRegexSignals = patternData.regexSignals.length > 0;
+  const sessionPattern = patternData.sessionPattern;
+  const patternDef = sessionPattern
+    ? COMMUNICATOR_PATTERNS[sessionPattern]
+    : null;
+
+  // Show Panel B only after first exchange
+  if (!hasSignal && !hasRegexSignals && !isWaiting) {
+    return null;
+  }
+
+  return (
+    <div className="mb-3 bg-blue-900/10 border-l-4 border-blue-400 rounded-xl p-3">
+      {/* Section label */}
+      <div className="text-xs font-medium text-blue-400/70 mb-1.5 uppercase tracking-wide">
+        What you signaled
+      </div>
+
+      {/* Session pattern emergence (after 3+ consistent exchanges) */}
+      {patternDef && patternData.patternConfidence >= 0.75 && (
+        <div className="mb-2 text-xs text-blue-300/90 font-medium">
+          Pattern emerging: {patternDef.name}
+        </div>
+      )}
+
+      {/* Current exchange observation */}
+      {hasSignal && currentSignal.patternNote && (
+        <p className="text-xs text-text-subtle leading-relaxed mb-1">
+          {currentSignal.patternNote}
+        </p>
+      )}
+
+      {/* Specific signal bullets */}
+      {hasSignal && currentSignal.signals.length > 0 && (
+        <ul className="mt-1 space-y-0.5">
+          {currentSignal.signals.map((sig, i) => (
+            <li
+              key={i}
+              className="text-xs text-text-subtle/70 flex gap-1.5 items-start"
+            >
+              <span className="text-blue-400/50 mt-0.5 flex-shrink-0">·</span>
+              <span>{sig}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Placeholder while waiting for Gemini, show regex signals if available */}
+      {!hasSignal && isWaiting && hasRegexSignals && (
+        <ul className="space-y-0.5">
+          {patternData.regexSignals.slice(-3).map((sig, i) => (
+            <li
+              key={i}
+              className="text-xs text-text-subtle/70 flex gap-1.5 items-start"
+            >
+              <span className="text-blue-400/50 mt-0.5 flex-shrink-0">·</span>
+              <span>{sig}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Placeholder when no signals yet */}
+      {!hasSignal && isWaiting && !hasRegexSignals && (
+        <p className="text-xs text-text-subtle/50 italic">
+          Analyzing your communication patterns...
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
@@ -124,6 +230,24 @@ export function ConversationalDrill({
     depth: { level: "none" | "surface" | "underlying" | "identity" };
     silence?: { hit: boolean; duration?: number };
   } | null>(null);
+
+  // -- Extended state object (Phase 20.1) ------------------------------------
+  // Tracked via ref (not useState) since it's written per-exchange but consumed
+  // by future plans (Gemini Call 1 for character AI responses) rather than rendered.
+  const extendedStateRef = useRef<ExtendedStateObject>(
+    createInitialStateObject(),
+  );
+
+  // -- Pattern detection state (Phase 20.1) ----------------------------------
+  const [patternData, setPatternData] = useState<SessionPatternData>({
+    exchangeSignals: [],
+    regexSignals: [],
+    sessionPattern: null,
+    patternConfidence: 0,
+  });
+  const [currentPatternSignal, setCurrentPatternSignal] =
+    useState<PatternSignal | null>(null);
+  const [patternDetectionPending, setPatternDetectionPending] = useState(false);
 
   // -- Stats -----------------------------------------------------------------
   const exchangeCountRef = useRef(0);
@@ -272,6 +396,61 @@ export function ConversationalDrill({
 
       exchangeCountRef.current += 1;
 
+      // Update extended state object based on label quality (Phase 20.1)
+      // Using ref (not state) since extendedState is consumed by future Gemini Call 1
+      // for character AI responses — not rendered directly in JSX.
+      const prevState = extendedStateRef.current;
+      const depthReached: ExtendedStateObject["last_depth_reached"] =
+        depthLevel === "identity"
+          ? "identity"
+          : depthLevel === "underlying"
+            ? "underlying"
+            : depthLevel === "surface"
+              ? "surface"
+              : "missed";
+      extendedStateRef.current = {
+        ...prevState,
+        last_depth_reached: depthReached,
+        trust_level: isCorrect
+          ? Math.min(100, prevState.trust_level + 5)
+          : Math.max(0, prevState.trust_level - 2),
+        openness: isCorrect
+          ? Math.min(100, prevState.openness + 8)
+          : prevState.openness,
+        revelation_stage:
+          isCorrect && prevState.openness > 60
+            ? Math.min(4, prevState.revelation_stage + 1)
+            : prevState.revelation_stage,
+        mood:
+          isCorrect && prevState.trust_level >= 80
+            ? "open"
+            : isCorrect && prevState.trust_level >= 60
+              ? "opening"
+              : prevState.mood,
+      };
+
+      // Fire Gemini Call 2 for pattern detection — fire-and-forget, non-blocking
+      const apiKey = getStoredApiKey();
+      const conversationHistory = messages.map((m) => ({
+        role: m.role as "user" | "character",
+        text: m.text,
+      }));
+
+      setPatternDetectionPending(true);
+      setCurrentPatternSignal(null); // Clear previous signal while new one loads
+
+      detectPatternSignals(text, conversationHistory, apiKey)
+        .then((patternResult) => {
+          setCurrentPatternSignal(patternResult);
+          setPatternData((prev) => updateSessionPatterns(prev, patternResult));
+        })
+        .catch(() => {
+          // Graceful degradation: silently swallow error, Panel B keeps last signal
+        })
+        .finally(() => {
+          setPatternDetectionPending(false);
+        });
+
       // Add user message
       const userMsg: ChatMessage = {
         id: `user-${exchangeCountRef.current}`,
@@ -295,10 +474,17 @@ export function ConversationalDrill({
 
       // Check if session should end
       if (exchangeCountRef.current >= MAX_EXCHANGES) {
-        setTimeout(() => onComplete(statsRef.current), 1500);
+        // Include pattern data in final stats before completing
+        setTimeout(() => {
+          setPatternData((finalPatternData) => {
+            statsRef.current.sessionPatternData = finalPatternData;
+            onComplete(statsRef.current);
+            return finalPatternData;
+          });
+        }, 1500);
       }
     },
-    [scenario, onComplete],
+    [scenario, onComplete, messages],
   );
 
   // -- Handle text submit ----------------------------------------------------
@@ -321,11 +507,18 @@ export function ConversationalDrill({
 
   // -- Done button -----------------------------------------------------------
   const handleFinish = useCallback(() => {
+    statsRef.current.sessionPatternData = patternData;
     onComplete(statsRef.current);
-  }, [onComplete]);
+  }, [onComplete, patternData]);
 
   // -- Render ----------------------------------------------------------------
   const initial = scenario.characterName.charAt(0).toUpperCase();
+
+  // Determine if Panel B should show (after first exchange has been attempted)
+  const showPanelB =
+    exchangeCountRef.current > 0 ||
+    patternDetectionPending ||
+    currentPatternSignal !== null;
 
   return (
     <div
@@ -367,6 +560,15 @@ export function ConversationalDrill({
             expertExample={scenario.expertLabel}
           />
         </div>
+      )}
+
+      {/* Panel B: What you signaled (sending channel biofeedback) */}
+      {showPanelB && (
+        <PanelB
+          currentSignal={currentPatternSignal}
+          patternData={patternData}
+          isWaiting={patternDetectionPending}
+        />
       )}
 
       {/* Chat messages */}

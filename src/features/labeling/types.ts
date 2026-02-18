@@ -191,6 +191,8 @@ export interface DrillStats {
     emotion: number;
     underlyingDepth: number;
   };
+  /** Pattern detection data accumulated across session — passed to debrief screen */
+  sessionPatternData?: import("../../types/simulation").SessionPatternData;
 }
 
 // ===== LEVEL PROGRESSION =====
