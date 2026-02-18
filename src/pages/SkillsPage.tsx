@@ -1,11 +1,23 @@
 /**
  * SkillsPage - Skills Lab hub
- * Active drills (Labeling, Accusation Audit) + technique library link + coming soon teasers
+ * Active drills (Labeling, Accusation Audit) + 6 generic engine technique drills + technique library link
  */
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getLabelAttempts } from "../features/labeling";
+import { drillTechniquesArray } from "../data/drill-techniques";
+
+// Framework badge color helper
+const frameworkColor = (fw: string) =>
+  (
+    ({
+      Voss: "text-accent",
+      MI: "text-info",
+      CBT: "text-status-success",
+      NVC: "text-status-warning",
+    }) as Record<string, string>
+  )[fw] ?? "text-text-muted";
 
 export default function SkillsPage() {
   const navigate = useNavigate();
@@ -23,9 +35,14 @@ export default function SkillsPage() {
     }
   }, []);
 
+  // 6 generic engine techniques — exclude labeling and accusation-audit (they have their own routes)
+  const genericTechniques = drillTechniquesArray.filter(
+    (t) => t.id !== "labeling" && t.id !== "accusation-audit",
+  );
+
   return (
     <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-8 space-y-8">
-      {/* Active Drills */}
+      {/* Section 1: Practice Drills — existing 2 cards, unchanged */}
       <section>
         <h2 className="text-h5 font-display font-semibold text-text-heading mb-4">
           Practice Drills
@@ -92,7 +109,49 @@ export default function SkillsPage() {
         </div>
       </section>
 
-      {/* Technique Library link */}
+      {/* Section 2: Technique Drills — 6 generic engine cards */}
+      <section>
+        <h2 className="text-h5 font-display font-semibold text-text-heading mb-4">
+          Technique Drills
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {genericTechniques.map((technique) => {
+            // First sentence only — slice at first period
+            const firstSentence = technique.description.split(".")[0] + ".";
+
+            return (
+              <button
+                key={technique.id}
+                onClick={() => navigate(`/practice/drill/${technique.id}`)}
+                className="card-surface border-l-4 border-l-accent text-left hover:bg-accent/5 active:bg-accent/10 transition-colors"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-display font-semibold text-h5 text-text-heading">
+                        {technique.name}
+                      </h3>
+                      <span
+                        className={`text-caption font-medium ${frameworkColor(technique.framework)}`}
+                      >
+                        {technique.framework}
+                      </span>
+                    </div>
+                    <p className="text-body-sm text-text-body">
+                      {firstSentence}
+                    </p>
+                  </div>
+                  <span className="text-text-subtle flex-shrink-0 mt-1">
+                    &rarr;
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Section 3: Technique Library — unchanged */}
       <section>
         <button
           onClick={() => navigate("/library")}
@@ -133,72 +192,6 @@ export default function SkillsPage() {
           </div>
           <span className="text-text-subtle">&rarr;</span>
         </button>
-      </section>
-
-      {/* Coming Soon Drills */}
-      <section>
-        <h2 className="text-h5 font-display font-semibold text-text-heading mb-4">
-          Coming Soon
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {[
-            {
-              name: "Tactical Mirroring",
-              desc: "Repeat the last 1-3 words to keep them talking",
-            },
-            {
-              name: "Calibrated Questions",
-              desc: "Ask how/what questions that guide without pushing",
-            },
-            {
-              name: "Strategic Summarizing",
-              desc: "Paraphrase + label to trigger 'that's right'",
-            },
-            {
-              name: "Dynamic Silence",
-              desc: "Use deliberate pauses after labels and mirrors",
-            },
-          ].map((drill) => (
-            <div
-              key={drill.name}
-              className="card-surface opacity-60 cursor-default"
-            >
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-background-elevated flex items-center justify-center flex-shrink-0">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="text-text-subtle"
-                  >
-                    <rect
-                      x="3"
-                      y="11"
-                      width="18"
-                      height="11"
-                      rx="2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M7 11V7a5 5 0 0110 0v4"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-body-sm font-medium text-text-heading">
-                    {drill.name}
-                  </p>
-                  <p className="text-caption text-text-muted">{drill.desc}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
     </div>
   );
