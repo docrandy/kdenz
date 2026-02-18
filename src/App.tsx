@@ -39,6 +39,8 @@ import BreathingScreen from "./pages/BreathingScreen";
 import { LabelingPractice } from "./features/labeling";
 import { AccusationAuditPractice } from "./features/accusation-audit";
 import { DrillScreen } from "./features/drill-engine";
+import { AspirationSetup } from "./features/aspiration";
+import { getAspiration } from "./utils/aspirationStorage";
 import { AppHeader } from "./components/AppHeader";
 import { SlideTransition } from "./components/SlideTransition";
 import { TabLayout } from "./components/TabLayout";
@@ -130,6 +132,18 @@ function DrillScreenRoute() {
 // Wrapper for Baseline Practice
 function BaselinePracticeRoute() {
   return <PracticeSession focusMode="filler" />;
+}
+
+// Wrapper for Aspiration Setup
+function AspirationSetupRoute() {
+  const navigate = useNavigate();
+  return (
+    <AspirationSetup
+      onComplete={() => navigate(-1)}
+      onSkip={() => navigate(-1)}
+      initialAspiration={getAspiration()}
+    />
+  );
 }
 
 function App() {
@@ -351,6 +365,7 @@ function App() {
             element={<LabelingLessons />}
           />
           <Route path="/breathing" element={<BreathingScreen />} />
+          <Route path="/aspiration/setup" element={<AspirationSetupRoute />} />
         </Routes>
         <FeedbackButton />
         <DevFeedbackBoxesWrapper />

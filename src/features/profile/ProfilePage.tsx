@@ -12,12 +12,15 @@
  */
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { UserProfile, TreeSelection } from "./types";
 import { GOAL_OPTIONS, FOCUS_OPTIONS } from "./types";
 import { getProfile, saveProfile } from "./profileStorage";
 import { MultiSelectDecisionTree } from "./components/MultiSelectDecisionTree";
 import { DecisionTreeSelect } from "./components/DecisionTreeSelect";
 import { ToggleInput } from "./components/ToggleInput";
+import { getAspiration } from "../../utils/aspirationStorage";
+import { getArchetypeById } from "../../data/voiceArchetypes";
 
 interface ProfilePageProps {
   onBack: () => void;
@@ -42,6 +45,7 @@ const CHALLENGE_OPTIONS = [
 ];
 
 export function ProfilePage({ onBack }: ProfilePageProps) {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile>(getProfile);
   const [currentStep, setCurrentStep] = useState(1);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
@@ -290,6 +294,39 @@ export function ProfilePage({ onBack }: ProfilePageProps) {
                 className="input w-full resize-none"
               />
             </div>
+
+            {/* Communication Target — links to aspiration setup */}
+            <button
+              type="button"
+              onClick={() => navigate("/aspiration/setup")}
+              className="w-full flex items-center justify-between px-4 py-3 bg-background-elevated rounded-lg border border-background-elevated hover:border-accent/40 transition-colors text-left"
+            >
+              <div>
+                <p className="text-sm font-medium text-text-muted">
+                  Communication Target
+                </p>
+                <p className="text-xs text-text-subtle mt-0.5">
+                  {(() => {
+                    const asp = getAspiration();
+                    if (!asp) return "Not set";
+                    return getArchetypeById(asp.primary_archetype_id).name;
+                  })()}
+                </p>
+              </div>
+              <svg
+                className="w-4 h-4 text-text-muted"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         )}
       </main>
