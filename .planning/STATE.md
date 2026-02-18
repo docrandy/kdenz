@@ -13,7 +13,7 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 **Version:** v3.0 Generic Drill Engine
 **Previous:** v2.0 Dark Premium Transformation (COMPLETE), v1.0 shipped 2026-02-05
 **Deployed:** https://kdenz.vercel.app (v2.0 + 5-pillar navigation active)
-**Last Action:** 2026-02-18 - Completed 20.1-02 (Aspiration data layer + 3-question AspirationSetup flow)
+**Last Action:** 2026-02-18 - Completed 20.1-03 (Institute content tagging schema + 10 seed items + LearnerProfile + routing algorithm)
 
 **Progress:** [█--------------------] 25% (1/4 phases complete, 3/4 plans in Phase 20)
 
@@ -142,11 +142,21 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-18T00:25:00Z
-Stopped at: Completed 20.1-02-PLAN.md (aspiration types + 7 voice archetypes + AspirationSetup 3-question flow + /aspiration/setup route, 2 tasks, type-check clean)
+Last session: 2026-02-18T~21:25Z
+Stopped at: Completed 20.1-03-PLAN.md (Institute content tagging schema, 10 seed items, LearnerProfile assembly, routing algorithm, 2 tasks, type-check + build clean)
 Resume file: None
 
 ---
+### Institute Routing Layer (Plan 20.1-03)
+- InstituteContentItem type with 4-axis routing tags: addresses_patterns, supports_aspirations, technique_ids, vcm_gates
+- LearnerProfile assembled from: pattern history (kdenz:pattern-history) + aspiration (kdenz:user-aspiration) + Institute progress (kdenz:institute-progress)
+- Pattern history: rolling 10-session window, confidence calc (high >= 70% + 5 sessions; medium >= 40% or 3+ sessions)
+- 10 seed items covering all 8 patterns: surface-reader, hedger, fixer, diplomat, intellectualizer, presumptuous, rusher, explainer
+- Routing: scoreContentItem() = pattern(50)+aspiration(30)+gap(20 stub)+VCM(10 stub) - consumed(-100) - dismissed(-100) - unmet prereqs(-50)
+- getTopContent(profile, count=2, debriefOnly=false): score>0 filter, score desc + tier asc sort
+- formatDebriefHook(hook, sessionData): {count} and {avgWordCount} placeholder replacement
+- Importable: getLearnerProfile() from utils/learnerProfileStorage, getTopContent() from services/contentRoutingService
+
 ### Aspiration Layer (Plan 20.1-02)
 - 7 voice archetypes: grounded_authority, fm_dj (Calm Broadcaster), warm_connector, motivator, analytical_clarifier, calm_negotiator, playful_persuader
 - Each archetype has measurable markers: speech_rate_wpm, filler_density_per_100, avg_pause_duration_s — ready for gap calculation in session debrief
