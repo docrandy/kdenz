@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KDENZ Platform Nav Mockup</title>
+  <style>
+    /* ── Design Tokens ── */
+    :root {
+      --bg-base:        #0a0e1a;
+      --bg-surface:     #111827;
+      --bg-elevated:    #1a2235;
+      --bg-card:        #1e2d45;
+      --border:         rgba(255,255,255,0.07);
+      --border-strong:  rgba(255,255,255,0.12);
+      --gold:           #d4a847;
+      --gold-dim:       rgba(212,168,71,0.15);
+      --gold-glow:      rgba(212,168,71,0.25);
+      --text-primary:   #f0f4ff;
+      --text-secondary: #8b9ab4;
+      --text-muted:     #4a5568;
+      --green:          #22c55e;
+      --green-dim:      rgba(34,197,94,0.15);
+      --blue:           #3b82f6;
+      --blue-dim:       rgba(59,130,246,0.15);
+      --red:            #ef4444;
+      --red-dim:        rgba(239,68,68,0.15);
+      --purple:         #a855f7;
+      --purple-dim:     rgba(168,85,247,0.15);
+      --radius-sm:      8px;
+      --radius-md:      12px;
+      --radius-lg:      16px;
+      --tab-h:          68px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #060810;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Phone Shell ── */
+    .phone {
+      width: 390px;
+      height: 844px;
+      background: var(--bg-base);
+      border-radius: 44px;
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 40px 120px rgba(0,0,0,0.8),
+        0 0 60px rgba(212,168,71,0.04);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Status Bar ── */
+    .status-bar {
+      height: 44px;
+      background: var(--bg-base);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+    .status-bar .time {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+    }
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-icons svg {
+      color: var(--text-primary);
+    }
+
+    /* ── Scroll Content ── */
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      position: relative;
+    }
+    .content-area::-webkit-scrollbar { display: none; }
+
+    /* ── Views ── */
+    .view {
+      display: none;
+      padding: 0 0 24px 0;
+      min-height: 100%;
+      animation: fadeSlide 0.22s ease;
+    }
+    .view.active { display: block; }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── View Headers ── */
+    .view-header {
+      padding: 20px 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .view-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+    .view-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 20px;
+      margin: 20px 0 10px;
+    }
+
+    /* ── Card base ── */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    /* ── Bottom Tab Bar ── */
+    .tab-bar {
+      height: var(--tab-h);
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: stretch;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 20;
+    }
+    .tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 6px 0 10px;
+      transition: all 0.15s ease;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab:active { opacity: 0.75; }
+    .tab svg {
+      transition: all 0.15s ease;
+    }
+    .tab-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text-muted);
+      transition: color 0.15s ease;
+    }
+    .tab.active .tab-label { color: var(--gold); }
+    .tab.active svg { filter: drop-shadow(0 0 6px rgba(212,168,71,0.5)); }
+    .tab-dot {
+      position: absolute;
+      top: 4px;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .tab.active .tab-dot { opacity: 1; }
+
+    /* ────────────────────────────────
+       DASHBOARD VIEW
+    ──────────────────────────────── */
+
+    /* Profile Hero */
+    .profile-hero {
+      background: linear-gradient(160deg, #0d1829 0%, #0a0e1a 60%);
+      padding: 20px 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-hero::after {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,168,71,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d4a847 0%, #b8893a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0a0e1a;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(212,168,71,0.3), 0 4px 20px rgba(212,168,71,0.2);
+    }
+    .profile-text {}
+    .profile-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+    }
+    .profile-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 1px;
+    }
+    .streak-badge {
+      margin-left: auto;
+      background: var(--gold-dim);
+      border: 1px solid rgba(212,168,71,0.25);
+      border-radius: 20px;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    /* Quick Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 0 20px;
+      margin-top: 16px;
+    }
+    .stat-pill {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .stat-pill .val {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .stat-pill .val span {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-left: 2px;
+    }
+    .stat-pill .lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    /* Practice Cards */
+    .practice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 20px;
+    }
+    .practice-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .practice-card:active { transform: scale(0.98); }
+    .practice-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+    }
+    .practice-card.gold::before   { background: var(--gold); }
+    .practice-card.green::before  { background: var(--green); }
+    .practice-card.blue::before   { background: var(--blue); }
+    .practice-card.purple::before { background: var(--purple); }
+
+    .practice-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .practice-card.gold   .practice-icon { background: var(--gold-dim);   }
+    .practice-card.green  .practice-icon { background: var(--green-dim);  }
+    .practice-card.blue   .practice-icon { background: var(--blue-dim);   }
+    .practice-card.purple .practice-icon { background: var(--purple-dim); }
+
+    .practice-body { flex: 1; min-width: 0; }
+    .practice-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .practice-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .practice-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .practice-level {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .level-beginner { background: var(--green-dim);  color: var(--green); }
+    .level-intermediate { background: var(--blue-dim); color: var(--blue); }
+    .level-advanced { background: var(--gold-dim);   color: var(--gold); }
+
+    /* Progress section */
+    .progress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 20px;
+    }
+    .progress-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+    .progress-card .p-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .progress-card .p-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      line-height: 1;
+      margin-top: 6px;
+    }
+    .progress-card .p-unit {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .progress-card .p-change {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .p-change.good { color: var(--green); }
+    .p-change.bad  { color: var(--red); }
+
+    /* Mini bar chart */
+    .mini-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 28px;
+      margin-top: 8px;
+    }
+    .mini-bar {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      min-height: 4px;
+    }
+    .mini-bar.gold   { background: var(--gold); }
+    .mini-bar.green  { background: var(--green); }
+    .mini-bar.dim    { background: var(--bg-elevated); }
+
+    /* Heatmap strip */
+    .heatmap-strip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 0 20px;
+    }
+    .heatmap-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .heatmap-grid {
+      display: flex;
+      gap: 3px;
+    }
+    .heatmap-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .heatmap-cell {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+    .hm-0  { background: var(--bg-elevated); }
+    .hm-1  { background: rgba(212,168,71,0.3); }
+    .hm-2  { background: rgba(212,168,71,0.6); }
+    .hm-3  { background: var(--gold); }
+
+    /* ────────────────────────────────
+       VOICE LAB VIEW
+    ──────────────────────────────── */
+    .vl-hero {
+      background: linear-gradient(160deg, #0d1829 0%, #0a0e1a 60%);
+      padding: 20px 20px 28px;
+    }
+    .vl-mode-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 20px;
+    }
+    .vl-mode-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .vl-mode-card:active { transform: scale(0.97); }
+    .vl-mode-card.primary {
+      border-color: rgba(212,168,71,0.3);
+      background: linear-gradient(135deg, rgba(212,168,71,0.06) 0%, var(--bg-surface) 100%);
+    }
+    .vl-mode-card.secondary {
+      border-color: rgba(59,130,246,0.3);
+      background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, var(--bg-surface) 100%);
+    }
+    .vl-icon-wrap {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px;
+    }
+    .vl-mode-card.primary .vl-icon-wrap  { background: var(--gold-dim); }
+    .vl-mode-card.secondary .vl-icon-wrap { background: var(--blue-dim); }
+    .vl-mode-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .vl-mode-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .vl-mode-cta {
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .vl-mode-card.primary  .vl-mode-cta { color: var(--gold); }
+    .vl-mode-card.secondary .vl-mode-cta { color: var(--blue); }
+
+    .session-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 0 20px;
+    }
+    .session-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .session-row:last-child { border-bottom: none; }
+    .session-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .session-body { flex: 1; }
+    .session-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .session-meta {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 1px;
+    }
+    .session-score {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .vl-profile-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 0 20px;
+      cursor: pointer;
+    }
+    .vl-profile-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .vl-profile-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ────────────────────────────────
+       SKILLS LAB VIEW
+    ──────────────────────────────── */
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      padding: 0 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-chips::-webkit-scrollbar { display: none; }
+    .chip {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+    .chip.active {
+      background: var(--gold-dim);
+      border-color: rgba(212,168,71,0.35);
+      color: var(--gold);
+    }
+    .chip:active { opacity: 0.75; }
+
+    .technique-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 20px;
+    }
+    .technique-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .technique-card:active { transform: scale(0.98); }
+    .tech-icon {
+      width: 38px; height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+    .tech-body { flex: 1; min-width: 0; }
+    .tech-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .tech-framework {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .mastery-bar-wrap {
+      margin-top: 7px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mastery-track {
+      flex: 1;
+      height: 4px;
+      background: var(--bg-elevated);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .mastery-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--gold);
+    }
+    .mastery-pct {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      width: 28px;
+      text-align: right;
+    }
+    .tech-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .diff-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .diff-a1  { background: var(--green-dim);  color: var(--green); }
+    .diff-a2  { background: var(--blue-dim);   color: var(--blue); }
+    .diff-b1  { background: var(--gold-dim);   color: var(--gold); }
+    .diff-b2  { background: var(--purple-dim); color: var(--purple); }
+    .diff-b3  { background: var(--red-dim);    color: var(--red); }
+    .tech-arrow { color: var(--text-muted); }
+
+    /* Skills Lab empty / coming up */
+    .skills-hero {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .skills-hero-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--gold-dim);
+      border: 1px solid rgba(212,168,71,0.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .skills-hero-text {}
+    .skills-hero-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .skills-hero-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    /* ────────────────────────────────
+       SIMULATION VIEW
+    ──────────────────────────────── */
+    .coming-soon-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(168,85,247,0.15);
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .sim-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      padding: 0 20px;
+    }
+
+    .sim-preview {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin: 0 20px;
+      opacity: 0.7;
+    }
+    .sim-preview-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .sim-field-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .sim-select-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .sim-option {
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .sim-option.sel {
+      background: rgba(168,85,247,0.12);
+      border-color: rgba(168,85,247,0.3);
+      color: var(--purple);
+      font-weight: 600;
+    }
+    .sim-diff-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .sim-diff-dot {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--bg-elevated);
+    }
+    .sim-diff-dot.filled { background: var(--purple); }
+
+    .sim-cta {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(168,85,247,0.15);
+      border: 1px solid rgba(168,85,247,0.3);
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .sim-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 20px;
+    }
+    .sim-feature-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+    .sim-feature-icon {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: rgba(168,85,247,0.12);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .sim-feature-text {}
+    .sim-feature-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .sim-feature-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    /* ────────────────────────────────
+       INSTITUTE VIEW
+    ──────────────────────────────── */
+    .institute-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 20px;
+    }
+    .institute-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .institute-card:active { transform: scale(0.97); }
+    .inst-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+    .inst-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .inst-count {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+    .inst-coming {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Utility ── */
+    .flex-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chevron-right {
+      color: var(--text-muted);
+    }
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons">
+      <!-- Signal -->
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+        <rect x="0"  y="7" width="3" height="5" rx="1" fill="currentColor"/>
+        <rect x="4.5" y="4.5" width="3" height="7.5" rx="1" fill="currentColor"/>
+        <rect x="9"  y="2" width="3" height="10" rx="1" fill="currentColor"/>
+        <rect x="13.5" y="0" width="3" height="12" rx="1" fill="currentColor"/>
+      </svg>
+      <!-- WiFi -->
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <path d="M8 9.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" fill="currentColor"/>
+        <path d="M3.5 6.5a6.5 6.5 0 019 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M1 4a10 10 0 0114 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+      </svg>
+      <!-- Battery -->
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+        <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="currentColor" stroke-opacity="0.35"/>
+        <rect x="2" y="2" width="15" height="8" rx="2" fill="currentColor"/>
+        <path d="M23 4v4a2 2 0 000-4z" fill="currentColor" fill-opacity="0.4"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Scrollable Content -->
+  <div class="content-area">
+
+    <!-- ════════════════════════════
+         DASHBOARD VIEW
+    ════════════════════════════ -->
+    <div id="view-dashboard" class="view active">
+
+      <!-- Profile Hero -->
+      <div class="profile-hero">
+        <div class="profile-row">
+          <div class="avatar">R</div>
+          <div class="profile-text">
+            <div class="profile-name">Randy</div>
+            <div class="profile-sub">Communication Training</div>
+          </div>
+          <div class="streak-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--gold)">
+              <path d="M12 2c.5 2.5-1 5-3 6.5 0-1.5-.5-3-1.5-4C6 6.5 5 9 5 11c0 3.9 3.1 7 7 7s7-3.1 7-7c0-3.8-3-7-7-9z"/>
+            </svg>
+            7 day
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-pill">
+          <div class="val">12<span>min</span></div>
+          <div class="lbl">Today</div>
+        </div>
+        <div class="stat-pill">
+          <div class="val">47</div>
+          <div class="lbl">Sessions</div>
+        </div>
+        <div class="stat-pill">
+          <div class="val">3<span>hr</span></div>
+          <div class="lbl">This week</div>
+        </div>
+      </div>
+
+      <!-- Practice Section -->
+      <div class="section-label">Practice</div>
+      <div class="practice-list">
+
+        <div class="practice-card gold">
+          <div class="practice-icon">
+            <!-- Mic icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a847" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="2" width="6" height="11" rx="3"/>
+              <path d="M5 10a7 7 0 0014 0M12 19v3M8 22h8"/>
+            </svg>
+          </div>
+          <div class="practice-body">
+            <div class="practice-name">Filler Words</div>
+            <div class="practice-desc">Real-time um/uh detection</div>
+          </div>
+          <div class="practice-meta">
+            <span class="practice-level level-intermediate">Active</span>
+          </div>
+        </div>
+
+        <div class="practice-card green">
+          <div class="practice-icon">
+            <!-- Waveform -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round">
+              <path d="M2 12h2M6 8v8M10 5v14M14 9v6M18 7v10M22 12h2"/>
+            </svg>
+          </div>
+          <div class="practice-body">
+            <div class="practice-name">Speech Pace</div>
+            <div class="practice-desc">Words per minute coaching</div>
+          </div>
+          <div class="practice-meta">
+            <span class="practice-level level-beginner">Active</span>
+          </div>
+        </div>
+
+        <div class="practice-card blue">
+          <div class="practice-icon">
+            <!-- Tag -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+              <circle cx="7" cy="7" r="1.5" fill="#3b82f6"/>
+            </svg>
+          </div>
+          <div class="practice-body">
+            <div class="practice-name">Labeling Practice</div>
+            <div class="practice-desc">Affect shift &amp; behavior probe</div>
+          </div>
+          <div class="practice-meta">
+            <span class="practice-level level-beginner">Drill</span>
+          </div>
+        </div>
+
+        <div class="practice-card purple">
+          <div class="practice-icon">
+            <!-- Book -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+            </svg>
+          </div>
+          <div class="practice-body">
+            <div class="practice-name">Technique Library</div>
+            <div class="practice-desc">57+ communication techniques</div>
+          </div>
+          <div class="practice-meta">
+            <span class="practice-level level-advanced">57+</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Progress Section -->
+      <div class="section-label">Your Progress</div>
+      <div class="progress-grid">
+
+        <div class="progress-card">
+          <div class="p-label">Filler Rate</div>
+          <div class="p-value">2.1<span class="p-unit">/min</span></div>
+          <div class="p-change good">-38% vs baseline</div>
+          <div class="mini-bars">
+            <div class="mini-bar gold" style="height:60%"></div>
+            <div class="mini-bar gold" style="height:75%"></div>
+            <div class="mini-bar gold" style="height:55%"></div>
+            <div class="mini-bar gold" style="height:80%"></div>
+            <div class="mini-bar gold" style="height:45%"></div>
+            <div class="mini-bar gold" style="height:35%"></div>
+            <div class="mini-bar gold" style="height:28%"></div>
+          </div>
+        </div>
+
+        <div class="progress-card">
+          <div class="p-label">Speech Pace</div>
+          <div class="p-value">148<span class="p-unit"> wpm</span></div>
+          <div class="p-change good">In target zone</div>
+          <div class="mini-bars">
+            <div class="mini-bar green" style="height:85%"></div>
+            <div class="mini-bar green" style="height:90%"></div>
+            <div class="mini-bar green" style="height:75%"></div>
+            <div class="mini-bar green" style="height:80%"></div>
+            <div class="mini-bar green" style="height:88%"></div>
+            <div class="mini-bar green" style="height:82%"></div>
+            <div class="mini-bar green" style="height:78%"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Activity Heatmap -->
+      <div class="section-label">Activity</div>
+      <div class="heatmap-strip">
+        <div class="heatmap-label">Practice Frequency — 12 weeks</div>
+        <div class="heatmap-grid" id="heatmap"></div>
+      </div>
+
+    </div>
+
+    <!-- ════════════════════════════
+         VOICE LAB VIEW
+    ════════════════════════════ -->
+    <div id="view-voicelab" class="view">
+
+      <div class="vl-hero">
+        <div class="view-title">Voice Lab</div>
+        <div class="view-subtitle">Real-time voice coaching</div>
+      </div>
+
+      <div class="section-label">Choose Mode</div>
+      <div class="vl-mode-cards">
+
+        <div class="vl-mode-card primary">
+          <div class="vl-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d4a847" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="2" width="6" height="11" rx="3"/>
+              <path d="M5 10a7 7 0 0014 0M12 19v3M8 22h8"/>
+            </svg>
+          </div>
+          <div class="vl-mode-name">Filler Words</div>
+          <div class="vl-mode-desc">Real-time um, uh, like detection with visual feedback</div>
+          <div class="vl-mode-cta">
+            Start session
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="vl-mode-card secondary">
+          <div class="vl-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round">
+              <path d="M2 12h2M6 8v8M10 5v14M14 9v6M18 7v10M22 12h2"/>
+            </svg>
+          </div>
+          <div class="vl-mode-name">Speech Pace</div>
+          <div class="vl-mode-desc">Words per minute coaching with target zone guidance</div>
+          <div class="vl-mode-cta">
+            Start session
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-label">Recent Sessions</div>
+      <div class="session-list">
+        <div class="session-row">
+          <div class="session-dot" style="background:#d4a847"></div>
+          <div class="session-body">
+            <div class="session-name">Filler Words — 90s</div>
+            <div class="session-meta">Today, 9:12 AM &nbsp;·&nbsp; 3 fillers</div>
+          </div>
+          <div class="session-score" style="color:#22c55e">A</div>
+        </div>
+        <div class="session-row">
+          <div class="session-dot" style="background:#3b82f6"></div>
+          <div class="session-body">
+            <div class="session-name">Speech Pace — 60s</div>
+            <div class="session-meta">Yesterday, 8:45 PM &nbsp;·&nbsp; 152 wpm</div>
+          </div>
+          <div class="session-score" style="color:#22c55e">B+</div>
+        </div>
+        <div class="session-row">
+          <div class="session-dot" style="background:#d4a847"></div>
+          <div class="session-body">
+            <div class="session-name">Filler Words — 60s</div>
+            <div class="session-meta">Yesterday, 7:30 PM &nbsp;·&nbsp; 7 fillers</div>
+          </div>
+          <div class="session-score" style="color:#d4a847">C+</div>
+        </div>
+      </div>
+
+      <div class="section-label">Profile</div>
+      <div class="vl-profile-link">
+        <div>
+          <div class="vl-profile-text">Voice Profile</div>
+          <div class="vl-profile-sub">Baseline, trends, and baseline comparison</div>
+        </div>
+        <svg class="chevron-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+
+    </div>
+
+    <!-- ════════════════════════════
+         SKILLS LAB VIEW
+    ════════════════════════════ -->
+    <div id="view-skillslab" class="view">
+
+      <div class="view-header">
+        <div>
+          <div class="view-title">Skills Lab</div>
+          <div class="view-subtitle">Isolated technique drills</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+
+      <!-- Summary hero -->
+      <div style="padding: 14px 20px 0;">
+        <div class="skills-hero">
+          <div class="skills-hero-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a847" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+          </div>
+          <div class="skills-hero-text">
+            <div class="skills-hero-title">5 techniques in progress</div>
+            <div class="skills-hero-sub">3 due for review &nbsp;·&nbsp; Tier 1 of 5</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:16px;">Filter</div>
+      <div class="filter-chips">
+        <div class="chip active">All</div>
+        <div class="chip">Labeling</div>
+        <div class="chip">Mirroring</div>
+        <div class="chip">Accusation Audit</div>
+        <div class="chip">Cal. Questions</div>
+      </div>
+
+      <div class="section-label">Techniques</div>
+      <div class="technique-grid">
+
+        <div class="technique-card">
+          <div class="tech-icon">🏷️</div>
+          <div class="tech-body">
+            <div class="tech-name">Labeling — Affect Shift</div>
+            <div class="tech-framework">Black Swan · Voss</div>
+            <div class="mastery-bar-wrap">
+              <div class="mastery-track"><div class="mastery-fill" style="width:72%"></div></div>
+              <div class="mastery-pct">72%</div>
+            </div>
+          </div>
+          <div class="tech-right">
+            <span class="diff-badge diff-a1">Tier 1</span>
+            <svg class="tech-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="technique-card">
+          <div class="tech-icon">🔍</div>
+          <div class="tech-body">
+            <div class="tech-name">Labeling — Behavior Probe</div>
+            <div class="tech-framework">Black Swan · Voss</div>
+            <div class="mastery-bar-wrap">
+              <div class="mastery-track"><div class="mastery-fill" style="width:41%"></div></div>
+              <div class="mastery-pct">41%</div>
+            </div>
+          </div>
+          <div class="tech-right">
+            <span class="diff-badge diff-a1">Tier 1</span>
+            <svg class="tech-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="technique-card">
+          <div class="tech-icon">🪞</div>
+          <div class="tech-body">
+            <div class="tech-name">Tactical Mirroring</div>
+            <div class="tech-framework">Black Swan · Tier A</div>
+            <div class="mastery-bar-wrap">
+              <div class="mastery-track"><div class="mastery-fill" style="width:88%"></div></div>
+              <div class="mastery-pct">88%</div>
+            </div>
+          </div>
+          <div class="tech-right">
+            <span class="diff-badge diff-a2">Tier 2</span>
+            <svg class="tech-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="technique-card">
+          <div class="tech-icon">⚖️</div>
+          <div class="tech-body">
+            <div class="tech-name">Accusation Audit</div>
+            <div class="tech-framework">Black Swan · Voss</div>
+            <div class="mastery-bar-wrap">
+              <div class="mastery-track"><div class="mastery-fill" style="width:55%"></div></div>
+              <div class="mastery-pct">55%</div>
+            </div>
+          </div>
+          <div class="tech-right">
+            <span class="diff-badge diff-b1">Tier 2</span>
+            <svg class="tech-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="technique-card">
+          <div class="tech-icon">❓</div>
+          <div class="tech-body">
+            <div class="tech-name">Calibrated Questions</div>
+            <div class="tech-framework">Black Swan · MI</div>
+            <div class="mastery-bar-wrap">
+              <div class="mastery-track"><div class="mastery-fill" style="width:19%"></div></div>
+              <div class="mastery-pct">19%</div>
+            </div>
+          </div>
+          <div class="tech-right">
+            <span class="diff-badge diff-b2">Tier 3</span>
+            <svg class="tech-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ════════════════════════════
+         SIMULATION VIEW
+    ════════════════════════════ -->
+    <div id="view-simulation" class="view">
+
+      <div class="view-header">
+        <div>
+          <div class="view-title">Simulation Studio</div>
+          <div class="view-subtitle" style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+            <div class="coming-soon-badge">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="var(--purple)"><circle cx="12" cy="12" r="10"/></svg>
+              Coming Soon
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 14px 20px 0;">
+        <p class="sim-desc">
+          Practice real conversations with an AI counterpart trained on 5 difficulty levels — from cooperative to deceptive. Apply your techniques under pressure before the real thing.
+        </p>
+      </div>
+
+      <div class="section-label">Preview</div>
+      <div class="sim-preview">
+        <div class="sim-preview-label">Session Setup</div>
+
+        <div class="sim-field-label">Scenario</div>
+        <div class="sim-select-row">
+          <div class="sim-option sel">Salary Negotiation</div>
+          <div class="sim-option">Conflict Resolution</div>
+          <div class="sim-option">Sales Call</div>
+        </div>
+
+        <div class="sim-field-label">Technique Focus</div>
+        <div class="sim-select-row">
+          <div class="sim-option sel">Labeling</div>
+          <div class="sim-option">Mirroring</div>
+          <div class="sim-option">Cal. Questions</div>
+        </div>
+
+        <div class="sim-field-label">Difficulty — Level 2 of 5</div>
+        <div class="sim-diff-row">
+          <div class="sim-diff-dot filled"></div>
+          <div class="sim-diff-dot filled"></div>
+          <div class="sim-diff-dot"></div>
+          <div class="sim-diff-dot"></div>
+          <div class="sim-diff-dot"></div>
+        </div>
+
+        <div class="sim-cta">Start Simulation</div>
+      </div>
+
+      <div class="section-label">What to expect</div>
+      <div class="sim-features">
+        <div class="sim-feature-row">
+          <div class="sim-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div class="sim-feature-text">
+            <div class="sim-feature-title">Multi-turn AI opponent</div>
+            <div class="sim-feature-desc">Powered by Gemini 2.5 Flash. Consistent mood, trust level, and concession tracking across the entire conversation.</div>
+          </div>
+        </div>
+        <div class="sim-feature-row">
+          <div class="sim-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="sim-feature-text">
+            <div class="sim-feature-title">Technique detection &amp; scoring</div>
+            <div class="sim-feature-desc">Form, accuracy, impact, and timing scored on every response. 4-dimension quality rubric.</div>
+          </div>
+        </div>
+        <div class="sim-feature-row">
+          <div class="sim-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="sim-feature-text">
+            <div class="sim-feature-title">Post-session analysis</div>
+            <div class="sim-feature-desc">Transcript review, emotional prosody insights, and a prescriptive plan for your next practice session.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════════════════════════════
+         INSTITUTE VIEW
+    ════════════════════════════ -->
+    <div id="view-institute" class="view">
+
+      <div class="view-header">
+        <div>
+          <div class="view-title">KDENZ Institute</div>
+          <div class="view-subtitle" style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+            <div class="coming-soon-badge">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="var(--purple)"><circle cx="12" cy="12" r="10"/></svg>
+              Coming Soon
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 14px 20px 0;">
+        <p class="sim-desc">
+          Deep-dive educational content. Practice techniques blind first — then study expert demonstrations. Interleaved learning across frameworks from Voss, CBT, NVC, and MI.
+        </p>
+      </div>
+
+      <div class="section-label">Content Library</div>
+      <div class="institute-grid">
+
+        <div class="institute-card">
+          <div class="inst-icon" style="background:rgba(239,68,68,0.12);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round">
+              <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+          </div>
+          <div class="inst-name">Video Lessons</div>
+          <div class="inst-count">24 lessons planned</div>
+          <div class="inst-coming">In development</div>
+        </div>
+
+        <div class="institute-card">
+          <div class="inst-icon" style="background:rgba(59,130,246,0.12);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round">
+              <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><path d="M8 2v16M16 6v16"/>
+            </svg>
+          </div>
+          <div class="inst-name">Technique Demos</div>
+          <div class="inst-count">Before &amp; after format</div>
+          <div class="inst-coming">In development</div>
+        </div>
+
+        <div class="institute-card">
+          <div class="inst-icon" style="background:rgba(34,197,94,0.12);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round">
+              <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+            </svg>
+          </div>
+          <div class="inst-name">Articles</div>
+          <div class="inst-count">Framework deep-dives</div>
+          <div class="inst-coming">In development</div>
+        </div>
+
+        <div class="institute-card">
+          <div class="inst-icon" style="background:rgba(212,168,71,0.12);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d4a847" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/>
+            </svg>
+          </div>
+          <div class="inst-name">Quizzes</div>
+          <div class="inst-count">Spaced repetition</div>
+          <div class="inst-coming">In development</div>
+        </div>
+
+      </div>
+
+      <div class="section-label">Learning Path</div>
+      <div style="padding: 0 20px;">
+        <div class="card" style="padding:16px;">
+          <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;">Practice-First Sequence</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(212,168,71,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;">1</div>
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">Attempt the technique blind — no hints</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(212,168,71,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;">2</div>
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">See an expert demonstration and compare</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(212,168,71,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;">3</div>
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">Study the annotated breakdown and quiz yourself</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(212,168,71,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;">4</div>
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">Return to Skills Lab to drill with spaced repetition</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /content-area -->
+
+  <!-- ════════════════════════════
+       BOTTOM TAB BAR
+  ════════════════════════════ -->
+  <div class="tab-bar">
+
+    <!-- Dashboard -->
+    <button class="tab active" onclick="switchTab('dashboard', this)" aria-label="Dashboard">
+      <div class="tab-dot"></div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1" stroke="#d4a847"/>
+        <rect x="14" y="3" width="7" height="7" rx="1" stroke="#d4a847"/>
+        <rect x="3" y="14" width="7" height="7" rx="1" stroke="#d4a847"/>
+        <rect x="14" y="14" width="7" height="7" rx="1" stroke="#d4a847"/>
+      </svg>
+      <span class="tab-label">Dashboard</span>
+    </button>
+
+    <!-- Voice Lab -->
+    <button class="tab" onclick="switchTab('voicelab', this)" aria-label="Voice Lab">
+      <div class="tab-dot"></div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2" width="6" height="11" rx="3"/>
+        <path d="M5 10a7 7 0 0014 0M12 19v3M8 22h8"/>
+      </svg>
+      <span class="tab-label">Voice Lab</span>
+    </button>
+
+    <!-- Skills Lab -->
+    <button class="tab" onclick="switchTab('skillslab', this)" aria-label="Skills Lab">
+      <div class="tab-dot"></div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="12" r="6"/>
+        <circle cx="12" cy="12" r="2"/>
+      </svg>
+      <span class="tab-label">Skills Lab</span>
+    </button>
+
+    <!-- Simulation -->
+    <button class="tab" onclick="switchTab('simulation', this)" aria-label="Simulation">
+      <div class="tab-dot"></div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+      </svg>
+      <span class="tab-label">Simulation</span>
+    </button>
+
+    <!-- Institute -->
+    <button class="tab" onclick="switchTab('institute', this)" aria-label="Institute">
+      <div class="tab-dot"></div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+      <span class="tab-label">Institute</span>
+    </button>
+
+  </div><!-- /tab-bar -->
+
+</div><!-- /phone -->
+
+<script>
+  // ── Tab switching ──
+  function switchTab(viewId, tabEl) {
+    // Deactivate all views and tabs
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('active');
+      // Reset icon stroke to muted for all tabs
+      const svg = t.querySelector('svg');
+      if (svg) {
+        svg.querySelectorAll('[stroke]').forEach(el => {
+          if (el.getAttribute('stroke') && el.getAttribute('stroke') !== 'none') {
+            el.setAttribute('stroke', 'var(--text-muted)');
+          }
+        });
+      }
+    });
+
+    // Activate selected view
+    document.getElementById('view-' + viewId).classList.add('active');
+
+    // Activate selected tab
+    tabEl.classList.add('active');
+
+    // Set active tab icon stroke to gold
+    const activeSvg = tabEl.querySelector('svg');
+    if (activeSvg) {
+      activeSvg.querySelectorAll('[stroke]').forEach(el => {
+        if (el.getAttribute('stroke') && el.getAttribute('stroke') !== 'none') {
+          el.setAttribute('stroke', 'var(--gold)');
+        }
+      });
+    }
+
+    // Reset content area scroll to top
+    document.querySelector('.content-area').scrollTop = 0;
+  }
+
+  // ── Filter chips (Skills Lab) ──
+  document.querySelectorAll('.filter-chips .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // ── Generate heatmap ──
+  (function buildHeatmap() {
+    const grid = document.getElementById('heatmap');
+    if (!grid) return;
+
+    // 12 weeks = 84 days. We want a 7-row x 12-col grid (day x week).
+    const pattern = [
+      // Each column = a week, each value = day activity level 0-3
+      [0,0,1,0,0,2,0],[0,1,0,1,0,0,1],[1,0,2,0,1,0,0],
+      [0,2,0,0,2,1,0],[1,0,1,2,0,0,2],[0,1,0,1,3,0,1],
+      [0,0,2,0,0,1,0],[1,2,0,1,0,2,0],[0,1,3,0,1,0,2],
+      [2,0,0,2,0,1,3],[1,2,1,0,2,1,0],[0,1,0,2,1,3,0],
+    ];
+
+    pattern.forEach(week => {
+      const col = document.createElement('div');
+      col.className = 'heatmap-col';
+      week.forEach(level => {
+        const cell = document.createElement('div');
+        cell.className = 'heatmap-cell hm-' + level;
+        col.appendChild(cell);
+      });
+      grid.appendChild(col);
+    });
+  })();
+
+  // ── Initialise first tab icon to gold ──
+  (function initFirstTab() {
+    const firstTab = document.querySelector('.tab.active');
+    if (firstTab) {
+      const svg = firstTab.querySelector('svg');
+      if (svg) {
+        svg.querySelectorAll('[stroke]').forEach(el => {
+          if (el.getAttribute('stroke') && el.getAttribute('stroke') !== 'none') {
+            el.setAttribute('stroke', 'var(--gold)');
+          }
+        });
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>

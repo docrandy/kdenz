@@ -12,6 +12,12 @@ import {
   getDiagnosticSummary,
   clearDiagnosticResults,
 } from "../lib/diagnosticQuestions";
+import {
+  getStoredApiKey,
+  storeApiKey,
+  removeApiKey,
+  isValidApiKeyFormat,
+} from "../services/geminiService";
 
 const TEAM_SIZE_OPTIONS = [
   { value: "solo", label: "Solo / Individual contributor" },
@@ -27,6 +33,10 @@ export default function Settings() {
   const [diagnosticSummary, setDiagnosticSummary] = useState<
     { question: string; answer: string }[]
   >([]);
+  const [hasApiKey, setHasApiKey] = useState(!!getStoredApiKey());
+  const [apiKeyInput, setApiKeyInput] = useState("");
+  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
+  const [apiKeySaved, setApiKeySaved] = useState(false);
   const hasDiagnostic = hasDiagnosticResults();
 
   useEffect(() => {
@@ -116,7 +126,9 @@ export default function Settings() {
       {/* Content */}
       <main className="max-w-2xl mx-auto px-4 py-6">
         <section className="mb-8">
-          <h2 className="text-body-sm font-semibold text-text mb-4">About You</h2>
+          <h2 className="text-body-sm font-semibold text-text mb-4">
+            About You
+          </h2>
 
           <div className="space-y-4">
             {/* Preferred Name */}
@@ -243,6 +255,88 @@ export default function Settings() {
               </button>
             </div>
           )}
+        </section>
+
+        {/* AI Features */}
+        <section className="mb-8">
+          <h2 className="text-body-sm font-semibold text-text mb-4">
+            AI Features
+          </h2>
+          <div className="p-4 bg-background-elevated rounded-lg">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <p className="text-body-sm font-medium text-text">
+                  Gemini API Key
+                </p>
+                <p className="text-caption text-text-muted mt-0.5">
+                  {hasApiKey
+                    ? "Key saved — AI pattern detection and debrief active"
+                    : "Required for AI coaching, pattern detection, and session debrief"}
+                </p>
+              </div>
+              {hasApiKey ? (
+                <button
+                  onClick={() => {
+                    removeApiKey();
+                    setHasApiKey(false);
+                    setShowApiKeyInput(false);
+                  }}
+                  className="text-caption text-text-subtle hover:text-red-400 transition-colors"
+                >
+                  Remove
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowApiKeyInput((v) => !v)}
+                  className="text-caption text-accent hover:text-accent/80 transition-colors"
+                >
+                  {showApiKeyInput ? "Cancel" : "Add key"}
+                </button>
+              )}
+            </div>
+            {showApiKeyInput && (
+              <div className="mt-3 space-y-2">
+                <input
+                  type="password"
+                  value={apiKeyInput}
+                  onChange={(e) => {
+                    setApiKeyInput(e.target.value);
+                    setApiKeySaved(false);
+                  }}
+                  placeholder="Paste your Gemini API key"
+                  className="input w-full"
+                  autoFocus
+                />
+                <button
+                  onClick={() => {
+                    if (isValidApiKeyFormat(apiKeyInput)) {
+                      storeApiKey(apiKeyInput);
+                      setHasApiKey(true);
+                      setShowApiKeyInput(false);
+                      setApiKeyInput("");
+                      setApiKeySaved(true);
+                      setTimeout(() => setApiKeySaved(false), 2000);
+                    }
+                  }}
+                  disabled={!isValidApiKeyFormat(apiKeyInput)}
+                  className="w-full py-2 text-body-sm bg-accent text-background font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                >
+                  {apiKeySaved ? "Saved!" : "Save Key"}
+                </button>
+                <p className="text-caption text-text-muted text-center">
+                  Get a free key at{" "}
+                  <a
+                    href="https://aistudio.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline"
+                  >
+                    aistudio.google.com
+                  </a>
+                </p>
+              </div>
+            )}
+          </div>
         </section>
 
         {/* Privacy & Data */}

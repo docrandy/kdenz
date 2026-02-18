@@ -51,6 +51,20 @@ export interface SubtextLayer {
 // ---------------------------------------------------------------------------
 
 export interface SessionDebrief {
+  // ScenarioCard data
+  /** Brief synopsis of the scenario setup */
+  scenarioSynopsis: string;
+
+  // ExchangeBreakdownCard data
+  /** What the character said initially */
+  characterInitialMessage: string;
+  /** How the user responded */
+  userResponse: string;
+  /** What was effective or good about the response */
+  whatWasGood: string;
+  /** What could have been improved */
+  whatCouldImprove: string;
+
   // RevealCard data
   /** 1 sentence: what the character was really feeling beneath the surface */
   characterSubtext: string;
@@ -187,8 +201,20 @@ function buildFallbackDebrief(
   aspirationProfile: UserAspiration | null,
   topInstituteItems: ScoredContent[],
   patternHistory: PatternType[],
+  scenarioContext?: string,
 ): SessionDebrief {
   const sessionNumber = patternHistory.length + 1;
+
+  // ScenarioCard fields
+  const scenarioSynopsis =
+    scenarioContext || `You're talking with ${subtextLayer.characterName}.`;
+
+  // ExchangeBreakdownCard fields — fallback stubs (would need session history to populate)
+  const characterInitialMessage = "Review the exchange above.";
+  const userResponse = "Your opening response was captured.";
+  const whatWasGood = "You attempted to engage directly.";
+  const whatCouldImprove =
+    "Listen for the underlying concern before responding.";
 
   // RevealCard fields — derived from scenario subtext
   const characterSubtext = `It seems like ${subtextLayer.underlyingFear} was the real issue — not just ${subtextLayer.surfaceEmotion}.`;
@@ -260,6 +286,11 @@ function buildFallbackDebrief(
   );
 
   return {
+    scenarioSynopsis,
+    characterInitialMessage,
+    userResponse,
+    whatWasGood,
+    whatCouldImprove,
     characterSubtext,
     missedSignal,
     behavioralObservations,
@@ -312,6 +343,7 @@ function buildDebriefPrompt(
   aspirationProfile: UserAspiration | null,
   topInstituteItems: ScoredContent[],
   patternHistory: PatternType[],
+  scenarioContext?: string,
 ): string {
   // Truncate session history to last 10 exchanges
   const truncatedHistory = sessionHistory.slice(-10);
@@ -349,6 +381,9 @@ function buildDebriefPrompt(
 
   return `You are synthesizing a session debrief for a communication practice app.
 
+SCENARIO:
+${scenarioContext || "No scenario context provided"}
+
 SESSION DATA:
 ${historyText}
 
@@ -371,21 +406,28 @@ INSTITUTE CONTENT CANDIDATES (select one as nextStep):
 ${candidatesText}
 
 INSTRUCTIONS:
+- ScenarioCard: scenarioSynopsis should be a 1-2 sentence overview of the setup (character + context). Example: "You're talking with Carol, who's stressed about a deadline."
+- ExchangeBreakdownCard: Extract the FIRST message from the CHARACTER in the session history for characterInitialMessage. Extract the user's first substantive response for userResponse. Write whatWasGood (what worked in the response) and whatCouldImprove (one specific thing to refine).
 - RevealCard: Write ONE sentence for characterSubtext (what the character was REALLY feeling — not the surface emotion). Write ONE sentence for missedSignal (what the user responded to vs the real signal).
 - SendingFeedbackCard: Write 2-3 specific behavioral observations as an array. Write patternFraming as "you tend to [behavior] when [context]" — NEVER "you are a [pattern]". Only include patternName if it clearly emerged.
-- GrowthEdgeCard: Write ONE specific behavior. growthEdge should be the behavior only (no prefix — the UI adds "In your next session, try: "). Connect growthEdgeContext to their aspiration if set.
+- GrowthEdgeCard: Write one specific behavior to try in next session (just the behavior, no "In your next session" prefix). Write growthEdgeContext explaining how it connects to their aspiration.
 - NextStepCard: Select the most relevant Institute item from candidates. If none fit, use nextStepType: "drill" with id: "labeling". Write a 1-sentence personalization ("why this for you").
 - ProgressSignalCard: Assess trajectory honestly. If first session, use "holding".
 
 OUTPUT FORMAT: Return ONLY valid JSON matching this exact shape. No markdown, no explanation:
 {
+  "scenarioSynopsis": "string",
+  "characterInitialMessage": "string",
+  "userResponse": "string",
+  "whatWasGood": "string",
+  "whatCouldImprove": "string",
   "characterSubtext": "string",
   "missedSignal": "string",
   "behavioralObservations": ["string", "string"],
   "patternName": "string (empty if not clear)",
   "patternFraming": "you tend to X when Y",
   "patternConfidence": 0.0,
-  "growthEdge": "string (the behavior only, no 'In your next session' prefix)",
+  "growthEdge": "string",
   "growthEdgeContext": "string",
   "nextStepType": "drill or institute",
   "nextStepId": "string",
@@ -427,6 +469,11 @@ function isValidDebrief(obj: unknown): obj is SessionDebrief {
   if (!obj || typeof obj !== "object") return false;
   const d = obj as Record<string, unknown>;
   return (
+    typeof d.scenarioSynopsis === "string" &&
+    typeof d.characterInitialMessage === "string" &&
+    typeof d.userResponse === "string" &&
+    typeof d.whatWasGood === "string" &&
+    typeof d.whatCouldImprove === "string" &&
     typeof d.characterSubtext === "string" &&
     typeof d.missedSignal === "string" &&
     Array.isArray(d.behavioralObservations) &&
@@ -479,6 +526,7 @@ export async function generateSessionDebrief(
   topInstituteItems: ScoredContent[],
   patternHistory: PatternType[],
   apiKey: string | null,
+  scenarioContext?: string,
 ): Promise<SessionDebrief> {
   // Fallback path — no API key
   if (!apiKey) {
@@ -488,6 +536,7 @@ export async function generateSessionDebrief(
       aspirationProfile,
       topInstituteItems,
       patternHistory,
+      scenarioContext,
     );
     // Persist pattern to history after generating debrief
     if (sessionPatternData.sessionPattern) {
@@ -505,6 +554,7 @@ export async function generateSessionDebrief(
       aspirationProfile,
       topInstituteItems,
       patternHistory,
+      scenarioContext,
     );
 
     const response = await fetch(
@@ -566,7 +616,18 @@ export async function generateSessionDebrief(
 
     // Validate shape — fall back if invalid
     if (!isValidDebrief(parsed)) {
-      console.warn("[DebriefService] Gemini response failed validation");
+      console.warn("[DebriefService] Gemini response failed validation", {
+        parsed,
+        missingFields: {
+          scenarioSynopsis: typeof parsed.scenarioSynopsis,
+          characterInitialMessage: typeof parsed.characterInitialMessage,
+          userResponse: typeof parsed.userResponse,
+          whatWasGood: typeof parsed.whatWasGood,
+          whatCouldImprove: typeof parsed.whatCouldImprove,
+          growthEdge: typeof parsed.growthEdge,
+          growthEdgeContext: typeof parsed.growthEdgeContext,
+        },
+      });
       throw new Error("Invalid debrief shape");
     }
 
@@ -586,6 +647,7 @@ export async function generateSessionDebrief(
       aspirationProfile,
       topInstituteItems,
       patternHistory,
+      scenarioContext,
     );
 
     // Still persist pattern even on Gemini failure

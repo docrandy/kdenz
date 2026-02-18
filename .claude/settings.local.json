@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "mcp__filesystem__read_multiple_files"
+      "mcp__filesystem__read_multiple_files",
+      "Read(//c/Users/randy/**)",
+      "Skill(gsd:plan-phase)",
+      "Skill(gsd:plan-phase:*)",
+      "Skill(gsd:new-milestone)",
+      "Skill(gsd:new-milestone:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

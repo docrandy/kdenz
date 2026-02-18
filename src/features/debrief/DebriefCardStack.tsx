@@ -32,7 +32,85 @@ interface DebriefCardStackProps {
 }
 
 // ---------------------------------------------------------------------------
-// Card 1: RevealCard — "What was actually there"
+// Card 1: ScenarioCard — "Scenario"
+// ---------------------------------------------------------------------------
+
+function ScenarioCard({ debrief }: { debrief: SessionDebrief }) {
+  return (
+    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-amber-400 min-h-[200px]">
+      {/* Header */}
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold text-text">Scenario</h2>
+      </div>
+
+      {/* Scenario synopsis */}
+      <p className="text-base text-text leading-relaxed">
+        {debrief.scenarioSynopsis}
+      </p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Card 2: ExchangeBreakdownCard — "The exchange"
+// ---------------------------------------------------------------------------
+
+function ExchangeBreakdownCard({ debrief }: { debrief: SessionDebrief }) {
+  return (
+    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-blue-300 min-h-[200px]">
+      {/* Header */}
+      <div className="mb-4">
+        <h2 className="text-sm text-text-subtle/60 font-medium uppercase tracking-wide">
+          What happened
+        </h2>
+        <p className="text-lg font-semibold text-text">The exchange</p>
+      </div>
+
+      {/* What was said */}
+      <div className="mb-4">
+        <h3 className="text-sm font-medium text-text-subtle mb-1">
+          They said:
+        </h3>
+        <p className="text-sm text-text leading-relaxed">
+          {debrief.characterInitialMessage}
+        </p>
+      </div>
+
+      {/* How I responded */}
+      <div className="mb-4">
+        <h3 className="text-sm font-medium text-text-subtle mb-1">
+          You responded:
+        </h3>
+        <p className="text-sm text-text leading-relaxed">
+          {debrief.userResponse}
+        </p>
+      </div>
+
+      {/* What was good */}
+      <div className="mb-4">
+        <h3 className="text-sm font-medium text-emerald-400 mb-1">
+          What was good:
+        </h3>
+        <p className="text-sm text-text leading-relaxed">
+          {debrief.whatWasGood}
+        </p>
+      </div>
+
+      {/* What could improve */}
+      <div>
+        <h3 className="text-sm font-medium text-amber-400/70 mb-1">
+          What could improve:
+        </h3>
+        <p className="text-sm text-text leading-relaxed">
+          {debrief.whatCouldImprove}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Card 3: RevealCard — "What was actually there"
 // ---------------------------------------------------------------------------
 
 function RevealCard({ debrief }: { debrief: SessionDebrief }) {
@@ -55,9 +133,14 @@ function RevealCard({ debrief }: { debrief: SessionDebrief }) {
           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
           <circle cx="12" cy="12" r="3" />
         </svg>
-        <h2 className="text-lg font-semibold text-text">
-          What was actually there
-        </h2>
+        <div>
+          <h2 className="text-sm text-text-subtle/60 font-medium uppercase tracking-wide">
+            The real issue
+          </h2>
+          <p className="text-lg font-semibold text-text">
+            What was actually there
+          </p>
+        </div>
       </div>
 
       {/* The holy shit moment — large and prominent */}
@@ -65,8 +148,8 @@ function RevealCard({ debrief }: { debrief: SessionDebrief }) {
         {debrief.characterSubtext}
       </p>
 
-      {/* Missed signal — muted context */}
-      <p className="text-xs text-text-subtle leading-relaxed">
+      {/* Missed signal — increased visibility */}
+      <p className="text-sm text-text-subtle/80 leading-relaxed">
         {debrief.missedSignal}
       </p>
     </div>
@@ -83,9 +166,12 @@ function SendingFeedbackCard({ debrief }: { debrief: SessionDebrief }) {
   return (
     <div className="bg-background-surface rounded-xl p-6 border-l-4 border-blue-400 min-h-[200px]">
       {/* Header */}
-      <h2 className="text-lg font-semibold text-text mb-4">
-        What you signaled
-      </h2>
+      <div className="mb-4">
+        <h2 className="text-sm text-text-subtle/60 font-medium uppercase tracking-wide">
+          Your communication
+        </h2>
+        <p className="text-lg font-semibold text-text">What you signaled</p>
+      </div>
 
       {/* Behavioral observations — bullet list */}
       <ul className="space-y-2 mb-4">
@@ -116,36 +202,6 @@ function SendingFeedbackCard({ debrief }: { debrief: SessionDebrief }) {
           {debrief.patternConfidence > 0 && debrief.patternConfidence < 0.75
             ? "Pattern emerging — keep practicing to confirm."
             : "Complete more exchanges to identify your pattern."}
-        </p>
-      )}
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Card 3: GrowthEdgeCard — "Your edge"
-// ---------------------------------------------------------------------------
-
-function GrowthEdgeCard({ debrief }: { debrief: SessionDebrief }) {
-  return (
-    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-emerald-400 min-h-[200px]">
-      {/* Header */}
-      <h2 className="text-lg font-semibold text-text mb-4">
-        Your edge for next session
-      </h2>
-
-      {/* Growth edge — "In your next session, try: [behavior]" */}
-      <p className="text-sm text-text leading-relaxed">
-        <span className="text-emerald-400 font-medium">
-          In your next session, try:
-        </span>{" "}
-        {debrief.growthEdge}
-      </p>
-
-      {/* Aspiration connection — muted context */}
-      {debrief.growthEdgeContext && (
-        <p className="text-xs text-text-subtle mt-3 leading-relaxed">
-          {debrief.growthEdgeContext}
         </p>
       )}
     </div>
@@ -308,7 +364,14 @@ function ProgressSignalCard({ debrief }: { debrief: SessionDebrief }) {
 // DebriefCardStack — main component
 // ---------------------------------------------------------------------------
 
-const CARDS = ["reveal", "sending", "growth", "nextstep", "progress"] as const;
+const CARDS = [
+  "scenario",
+  "exchange",
+  "reveal",
+  "sending",
+  "nextstep",
+  "progress",
+] as const;
 
 const TOTAL_CARDS = CARDS.length;
 
@@ -338,6 +401,11 @@ export function DebriefCardStack({
 
   return (
     <div className="max-w-lg mx-auto py-4">
+      {/* Page-level title — context for entire debrief sequence */}
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold text-text">Session Review</h1>
+      </div>
+
       {/* Card indicator + Back navigation */}
       <div className="flex items-center justify-between mb-4">
         {/* Back arrow — invisible on first card to maintain layout */}
@@ -361,36 +429,50 @@ export function DebriefCardStack({
         </span>
       </div>
 
-      {/* Card content — fade transition via key */}
-      <div key={cardKey} className="animate-fade-in">
+      {/* Card content with right-edge arrow button */}
+      <div key={cardKey} className="animate-fade-in relative">
+        {cardKey === "scenario" && <ScenarioCard debrief={debrief} />}
+        {cardKey === "exchange" && <ExchangeBreakdownCard debrief={debrief} />}
         {cardKey === "reveal" && <RevealCard debrief={debrief} />}
         {cardKey === "sending" && <SendingFeedbackCard debrief={debrief} />}
-        {cardKey === "growth" && <GrowthEdgeCard debrief={debrief} />}
         {cardKey === "nextstep" && (
           <NextStepCard debrief={debrief} onNextStep={onNextStep} />
         )}
         {cardKey === "progress" && <ProgressSignalCard debrief={debrief} />}
-      </div>
 
-      {/* Next / Done button */}
-      <div className="flex justify-end mt-6">
-        <button
-          onClick={goNext}
-          className="text-accent hover:text-accent/80 flex items-center gap-1 text-sm font-medium transition-colors"
-        >
-          {isLastCard ? "Done" : "Next"}
-          {!isLastCard && (
+        {/* Arrow button on right edge */}
+        {!isLastCard && (
+          <button
+            onClick={goNext}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-accent hover:text-accent/80 transition-colors p-1"
+            aria-label="Next card"
+          >
             <svg
-              width="14"
-              height="14"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="mt-0.5"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <path d="M6 3l5 5-5 5" />
+              <polyline points="9 6 15 12 9 18" />
             </svg>
-          )}
-        </button>
+          </button>
+        )}
+
+        {/* Done button for last card */}
+        {isLastCard && (
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={goNext}
+              className="text-accent hover:text-accent/80 text-sm font-medium transition-colors"
+            >
+              Done
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

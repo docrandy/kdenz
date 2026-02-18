@@ -613,6 +613,8 @@ export function ConversationalDrill({
         expertLabel: scenario.expertLabel,
       };
 
+      const scenarioContext = `${scenario.context || "A communication practice scenario"}`;
+
       const debrief = await generateSessionDebrief(
         messages.map((m) => ({
           role: m.role as "user" | "character",
@@ -625,6 +627,7 @@ export function ConversationalDrill({
         getTopContent(profile, 5, true),
         profile.pattern_history,
         getStoredApiKey(),
+        scenarioContext,
       );
 
       setDebriefData(debrief);

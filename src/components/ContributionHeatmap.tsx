@@ -107,8 +107,8 @@ export function ContributionHeatmap() {
   };
 
   return (
-    <div className="card-surface">
-      <h3 className="text-body-sm font-semibold text-text mb-3">Your Activity</h3>
+    <div>
+      <h3 className="text-body-sm font-display font-semibold text-text-heading mb-4">Practice Frequency</h3>
 
       <div className="flex gap-1">
         {/* Day labels */}
@@ -144,7 +144,7 @@ export function ContributionHeatmap() {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-1 mt-3 text-[10px] text-text-subtle">
+      <div className="flex items-center gap-2 mt-4 text-caption text-text-muted">
         <span>Less</span>
         <div className="w-3 h-3 rounded-sm bg-background-elevated" />
         <div className="w-3 h-3 rounded-sm bg-accent/30" />
@@ -156,11 +156,15 @@ export function ContributionHeatmap() {
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 bg-background-surface text-text text-caption px-2 py-1 rounded pointer-events-none transform -translate-x-1/2 -translate-y-full border border-background-elevated"
+          className="fixed z-50 bg-background-surface text-text-body text-caption px-3 py-2 rounded-lg pointer-events-none transform -translate-x-1/2 -translate-y-full border border-background-elevated shadow-lg"
           style={{ left: tooltip.x, top: tooltip.y }}
         >
-          {tooltip.count} session{tooltip.count !== 1 ? "s" : ""} on{" "}
-          {formatDate(tooltip.date)}
+          <div className="font-semibold text-text-heading">
+            {tooltip.count} session{tooltip.count !== 1 ? "s" : ""}
+          </div>
+          <div className="text-text-muted">
+            {formatDate(tooltip.date)}
+          </div>
         </div>
       )}
     </div>

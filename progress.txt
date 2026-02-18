@@ -1549,3 +1549,118 @@ Last task: v2.0-restoration -- Fixed 6 critical issues blocking Phase 15 redesig
 Next task: Phase 15 Plan 06 -- Visual verification checkpoint (human testing required)
 Next action: /gsd:execute-phase 15 to run verification protocol (test all 4 core screens in browser)
 Blockers: none
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-17T17-23-32.md
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-17T18-14-41.md
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-17T18-57-08.md
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-17T23-09-59.md
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-18T00-25-30.md
+
+[2026-02-17 Labeling Drill Redesign — Design Session + Plan Update]
+Design collaboration session. No code written. Rewrote 20-04-PLAN.md based on user feedback.
+
+USER FEEDBACK (key design decisions):
+1. NO difficulty picker — Duolingo-style escalation (prove mastery to advance)
+2. Level 1 = Flashcards (multiple-choice recognition) before conversational drill
+3. Level 2+ = Conversational drill with AI-powered character reactions
+4. CriteriaBar: compact pill bar above conversation (Syntax, Emotion, Depth, Silence)
+   - Each criterion clickable → links to Institute lesson page
+   - Depth shows which level hit: Surface / Underlying / Identity
+5. CarouselIntro: 3-4 swipeable onboarding cards, shown once per level (first-time only)
+6. ScenarioContext: Named characters (Carol, Marcus), setting, backstory — NO dialogue revealed
+7. Dialogue is the surprise when drill starts
+8. Chat-style conversation flow — character reacts, text scrolls up, current stays center
+9. Audio + text input at L2, audio-only at L3+
+10. 3 consecutive successes → level completion celebration screen
+11. Up to 10 exchanges per conversational drill session
+12. Institute lesson pages (simple) for each criteria topic, linked from CriteriaBar
+13. CriteriaBar on flashcards too (universal across all levels)
+
+PLAN UPDATED (.planning/phases/20-drill-engine-scoring/20-04-PLAN.md):
+- Tasks 4-5 (routing + SkillsPage) marked DONE (already committed: 24edd26, f26dd25)
+- Old Tasks 1-3 (PatternSummary, auto-advance, collapsible hint) REPLACED
+- New Tasks 1-9:
+  1. Enrich scenario data (character names, settings, levels, counterpartResponses)
+  2. CriteriaBar component (compact inline feedback, clickable to Institute)
+  3. CarouselIntro component (swipeable intro cards, localStorage tracking)
+  4. ScenarioContext screen (character briefing, no dialogue)
+  5. FlashcardDrill (Level 1 multiple-choice with CriteriaBar)
+  6. ConversationalDrill (Level 2+ chat-style with AI reactions)
+  7. Level progression system + LevelComplete screen
+  8. Simple Institute lesson pages (Syntax, Emotion, Depth, Silence)
+  9. Rewire LabelingPractice (orchestrate full flow, remove difficulty picker)
+- Tasks 1-4 parallelizable (no dependencies)
+- Tasks 5-6 depend on 1+2
+- Task 9 depends on everything
+
+EXISTING CODE REVIEWED:
+- LabelingPractice.tsx (main container, state machine)
+- ScenarioPresenter.tsx (shows context + statement — statement needs to be hidden until drill starts)
+- LabelFeedback.tsx (affect-based feedback — replaced by CriteriaBar)
+- scenarioBank.ts (30+ scenarios — need character names, settings, levels, counterpartResponses)
+- types.ts (LabelingScenario, LabelAnalysis — need level/progression types)
+- labelAnalyzer.ts (syntax + depth scoring — maps to CriteriaBar criteria)
+- LABELING_LESSON_CURRICULUM.md (full 9-lesson curriculum — design aligns with L1-L3 progression)
+
+--- RESUME BLOCK ---
+Last task: 20-04-plan-update -- Labeling drill redesign plan written based on user feedback
+Next task: 20-04-task-1 -- Enrich scenario data with character names, settings, levels
+Next action: Start fresh session, read 20-04-PLAN.md, execute Tasks 1-4 in parallel
+Blockers: None — plan is complete and self-contained
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-18T19-52-05.md
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-18T20-19-02.md
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: c:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-18T21-30-22.md
+
+--- RESUME BLOCK (auto-generated before auto compaction) ---
+Last task: [see PRD.json]
+Next task: [see PRD.json]
+Next action: Resume from handoff
+Blockers: none
+Handoff: C:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-18T23-46-12.md

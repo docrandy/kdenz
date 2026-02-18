@@ -10,7 +10,7 @@ import type {
 import type { ExtendedStateObject } from "../types/simulation";
 
 const GEMINI_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 interface ConversationTurn {
   role: "character" | "user";
@@ -42,7 +42,19 @@ const FALLBACKS_MISS: string[] = [
   "That's... not what I meant at all. I feel like you're missing the bigger picture here.",
 ];
 
-function pickFallback(quality: "underlying" | "surface" | "miss"): string {
+function pickFallback(
+  quality: "underlying" | "surface" | "miss",
+  scenario?: LabelingScenario,
+  isFirstExchange?: boolean,
+): string {
+  // First exchange + correct label → use the scenario's pre-written response
+  if (
+    quality === "underlying" &&
+    isFirstExchange &&
+    scenario?.counterpartResponse
+  ) {
+    return scenario.counterpartResponse;
+  }
   const pool =
     quality === "underlying"
       ? FALLBACKS_UNDERLYING
@@ -71,8 +83,10 @@ export async function generateCharacterResponse(
         ? "surface"
         : "miss";
 
+  const isFirstExchange = history.filter((t) => t.role === "user").length === 0;
+
   if (!apiKey) {
-    return pickFallback(quality);
+    return pickFallback(quality, scenario, isFirstExchange);
   }
 
   // Build conversation history (last 6 turns max)
@@ -127,7 +141,7 @@ Write your response as ${scenario.characterName}. REQUIREMENTS:
 
     if (!resp.ok) {
       console.warn("Character response API error:", resp.status);
-      return pickFallback(quality);
+      return pickFallback(quality, scenario, isFirstExchange);
     }
 
     const data = await resp.json();
@@ -136,12 +150,12 @@ Write your response as ${scenario.characterName}. REQUIREMENTS:
 
     if (!text?.trim()) {
       console.warn("Character response: empty response from Gemini");
-      return pickFallback(quality);
+      return pickFallback(quality, scenario, isFirstExchange);
     }
 
     return text.trim();
   } catch (err) {
     console.warn("Character response fetch failed:", err);
-    return pickFallback(quality);
+    return pickFallback(quality, scenario, isFirstExchange);
   }
 }

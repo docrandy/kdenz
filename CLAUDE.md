@@ -3,7 +3,35 @@
 **Project:** KDENZ Communication Training Platform
 **Type:** Adaptive Diagnostic Communication Coaching Application
 **Status:** Pre-development (research complete, source-of-truth updated)
-**Core Identity:** A diagnostic engine that prescribes communication plans through motivational interviewing.
+**Core Identity:** A biofeedback mirror that makes invisible communication visible — in both directions.
+
+---
+
+## Platform North Star (2026-02-18)
+
+KDENZ is not a training app. It is a **biofeedback mirror** for communication. It makes two invisible things visible:
+
+1. **What others are actually signaling** beneath the surface of their words — the subtext, the implicit meaning, the high-context communication most people miss and respond to the wrong thing.
+2. **What the user is actually signaling** without realizing it — their defaults, their avoidance patterns, their tone vs. their intent. The gap between who they want to be as a communicator and who they currently are.
+
+Every feature either makes something invisible visible, gives the user a signal that helps them self-regulate, or helps them identify where they are so they know where to go.
+
+The "holy shit moment" — where users see what was really happening in an exchange that they completely missed — is the core product experience. Everything else is infrastructure for that moment.
+
+**The biofeedback architecture:**
+- Receiving biofeedback (Skills Lab): What was beneath THEIR words? Subtext reveal. "Carol's real fear was being forgotten. You responded to her anger."
+- Sending biofeedback (Voice Lab + Skills Lab): What is YOUR communication actually signaling? Real-time gauge + two-panel session reveal.
+- Aspiration gap: The FM DJ voice problem — users have an identity they want to project, can't hear themselves the way others do. Platform shows the gap, gives tools to close it.
+- Self-identification: Before targeted practice is possible, users must know their pattern. The platform names it ("Surface Reader," "Hedger") so they can own it and plan around it.
+
+**The Institute (University) is personalized in sequence, not content:**
+The content library is shared. Every user has access to the same videos, articles, exercises, and lessons. But the curriculum path is personalized based on:
+- Diagnosed communicator pattern (from session debrief)
+- Stated aspiration (voice identity target, set in onboarding/profile)
+- Current skill gaps (from Skills Lab mastery tracking)
+- VCM gate status (internal — surfaces as exercise type, not gate label)
+
+Every Institute content item must be tagged: `addresses_patterns[]`, `supports_aspirations[]`, `technique_ids[]`, `vcm_gates[]`. This tagging is what makes routing possible. Design the schema before building Institute content.
 
 ---
 
@@ -11,7 +39,7 @@
 
 KDENZ is a full communication training platform built around the insight that awareness training alone reduces filler usage 80%+, and that immediate feedback reduces (not increases) anxiety. The platform combines isolated skill drills, AI-powered conversation simulations, educational content, and an invisible behavioral diagnostic engine to build real communication competence across 57+ techniques from Voss, MI, CBT, NVC, and corporate frameworks.
 
-The core value proposition is the "holy shit moment" where users become aware of unconscious patterns, combined with a structured path from awareness to mastery through deliberate practice.
+The core value proposition is the "holy shit moment" — making the invisible visible in both directions — combined with a structured path from pattern identification to targeted practice to mastery.
 
 ### Working Title
 "KDENZ" (platform name finalized)
@@ -92,8 +120,11 @@ Full schema: `.planning/research/R16_FULL_PLATFORM_SUPABASE_SCHEMA.md`
 1. **Platform Scope**: Build toward the full 5-pillar platform. Voice Practice is the foundation, not the ceiling.
 2. **Chrome-Only for Beta Voice Features**: Web Speech API has 90% accuracy drop on Safari. Show browser warning for non-Chrome users. Deepgram is the cross-browser path when ready.
 3. **Generic Drill Engine First**: Do not build technique-specific drill UIs. Build the configurable engine, then add techniques as data.
-4. **Diagnose Internally, Intervene Externally**: Users never see VCM gate labels, constraint numbers, or failure diagnoses. They see contextually appropriate nudges and exercises.
+4. **Diagnose Internally, Intervene Externally**: Users never see VCM gate labels, constraint numbers, or failure diagnoses. They see contextually appropriate nudges and exercises. Pattern names ("Surface Reader," "Hedger") are user-facing — they're useful self-identification labels, not clinical diagnoses.
 5. **Practice Before Exposure**: Users attempt techniques blind first, THEN see expert demonstrations. This is the learning sequence, not optional.
+5a. **Institute Curriculum is Personalized in Sequence, Not Content**: Every user has the same content library. The prescribed path through it is unique — driven by diagnosed pattern, stated aspiration, skill gaps, and VCM gate status. Every Institute content item must carry tags: `addresses_patterns[]`, `supports_aspirations[]`, `technique_ids[]`, `vcm_gates[]`. Design the tagging schema BEFORE building Institute content. The session debrief is the primary content routing surface — surface 1-2 items at the moment of highest receptivity (post "holy shit moment").
+5b. **Self-Identification Precedes Prescription**: Users cannot build a targeted practice plan without knowing their current location. The platform identifies their communicator pattern across sessions and names it for them. This pattern name + stated aspiration = the basis for all curriculum routing.
+5c. **Research Before Building**: For phases involving pattern taxonomy, aspiration framework, signal detection, or curriculum routing — dispatch research agents to investigate before planning. See `.planning/phases/20.1-ai-practice-sessions/20.1-CONTEXT.md` for the research agent structure.
 6. **Three Skill Types, Three Decay Rates**: Syntax-driven (0.08/month), judgment-based (0.06/month), recognition (slowest). Do not use Duolingo-style 1-2 day intervals for behavioral skills.
 7. **Never Miss Twice**: Implement this rule explicitly in streak/persistence systems. Research shows 37% longer habit retention.
 8. **Hybrid Technique Detection**: Rules for syntax patterns (mirroring, labeling stems, question classification). LLM for intent-based techniques (tactical empathy, accusation audit quality). Rules = high precision, LLM = captures intent.
