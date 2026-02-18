@@ -60,10 +60,7 @@ function ExchangeBreakdownCard({ debrief }: { debrief: SessionDebrief }) {
     <div className="bg-background-surface rounded-xl p-6 border-l-4 border-blue-300 min-h-[200px]">
       {/* Header */}
       <div className="mb-4">
-        <h2 className="text-sm text-text-subtle/60 font-medium uppercase tracking-wide">
-          What happened
-        </h2>
-        <p className="text-lg font-semibold text-text">The exchange</p>
+        <p className="text-lg font-semibold text-text">The intro</p>
       </div>
 
       {/* What was said */}
@@ -406,30 +403,7 @@ export function DebriefCardStack({
         <h1 className="text-xl font-semibold text-text">Session Review</h1>
       </div>
 
-      {/* Card indicator + Back navigation */}
-      <div className="flex items-center justify-between mb-4">
-        {/* Back arrow — invisible on first card to maintain layout */}
-        <button
-          onClick={goBack}
-          disabled={currentIndex === 0}
-          className={[
-            "text-sm transition-colors flex items-center gap-1",
-            currentIndex === 0
-              ? "invisible"
-              : "text-text-subtle hover:text-text",
-          ].join(" ")}
-          aria-label="Previous card"
-        >
-          &larr; Back
-        </button>
-
-        {/* Card number indicator */}
-        <span className="text-xs text-text-subtle">
-          {currentIndex + 1} of {TOTAL_CARDS}
-        </span>
-      </div>
-
-      {/* Card content with right-edge arrow button */}
+      {/* Card content with navigation arrows */}
       <div key={cardKey} className="animate-fade-in relative">
         {cardKey === "scenario" && <ScenarioCard debrief={debrief} />}
         {cardKey === "exchange" && <ExchangeBreakdownCard debrief={debrief} />}
@@ -440,7 +414,29 @@ export function DebriefCardStack({
         )}
         {cardKey === "progress" && <ProgressSignalCard debrief={debrief} />}
 
-        {/* Arrow button on right edge */}
+        {/* Left arrow button — only show if not on first card */}
+        {currentIndex > 0 && (
+          <button
+            onClick={goBack}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-accent hover:text-accent/80 transition-colors p-1"
+            aria-label="Previous card"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+        )}
+
+        {/* Right arrow button — only show if not on last card */}
         {!isLastCard && (
           <button
             onClick={goNext}
@@ -462,16 +458,31 @@ export function DebriefCardStack({
           </button>
         )}
 
+        {/* Card counter at bottom right of card */}
+        <div className="absolute bottom-3 right-3 text-xs text-text-subtle/60">
+          {currentIndex + 1} of {TOTAL_CARDS}
+        </div>
+
         {/* Done button for last card */}
         {isLastCard && (
-          <div className="flex justify-end mt-6">
-            <button
-              onClick={goNext}
-              className="text-accent hover:text-accent/80 text-sm font-medium transition-colors"
+          <button
+            onClick={goNext}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-accent hover:text-accent/80 transition-colors"
+            aria-label="Done"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              Done
-            </button>
-          </div>
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </button>
         )}
       </div>
     </div>
