@@ -197,12 +197,21 @@ function ViewNotesButton() {
                 {profileNotes.map((note) => (
                   <div
                     key={note.id}
-                    className="bg-background-elevated p-3 rounded-lg text-body-sm"
+                    className="bg-background-elevated p-3 rounded-lg text-body-sm group relative"
                   >
-                    <p className="text-text">{note.content}</p>
+                    <p className="text-text pr-10">{note.content}</p>
                     <p className="text-caption text-text-muted mt-1">
                       {new Date(note.timestamp).toLocaleString()} • {note.page}
                     </p>
+                    <button
+                      onClick={() =>
+                        navigator.clipboard.writeText(note.content)
+                      }
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-caption text-text-muted hover:text-accent px-2 py-1 rounded bg-background"
+                      title="Copy note"
+                    >
+                      Copy
+                    </button>
                   </div>
                 ))}
               </div>
@@ -223,12 +232,21 @@ function ViewNotesButton() {
                 {productNotes.map((note) => (
                   <div
                     key={note.id}
-                    className="bg-background-elevated p-3 rounded-lg text-body-sm"
+                    className="bg-background-elevated p-3 rounded-lg text-body-sm group relative"
                   >
-                    <p className="text-text">{note.content}</p>
+                    <p className="text-text pr-10">{note.content}</p>
                     <p className="text-caption text-text-muted mt-1">
                       {new Date(note.timestamp).toLocaleString()} • {note.page}
                     </p>
+                    <button
+                      onClick={() =>
+                        navigator.clipboard.writeText(note.content)
+                      }
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-caption text-text-muted hover:text-accent px-2 py-1 rounded bg-background"
+                      title="Copy note"
+                    >
+                      Copy
+                    </button>
                   </div>
                 ))}
               </div>
@@ -236,7 +254,29 @@ function ViewNotesButton() {
           </div>
 
           {/* Export/Clear buttons */}
-          <div className="flex gap-2 pt-4 border-t border-background-elevated">
+          <div className="flex gap-2 pt-4 border-t border-background-elevated flex-wrap">
+            <button
+              onClick={() => {
+                const lines: string[] = [];
+                if (profileNotes.length > 0) {
+                  lines.push("=== PROFILE NOTES ===");
+                  profileNotes.forEach((n: DevNote) =>
+                    lines.push(`• ${n.content}`),
+                  );
+                }
+                if (productNotes.length > 0) {
+                  if (lines.length > 0) lines.push("");
+                  lines.push("=== PRODUCT FEEDBACK ===");
+                  productNotes.forEach((n: DevNote) =>
+                    lines.push(`• ${n.content}`),
+                  );
+                }
+                navigator.clipboard.writeText(lines.join("\n"));
+              }}
+              className="px-4 py-2 bg-accent/10 text-accent rounded-lg hover:bg-accent/20 text-body-sm"
+            >
+              Copy All as Text
+            </button>
             <button
               onClick={() => {
                 const data = {
@@ -255,7 +295,7 @@ function ViewNotesButton() {
               }}
               className="px-4 py-2 bg-background-elevated text-text-muted rounded-lg hover:bg-background-subtle text-body-sm"
             >
-              Export Notes
+              Export JSON
             </button>
             <button
               onClick={() => {
