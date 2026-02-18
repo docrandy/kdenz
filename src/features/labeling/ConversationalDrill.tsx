@@ -35,6 +35,14 @@ import {
   updateSessionPatterns,
 } from "../../services/patternDetectionService";
 import { getStoredApiKey } from "../../services/geminiService";
+import {
+  generateSessionDebrief,
+  type SessionDebrief,
+} from "../../services/debriefService";
+import { DebriefCardStack } from "../debrief";
+import { getAspiration } from "../../utils/aspirationStorage";
+import { getLearnerProfile } from "../../utils/learnerProfileStorage";
+import { getTopContent } from "../../services/contentRoutingService";
 
 // ---------------------------------------------------------------------------
 // Props
@@ -258,6 +266,20 @@ export function ConversationalDrill({
     criteriaHits: { syntax: 0, emotion: 0, underlyingDepth: 0 },
   });
 
+  // -- Debrief state (Phase 20.1 Plan 04) -----------------------------------
+  const [showDebrief, setShowDebrief] = useState(false);
+  const [debriefData, setDebriefData] = useState<SessionDebrief | null>(null);
+  const [debriefLoading, setDebriefLoading] = useState(false);
+
+  // Mirror patternData into a ref so handleSessionEnd always reads the latest value
+  // (avoids stale closure issue when patternData is updated just before session ends)
+  const patternDataRef = useRef<SessionPatternData>({
+    exchangeSignals: [],
+    regexSignals: [],
+    sessionPattern: null,
+    patternConfidence: 0,
+  });
+
   // -- Scroll ----------------------------------------------------------------
   const chatEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -442,7 +464,11 @@ export function ConversationalDrill({
       detectPatternSignals(text, conversationHistory, apiKey)
         .then((patternResult) => {
           setCurrentPatternSignal(patternResult);
-          setPatternData((prev) => updateSessionPatterns(prev, patternResult));
+          setPatternData((prev) => {
+            const updated = updateSessionPatterns(prev, patternResult);
+            patternDataRef.current = updated;
+            return updated;
+          });
         })
         .catch(() => {
           // Graceful degradation: silently swallow error, Panel B keeps last signal
@@ -474,17 +500,14 @@ export function ConversationalDrill({
 
       // Check if session should end
       if (exchangeCountRef.current >= MAX_EXCHANGES) {
-        // Include pattern data in final stats before completing
+        // Short delay so the final character reaction renders before debrief fires
         setTimeout(() => {
-          setPatternData((finalPatternData) => {
-            statsRef.current.sessionPatternData = finalPatternData;
-            onComplete(statsRef.current);
-            return finalPatternData;
-          });
+          handleSessionEnd(patternDataRef.current);
         }, 1500);
       }
     },
-    [scenario, onComplete, messages],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [scenario, messages],
   );
 
   // -- Handle text submit ----------------------------------------------------
@@ -505,14 +528,77 @@ export function ConversationalDrill({
     [handleTextSubmit],
   );
 
+  // -- Session end: generate debrief then show DebriefCardStack ------------
+  const handleSessionEnd = useCallback(
+    async (finalPatternData: SessionPatternData) => {
+      setDebriefLoading(true);
+
+      const profile = getLearnerProfile();
+      const subtext = {
+        underlyingFear: scenario.underlyingDriver,
+        surfaceEmotion: scenario.surfaceEmotion,
+        characterName: scenario.characterName,
+        expertLabel: scenario.expertLabel,
+      };
+
+      const debrief = await generateSessionDebrief(
+        messages.map((m) => ({
+          role: m.role as "user" | "character",
+          text: m.text,
+        })),
+        finalPatternData.exchangeSignals.map((s) => s.patternNote),
+        finalPatternData,
+        subtext,
+        getAspiration(),
+        getTopContent(profile, 5, true),
+        profile.pattern_history,
+        getStoredApiKey(),
+      );
+
+      setDebriefData(debrief);
+      setDebriefLoading(false);
+      setShowDebrief(true);
+    },
+    [scenario, messages],
+  );
+
   // -- Done button -----------------------------------------------------------
   const handleFinish = useCallback(() => {
-    statsRef.current.sessionPatternData = patternData;
-    onComplete(statsRef.current);
-  }, [onComplete, patternData]);
+    handleSessionEnd(patternDataRef.current);
+  }, [handleSessionEnd]);
 
   // -- Render ----------------------------------------------------------------
   const initial = scenario.characterName.charAt(0).toUpperCase();
+
+  // Debrief loading state — shown while Gemini generates the debrief
+  if (debriefLoading) {
+    return (
+      <div className="max-w-lg mx-auto py-16 text-center">
+        <p className="text-text-subtle text-sm animate-pulse">
+          Generating your debrief...
+        </p>
+      </div>
+    );
+  }
+
+  // Debrief ready — show 5-card stack instead of drill UI
+  if (showDebrief && debriefData) {
+    return (
+      <DebriefCardStack
+        debrief={debriefData}
+        onComplete={() => {
+          statsRef.current.sessionPatternData = patternDataRef.current;
+          onComplete(statsRef.current);
+        }}
+        onNextStep={(_type, _id) => {
+          // Navigate to recommended content — for now complete and let parent handle
+          // Future: navigate to /practice/drill/:id or /institute/:id
+          statsRef.current.sessionPatternData = patternDataRef.current;
+          onComplete(statsRef.current);
+        }}
+      />
+    );
+  }
 
   // Determine if Panel B should show (after first exchange has been attempted)
   const showPanelB =
