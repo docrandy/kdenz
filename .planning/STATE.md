@@ -36,9 +36,9 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 ## Current Position
 
 Phase: 20.1 — AI Practice Sessions & Simulation
-Plan: 03 of 04 — COMPLETE (20.1-01, 20.1-02, 20.1-03 complete)
-Status: In progress
-Last activity: 2026-02-18 — Completed 20.1-01-PLAN.md (simulation types + patternDetectionService + ConversationalDrill Panel B); 20.1-02 and 20.1-03 also complete
+Plan: 04 of 04 — CHECKPOINT_PENDING (20.1-01 through 20.1-04 built; 20.1-04 Task 3 is human-verify checkpoint)
+Status: In progress — awaiting human verification of full session debrief flow
+Last activity: 2026-02-18 — Completed 20.1-04 Tasks 1 + 2 (debriefService + DebriefCardStack + ConversationalDrill wiring)
 
 ## Accumulated Context
 
@@ -142,11 +142,22 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-18T~21:25Z
-Stopped at: Completed 20.1-03-PLAN.md (Institute content tagging schema, 10 seed items, LearnerProfile assembly, routing algorithm, 2 tasks, type-check + build clean)
-Resume file: None
+Last session: 2026-02-18T20:31Z
+Stopped at: Completed 20.1-04 Tasks 1 + 2 — CHECKPOINT: awaiting human verification of full debrief session flow
+Resume file: .planning/phases/20.1-ai-practice-sessions/20.1-04-SUMMARY.md (CHECKPOINT_PENDING)
 
 ---
+### Session Debrief Layer (Plan 20.1-04) — CHECKPOINT_PENDING
+- SessionDebrief interface: 5 card sections (RevealCard, SendingFeedbackCard, GrowthEdgeCard, NextStepCard, ProgressSignalCard)
+- SubtextLayer inline interface maps LabelingScenario fields (underlyingDriver→underlyingFear, surfaceEmotion, characterName, expertLabel)
+- generateSessionDebrief(): Gemini Call 3, temperature 0.4, maxOutputTokens 500, gemini-2.5-flash
+- System prompt enforces: "NEVER 'you are a [pattern]', ALWAYS 'you tend to X when Y'"
+- Trajectory computation: < 2 sessions = 'holding', same pattern + confidence < 0.8 = 'toward_target', same + stable = 'holding', shifting = 'away_from_target'
+- Fallback debrief from local data: always complete, never empty
+- addPatternToHistory() called on BOTH Gemini success and failure paths
+- DebriefCardStack: card indicator (1 of 5), back navigation, fade transition via key, "Done" on final card
+- ConversationalDrill: patternDataRef mirrors patternData state (stale closure prevention), handleSessionEnd replaces both exit paths, debriefLoading + showDebrief gates prevent premature onComplete
+
 ### Institute Routing Layer (Plan 20.1-03)
 - InstituteContentItem type with 4-axis routing tags: addresses_patterns, supports_aspirations, technique_ids, vcm_gates
 - LearnerProfile assembled from: pattern history (kdenz:pattern-history) + aspiration (kdenz:user-aspiration) + Institute progress (kdenz:institute-progress)
@@ -174,4 +185,4 @@ Resume file: None
 - SessionPatternData accumulates across session, passed to onComplete for debrief
 
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-18 - Phase 20.1, Plans 01, 02, and 03 complete*
+*Last updated: 2026-02-18 - Phase 20.1, Plans 01-04 built; Plan 04 checkpoint pending human verification*
