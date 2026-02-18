@@ -16,6 +16,7 @@
 
 - [x] Phase 19: Technique Data Foundation — 8 Tier A techniques + scenarios seeded as structured data (2026-02-17)
 - [ ] Phase 20: Drill Engine + Scoring — Prompt-Response loop with rules + LLM evaluation and feedback
+- [ ] Phase 20.1: AI Practice Sessions & Simulation — Gemini-powered character responses, state object pattern, AI interpretation and improvement feedback (INSERTED)
 - [ ] Phase 21: Mastery Tracking — Attempt history, mastery levels, and review scheduling
 - [ ] Phase 22: Skills Lab Integration — Browsable technique list, detail view, drill launch, existing drills preserved
 
@@ -54,6 +55,53 @@
 4. After submitting a response, user sees a feedback card with scores for Form, Accuracy, and Impact (as numbers and labels) plus a text explanation of what worked and what to improve.
 5. When LLM is unavailable, user still sees a Form score and a clear message that Accuracy/Impact scoring is pending — the session is not blocked.
 6. User can advance from the feedback card to a new scenario without leaving the drill context.
+
+---
+
+### Phase 20.1: AI Practice Sessions & Simulation (INSERTED)
+
+**Goal:** Full AI-powered practice sessions — multi-turn conversations with richer opponent modeling, AI interpretation of technique quality as a conversational judge (not just a scorer), per-exchange improvement coaching, and a session-level debrief identifying patterns and growth edges.
+
+**Depends on:** Phase 20 (ConversationalDrill with Gemini character responses must exist; Phase 20.1 extends the AI capabilities further)
+
+**Plans:** 4 plans
+
+Plans:
+- [ ] 20.1-01-PLAN.md — Extended state object + pattern detection (Gemini Call 2) + Panel B enhancement
+- [ ] 20.1-02-PLAN.md — Aspiration setting UX + 7 voice archetypes + localStorage persistence
+- [ ] 20.1-03-PLAN.md — Institute content schema + 10 seed items + routing algorithm + learner profile
+- [ ] 20.1-04-PLAN.md — Session debrief (Gemini Call 3 + 5-card DebriefCardStack + wire to session end)
+
+**Details:**
+Extends Phase 20's biofeedback foundation into full simulation + self-identification capability:
+
+**Richer opponent modeling:**
+- State object: `{ mood, trust_level, concessions, revelation_stage, last_tactic_detected }` — opponent evolves across the full session arc
+- Difficulty progression: opponent starts cooperative, escalates toward resistant/deceptive as user advances
+
+**Self-identification engine (the missing piece):**
+- Across a session, the AI tracks the user's communication PATTERNS — not just scores
+- Pattern categories: Surface Reader, Avoider, Intellectualizer, Hedger, Rusher, Presumptuous, Accurate but Cold
+- After the session: "Here's what you do — your default pattern as a communicator right now"
+- Not diagnosis, not judgment — observation: "In 7 of 10 exchanges you stopped at surface pain.
+  You're not missing the depth — you're not looking for it yet."
+- This self-identification is what makes a personalized plan possible: user knows WHAT they are,
+  platform prescribes practice for THAT specific gap
+
+**The aspiration gap (FM DJ to current voice):**
+- Users set an aspirational communication identity (warm authority, calm confidence, magnetic presence)
+- Session debrief shows the gap between aspiration and what their patterns actually signal
+- Gives them a concrete target: "Your labels are accurate. Your delivery says you're asking permission.
+  The gap is tone, not perception."
+
+**Session debrief:**
+- Pattern map: receiving channel (what % hit underlying vs. identity vs. surface) + sending channel (tone, hedging, confidence signals)
+- Pattern name for this session — the label they can use to guide their own practice
+- One concrete next drill recommended based on their specific pattern
+
+**Scenario library:**
+- Longer-arc scenarios designed for 10-exchange sessions (not single-exchange drills)
+- Opponent has a full emotional arc: guarded → resistant → opening → trust
 
 ---
 
@@ -174,12 +222,13 @@
 |-------|-------|--------------|--------|
 | 19 | Technique Data Foundation | TDM-01, TDM-02, TDM-03 | Pending |
 | 20 | Drill Engine + Scoring | ENG-01 to ENG-05, SCR-01 to SCR-04 | Pending |
+| 20.1 | AI Practice Sessions & Simulation | SIM-01 to SIM-07, ASP-01 to ASP-07, INST-01 to INST-07, DEB-01 to DEB-10 | Pending (INSERTED) |
 | 21 | Mastery Tracking | MAS-01 to MAS-04 | Pending |
 | 22 | Skills Lab Integration | INT-01 to INT-04 | Pending |
 
 **Coverage:**
-- v3.0 requirements: 20 total
-- Mapped to phases: 20/20
+- v3.0 requirements: 20 defined + 31 Phase 20.1 requirements
+- Mapped to phases: 51/51
 - Unmapped: 0
 
 ---
@@ -216,3 +265,5 @@
 ---
 *Roadmap created: 2026-01-25*
 *Last updated: 2026-02-17 - v3.0 Generic Drill Engine roadmap added (Phases 19-22, 20 requirements)*
+*2026-02-18 - Phase 20.1 inserted (AI Practice Sessions & Simulation — Gemini-powered character responses, AI interpretation and coaching)*
+*2026-02-18 - Phase 20.1 planned: 4 plans in 2 waves (pattern detection, aspiration, institute routing, session debrief)*
