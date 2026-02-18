@@ -35,6 +35,7 @@ import {
   updateSessionPatterns,
 } from "../../services/patternDetectionService";
 import { getStoredApiKey } from "../../services/geminiService";
+import { generateCharacterResponse } from "../../services/characterResponseService";
 import {
   generateSessionDebrief,
   type SessionDebrief,
@@ -64,57 +65,6 @@ interface ChatMessage {
   role: "character" | "user";
   text: string;
   analysis?: LabelAnalysis;
-}
-
-// ---------------------------------------------------------------------------
-// Character reaction helpers
-// ---------------------------------------------------------------------------
-
-const SURFACE_REACTIONS = [
-  "Yeah... I guess so.",
-  "Mm-hmm.",
-  "Sure, something like that.",
-  "I suppose.",
-];
-
-const BAD_REACTIONS = [
-  "That's not really it.",
-  "I don't think that's what I meant.",
-  "Hmm, not exactly.",
-  "That's... not quite right.",
-];
-
-function pickReaction(
-  quality: "good" | "surface" | "bad",
-  scenario: LabelingScenario,
-): string {
-  if (quality === "good" && scenario.counterpartResponse) {
-    return scenario.counterpartResponse;
-  }
-  if (quality === "surface") {
-    return SURFACE_REACTIONS[
-      Math.floor(Math.random() * SURFACE_REACTIONS.length)
-    ];
-  }
-  return BAD_REACTIONS[Math.floor(Math.random() * BAD_REACTIONS.length)];
-}
-
-function qualityFromAnalysis(
-  analysis: LabelAnalysis,
-): "good" | "surface" | "bad" {
-  if (
-    analysis.depth.targetsUnderlyingDriver &&
-    analysis.syntax.hasCorrectOpener
-  ) {
-    return "good";
-  }
-  if (
-    analysis.depth.targetsSurfaceEmotion &&
-    analysis.syntax.hasCorrectOpener
-  ) {
-    return "surface";
-  }
-  return "bad";
 }
 
 // ---------------------------------------------------------------------------
@@ -226,14 +176,23 @@ export function ConversationalDrill({
   // -- Input -----------------------------------------------------------------
   const [inputText, setInputText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  const [sessionActive, setSessionActive] = useState(false);
   const [liveTranscript, setLiveTranscript] = useState("");
   const recognitionRef = useRef<any>(null);
   const silenceTimerRef = useRef<number | null>(null);
   const recordStartRef = useRef<number>(0);
 
-  // Refs that mirror state — needed for stale-closure-safe silence timer callbacks
+  // Refs that mirror state — needed for stale-closure-safe timer callbacks
   const liveTranscriptRef = useRef("");
   const isRecordingRef = useRef(false);
+  const sessionActiveRef = useRef(false);
+
+  // Tracks the Web Speech API result index so continuous mode can reset per utterance
+  const resultOffsetRef = useRef(0);
+  const latestResultCountRef = useRef(0);
+
+  // -- Character response typing indicator -----------------------------------
+  const [characterTyping, setCharacterTyping] = useState(false);
 
   // Silence detection threshold: ms of quiet before auto-submit (0 = manual only)
   const THRESHOLD_OPTIONS = [0, 1000, 1500, 2000, 3000] as const;
@@ -329,9 +288,11 @@ export function ConversationalDrill({
       recognition.lang = "en-US";
 
       recognition.onresult = (event: any) => {
+        latestResultCountRef.current = event.results.length;
         let interim = "";
         let final = "";
-        for (let i = 0; i < event.results.length; i++) {
+        // Only read results since the last utterance was submitted
+        for (let i = resultOffsetRef.current; i < event.results.length; i++) {
           const result = event.results[i];
           if (result.isFinal) {
             final += result[0].transcript;
@@ -347,79 +308,100 @@ export function ConversationalDrill({
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         const threshold =
           (recognitionRef.current as any).__silenceThreshold ?? 1500;
-        if (threshold > 0 && isRecordingRef.current) {
+        if (threshold > 0 && isRecordingRef.current && text.trim()) {
           silenceTimerRef.current = window.setTimeout(() => {
             if (!isRecordingRef.current) return;
             const transcript = liveTranscriptRef.current.trim();
             if (!transcript) return;
-            // Auto-stop and submit
-            try {
-              recognitionRef.current?.stop();
-            } catch {
-              /* already stopped */
-            }
-            isRecordingRef.current = false;
-            setIsRecording(false);
+            // Advance offset so next utterance starts fresh
+            resultOffsetRef.current = latestResultCountRef.current;
+            liveTranscriptRef.current = "";
+            setLiveTranscript("");
             const elapsed = (Date.now() - recordStartRef.current) / 1000;
+            recordStartRef.current = Date.now(); // reset for next utterance
             submitLabelRef.current(
               transcript,
               elapsed > 3 ? elapsed : undefined,
             );
-            liveTranscriptRef.current = "";
-            setLiveTranscript("");
+            // Recognition keeps running — session stays active
           }, threshold);
         }
       };
 
-      recognition.onerror = () => {
+      recognition.onerror = (event: any) => {
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         isRecordingRef.current = false;
         setIsRecording(false);
+        // Kill session on hard errors; let no-speech restart via onend
+        if (event.error !== "no-speech" && event.error !== "aborted") {
+          sessionActiveRef.current = false;
+          setSessionActive(false);
+        }
       };
 
       recognition.onend = () => {
-        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         isRecordingRef.current = false;
         setIsRecording(false);
+        // Auto-restart if session is still active (continuous mode)
+        if (sessionActiveRef.current) {
+          setTimeout(() => {
+            if (!sessionActiveRef.current) return;
+            try {
+              recognitionRef.current?.start();
+              isRecordingRef.current = true;
+              setIsRecording(true);
+              // Reset offset for fresh start
+              resultOffsetRef.current = 0;
+              latestResultCountRef.current = 0;
+            } catch {
+              /* already running */
+            }
+          }, 150);
+        }
       };
 
       recognitionRef.current = recognition;
     }
 
     return () => {
+      sessionActiveRef.current = false;
       recognitionRef.current?.abort();
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
     };
   }, []);
 
-  // -- Start recording -------------------------------------------------------
-  const startRecording = useCallback(() => {
+  // -- Start session (continuous mic) ----------------------------------------
+  const startSession = useCallback(() => {
     if (!recognitionRef.current) return;
+    sessionActiveRef.current = true;
+    setSessionActive(true);
     liveTranscriptRef.current = "";
     setLiveTranscript("");
+    resultOffsetRef.current = 0;
+    latestResultCountRef.current = 0;
     recordStartRef.current = Date.now();
     try {
       recognitionRef.current.start();
       isRecordingRef.current = true;
       setIsRecording(true);
     } catch {
-      // already started
+      /* already running */
     }
   }, []);
 
-  // -- Stop recording and submit ---------------------------------------------
-  const stopRecording = useCallback(() => {
-    if (!recognitionRef.current) return;
-    // Cancel any pending silence timer — we're stopping manually
+  // -- Stop session (manual stop) --------------------------------------------
+  const stopSession = useCallback(() => {
+    sessionActiveRef.current = false;
+    setSessionActive(false);
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
     isRecordingRef.current = false;
     try {
-      recognitionRef.current.stop();
+      recognitionRef.current?.stop();
     } catch {
-      // already stopped
+      /* already stopped */
     }
     setIsRecording(false);
-    // Use ref (not state) to avoid stale closure
+    // Submit any pending transcript
     const text = liveTranscriptRef.current.trim();
     liveTranscriptRef.current = "";
     setLiveTranscript("");
@@ -432,7 +414,12 @@ export function ConversationalDrill({
   // -- Submit label (text or audio) ------------------------------------------
   const submitLabel = useCallback(
     (text: string, silenceDuration?: number) => {
-      if (!text.trim() || exchangeCountRef.current >= MAX_EXCHANGES) return;
+      if (
+        !text.trim() ||
+        exchangeCountRef.current >= MAX_EXCHANGES ||
+        characterTyping
+      )
+        return;
 
       // Score with labelAnalyzer
       const analysis = analyzeLabel(text, scenario);
@@ -552,29 +539,44 @@ export function ConversationalDrill({
         analysis,
       };
 
-      // Generate character reaction
-      const quality = qualityFromAnalysis(analysis);
-      const reaction = pickReaction(quality, scenario);
-      const charMsg: ChatMessage = {
-        id: `char-${exchangeCountRef.current}`,
-        role: "character",
-        text: reaction,
-      };
-
-      setMessages((prev) => [...prev, userMsg, charMsg]);
+      setMessages((prev) => [...prev, userMsg]);
       setInputText("");
-      setLiveTranscript("");
 
-      // Check if session should end
-      if (exchangeCountRef.current >= MAX_EXCHANGES) {
-        // Short delay so the final character reaction renders before debrief fires
-        setTimeout(() => {
-          handleSessionEnd(patternDataRef.current);
-        }, 1500);
-      }
+      // Pause silence timer while character is "typing"
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      setCharacterTyping(true);
+
+      const charHistory = messages.map((m) => ({
+        role: m.role as "user" | "character",
+        text: m.text,
+      }));
+
+      generateCharacterResponse(
+        scenario,
+        charHistory,
+        text,
+        analysis,
+        extendedStateRef.current,
+        getStoredApiKey(),
+      ).then((reaction) => {
+        const charMsg: ChatMessage = {
+          id: `char-${exchangeCountRef.current}`,
+          role: "character",
+          text: reaction,
+        };
+        setMessages((prev) => [...prev, charMsg]);
+        setCharacterTyping(false);
+
+        // Check if session should end
+        if (exchangeCountRef.current >= MAX_EXCHANGES) {
+          setTimeout(() => {
+            handleSessionEnd(patternDataRef.current);
+          }, 1500);
+        }
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [scenario, messages],
+    [scenario, messages, characterTyping],
   );
 
   // Keep ref in sync so silence timer always calls the latest version
@@ -678,8 +680,8 @@ export function ConversationalDrill({
 
   return (
     <div
-      className="max-w-2xl mx-auto flex flex-col h-full"
-      style={{ minHeight: "60vh" }}
+      className="max-w-2xl mx-auto flex flex-col overflow-hidden"
+      style={{ height: "calc(100dvh - 90px)" }}
     >
       {/* Header */}
       <div className="flex items-center justify-between pb-3">
@@ -728,7 +730,7 @@ export function ConversationalDrill({
       )}
 
       {/* Chat messages */}
-      <div className="flex-1 overflow-y-auto space-y-3 pb-4">
+      <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pb-4">
         {messages.map((msg) => {
           if (msg.role === "character") {
             return (
@@ -754,15 +756,46 @@ export function ConversationalDrill({
             </div>
           );
         })}
+        {/* Character typing indicator */}
+        {characterTyping && (
+          <div className="flex gap-3 items-start">
+            <div className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-xs font-bold flex-shrink-0 mt-1">
+              {initial}
+            </div>
+            <div className="bg-background-elevated border-l-4 border-accent rounded-xl rounded-tl-none px-4 py-3">
+              <span className="inline-flex gap-1 items-center">
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-text-subtle/40 animate-bounce"
+                  style={{ animationDelay: "0ms" }}
+                />
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-text-subtle/40 animate-bounce"
+                  style={{ animationDelay: "150ms" }}
+                />
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-text-subtle/40 animate-bounce"
+                  style={{ animationDelay: "300ms" }}
+                />
+              </span>
+            </div>
+          </div>
+        )}
         <div ref={chatEndRef} />
       </div>
 
       {/* Input area */}
       <div className="border-t border-background-elevated pt-3 pb-2">
-        {/* Show live transcript when recording */}
-        {isRecording && liveTranscript && (
+        {/* Show live transcript when session active */}
+        {sessionActive && liveTranscript && (
           <div className="text-xs text-text-subtle italic mb-2 px-1">
             {liveTranscript}
+          </div>
+        )}
+
+        {/* Session active hint */}
+        {sessionActive && !liveTranscript && !characterTyping && (
+          <div className="text-xs text-text-subtle/40 italic mb-2 px-1">
+            Listening…
           </div>
         )}
 
@@ -781,30 +814,30 @@ export function ConversationalDrill({
           )}
 
           {/* Audio-only placeholder at L3+ */}
-          {textInputDisabled && !isRecording && (
+          {textInputDisabled && !sessionActive && (
             <div className="flex-1 bg-background-surface border border-background-elevated rounded-lg px-3 py-2 text-sm text-text-subtle italic">
-              Tap the mic to speak your label...
+              Tap the mic to start…
             </div>
           )}
 
-          {textInputDisabled && isRecording && (
+          {textInputDisabled && sessionActive && (
             <div className="flex-1 bg-background-surface border border-accent/30 rounded-lg px-3 py-2 text-sm text-text italic">
-              {liveTranscript || "Listening..."}
+              {liveTranscript || "Listening…"}
             </div>
           )}
 
-          {/* Mic button */}
+          {/* Mic button — toggles entire listening session */}
           <button
-            onClick={isRecording ? stopRecording : startRecording}
+            onClick={sessionActive ? stopSession : startSession}
             className={[
               "w-10 h-10 rounded-full flex items-center justify-center transition-colors flex-shrink-0",
-              isRecording
-                ? "bg-red-500/20 text-red-400 border border-red-500/40"
+              sessionActive
+                ? "bg-red-500/20 text-red-400 border border-red-500/40 animate-pulse"
                 : "bg-accent/20 text-accent border border-accent/40 hover:bg-accent/30",
             ].join(" ")}
-            aria-label={isRecording ? "Stop recording" : "Start recording"}
+            aria-label={sessionActive ? "Stop listening" : "Start listening"}
           >
-            {isRecording ? (
+            {sessionActive ? (
               // Stop icon
               <svg
                 width="16"
