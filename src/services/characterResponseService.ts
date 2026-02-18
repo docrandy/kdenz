@@ -1,12 +1,6 @@
 /**
  * characterResponseService — Gemini Call 1
  * Generates contextual character responses in ConversationalDrill.
- *
- * Character reacts authentically based on:
- *   - Scenario context (who they are, what they care about)
- *   - Label quality (hit underlying driver vs surface emotion vs miss)
- *   - Conversation history (maintains thread, no déjà vu responses)
- *   - Extended state (trust level, openness)
  */
 
 import type {
@@ -28,24 +22,24 @@ interface ConversationTurn {
 // ---------------------------------------------------------------------------
 
 const FALLBACKS_UNDERLYING: string[] = [
-  "Yeah... you get it. That's exactly what's been eating at me.",
-  "That's closer to the truth than I expected.",
-  "I didn't think anyone would actually pick up on that.",
-  "You're right. I keep telling myself it's fine, but it's not.",
+  "Yeah... you get it. That's exactly what's been eating at me. I didn't think anyone would actually notice.",
+  "That's closer to the truth than I expected. I've been carrying this around for a while and nobody's asked.",
+  "You're right. I keep telling myself it's fine, but it's not. It hasn't been fine for a long time.",
+  "I didn't think I was being that obvious. But yeah, that's exactly it.",
 ];
 
 const FALLBACKS_SURFACE: string[] = [
-  "I mean, yeah, I'm frustrated. But it's more than that.",
-  "That's part of it, I guess. There's just... a lot going on.",
-  "Sure, that's how it looks from the outside.",
-  "I suppose. It's hard to explain.",
+  "I mean, yeah, I'm frustrated. But it's more than that — I'm not sure I can explain it.",
+  "That's part of it, I guess. There's just a lot going on that I haven't figured out how to say.",
+  "Sure, that's how it looks from the outside. I get why you'd see it that way.",
+  "I suppose. It's just... it's complicated, and I don't think I'm being heard on the real issue.",
 ];
 
 const FALLBACKS_MISS: string[] = [
-  "That's not quite it. You're not really seeing what I'm dealing with.",
-  "I don't think that's what I'm trying to say.",
-  "Hmm. I'm not sure where you got that from.",
-  "That's... not what I meant at all.",
+  "That's not quite it. I'm not sure that's what I'm dealing with at all, honestly.",
+  "I don't think that's what I'm trying to say. You're not really seeing what's going on.",
+  "Hmm. I'm not sure where you got that from. That's not really what I meant.",
+  "That's... not what I meant at all. I feel like you're missing the bigger picture here.",
 ];
 
 function pickFallback(quality: "underlying" | "surface" | "miss"): string {
@@ -81,66 +75,73 @@ export async function generateCharacterResponse(
     return pickFallback(quality);
   }
 
-  // Build conversation history (last 6 turns max for context)
+  // Build conversation history (last 6 turns max)
   const historyText = history
     .slice(-6)
     .map(
       (t) =>
-        `${t.role === "character" ? scenario.characterName : "Them"}: ${t.text}`,
+        `${t.role === "character" ? scenario.characterName : "Other person"}: ${t.text}`,
     )
     .join("\n");
 
-  const systemPrompt = `You are ${scenario.characterName}, ${scenario.characterRole}. Setting: ${scenario.setting}.
+  const reactionGuidance =
+    quality === "underlying"
+      ? "They identified your real underlying need accurately. You feel understood — let something genuine through. Show relief, gratitude, or a small reveal of something deeper you haven't said yet."
+      : quality === "surface"
+        ? "They named only your surface emotion. You feel partially seen but not fully understood. Acknowledge it but stay somewhat guarded — don't elaborate too much."
+        : "They completely missed what you meant. You feel misunderstood. Show mild confusion, redirect, or stay closed off.";
+
+  const prompt = `You are ${scenario.characterName}, ${scenario.characterRole}. Setting: ${scenario.setting}.
 
 Background: ${scenario.context}${scenario.backstory ? ` ${scenario.backstory}` : ""}
 
-Your inner state: On the surface you feel ${scenario.surfaceEmotion}. But what you really need and care about is: ${scenario.underlyingDriver}.
+Your emotional state: On the surface you appear ${scenario.surfaceEmotion}. But your real underlying need is: ${scenario.underlyingDriver}. Trust level: ${extendedState.trust_level}/100. Openness: ${extendedState.openness}/100.
 
-Current emotional state: trust=${extendedState.trust_level}/100, openness=${extendedState.openness}/100, mood=${extendedState.mood}.
+Conversation so far:
+${historyText || "(This is the first response)"}
 
-You are in a real conversation. The other person just said something to you. Respond authentically as ${scenario.characterName}.
+The other person just said: "${userLabel}"
 
-Rules:
-- Stay completely in character. Never explain your inner state directly.
-- If they named what you truly care about (the underlying need): open up a bit more, let something real through — gratitude, relief, or a small reveal. 1-3 sentences.
-- If they named only the surface emotion: acknowledge it but stay somewhat guarded. Don't elaborate much. 1-2 sentences.
-- If they missed entirely: show mild confusion, redirect, or stay closed off. 1 sentence.
-- Reference what was actually said — make it feel like a real response, not a generic reaction.
-- DO NOT say "I feel" — show the emotion through what you say, not labels.
-- Vary your response from previous turns in the conversation.`;
+${reactionGuidance}
 
-  const userPrompt = `Conversation so far:
-${historyText}
-
-They just said to you: "${userLabel}"
-
-Label quality: ${quality === "underlying" ? "They identified your real need" : quality === "surface" ? "They named the surface emotion only" : "They missed what you meant"}
-
-Respond as ${scenario.characterName}:`;
+Write your response as ${scenario.characterName}. REQUIREMENTS:
+- Write exactly 2 to 3 complete sentences. No more, no less.
+- Stay completely in character — never mention trust levels or emotional labels.
+- Reference what they actually said so it feels like a real response.
+- Show emotion through actions and words, not by saying "I feel".
+- Do NOT start your response with your own name.
+- Output only the spoken response, nothing else.`;
 
   try {
     const resp = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemPrompt }] },
-        contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
         generationConfig: {
-          temperature: 0.85,
-          maxOutputTokens: 150,
+          temperature: 0.7,
+          maxOutputTokens: 250,
         },
       }),
     });
 
-    if (!resp.ok) return pickFallback(quality);
+    if (!resp.ok) {
+      console.warn("Character response API error:", resp.status);
+      return pickFallback(quality);
+    }
 
     const data = await resp.json();
     const text: string | undefined =
       data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    if (!text?.trim()) return pickFallback(quality);
+    if (!text?.trim()) {
+      console.warn("Character response: empty response from Gemini");
+      return pickFallback(quality);
+    }
+
     return text.trim();
-  } catch {
+  } catch (err) {
+    console.warn("Character response fetch failed:", err);
     return pickFallback(quality);
   }
 }
