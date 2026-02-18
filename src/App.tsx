@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import "./App.css";
 import PracticeSession from "./components/PracticeSession";
 import BrowserWarning from "./components/BrowserWarning";
@@ -32,6 +38,7 @@ import PracticeBridge from "./pages/PracticeBridge";
 import BreathingScreen from "./pages/BreathingScreen";
 import { LabelingPractice } from "./features/labeling";
 import { AccusationAuditPractice } from "./features/accusation-audit";
+import { DrillScreen } from "./features/drill-engine";
 import { AppHeader } from "./components/AppHeader";
 import { SlideTransition } from "./components/SlideTransition";
 import { TabLayout } from "./components/TabLayout";
@@ -104,6 +111,19 @@ function LabelingPracticeRoute() {
 function AuditPracticeRoute() {
   const navigate = useNavigate();
   return <AccusationAuditPractice onBack={() => navigate("/skills-lab")} />;
+}
+
+// Wrapper for Generic Drill Engine
+function DrillScreenRoute() {
+  const { techniqueId } = useParams<{ techniqueId: string }>();
+  const navigate = useNavigate();
+  if (!techniqueId) return null;
+  return (
+    <DrillScreen
+      techniqueId={techniqueId}
+      onBack={() => navigate("/skills-lab")}
+    />
+  );
 }
 
 // Wrapper for Baseline Practice
@@ -313,6 +333,10 @@ function App() {
             element={<LabelingPracticeRoute />}
           />
           <Route path="/practice/audit" element={<AuditPracticeRoute />} />
+          <Route
+            path="/practice/drill/:techniqueId"
+            element={<DrillScreenRoute />}
+          />
           <Route
             path="/practice/technique"
             element={<TechniquePracticeRoute />}
