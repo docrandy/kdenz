@@ -46,6 +46,7 @@ import VoiceLabPage from "./pages/VoiceLabPage";
 import SkillsPage from "./pages/SkillsPage";
 import SimulationPage from "./pages/SimulationPage";
 import InstitutePage from "./pages/InstitutePage";
+import LabelingLessons from "./pages/institute/LabelingLessons";
 
 const CONSENT_ACCEPTED_KEY = "voicelab_consent_accepted";
 const WELCOME_SEEN_KEY = "voicelab_welcome_seen";
@@ -344,6 +345,10 @@ function App() {
           <Route
             path="/practice/technique-results"
             element={<TechniqueFeedback />}
+          />
+          <Route
+            path="/institute/labeling/:topic"
+            element={<LabelingLessons />}
           />
           <Route path="/breathing" element={<BreathingScreen />} />
         </Routes>

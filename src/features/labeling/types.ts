@@ -74,6 +74,11 @@ export interface LabelingScenario {
   deliveryGuidance?: string; // Specific delivery instruction for this scenario
   silenceExpectation?: string; // What to expect during Dynamic Silence
   counterpartResponse?: string; // What AI says after a good label
+  characterName: string; // e.g., "Carol", "Marcus", "Sarah"
+  characterRole: string; // e.g., "your coworker", "your manager", "a client"
+  setting: string; // e.g., "Break room after a team meeting"
+  backstory?: string; // optional, e.g., "You've worked together for 2 years"
+  level: 1 | 2 | 3; // which drill level this scenario is for
 }
 
 export type ScenarioCategory =
@@ -172,6 +177,33 @@ export interface ScoreHistoryEntry {
   timestamp: number;
   scenarioId: string;
   score: number;
+}
+
+// ===== DRILL STATS =====
+
+/** Stats tracked across drill exchanges (flashcard and conversational) */
+export interface DrillStats {
+  totalExchanges: number;
+  correctCount: number;
+  consecutiveCorrect: number;
+  criteriaHits: {
+    syntax: number;
+    emotion: number;
+    underlyingDepth: number;
+  };
+}
+
+// ===== LEVEL PROGRESSION =====
+
+export interface LabelingProgression {
+  currentLevel: number; // 1, 2, 3...
+  consecutiveSuccesses: number; // resets on failure
+  totalAttempts: number;
+  levelHistory: {
+    level: number;
+    completedAt: number;
+    attempts: number;
+  }[];
 }
 
 // Session state
