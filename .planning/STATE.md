@@ -13,7 +13,7 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 **Version:** v3.0 Generic Drill Engine
 **Previous:** v2.0 Dark Premium Transformation (COMPLETE), v1.0 shipped 2026-02-05
 **Deployed:** https://kdenz.vercel.app (v2.0 + 5-pillar navigation active)
-**Last Action:** 2026-02-18 - Completed 20-03 (DrillScreen + FeedbackCard + barrel export — full drill UI)
+**Last Action:** 2026-02-18 - Completed 20.1-02 (Aspiration data layer + 3-question AspirationSetup flow)
 
 **Progress:** [█--------------------] 25% (1/4 phases complete, 3/4 plans in Phase 20)
 
@@ -35,12 +35,48 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 
 ## Current Position
 
-Phase: 20 — Drill Engine + Scoring
-Plan: 03 of 04 — COMPLETE
+Phase: 20.1 — AI Practice Sessions & Simulation
+Plan: 02 of 04 — COMPLETE
 Status: In progress
-Last activity: 2026-02-18 — Completed 20-03-PLAN.md (DrillScreen + FeedbackCard + barrel export — full drill session UI)
+Last activity: 2026-02-18 — Completed 20.1-02-PLAN.md (Aspiration data layer: 7 voice archetypes + 3-question AspirationSetup flow + /aspiration/setup route)
 
 ## Accumulated Context
+
+### Roadmap Evolution
+- Phase 20.1 inserted after Phase 20: AI Practice Sessions & Simulation (URGENT — upgrade ConversationalDrill from hardcoded responses to Gemini state-object pattern + AI interpretation and coaching per exchange)
+
+### Platform Identity (architectural north star — 2026-02-18)
+KDENZ is a **biofeedback mirror**, not a training app. It makes invisible communication
+visible in two directions:
+
+1. **Receiving biofeedback** — What's beneath THEIR words (subtext, implicit meaning,
+   meta-communication, high-context signals) that you missed or misread. The subtext
+   reveal card. "Carol's real fear was being forgotten. You responded to her anger."
+
+2. **Sending biofeedback** — What YOUR communication is actually signaling that you
+   don't realize. Your defaults, your avoidance patterns, your tone vs. your intent.
+   "Your label was syntactically correct but your framing was apologetic. You treated
+   her identity threat like a polite observation."
+
+3. **Aspiration gap** — Users have an aspirational voice/tone identity (the FM DJ
+   voice, the authoritative presence, the warm authority). They can't hear themselves
+   the way others hear them. The platform shows the gap between current and aspirational,
+   and gives them the tools to close it.
+
+Voice biofeedback (filler gauge, pace) = sending channel for voice.
+Skills lab subtext reveal = receiving channel.
+Skills lab self-pattern reveal = sending channel for communication.
+Session debrief = pattern map across both channels.
+VCM diagnostics = the underlying engine that explains WHY the gap persists.
+
+4. **Self-identification** — Before users can practice toward a goal, they need to know
+   what they ARE. The platform identifies their communication pattern ("Surface Reader,"
+   "Hedger," "Intellectualizer") so they can name it, own it, and build a targeted plan
+   around it. You can't navigate without knowing your current location.
+
+This framing drives all UX decisions. Every feature either makes something invisible
+visible, gives the user a signal that helps them self-regulate, or helps them identify
+where they are so they know where to go.
 
 ### Key Decisions
 - Generic drill engine over technique-specific UIs (CLAUDE.md D8)
@@ -106,10 +142,19 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-18T02:19:28Z
-Stopped at: Completed 20-03-PLAN.md (DrillScreen + FeedbackCard + barrel export, 3 tasks, type-check + build clean)
+Last session: 2026-02-18T00:25:00Z
+Stopped at: Completed 20.1-02-PLAN.md (aspiration types + 7 voice archetypes + AspirationSetup 3-question flow + /aspiration/setup route, 2 tasks, type-check clean)
 Resume file: None
 
 ---
+### Aspiration Layer (Plan 20.1-02)
+- 7 voice archetypes: grounded_authority, fm_dj (Calm Broadcaster), warm_connector, motivator, analytical_clarifier, calm_negotiator, playful_persuader
+- Each archetype has measurable markers: speech_rate_wpm, filler_density_per_100, avg_pause_duration_s — ready for gap calculation in session debrief
+- Aspiration stored at localStorage key 'kdenz:user-aspiration'
+- "Calm & safe" feeling pill disambiguates inline to fm_dj (radio host) or calm_negotiator (therapist)
+- Q3 gap_awareness stored for coaching context only — does not affect archetype selection
+- getAspiration() importable from utils/aspirationStorage; getArchetypeById() from data/voiceArchetypes
+- /aspiration/setup is an immersive route (no tab bar), accessible from ProfilePage Step 4
+
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-18 - Phase 20, Plans 01, 02, and 03 complete*
+*Last updated: 2026-02-18 - Phase 20.1, Plan 02 complete*
