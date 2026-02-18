@@ -36,9 +36,9 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 ## Current Position
 
 Phase: 20.1 — AI Practice Sessions & Simulation
-Plan: 02 of 04 — COMPLETE
+Plan: 03 of 04 — COMPLETE (20.1-01, 20.1-02, 20.1-03 complete)
 Status: In progress
-Last activity: 2026-02-18 — Completed 20.1-02-PLAN.md (Aspiration data layer: 7 voice archetypes + 3-question AspirationSetup flow + /aspiration/setup route)
+Last activity: 2026-02-18 — Completed 20.1-01-PLAN.md (simulation types + patternDetectionService + ConversationalDrill Panel B); 20.1-02 and 20.1-03 also complete
 
 ## Accumulated Context
 
@@ -156,5 +156,12 @@ Resume file: None
 - getAspiration() importable from utils/aspirationStorage; getArchetypeById() from data/voiceArchetypes
 - /aspiration/setup is an immersive route (no tab bar), accessible from ProfilePage Step 4
 
+### Pattern Detection Layer (Plan 20.1-01)
+- src/types/simulation.ts: ExtendedStateObject, 8 CommunicatorPattern types (surface-reader, hedger, fixer, diplomat, intellectualizer, presumptuous, rusher, explainer), PatternSignal, SessionPatternData, COMMUNICATOR_PATTERNS constant
+- src/services/patternDetectionService.ts: detectRegexSignals() (6 patterns, instant), detectPatternSignals() (Gemini Call 2, temperature 0.1, 3 few-shot examples), updateSessionPatterns() (60% dominance + 0.75 confidence gate)
+- ConversationalDrill Panel B: "What you signaled" blue-900/10 bg, border-l-4 border-blue-400 — shows patternNote + signal bullets per exchange
+- ExtendedStateObject tracked via useRef (not useState) — consumed by future Gemini Call 1, not rendered
+- SessionPatternData accumulates across session, passed to onComplete for debrief
+
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-18 - Phase 20.1, Plan 02 complete*
+*Last updated: 2026-02-18 - Phase 20.1, Plans 01, 02, and 03 complete*
