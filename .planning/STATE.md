@@ -9,13 +9,13 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 
 ## Current State
 
-**Status:** Phase 19 complete — ready for Phase 20
+**Status:** Phase 20 in progress — 20-01 complete
 **Version:** v3.0 Generic Drill Engine
 **Previous:** v2.0 Dark Premium Transformation (COMPLETE), v1.0 shipped 2026-02-05
 **Deployed:** https://kdenz.vercel.app (v2.0 + 5-pillar navigation active)
-**Last Action:** 2026-02-17 - Phase 19 complete (technique data foundation — 4 files, 8 techniques, 40 scenarios)
+**Last Action:** 2026-02-18 - Completed 20-01 (scoring engine + attempt persistence — 2 files)
 
-**Progress:** [█--------------------] 25% (1/4 phases complete)
+**Progress:** [█--------------------] 25% (1/4 phases complete, 1/4 plans in Phase 20)
 
 ## Milestone Summary
 
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 
 **Phase structure:**
 - Phase 19: Technique Data Foundation — COMPLETE
-- Phase 20: Drill Engine + Scoring (ENG-01 to ENG-05, SCR-01 to SCR-04)
+- Phase 20: Drill Engine + Scoring — IN PROGRESS (20-01 COMPLETE)
 - Phase 21: Mastery Tracking (MAS-01 to MAS-04)
 - Phase 22: Skills Lab Integration (INT-01 to INT-04)
 
@@ -36,9 +36,9 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 ## Current Position
 
 Phase: 20 — Drill Engine + Scoring
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-02-17 — Completed 19-01-PLAN.md (all 6 tasks)
+Plan: 01 of 4 — COMPLETE
+Status: In progress
+Last activity: 2026-02-18 — Completed 20-01-PLAN.md (2 tasks, scoring engine + attempt persistence)
 
 ## Accumulated Context
 
@@ -55,15 +55,21 @@ Last activity: 2026-02-17 — Completed 19-01-PLAN.md (all 6 tasks)
 - localStorage persistence (no Supabase yet for this milestone)
 - All 8 Tier A techniques use skill_type='syntax' in v3.0
 - No type-check npm script — use npx tsc --noEmit for TypeScript verification
-- Chunk size warning (~1.17 MB JS) is pre-existing, not a Phase 19 concern
+- Chunk size warning (~1.17 MB JS) is pre-existing, not a Phase 20 concern
+- gemini-2.5-flash used for drill evaluation (upgrade from gemini-1.5-flash in voice coaching service)
+- compositeScore = formScore when Gemini unavailable (never null — always has a value)
+- Streak: formScore>=80 AND accuracyScore>=75 when Gemini available; formScore>=80 alone when unavailable
+- Gemini JSON extraction handles both raw JSON and ```json code block wrapping
 
-### Data Layer Ready (Phase 19)
+### Data Layer Ready (Phase 19 + 20-01)
 - `src/types/drill.ts` — Technique, Scenario, SyntaxRule, DrillDataStore types
 - `src/data/drill-techniques.ts` — 8 techniques with syntax rules; drillTechniques Record + drillTechniquesArray
 - `src/data/drill-scenarios.ts` — 40 scenarios (5 per technique), difficulty 1-2
 - `src/utils/drill-storage.ts` — initDrillData(), getDrillData(), getTechnique(), getScenariosForTechnique(), getScenarioById()
+- `src/services/drillEvaluationService.ts` — DrillEvaluationResult, scoreForm(), scoreWithGemini(), evaluateDrillResponse()
+- `src/utils/drillAttemptStorage.ts` — DrillAttempt, DrillSession, saveDrillAttempt(), getDrillAttempts(), getSessionStreak(), generateAttemptId(), clearDrillAttempts()
 - `src/main.tsx` — initDrillData() called before ReactDOM.createRoot().render()
-- localStorage key: 'kdenz:drill-data' (colon separator, distinct from underscore-keyed legacy keys)
+- localStorage keys: 'kdenz:drill-data' (seed data), 'kdenz:drill-attempts' (user attempt records)
 
 ### Research Available
 - R8: Complete technique taxonomy (83 techniques, 22 scored 5/5 for beta)
@@ -73,8 +79,8 @@ Last activity: 2026-02-17 — Completed 19-01-PLAN.md (all 6 tasks)
 - R5: Conversation quality evaluation (4-dimension rubric)
 
 ### Existing Code
-- src/features/labeling/ — existing labeling drill (working, untouched by Phase 19)
-- src/features/accusation-audit/ — existing accusation audit drill (working, untouched by Phase 19)
+- src/features/labeling/ — existing labeling drill (working, untouched by Phase 19/20-01)
+- src/features/accusation-audit/ — existing accusation audit drill (working, untouched by Phase 19/20-01)
 
 ## Blockers
 
@@ -87,10 +93,10 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-17T23:08:05Z
-Stopped at: Completed 19-01-PLAN.md (all 6 tasks, including verification)
+Last session: 2026-02-18T02:11:00Z
+Stopped at: Completed 20-01-PLAN.md (2 tasks, type-check + build clean)
 Resume file: None
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-17 - Phase 19 complete, positioned at Phase 20*
+*Last updated: 2026-02-18 - Phase 20, Plan 01 complete*
