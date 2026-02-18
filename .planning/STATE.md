@@ -9,13 +9,13 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 
 ## Current State
 
-**Status:** Phase 20 in progress — 20-01 and 20-02 complete
+**Status:** Phase 20 in progress — 20-01, 20-02, and 20-03 complete
 **Version:** v3.0 Generic Drill Engine
 **Previous:** v2.0 Dark Premium Transformation (COMPLETE), v1.0 shipped 2026-02-05
 **Deployed:** https://kdenz.vercel.app (v2.0 + 5-pillar navigation active)
-**Last Action:** 2026-02-18 - Completed 20-02 (useDrillSession hook — state machine, scenario pool, scoring pipeline)
+**Last Action:** 2026-02-18 - Completed 20-03 (DrillScreen + FeedbackCard + barrel export — full drill UI)
 
-**Progress:** [█--------------------] 25% (1/4 phases complete, 1/4 plans in Phase 20)
+**Progress:** [█--------------------] 25% (1/4 phases complete, 3/4 plans in Phase 20)
 
 ## Milestone Summary
 
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 
 **Phase structure:**
 - Phase 19: Technique Data Foundation — COMPLETE
-- Phase 20: Drill Engine + Scoring — IN PROGRESS (20-01 COMPLETE, 20-02 COMPLETE)
+- Phase 20: Drill Engine + Scoring — IN PROGRESS (20-01 COMPLETE, 20-02 COMPLETE, 20-03 COMPLETE)
 - Phase 21: Mastery Tracking (MAS-01 to MAS-04)
 - Phase 22: Skills Lab Integration (INT-01 to INT-04)
 
@@ -36,9 +36,9 @@ See: .planning/PROJECT.md (updated 2026-02-17)
 ## Current Position
 
 Phase: 20 — Drill Engine + Scoring
-Plan: 02 of 04 — COMPLETE
+Plan: 03 of 04 — COMPLETE
 Status: In progress
-Last activity: 2026-02-18 — Completed 20-02-PLAN.md (useDrillSession hook — state machine + scenario pool + scoring pipeline)
+Last activity: 2026-02-18 — Completed 20-03-PLAN.md (DrillScreen + FeedbackCard + barrel export — full drill session UI)
 
 ## Accumulated Context
 
@@ -63,6 +63,12 @@ Last activity: 2026-02-18 — Completed 20-02-PLAN.md (useDrillSession hook — 
 - appendTranscript replaces (not appends) transcript — Web Speech API fires cumulative final results
 - Scenario pool auto-resets after full cycle (no session 'complete' state trigger yet)
 - Hook-as-state-machine pattern: all drill business logic in useDrillSession, zero in DrillScreen
+- FeedbackCard is a pure display component — no hooks/state/logic; scoreLabel/scoreColor are module-level functions
+- ScoreRow sub-component: handles loaded/geminiLoading/failed rendering for one dimension
+- compositeReady vs showComposite distinction: showComposite controls section visibility; compositeReady controls full vs form-only fallback text
+- handleStop uses 500ms setTimeout before submitTranscript (matches LabelingPractice Web Speech API drain pattern)
+- Browser warning is inline dismissable banner in DrillScreen (not modal, not blocking)
+- CSS-only waveform: 5 bars with @keyframes drillWave inline, no external animation library
 
 ### Data Layer Ready (Phase 19 + 20-01)
 - `src/types/drill.ts` — Technique, Scenario, SyntaxRule, DrillDataStore types
@@ -72,6 +78,9 @@ Last activity: 2026-02-18 — Completed 20-02-PLAN.md (useDrillSession hook — 
 - `src/services/drillEvaluationService.ts` — DrillEvaluationResult, scoreForm(), scoreWithGemini(), evaluateDrillResponse()
 - `src/utils/drillAttemptStorage.ts` — DrillAttempt, DrillSession, saveDrillAttempt(), getDrillAttempts(), getSessionStreak(), generateAttemptId(), clearDrillAttempts()
 - `src/features/drill-engine/useDrillSession.ts` — DrillState, useDrillSession() hook (state machine, scenario pool, scoring pipeline, streak tracking)
+- `src/features/drill-engine/FeedbackCard.tsx` — Pure display component for evaluation results (3-state per dimension)
+- `src/features/drill-engine/DrillScreen.tsx` — Main drill container (Web Speech API + 6-state render tree)
+- `src/features/drill-engine/index.ts` — Barrel export: DrillScreen
 - `src/main.tsx` — initDrillData() called before ReactDOM.createRoot().render()
 - localStorage keys: 'kdenz:drill-data' (seed data), 'kdenz:drill-attempts' (user attempt records)
 
@@ -97,10 +106,10 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-18T00:45:00Z
-Stopped at: Completed 20-02-PLAN.md (useDrillSession hook, 1 task, type-check + build clean)
+Last session: 2026-02-18T02:19:28Z
+Stopped at: Completed 20-03-PLAN.md (DrillScreen + FeedbackCard + barrel export, 3 tasks, type-check + build clean)
 Resume file: None
 
 ---
 *State initialized: 2026-01-25*
-*Last updated: 2026-02-18 - Phase 20, Plans 01 and 02 complete*
+*Last updated: 2026-02-18 - Phase 20, Plans 01, 02, and 03 complete*
