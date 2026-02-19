@@ -4,8 +4,6 @@
  */
 
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import { AppHeader } from "../components/AppHeader";
 import StatCard from "../components/StatCard";
 import BeforeAfterComparison from "../components/BeforeAfterComparison";
 import {
@@ -14,7 +12,6 @@ import {
 } from "../services/sessionStorage";
 
 export default function VoiceProfile() {
-  const navigate = useNavigate();
   const sessions = useMemo(() => getAllSessions(), []);
 
   // Sort sessions by timestamp (newest first)
@@ -118,11 +115,14 @@ export default function VoiceProfile() {
         value: sortedSessions.length,
         trend:
           olderSessions.length > 0
-            ? ({
+            ? {
                 direction: "up" as const,
-                percentage: ((recentSessions.length - olderSessions.length) / olderSessions.length) * 100,
+                percentage:
+                  ((recentSessions.length - olderSessions.length) /
+                    olderSessions.length) *
+                  100,
                 period: "vs previous",
-              })
+              }
             : undefined,
       },
       practiceStreak: {
@@ -131,32 +131,25 @@ export default function VoiceProfile() {
     };
   }, [sortedSessions]);
 
-  const handleBack = () => {
-    navigate("/");
-  };
-
   // Empty state
   if (sessions.length === 0) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <AppHeader showBack onBack={handleBack} />
-        <main className="flex-1 flex items-center justify-center px-4">
-          <div className="max-w-md w-full text-center">
-            <div className="text-6xl mb-6">🎙️</div>
-            <h1 className="text-h2 font-display font-semibold text-text-heading mb-4">
-              Voice Profile
-            </h1>
-            <p className="text-body-lg text-text-muted mb-8">
-              Complete your first session to see your profile
-            </p>
-            <button
-              onClick={() => navigate("/practice/filler/setup")}
-              className="btn btn-primary"
-            >
-              Start Your First Session
-            </button>
-          </div>
-        </main>
+      <div className="flex items-center justify-center px-4 py-12">
+        <div className="max-w-md w-full text-center">
+          <div className="text-6xl mb-6">🎙️</div>
+          <h1 className="text-h2 font-display font-semibold text-text-heading mb-4">
+            Voice Profile
+          </h1>
+          <p className="text-body-lg text-text-muted mb-8">
+            Complete your first session to see your profile
+          </p>
+          <button
+            onClick={() => (window.location.href = "/practice/filler/setup")}
+            className="btn btn-primary"
+          >
+            Start Your First Session
+          </button>
+        </div>
       </div>
     );
   }
@@ -165,60 +158,57 @@ export default function VoiceProfile() {
   const hasEnoughData = sessions.length >= 3;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <AppHeader showBack onBack={handleBack} />
-      <main className="flex-1 max-w-[1200px] mx-auto w-full px-4 sm:px-6 py-8">
-        {/* Page title */}
-        <h1 className="text-h1 font-display font-semibold text-text-heading mb-8">
-          Voice Profile
-        </h1>
+    <div className="max-w-[1200px] mx-auto w-full px-4 sm:px-6 py-8">
+      {/* Page title */}
+      <h1 className="text-h1 font-display font-semibold text-text-heading mb-8">
+        Voice Profile
+      </h1>
 
-        {/* Sparse data message */}
-        {!hasEnoughData && (
-          <div className="card-surface bg-background-surface border-accent/20 mb-6">
-            <p className="text-body text-text-muted">
-              Record more sessions to unlock trends and detailed insights.
-            </p>
-          </div>
-        )}
-
-        {/* Stat cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-          <StatCard
-            label="Filler Rate"
-            value={stats.fillerRate.value}
-            unit="per min"
-            trend={hasEnoughData ? stats.fillerRate.trend : undefined}
-            empty={stats.fillerRate.value === 0}
-          />
-          <StatCard
-            label="Speech Pace"
-            value={stats.speechPace.value}
-            unit="WPM"
-            trend={hasEnoughData ? stats.speechPace.trend : undefined}
-            empty={stats.speechPace.value === 0}
-          />
-          <StatCard
-            label="Total Sessions"
-            value={stats.totalSessions.value}
-            trend={hasEnoughData ? stats.totalSessions.trend : undefined}
-          />
-          <StatCard
-            label="Practice Streak"
-            value={
-              stats.practiceStreak.value > 0
-                ? `${stats.practiceStreak.value} days`
-                : "Keep practicing!"
-            }
-            trend={undefined}
-          />
+      {/* Sparse data message */}
+      {!hasEnoughData && (
+        <div className="card-surface bg-background-surface border-accent/20 mb-6">
+          <p className="text-body text-text-muted">
+            Record more sessions to unlock trends and detailed insights.
+          </p>
         </div>
+      )}
 
-        {/* Before/After comparison */}
-        <div id="before-after">
-          <BeforeAfterComparison sessions={sessions} />
-        </div>
-      </main>
+      {/* Stat cards grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+        <StatCard
+          label="Filler Rate"
+          value={stats.fillerRate.value}
+          unit="per min"
+          trend={hasEnoughData ? stats.fillerRate.trend : undefined}
+          empty={stats.fillerRate.value === 0}
+        />
+        <StatCard
+          label="Speech Pace"
+          value={stats.speechPace.value}
+          unit="WPM"
+          trend={hasEnoughData ? stats.speechPace.trend : undefined}
+          empty={stats.speechPace.value === 0}
+        />
+        <StatCard
+          label="Total Sessions"
+          value={stats.totalSessions.value}
+          trend={hasEnoughData ? stats.totalSessions.trend : undefined}
+        />
+        <StatCard
+          label="Practice Streak"
+          value={
+            stats.practiceStreak.value > 0
+              ? `${stats.practiceStreak.value} days`
+              : "Keep practicing!"
+          }
+          trend={undefined}
+        />
+      </div>
+
+      {/* Before/After comparison */}
+      <div id="before-after">
+        <BeforeAfterComparison sessions={sessions} />
+      </div>
     </div>
   );
 }
@@ -246,8 +236,10 @@ function calculateStreak(sessions: SessionSummary[]): number {
   let currentDate = todayTime;
 
   for (const dateTime of sortedDates) {
-    const daysDiff = Math.floor((currentDate - dateTime) / (1000 * 60 * 60 * 24));
-    
+    const daysDiff = Math.floor(
+      (currentDate - dateTime) / (1000 * 60 * 60 * 24),
+    );
+
     if (daysDiff === streak) {
       // This date is exactly streak days ago (consecutive)
       streak++;
