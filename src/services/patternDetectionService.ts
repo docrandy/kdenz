@@ -103,8 +103,14 @@ function buildPatternDetectionPrompt(
   // Take last 3 exchanges for context (6 messages max: 3 character + 3 user)
   const recentHistory = conversationHistory.slice(-6);
   const historyText = recentHistory
-    .map((m) => `${m.role === "character" ? "Character" : "User"}: "${m.text}"`)
+    .map((m) => `${m.role === "character" ? "Character" : "User"}: ${m.text}`)
     .join("\n");
+
+  // Escape special characters in user text to prevent prompt injection
+  const escapedUserText = userText
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\n");
 
   return `You are analyzing a user's communication style in a labeling practice drill.
 The user is practicing emotional labeling (e.g., "It seems like you're feeling X").
@@ -115,7 +121,7 @@ RECENT CONVERSATION:
 ${historyText || "(First exchange)"}
 
 USER'S LATEST RESPONSE:
-"${userText}"
+"${escapedUserText}"
 
 CLASSIFICATION CATEGORIES:
 - hedging: Accurate insight undermined by uncertainty markers ("I think maybe...", "...right?", softening prefixes)
@@ -137,14 +143,21 @@ FEW-SHOT EXAMPLES:
 3. "It seems like you're worried this sets a pattern." → appropriate
    patternNote: "Clean label — hypothetical framing with 'It seems like' invites confirmation without demanding it."
 
-Respond with ONLY valid JSON in this exact format:
-{"signals": ["<specific observation 1>", "<specific observation 2>"], "patternNote": "<non-judgmental, behavioral, 1-2 sentences>", "dominant_pattern": "<category>", "confidence": <0.0-1.0>}
+Output ONLY valid JSON with exactly these fields:
+{
+  "signals": ["observation1", "observation2"],
+  "patternNote": "1-2 sentences",
+  "dominant_pattern": "category_name",
+  "confidence": 0.75
+}
 
 Rules:
-- patternNote must be behavioral and specific, not shaming ("Your label..." not "You failed to...")
-- signals are specific observations about THIS response, not generic advice
-- confidence reflects how clearly the pattern shows (0.9 = obvious, 0.5 = subtle, 0.3 = might be appropriate)
-- If response is "appropriate", signals should be empty [] and patternNote should affirm what worked`;
+- signals: array of 0-2 specific behavioral observations about THIS response
+- patternNote: behavioral feedback, not judgmental ("Your label..." not "You failed...")
+- dominant_pattern: MUST be one of: hedging, validation_seeking, intellectualizing, presumptuous, problem_solving_rush, deflection, appropriate, mixed
+- confidence: 0.0-1.0 (0.9=obvious pattern, 0.5=subtle, 0.3=possibly acceptable, 0=appropriate)
+- If "appropriate": signals must be [], patternNote should affirm what worked
+- Output JSON ONLY, no markdown code blocks, no explanations`;
 }
 
 /**
@@ -209,7 +222,7 @@ export async function detectPatternSignals(
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.1, // deterministic classification
-            maxOutputTokens: 500, // Increased from 200 to handle full JSON response with multiple signals
+            maxOutputTokens: 1000, // Increased to 1000 to ensure complete JSON response with all signals and metadata
           },
         }),
       },
@@ -231,6 +244,12 @@ export async function detectPatternSignals(
 
     // Extract JSON — handle both raw JSON and ```json code block wrapping
     let jsonText = rawText.trim();
+
+    console.log(
+      "[PatternDetect] Raw response first 100 chars:",
+      rawText.substring(0, 100),
+    );
+    console.log("[PatternDetect] Raw response length:", rawText.length);
 
     // Step 1: Remove markdown code block markers if present
     if (jsonText.startsWith("```")) {
@@ -270,16 +289,18 @@ export async function detectPatternSignals(
     jsonText = jsonText.trim();
 
     console.log(
-      "[PatternDetect] Attempting to parse JSON. First 80 chars:",
-      jsonText.substring(0, 80),
+      "[PatternDetect] Extracted JSON. First 100 chars:",
+      jsonText.substring(0, 100),
     );
-    console.log("[PatternDetect] Full JSON text length:", jsonText.length);
+    console.log("[PatternDetect] Extracted JSON length:", jsonText.length);
 
     let parsed;
     try {
       parsed = JSON.parse(jsonText);
     } catch (parseError) {
-      console.error("[PatternDetect] JSON parse failed. Full text:", jsonText);
+      console.error("[PatternDetect] JSON parse failed.");
+      console.error("[PatternDetect] Extracted JSON text:", jsonText);
+      console.error("[PatternDetect] Full raw response:", rawText);
       console.error("[PatternDetect] Parse error:", parseError);
       return fallbackResult(regexSignals);
     }
