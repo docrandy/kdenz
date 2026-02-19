@@ -445,15 +445,29 @@ OUTPUT FORMAT: Return ONLY valid JSON matching this exact shape. No markdown, no
 
 function extractJsonFromText(rawText: string): string {
   let jsonText = rawText.trim();
+  console.log(
+    "[extractJsonFromText] Initial text length:",
+    jsonText.length,
+    "First 50 chars:",
+    jsonText.substring(0, 50),
+  );
 
   // Step 1: Remove markdown code block markers if present
   if (jsonText.startsWith("```")) {
     // Remove opening ``` and optional "json" language marker
     jsonText = jsonText.replace(/^```(?:json)?\s*/, "");
+    console.log(
+      "[extractJsonFromText] After removing opening backticks, length:",
+      jsonText.length,
+    );
   }
   if (jsonText.endsWith("```")) {
     // Remove closing ```
     jsonText = jsonText.replace(/\s*```$/, "");
+    console.log(
+      "[extractJsonFromText] After removing closing backticks, length:",
+      jsonText.length,
+    );
   }
 
   // Step 2: Extract JSON object by finding matching braces (most reliable method)
@@ -475,12 +489,19 @@ function extractJsonFromText(rawText: string): string {
       }
 
       if (endIdx !== -1) {
-        return jsonText.substring(startIdx, endIdx + 1);
+        const result = jsonText.substring(startIdx, endIdx + 1).trim();
+        console.log(
+          "[extractJsonFromText] Extracted JSON length:",
+          result.length,
+          "First 50 chars:",
+          result.substring(0, 50),
+        );
+        return result;
       }
     }
   }
 
-  return jsonText;
+  return jsonText.trim();
 }
 
 // ---------------------------------------------------------------------------
@@ -626,7 +647,19 @@ export async function generateSessionDebrief(
     }
 
     const jsonText = extractJsonFromText(rawText);
-    const parsed = JSON.parse(jsonText) as Record<string, unknown>;
+    console.log(
+      "[DebriefService] Attempting to parse JSON. First 100 chars:",
+      jsonText.substring(0, 100),
+    );
+
+    let parsed: Record<string, unknown>;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch (parseError) {
+      console.error("[DebriefService] JSON parse failed. Full text:", jsonText);
+      console.error("[DebriefService] Parse error:", parseError);
+      throw parseError;
+    }
 
     // Clamp patternConfidence to 0-1
     if (typeof parsed.patternConfidence === "number") {

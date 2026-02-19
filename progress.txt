@@ -1713,3 +1713,47 @@ Next task: [see PRD.json]
 Next action: Resume from handoff
 Blockers: none
 Handoff: C:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-19T02-16-17.md
+
+[2026-02-19 Critical Bug Fix Session]
+Two major issues fixed in Labeling Practice module:
+
+1. SUMMARY BUTTON BUG (FIXED)
+   - Issue: Summary button visible & clickable during drill flowState
+   - Fix: Conditional rendering in LabelingPractice.tsx (lines 126-136)
+   - Show button only when flowState !== "drill", placeholder div maintains spacing
+   - Status: Deployed, working
+
+2. GEMINI JSON PARSE ERROR (FIXED) 
+   - Issue: "SyntaxError: Unexpected token backtick" when parsing Gemini responses
+   - Root Cause: Gemini 2.5 Flash wraps JSON in markdown code blocks (```json...```)
+     but code tried to parse entire response including backticks
+   - Affected: patternDetectionService.ts (Gemini Call 2 - character responses)
+              debriefService.ts (Gemini Call 3 - debrief cards)
+   - Fix: Replaced regex extraction with robust string manipulation
+     - Direct startsWith/endsWith for markdown removal
+     - Brace-counting for reliable JSON extraction
+   - Services Updated:
+     * patternDetectionService.ts lines 232-261
+     * debriefService.ts lines 446-481 (extractJsonFromText function)
+   - Status: Deployed, build verified (commit 48e39f9)
+
+RESULT: 
+- Character responses during drills now generate personalized feedback
+- Debrief cards after session now show personalized analysis
+- Both systems fall back gracefully to generic text only if API key missing
+- Console errors about backticks no longer appear
+
+Testing: https://kdenz.vercel.app
+- Skills Lab → Labeling Practice → Level 2
+- Submit label and verify character response references your specific label
+- Complete session and verify debrief shows personalized analysis (not template stubs)
+
+Commit: 48e39f9 - fix: robust JSON extraction from Gemini markdown responses
+Build: ✅ Successful
+Deployment: ✅ Live
+
+--- RESUME BLOCK ---
+Last task: Fixed Gemini API feedback generation bugs
+Next task: User testing to verify personalized feedback now works
+Next action: Test at https://kdenz.vercel.app and report any remaining issues
+Blockers: none - both issues resolved and deployed

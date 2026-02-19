@@ -266,11 +266,23 @@ export async function detectPatternSignals(
       }
     }
 
+    // Final trim to remove any remaining whitespace
+    jsonText = jsonText.trim();
+
     console.log(
       "[PatternDetect] Attempting to parse JSON. First 80 chars:",
       jsonText.substring(0, 80),
     );
-    const parsed = JSON.parse(jsonText);
+    console.log("[PatternDetect] Full JSON text length:", jsonText.length);
+
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch (parseError) {
+      console.error("[PatternDetect] JSON parse failed. Full text:", jsonText);
+      console.error("[PatternDetect] Parse error:", parseError);
+      return fallbackResult(regexSignals);
+    }
 
     // Validate shape — if malformed, fall back gracefully
     if (
