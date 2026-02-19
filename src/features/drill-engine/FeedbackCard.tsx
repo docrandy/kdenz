@@ -22,6 +22,8 @@ interface FeedbackCardProps {
   onNext: () => void;
   attemptCount: number;
   streak: number;
+  patternSignals?: string[]; // Optional pattern signals from detection
+  patternNote?: string; // Optional pattern coaching note
 }
 
 // ---------------------------------------------------------------------------
@@ -154,6 +156,8 @@ export function FeedbackCard({
   onNext,
   attemptCount,
   streak,
+  patternSignals,
+  patternNote,
 }: FeedbackCardProps) {
   // Composite is only shown once all Gemini scores are available
   const showComposite = !geminiLoading && (geminiSucceeded || !geminiLoading);
@@ -222,7 +226,30 @@ export function FeedbackCard({
       <div className="border-t border-background-elevated" />
 
       {/* Coaching text */}
-      <p className="text-text-muted text-sm leading-relaxed">{explanation}</p>
+      <p className="text-text-muted text-base leading-relaxed">{explanation}</p>
+
+      {/* Pattern Signals — if provided */}
+      {(patternSignals || patternNote) && (
+        <>
+          <div className="border-t border-background-elevated" />
+          <div className="space-y-3">
+            {patternSignals && patternSignals.length > 0 && (
+              <div className="space-y-2">
+                {patternSignals.map((signal, idx) => (
+                  <p key={idx} className="text-text text-base leading-relaxed">
+                    {signal}
+                  </p>
+                ))}
+              </div>
+            )}
+            {patternNote && (
+              <p className="text-accent text-base font-medium leading-relaxed">
+                {patternNote}
+              </p>
+            )}
+          </div>
+        </>
+      )}
 
       {/* Divider */}
       <div className="border-t border-background-elevated" />
