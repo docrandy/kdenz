@@ -446,16 +446,38 @@ OUTPUT FORMAT: Return ONLY valid JSON matching this exact shape. No markdown, no
 function extractJsonFromText(rawText: string): string {
   let jsonText = rawText.trim();
 
-  // Handle ```json ... ``` code blocks
-  const codeBlockMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-  if (codeBlockMatch) {
-    return codeBlockMatch[1].trim();
+  // Step 1: Remove markdown code block markers if present
+  if (jsonText.startsWith("```")) {
+    // Remove opening ``` and optional "json" language marker
+    jsonText = jsonText.replace(/^```(?:json)?\s*/, "");
+  }
+  if (jsonText.endsWith("```")) {
+    // Remove closing ```
+    jsonText = jsonText.replace(/\s*```$/, "");
   }
 
-  // Try to extract a JSON object directly
-  const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
-  if (jsonMatch) {
-    return jsonMatch[0];
+  // Step 2: Extract JSON object by finding matching braces (most reliable method)
+  if (jsonText.includes("{")) {
+    let braceCount = 0;
+    let startIdx = jsonText.indexOf("{");
+    let endIdx = -1;
+
+    if (startIdx !== -1) {
+      for (let i = startIdx; i < jsonText.length; i++) {
+        if (jsonText[i] === "{") braceCount++;
+        else if (jsonText[i] === "}") {
+          braceCount--;
+          if (braceCount === 0) {
+            endIdx = i;
+            break;
+          }
+        }
+      }
+
+      if (endIdx !== -1) {
+        return jsonText.substring(startIdx, endIdx + 1);
+      }
+    }
   }
 
   return jsonText;

@@ -123,12 +123,17 @@ export function LabelingPractice({ onBack }: LabelingPracticeProps) {
             ← Back
           </button>
           <h1 className="font-semibold text-text">Labeling Practice</h1>
-          <button
-            onClick={handleSummary}
-            className="text-accent hover:text-accent/80 font-medium"
-          >
-            Summary
-          </button>
+          {/* Summary button — only shown when NOT in drill */}
+          {flowState !== "drill" && (
+            <button
+              onClick={handleSummary}
+              className="text-accent hover:text-accent/80 font-medium"
+            >
+              Summary
+            </button>
+          )}
+          {/* Placeholder to maintain spacing when drill is active */}
+          {flowState === "drill" && <div className="w-20" />}
         </div>
       </div>
 

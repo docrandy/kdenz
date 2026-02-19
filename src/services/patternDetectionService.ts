@@ -232,12 +232,18 @@ export async function detectPatternSignals(
     // Extract JSON — handle both raw JSON and ```json code block wrapping
     let jsonText = rawText.trim();
 
-    // Step 1: Try to extract from code block (more specific)
-    const codeBlockMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-    if (codeBlockMatch) {
-      jsonText = codeBlockMatch[1].trim();
-    } else if (jsonText.includes("{")) {
-      // Step 2: Extract JSON object by finding matching braces
+    // Step 1: Remove markdown code block markers if present
+    if (jsonText.startsWith("```")) {
+      // Remove opening ``` and optional "json" language marker
+      jsonText = jsonText.replace(/^```(?:json)?\s*/, "");
+    }
+    if (jsonText.endsWith("```")) {
+      // Remove closing ```
+      jsonText = jsonText.replace(/\s*```$/, "");
+    }
+
+    // Step 2: Extract JSON object by finding matching braces
+    if (jsonText.includes("{")) {
       let braceCount = 0;
       let startIdx = jsonText.indexOf("{");
       let endIdx = -1;
