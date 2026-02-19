@@ -1764,3 +1764,36 @@ Next task: [see PRD.json]
 Next action: Resume from handoff
 Blockers: none
 Handoff: C:\Users\randy\.claude\projects\kdenz\.planning\handoffs\handoff-2026-02-19T03-04-31.md
+
+[2026-02-19 UI Refinement - FeedbackCard Pattern Display]
+Updated FeedbackCard component to improve pattern signals display:
+
+CHANGES MADE:
+1. Removed "WHAT YOU SIGNALED" blue heading
+2. Increased font sizes by 2 steps:
+   - Coaching text: text-sm → text-base
+   - Pattern signals: added at text-base size
+   - Pattern note: text-base with accent color
+3. Improved color readability:
+   - Pattern signals now use text-text (primary color) instead of text-muted (subtle gray)
+   - Pattern note uses accent color for emphasis
+   - Better contrast for readability
+
+TECHNICAL DETAILS:
+- Added optional patternSignals and patternNote props to FeedbackCardProps
+- Pattern section renders with proper spacing and dividers
+- Gracefully hides if no pattern data provided
+- Maintains visual hierarchy with accent color for pattern coaching
+
+STATUS: Deployed
+Build: ✅ Successful (commit 20d0b60)
+File: src/features/drill-engine/FeedbackCard.tsx
+
+NEXT: Test pattern display on https://kdenz.vercel.app with actual pattern signals
+
+--- RESUME BLOCK ---
+Last task: UI refinement for FeedbackCard pattern display
+Next task: Verify pattern signals display on live deployment
+Next action: Test Skills Lab drill with pattern detection enabled
+Blockers: none
+

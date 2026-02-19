@@ -261,26 +261,56 @@ export async function detectPatternSignals(
       jsonText = jsonText.replace(/\s*```$/, "");
     }
 
-    // Step 2: Extract JSON object by finding matching braces
+    // Step 2: Extract JSON object by finding matching braces (handles quotes properly)
     if (jsonText.includes("{")) {
       let braceCount = 0;
       let startIdx = jsonText.indexOf("{");
       let endIdx = -1;
+      let inString = false;
+      let escapeNext = false;
 
       if (startIdx !== -1) {
         for (let i = startIdx; i < jsonText.length; i++) {
-          if (jsonText[i] === "{") braceCount++;
-          else if (jsonText[i] === "}") {
-            braceCount--;
-            if (braceCount === 0) {
-              endIdx = i;
-              break;
+          const char = jsonText[i];
+
+          // Handle escape sequences
+          if (escapeNext) {
+            escapeNext = false;
+            continue;
+          }
+
+          if (char === "\\") {
+            escapeNext = true;
+            continue;
+          }
+
+          // Track if we're inside a quoted string
+          if (char === '"' && !escapeNext) {
+            inString = !inString;
+            continue;
+          }
+
+          // Only count braces outside of strings
+          if (!inString) {
+            if (char === "{") braceCount++;
+            else if (char === "}") {
+              braceCount--;
+              if (braceCount === 0) {
+                endIdx = i;
+                break;
+              }
             }
           }
         }
 
         if (endIdx !== -1) {
           jsonText = jsonText.substring(startIdx, endIdx + 1);
+        } else {
+          console.warn(
+            "[PatternDetect] Could not find matching closing brace. Raw response:",
+            rawText.substring(0, 200),
+          );
+          return fallbackResult(regexSignals);
         }
       }
     }
