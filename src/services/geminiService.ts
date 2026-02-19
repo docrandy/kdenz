@@ -3,9 +3,13 @@
  * Handles AI coaching summary generation with graceful fallback
  */
 
-import { formatLocalSummary, type SessionStats } from '../lib/localStatsFormatter';
+import {
+  formatLocalSummary,
+  type SessionStats,
+} from "../lib/localStatsFormatter";
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+const GEMINI_API_URL =
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
 interface GeminiResponse {
   candidates?: {
@@ -31,8 +35,8 @@ function buildPrompt(request: SummaryRequest): string {
 
   const fillerList =
     fillerWords.length > 0
-      ? fillerWords.map((f) => `"${f.word}" (${f.count}x)`).join(', ')
-      : 'none detected';
+      ? fillerWords.map((f) => `"${f.word}" (${f.count}x)`).join(", ")
+      : "none detected";
 
   return `You are an expert speaking coach analyzing a practice session. Evaluate both the delivery metrics AND the content quality.
 
@@ -44,14 +48,18 @@ SESSION METRICS:
 - Filler breakdown: ${fillerList}
 
 TRANSCRIPT:
-"${transcript.slice(0, 2000)}"${transcript.length > 2000 ? '...' : ''}
+"${transcript.slice(0, 2000)}"${transcript.length > 2000 ? "..." : ""}
 
-${diagnosticContext ? `USER PROFILE:
+${
+  diagnosticContext
+    ? `USER PROFILE:
 ${diagnosticContext}
 
 Consider the user's stated goals and challenges when providing feedback. Reference what matters to them.
 
-` : ''}EVALUATION CRITERIA:
+`
+    : ""
+}EVALUATION CRITERIA:
 1. DELIVERY: Pace, filler word usage, flow
 2. CLARITY: How clear and organized were the ideas?
 3. STRUCTURE: Did they have a beginning, middle, end? Logical flow?
@@ -74,10 +82,11 @@ Be specific about the CONTENT when possible, not just the metrics. Reference wha
  */
 export async function generateCoachingSummary(
   request: SummaryRequest,
-  apiKey: string | null
+  apiKey: string | null,
 ): Promise<{ summary: string; isAI: boolean }> {
   // No API key - use local fallback
   if (!apiKey) {
+    console.log("[Gemini] No API key found, using local fallback");
     return {
       summary: formatLocalSummary({
         ...request.stats,
@@ -87,16 +96,21 @@ export async function generateCoachingSummary(
     };
   }
 
+  console.log("[Gemini] API key found, attempting to generate summary");
+
   try {
+    const prompt = buildPrompt(request);
+    console.log("[Gemini] Prompt built, sending to API");
+
     const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         contents: [
           {
-            parts: [{ text: buildPrompt(request) }],
+            parts: [{ text: prompt }],
           },
         ],
         generationConfig: {
@@ -106,8 +120,16 @@ export async function generateCoachingSummary(
       }),
     });
 
+    console.log("[Gemini] Response received, status:", response.status);
+
     if (!response.ok) {
-      console.warn('Gemini API error:', response.status);
+      const errorText = await response.text();
+      console.warn(
+        "[Gemini] API returned non-ok status:",
+        response.status,
+        "body:",
+        errorText,
+      );
       return {
         summary: formatLocalSummary({
           ...request.stats,
@@ -118,9 +140,10 @@ export async function generateCoachingSummary(
     }
 
     const data: GeminiResponse = await response.json();
+    console.log("[Gemini] Response JSON parsed");
 
     if (data.error) {
-      console.warn('Gemini API returned error:', data.error.message);
+      console.warn("[Gemini] API returned error object:", data.error.message);
       return {
         summary: formatLocalSummary({
           ...request.stats,
@@ -133,7 +156,10 @@ export async function generateCoachingSummary(
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      console.warn('Gemini API returned empty response');
+      console.warn(
+        "[Gemini] API returned empty response, candidates:",
+        data.candidates?.length,
+      );
       return {
         summary: formatLocalSummary({
           ...request.stats,
@@ -143,12 +169,13 @@ export async function generateCoachingSummary(
       };
     }
 
+    console.log("[Gemini] Successfully generated AI summary");
     return {
       summary: text.trim(),
       isAI: true,
     };
   } catch (error) {
-    console.warn('Gemini API request failed:', error);
+    console.warn("[Gemini] Request failed with exception:", error);
     return {
       summary: formatLocalSummary({
         ...request.stats,
@@ -171,7 +198,7 @@ export function isValidApiKeyFormat(key: string): boolean {
  */
 export function getStoredApiKey(): string | null {
   try {
-    return localStorage.getItem('voicelab_gemini_key');
+    return localStorage.getItem("voicelab_gemini_key");
   } catch {
     return null;
   }
@@ -182,7 +209,7 @@ export function getStoredApiKey(): string | null {
  */
 export function storeApiKey(key: string): void {
   try {
-    localStorage.setItem('voicelab_gemini_key', key);
+    localStorage.setItem("voicelab_gemini_key", key);
   } catch {
     // Storage not available
   }
@@ -193,7 +220,7 @@ export function storeApiKey(key: string): void {
  */
 export function removeApiKey(): void {
   try {
-    localStorage.removeItem('voicelab_gemini_key');
+    localStorage.removeItem("voicelab_gemini_key");
   } catch {
     // Storage not available
   }

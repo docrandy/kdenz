@@ -37,7 +37,7 @@ interface DebriefCardStackProps {
 
 function ScenarioCard({ debrief }: { debrief: SessionDebrief }) {
   return (
-    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-amber-400 min-h-[200px]">
+    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-amber-400 min-h-[200px] pl-10">
       {/* Header */}
       <div className="mb-4">
         <h2 className="text-lg font-semibold text-text">Scenario</h2>
@@ -112,7 +112,7 @@ function ExchangeBreakdownCard({ debrief }: { debrief: SessionDebrief }) {
 
 function RevealCard({ debrief }: { debrief: SessionDebrief }) {
   return (
-    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-accent min-h-[200px]">
+    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-accent min-h-[200px] pl-10">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         {/* Eye icon — inline SVG */}
@@ -161,7 +161,7 @@ function SendingFeedbackCard({ debrief }: { debrief: SessionDebrief }) {
   const showPattern = debrief.patternConfidence >= 0.75 && debrief.patternName;
 
   return (
-    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-blue-400 min-h-[200px]">
+    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-blue-400 min-h-[200px] pl-10">
       {/* Header */}
       <div className="mb-4">
         <h2 className="text-sm text-text-subtle/60 font-medium uppercase tracking-wide">
@@ -223,7 +223,7 @@ function NextStepCard({
     debrief.nextStepType === "institute" ? "Institute" : "Drill";
 
   return (
-    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-accent min-h-[200px]">
+    <div className="bg-background-surface rounded-xl p-6 border-l-4 border-accent min-h-[200px] pl-10">
       {/* Header */}
       <h2 className="text-lg font-semibold text-text mb-4">
         Recommended for you
@@ -309,7 +309,7 @@ function ProgressSignalCard({ debrief }: { debrief: SessionDebrief }) {
   const config = trajectoryConfig[debrief.trajectoryDirection];
 
   return (
-    <div className="bg-background-surface rounded-xl p-6 border border-background-elevated min-h-[200px]">
+    <div className="bg-background-surface rounded-xl p-6 border border-background-elevated min-h-[200px] pl-10">
       {/* Header */}
       <h2 className="text-lg font-semibold text-text mb-4">
         Where you&apos;re heading

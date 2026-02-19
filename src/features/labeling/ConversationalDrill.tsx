@@ -162,7 +162,6 @@ export function ConversationalDrill({
   scenario,
   level,
   onComplete,
-  onBack,
 }: ConversationalDrillProps) {
   // -- Messages --------------------------------------------------------------
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -643,8 +642,6 @@ export function ConversationalDrill({
   }, [handleSessionEnd]);
 
   // -- Render ----------------------------------------------------------------
-  const initial = scenario.characterName.charAt(0).toUpperCase();
-
   // Debrief loading state — shown while Gemini generates the debrief
   if (debriefLoading) {
     return (
@@ -686,27 +683,16 @@ export function ConversationalDrill({
       className="max-w-2xl mx-auto flex flex-col overflow-hidden"
       style={{ height: "calc(100dvh - 90px)" }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between pb-3">
-        <button
-          onClick={onBack}
-          className="text-text-subtle hover:text-text text-sm transition-colors"
-        >
-          &larr; Back
-        </button>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-text-subtle">
-            {exchangeCountRef.current} / {MAX_EXCHANGES} exchanges
-          </span>
-          {exchangeCountRef.current > 0 && (
-            <button
-              onClick={handleFinish}
-              className="text-xs text-accent hover:text-accent/80 transition-colors"
-            >
-              Finish
-            </button>
-          )}
-        </div>
+      {/* Header — Finish button only (back button in parent LabelingPractice) */}
+      <div className="flex items-center justify-end pb-3">
+        {exchangeCountRef.current > 0 && (
+          <button
+            onClick={handleFinish}
+            className="text-xs text-accent hover:text-accent/80 transition-colors"
+          >
+            Finish
+          </button>
+        )}
       </div>
 
       {/* CriteriaBar (sticky above chat) */}
@@ -723,6 +709,18 @@ export function ConversationalDrill({
         </div>
       )}
 
+      {/* Progress bar */}
+      <div className="pb-3">
+        <div className="w-full bg-background-elevated rounded-full h-2">
+          <div
+            className="bg-accent rounded-full h-2 transition-all duration-300"
+            style={{
+              width: `${(exchangeCountRef.current / MAX_EXCHANGES) * 100}%`,
+            }}
+          />
+        </div>
+      </div>
+
       {/* Panel B: What you signaled (sending channel biofeedback) */}
       {showPanelB && (
         <PanelB
@@ -733,16 +731,26 @@ export function ConversationalDrill({
       )}
 
       {/* Chat messages */}
-      <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pb-4">
+      <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pb-2">
         {messages.map((msg) => {
           if (msg.role === "character") {
             return (
               <div key={msg.id} className="flex gap-3 items-start">
-                <div className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-xs font-bold flex-shrink-0 mt-1">
-                  {initial}
+                <div className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M 6 20c0-4 2.24-7 6-7s6 3 6 7" />
+                  </svg>
                 </div>
                 <div className="bg-background-elevated border-l-4 border-accent rounded-xl rounded-tl-none px-4 py-3 max-w-[80%]">
-                  <p className="text-text text-sm leading-relaxed">
+                  <p className="text-text text-base leading-relaxed">
                     {msg.text}
                   </p>
                 </div>
@@ -754,7 +762,9 @@ export function ConversationalDrill({
           return (
             <div key={msg.id} className="flex justify-end">
               <div className="bg-accent/10 border border-accent/20 rounded-xl rounded-tr-none px-4 py-3 max-w-[80%]">
-                <p className="text-text text-sm leading-relaxed">{msg.text}</p>
+                <p className="text-text text-base leading-relaxed">
+                  {msg.text}
+                </p>
               </div>
             </div>
           );
@@ -762,8 +772,18 @@ export function ConversationalDrill({
         {/* Character typing indicator */}
         {characterTyping && (
           <div className="flex gap-3 items-start">
-            <div className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-xs font-bold flex-shrink-0 mt-1">
-              {initial}
+            <div className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center flex-shrink-0 mt-1">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M 6 20c0-4 2.24-7 6-7s6 3 6 7" />
+              </svg>
             </div>
             <div className="bg-background-elevated border-l-4 border-accent rounded-xl rounded-tl-none px-4 py-3">
               <span className="inline-flex gap-1 items-center">
@@ -787,121 +807,109 @@ export function ConversationalDrill({
       </div>
 
       {/* Input area */}
-      <div className="border-t border-background-elevated pt-3 pb-2">
-        {/* Show live transcript when session active */}
-        {sessionActive && liveTranscript && (
-          <div className="text-xs text-text-subtle italic mb-2 px-1">
-            {liveTranscript}
+      <div className="border-t border-background-elevated pt-1 pb-2">
+        {/* Session active hint or live transcript */}
+        {sessionActive && (
+          <div className="text-sm text-text-subtle/40 italic mb-1 px-1 text-center">
+            {liveTranscript || "Listening…"}
           </div>
         )}
 
-        {/* Session active hint */}
-        {sessionActive && !liveTranscript && !characterTyping && (
-          <div className="text-xs text-text-subtle/40 italic mb-2 px-1">
-            Listening…
+        {/* Main input section: mic on top, text field below */}
+        <div className="space-y-1">
+          {/* Large centered mic button on top */}
+          <div className="flex justify-center">
+            <button
+              onClick={sessionActive ? stopSession : startSession}
+              className={[
+                "w-16 h-16 rounded-full flex items-center justify-center transition-all flex-shrink-0",
+                sessionActive
+                  ? "bg-red-500/20 text-red-400 border-2 border-red-500/40 animate-pulse shadow-lg shadow-red-500/20"
+                  : "bg-accent/20 text-accent border-2 border-accent/40 hover:bg-accent/30 hover:shadow-lg hover:shadow-accent/20",
+              ].join(" ")}
+              aria-label={sessionActive ? "Stop listening" : "Start listening"}
+            >
+              {sessionActive ? (
+                // Stop icon
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <rect x="3" y="3" width="10" height="10" rx="1" />
+                </svg>
+              ) : (
+                // Mic icon
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path d="M8 1a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V3a2 2 0 0 0-2-2z" />
+                  <path d="M4 7a4 4 0 0 0 8 0h-1a3 3 0 0 1-6 0H4z" />
+                  <path d="M7.5 12.9V14H6v1h4v-1H8.5v-1.1a5 5 0 0 0 4.5-4.9h-1a4 4 0 0 1-8 0H3a5 5 0 0 0 4.5 4.9z" />
+                </svg>
+              )}
+            </button>
           </div>
-        )}
-
-        <div className="flex items-center gap-2">
-          {/* Text input (hidden at L3+) */}
-          {!textInputDisabled && (
-            <input
-              type="text"
-              value={isRecording ? liveTranscript : inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Type your label..."
-              disabled={isRecording}
-              className="flex-1 bg-background-surface border border-background-elevated rounded-lg px-3 py-2 text-sm text-text placeholder:text-text-subtle focus:outline-none focus:border-accent/40"
-            />
-          )}
 
           {/* Audio-only placeholder at L3+ */}
           {textInputDisabled && !sessionActive && (
-            <div className="flex-1 bg-background-surface border border-background-elevated rounded-lg px-3 py-2 text-sm text-text-subtle italic">
-              Tap the mic to start…
+            <div className="text-sm text-text-subtle/60 italic text-center px-1">
+              Tap the microphone to start recording
             </div>
           )}
 
-          {textInputDisabled && sessionActive && (
-            <div className="flex-1 bg-background-surface border border-accent/30 rounded-lg px-3 py-2 text-sm text-text italic">
-              {liveTranscript || "Listening…"}
+          {/* Text input + send button (text mode only) */}
+          {!textInputDisabled && (
+            <div className="flex items-center gap-2 px-1">
+              <input
+                type="text"
+                value={isRecording ? liveTranscript : inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Type your label..."
+                disabled={isRecording}
+                className="flex-1 bg-background-surface border border-background-elevated rounded-lg px-3 py-2 text-base text-text placeholder:text-text-subtle focus:outline-none focus:border-accent/40"
+              />
+              <button
+                onClick={handleTextSubmit}
+                disabled={!inputText.trim()}
+                className="w-10 h-10 rounded-full bg-accent/20 text-accent border border-accent/40 flex items-center justify-center transition-colors hover:bg-accent/30 disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+                aria-label="Send label"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path d="M1 8l6-6v4h8v4H7v4L1 8z" />
+                </svg>
+              </button>
             </div>
           )}
 
-          {/* Mic button — toggles entire listening session */}
-          <button
-            onClick={sessionActive ? stopSession : startSession}
-            className={[
-              "w-10 h-10 rounded-full flex items-center justify-center transition-colors flex-shrink-0",
-              sessionActive
-                ? "bg-red-500/20 text-red-400 border border-red-500/40 animate-pulse"
-                : "bg-accent/20 text-accent border border-accent/40 hover:bg-accent/30",
-            ].join(" ")}
-            aria-label={sessionActive ? "Stop listening" : "Start listening"}
-          >
-            {sessionActive ? (
-              // Stop icon
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="currentColor"
+          {/* Silence threshold selector */}
+          <div className="flex items-center justify-center gap-1.5 px-1">
+            <span className="text-sm text-text-subtle/50">Auto-submit:</span>
+            {THRESHOLD_OPTIONS.map((opt) => (
+              <button
+                key={opt}
+                onClick={() => setSilenceThresholdMs(opt)}
+                className={[
+                  "px-2 py-0.5 rounded text-sm transition-colors",
+                  silenceThresholdMs === opt
+                    ? "bg-accent/20 text-accent border border-accent/30"
+                    : "text-text-subtle/50 hover:text-text-subtle",
+                ].join(" ")}
               >
-                <rect x="3" y="3" width="10" height="10" rx="1" />
-              </svg>
-            ) : (
-              // Mic icon
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-              >
-                <path d="M8 1a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V3a2 2 0 0 0-2-2z" />
-                <path d="M4 7a4 4 0 0 0 8 0h-1a3 3 0 0 1-6 0H4z" />
-                <path d="M7.5 12.9V14H6v1h4v-1H8.5v-1.1a5 5 0 0 0 4.5-4.9h-1a4 4 0 0 1-8 0H3a5 5 0 0 0 4.5 4.9z" />
-              </svg>
-            )}
-          </button>
-
-          {/* Send button (text mode only) */}
-          {!textInputDisabled && !isRecording && (
-            <button
-              onClick={handleTextSubmit}
-              disabled={!inputText.trim()}
-              className="w-10 h-10 rounded-full bg-accent/20 text-accent border border-accent/40 flex items-center justify-center transition-colors hover:bg-accent/30 disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
-              aria-label="Send label"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-              >
-                <path d="M1 8l6-6v4h8v4H7v4L1 8z" />
-              </svg>
-            </button>
-          )}
-        </div>
-
-        {/* Silence threshold selector */}
-        <div className="flex items-center gap-1.5 mt-2 px-1">
-          <span className="text-xs text-text-subtle/50">Auto-submit:</span>
-          {THRESHOLD_OPTIONS.map((opt) => (
-            <button
-              key={opt}
-              onClick={() => setSilenceThresholdMs(opt)}
-              className={[
-                "px-2 py-0.5 rounded text-xs transition-colors",
-                silenceThresholdMs === opt
-                  ? "bg-accent/20 text-accent border border-accent/30"
-                  : "text-text-subtle/50 hover:text-text-subtle",
-              ].join(" ")}
-            >
-              {THRESHOLD_LABELS[opt]}
-            </button>
-          ))}
+                {THRESHOLD_LABELS[opt]}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

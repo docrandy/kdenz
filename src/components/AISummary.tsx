@@ -104,9 +104,22 @@ export default function AISummary({
 
   const handleSaveApiKey = useCallback(() => {
     if (isValidApiKeyFormat(apiKeyInput)) {
+      console.log("[AISummary] Saving API key...");
       storeApiKey(apiKeyInput);
+      const stored = getStoredApiKey();
+      console.log(
+        "[AISummary] API key saved. Verification:",
+        stored ? "✓ Retrieved successfully" : "✗ Failed to retrieve",
+      );
       setShowApiKeyInput(false);
       setApiKeyInput("");
+    } else {
+      console.warn(
+        "[AISummary] Invalid API key format. Length:",
+        apiKeyInput.length,
+        "Contains invalid chars:",
+        !/^[A-Za-z0-9_-]+$/.test(apiKeyInput),
+      );
     }
   }, [apiKeyInput]);
 
@@ -116,7 +129,9 @@ export default function AISummary({
     <div className="card-surface">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-h5 font-semibold text-text-heading">Coaching Summary</h3>
+        <h3 className="text-h5 font-semibold text-text-heading">
+          Coaching Summary
+        </h3>
         {state === "success" && (
           <span className="text-caption px-2 py-1 rounded-full bg-background-elevated text-text-muted">
             {isAI ? "✨ AI Generated" : "📊 Local Analysis"}
