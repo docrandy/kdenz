@@ -209,7 +209,7 @@ export async function detectPatternSignals(
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.1, // deterministic classification
-            maxOutputTokens: 200,
+            maxOutputTokens: 500, // Increased from 200 to handle full JSON response with multiple signals
           },
         }),
       },
