@@ -231,14 +231,39 @@ export async function detectPatternSignals(
 
     // Extract JSON — handle both raw JSON and ```json code block wrapping
     let jsonText = rawText.trim();
+
+    // Step 1: Try to extract from code block (more specific)
     const codeBlockMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
     if (codeBlockMatch) {
       jsonText = codeBlockMatch[1].trim();
-    } else {
-      const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) jsonText = jsonMatch[0];
+    } else if (jsonText.includes("{")) {
+      // Step 2: Extract JSON object by finding matching braces
+      let braceCount = 0;
+      let startIdx = jsonText.indexOf("{");
+      let endIdx = -1;
+
+      if (startIdx !== -1) {
+        for (let i = startIdx; i < jsonText.length; i++) {
+          if (jsonText[i] === "{") braceCount++;
+          else if (jsonText[i] === "}") {
+            braceCount--;
+            if (braceCount === 0) {
+              endIdx = i;
+              break;
+            }
+          }
+        }
+
+        if (endIdx !== -1) {
+          jsonText = jsonText.substring(startIdx, endIdx + 1);
+        }
+      }
     }
 
+    console.log(
+      "[PatternDetect] Attempting to parse JSON. First 80 chars:",
+      jsonText.substring(0, 80),
+    );
     const parsed = JSON.parse(jsonText);
 
     // Validate shape — if malformed, fall back gracefully
